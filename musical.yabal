@@ -1,17 +1,17 @@
 
 const var pixels = create_pointer(61439)
 
-const var channelA = "0 1 2 3 4 5 6 7 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"
+const var channelA = "0 1 2 3 4 5 6 7"
 //const var channelA = "0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 0 1 2 3 4 5 6 7 8 9 A B C D"
-const var channelB = "0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 0 1 2 3 4 5 6 7 8 9 A B C D"
+const var channelB = "0 1 2 3 4 5 6 7 0"
 // const var channelC = "0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D "
 // const var channelD = "0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D "
 
 //const var channelA = "P P P P P 0 0 0 P P P P P 0 0 0 0 0 P P P P P 0 0 0 0 K K K K K 0 0 0 0 P P P P P 0 0 0 0 U U U U U U U U 0 0 0 0 0 0 0 F F F F F F 0 0 0 0 0 0 0 0 0 0 0 D D D D D 0 0 0 0 0 F F F F F 0 0 0 0 0 D D D D D 0 0 0 H H H H H 0 0 0 J J J J J 0 0 0 J J J J J 0 0 0 H H H H H 0 0 0 F F F F F 0 0 0 0 0 0"
 // const var channelB = "D D D D D 0 0 0 D D D D D 0 0 0 0 0 D D D D D 0 0 0 0 A A A A A 0 0 0 0 D D D D D 0 0 0 0 F F F F F F F F 0 0 0 0 0 0 0 7 7 7 7 7 7 0 0 0 0 0 0 0 0 0 0 0 K K K K K 0 0 0 0 0 A A A A A 0 0 0 0 0 A A A A A 0 0 0 A A A A A 0 0 0 B B B B B 0 0 0 B B B B B 0 0 0 A A A A A 0 0 0 A A A A A 0 0 0 0 0 0"
 //const var channelB = "A 0 0 0 0 "
-const var channelC = "P 0 0 0 0 "
-const var channelD = "D 0 0 0 0 "
+const var channelC = "P 0 0 0 0 0 0 0"
+const var channelD = "D 0 0 0 0 0 0 0"
 //const var channelD = "7 7 7 0 0 0 0 7 7 7 0 0 0 0 0 0 7 7 7 0 0 0 0 0 0 7 7 7 0 0 0 0 0 0 0 7 7 7 0 0 0 0 0 0 7 7 7 0 0 0 0 0 0 0 0 0 0 0 7 7 7 0 0 0"
 
 
@@ -38,9 +38,6 @@ for(var i = 0; i < sizeof(title); i++){
 // Print paused char
 chars[9] = 1
 
-chars[40] = '1'
-chars[41] = 'f'
-chars[42] = 'v'
 
 
 // Draw background on left side of screen
@@ -211,6 +208,13 @@ void GetFreq(){
     }
 }
 
+var base36Val = 0
+void DecToBase36(){
+    var decNum = trackerLocation
+
+
+}
+
 void ClearCurrectSelection(){
     var xPos = 18
     var xWidth = 8
@@ -296,6 +300,36 @@ void UpdateTrackerValues(){
     }
 }
 
+void UpdateTrackerIndexes(){
+    var binNum = trackerLocation
+    var digA = '0'
+    var digB = '0'
+    var digC = '0'
+
+    // if(binNum <= 9){
+    //     digC = binNum
+    // }
+    
+    chars[40] = digA
+    chars[41] = digB
+    chars[42] = digC
+}
+
+void EditTrackerVal(){
+    if(selection == 0){
+        channelA[trackerLocation] = keyInput
+    }
+    else if(selection == 1){
+        channelB[trackerLocation] = keyInput
+    }
+    else if(selection == 2){
+        channelC[trackerLocation] = keyInput
+    }
+    else if(selection == 3){
+        channelD[trackerLocation] = keyInput
+    }
+}
+
 // Draw the selection box for the first time
 DrawNewSelection()
 
@@ -308,27 +342,32 @@ while(true){
         }
         keyInput = keyInput & 255
         if(keyInput != lastKey){
-            if(keyInput == 71){
+            if(keyInput == 71){ // Up arrow
                 trackerLocation -= 2
             }
-            if(keyInput == 72){
+            else if(keyInput == 72){ // Down arrow
                 trackerLocation += 2
             }
-            if(keyInput == 9 && selection > 0){
+            else if(keyInput == 9 && selection > 0){ // Left arrow
                 ClearCurrectSelection()
                 selection -= 1
                 DrawNewSelection()
             }
-            if(keyInput == 10 && selection < 3){
+            else if(keyInput == 10 && selection < 3){ // Right arrow
                 ClearCurrectSelection()
                 selection += 1
                 DrawNewSelection()
             }
-            if(keyInput == 28){
+            else if(keyInput == 8){ // '_' for pause/play
                 playing = 1
                 chars[9] = 10
             }
+            else if(keyInput == 168 || keyInput == 0){}
+            else { // If not a control key, use as input to change currect frequency
+                EditTrackerVal()
+            }
             UpdateTrackerValues()
+            UpdateTrackerIndexes()
         }
         lastKey = keyInput
     }
@@ -342,6 +381,7 @@ while(true){
         while(trackerLocation < maxSize && playing == 1) {
             
             UpdateTrackerValues()
+            UpdateTrackerIndexes()
 
             // Read key input from expansion port
             asm{
@@ -350,7 +390,7 @@ while(true){
             }
             keyInput = keyInput & 255
             if(keyInput != lastKey){
-                if(keyInput == 28){
+                if(keyInput == 8){ // '_' for pause/play
                     playing = 0
                     chars[9] = 1
                 }
