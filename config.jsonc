@@ -1,0 +1,36 @@
+﻿{
+  "Cpu": {
+    // Duration of one cycle in ticks.
+    // Lower values will result in faster execution.
+    "CycleDuration": 300,
+
+    // Amount of instructions that should be executed per cycle.
+    // Higher values will result in faster execution, since the CPU doesn't have to fetch the registers from the heap every time.
+    "InstructionsPerCycle": 100
+  },
+
+  "Program": {
+    "Path": "program_machine_code",
+    "Size": "0x3FFE"
+  },
+
+  "Screen": {
+    // Note: changing the resolution will also resize the memory allocation of the screen and character device.
+    "Width": 64,
+    "Height": 64,
+
+    "Scale": 9
+  },
+
+  "Memory": {
+    // Max amount of memory in bytes.
+    "Size": "0xFFFF",
+
+    // Mapping of device in memory.
+    "Devices": {
+        "Program": "0x0000",
+        "Character": "0x3FFE",
+        "Screen": "0xEFFF"
+    }
+  }
+}
