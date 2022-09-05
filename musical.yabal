@@ -1,18 +1,18 @@
 
 const var pixels = create_pointer(61439)
 
-const var channelA = "0 1 2 3 4 5 6 7"
+//const var channelA = "0 1 2 3 4 5 6 7"
 //const var channelA = "0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 0 1 2 3 4 5 6 7 8 9 A B C D"
-const var channelB = "0 1 2 3 4 5 6 7 0"
+//const var channelB = "0 1 2 3 4 5 6 7 0"
 // const var channelC = "0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D "
 // const var channelD = "0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D "
 
-//const var channelA = "P P P P P 0 0 0 P P P P P 0 0 0 0 0 P P P P P 0 0 0 0 K K K K K 0 0 0 0 P P P P P 0 0 0 0 U U U U U U U U 0 0 0 0 0 0 0 F F F F F F 0 0 0 0 0 0 0 0 0 0 0 D D D D D 0 0 0 0 0 F F F F F 0 0 0 0 0 D D D D D 0 0 0 H H H H H 0 0 0 J J J J J 0 0 0 J J J J J 0 0 0 H H H H H 0 0 0 F F F F F 0 0 0 0 0 0"
-// const var channelB = "D D D D D 0 0 0 D D D D D 0 0 0 0 0 D D D D D 0 0 0 0 A A A A A 0 0 0 0 D D D D D 0 0 0 0 F F F F F F F F 0 0 0 0 0 0 0 7 7 7 7 7 7 0 0 0 0 0 0 0 0 0 0 0 K K K K K 0 0 0 0 0 A A A A A 0 0 0 0 0 A A A A A 0 0 0 A A A A A 0 0 0 B B B B B 0 0 0 B B B B B 0 0 0 A A A A A 0 0 0 A A A A A 0 0 0 0 0 0"
+const var channelA = "PPPPP000PPPPP00000PPPPP0000KKKKK0000PPPPP0000UUUUUUUU0000000FFFFFF00000000000DDDDD00000FFFFF00000DDDDD000HHHHH000JJJJJ000JJJJJ000HHHHH000FFFFF000000"
+const var channelB = "DDDDD000DDDDD00000DDDDD0000AAAAA0000DDDDD0000FFFFFFFF000000077777700000000000KKKKK00000AAAAA00000AAAAA000AAAAA000BBBBB000BBBBB000AAAAA000AAAAA000000"
 //const var channelB = "A 0 0 0 0 "
-const var channelC = "P 0 0 0 0 0 0 0"
-const var channelD = "D 0 0 0 0 0 0 0"
-//const var channelD = "7 7 7 0 0 0 0 7 7 7 0 0 0 0 0 0 7 7 7 0 0 0 0 0 0 7 7 7 0 0 0 0 0 0 0 7 7 7 0 0 0 0 0 0 7 7 7 0 0 0 0 0 0 0 0 0 0 0 7 7 7 0 0 0"
+const var channelC = "00000000"
+//const var channelD = "D 0 0 0 0 0 0 0"
+const var channelD = "7770000777000000777000000777000000077700000077700000000000777000"
 
 
 // const var channelC = "03 03 03 03 03 03 00 00 00 00 06 06 06 06 06 06 00 00 00 00 03 03 03 03 03 03 00 00 00 00 06 06 06 06 06 06 00 00 00 00 03 03 03 03 03 03 00 00 00 00 05 05 05 05 05 05 00 00 00 00 03 03 03 03 03 03 00 00 00 00 05 05 05 05 05 05 00 00 00 00 00 00 00"
@@ -29,6 +29,10 @@ var playing = 0
 var trackerLocation = 0
 var keyInput = 168
 var lastKey = 168
+
+var b36cA = 0
+var b36cB = 0
+var b36cC = 0
 
 
 // Print title to char mem
@@ -113,106 +117,94 @@ asm{
 }
 
 void GetFreq(){
-    if (curChar == '1'){
-        freqVal = 1
-    }
-    else if (curChar == '2'){
-        freqVal = 2
-    }
-    else if (curChar == '3'){
-        freqVal = 3
-    }
-    else if (curChar == '4'){
-        freqVal = 4
-    }
-    else if (curChar == '5'){
-        freqVal = 5
-    }
-    else if (curChar == '6'){
-        freqVal = 6
-    }
-    else if (curChar == '7'){
-        freqVal = 7
-    }
-    else if (curChar == '8'){
-        freqVal = 8
-    }
-    else if (curChar == '9'){
-        freqVal = 9
-    }
-    else if (curChar == 'A'){
-        freqVal = 10
-    }
-    else if (curChar == 'B'){
-        freqVal = 11
-    }
-    else if (curChar == 'C'){
-        freqVal = 12
-    }
-    else if (curChar == 'D'){
-        freqVal = 13
-    }
-    else if (curChar == 'E'){
-        freqVal = 14
-    }
-    else if (curChar == 'F'){
-        freqVal = 15
-    }
-    else if (curChar == 'G'){
-        freqVal = 16
-    }
-    else if (curChar == 'H'){
-        freqVal = 17
-    }
-    else if (curChar == 'I'){
-        freqVal = 18
-    }
-    else if (curChar == 'J'){
-        freqVal = 19
-    }
-    else if (curChar == 'K'){
-        freqVal = 20
-    }
-    else if (curChar == 'L'){
-        freqVal = 21
-    }
-    else if (curChar == 'M'){
-        freqVal = 22
-    }
-    else if (curChar == 'N'){
-        freqVal = 23
-    }
-    else if (curChar == 'O'){
-        freqVal = 24
-    }
-    else if (curChar == 'P'){
-        freqVal = 25
-    }
-    else if (curChar == 'Q'){
-        freqVal = 26
-    }
-    else if (curChar == 'R'){
-        freqVal = 27
-    }
-    else if (curChar == 'S'){
-        freqVal = 28
-    }
-    else if (curChar == 'T'){
-        freqVal = 29
-    }
-    else if (curChar == 'U'){
-        freqVal = 30
-    }
-    else if (curChar == 'V'){
-        freqVal = 31
+    freqVal = curChar switch {
+        '1' => 1,
+        '2' => 2,
+        '3' => 3,
+        '4' => 4,
+        '5' => 5,
+        '6' => 6,
+        '7' => 7,
+        '8' => 8,
+        '9' => 9,
+        'A' => 10,
+        'B' => 11,
+        'C' => 12,
+        'D' => 13,
+        'E' => 14,
+        'F' => 15,
+        'G' => 16,
+        'H' => 17,
+        'I' => 18,
+        'J' => 19,
+        'K' => 20,
+        'L' => 21,
+        'M' => 22,
+        'N' => 23,
+        'O' => 24,
+        'P' => 25,
+        'Q' => 26,
+        'R' => 27,
+        'S' => 28,
+        'T' => 29,
+        'U' => 30,
+        'V' => 31,
+        _ => 0
     }
 }
 
-var base36Val = 0
-void DecToBase36(){
-    var decNum = trackerLocation
+void B36Increase(){
+    b36cA += 1
+    if(b36cA >= 36){
+        b36cA = 0
+        b36cB += 1
+    }
+    if(b36cB >= 36){
+        b36cB = 0
+        b36cC += 1
+    }
+    if(b36cC >= 36){
+        b36cC = 0
+    }
+}
 
+void B36Decrease(){
+    b36cA -= 1
+    if(b36cA == 65535){
+        b36cA = 35
+        b36cB -= 1
+    }
+    if(b36cB == 65535){
+        b36cB = 35
+        b36cC -= 1
+    }
+    if(b36cC == 65535){
+        b36cC = 35
+    }
+}
 
+var b36charA = 0
+var b36charB = 0
+var b36charC = 0
+void B36ToChar(){
+    if(b36cA<=9){
+        b36charA = b36cA + 39
+    }
+    else {
+        b36charA = b36cA + 13
+    }
+    if(b36cB<=9){
+        b36charB = b36cB + 39
+    }
+    else {
+        b36charB = b36cB + 13
+    }
+    if(b36cC<=9){
+        b36charC = b36cC + 39
+    }
+    else {
+        b36charC = b36cC + 13
+    }
 }
 
 void ClearCurrectSelection(){
@@ -235,14 +227,13 @@ void ClearCurrectSelection(){
         xWidth = 9
     }
 
-    for(var x = xPos; x < xPos + xWidth; x++){
+    for(var x = xPos; x < xPos + xWidth; x++)
         for(var y = 30; y < 30 + 6; y++){
             var realLoc = (y * 64)
             realLoc += x
             pixels[realLoc] = 4229
             //pixels[realLoc] = 31744
         }
-    }
 }
 
 void DrawNewSelection(){
@@ -265,69 +256,75 @@ void DrawNewSelection(){
         xWidth = 9
     }
 
-    for(var x = xPos; x < xPos + xWidth; x++){
+    for(var x = xPos; x < xPos + xWidth; x++)
         for(var y = 30; y < 30 + 6; y++){
             var realLoc = (y * 64)
             realLoc += x
             pixels[realLoc] = 2247
             //pixels[realLoc] = 31744
         }
-    }
 }
 
 void UpdateTrackerValues(){
     chars[50] = trackerLocation
     
-    chars[53] = channelA[trackerLocation]
-    
-    if(trackerLocation < sizeof(channelB)){
-        chars[55] = channelB[trackerLocation]
-    }
-    else {
-        chars[55] = '0'
-    }
-    if(trackerLocation < sizeof(channelC)){
-        chars[57] = channelC[trackerLocation]
-    }
-    else {
-        chars[57] = '0'
-    }
-    if(trackerLocation < sizeof(channelD)){
-        chars[59] = channelD[trackerLocation]
-    }
-    else {
-        chars[59] = '0'
+    for(var i = 1; i < 10; i++){
+        
+        if(trackerLocation-5+i>65530){
+            chars[(i*10)+3] = ' '
+            chars[(i*10)+5] = ' '
+            chars[(i*10)+7] = ' '
+            chars[(i*10)+9] = ' '
+            continue
+        }
+        if(trackerLocation-5+i >= sizeof(channelA)){
+            chars[(i*10)+3] = ' '
+            chars[(i*10)+5] = ' '
+            chars[(i*10)+7] = ' '
+            chars[(i*10)+9] = ' '
+            continue
+        }
+        
+        chars[(i*10)+3] = channelA[trackerLocation-5+i]
+
+        if(trackerLocation-5+i < sizeof(channelB))
+            chars[(i*10)+5] = channelB[trackerLocation-5+i]
+        else
+            chars[(i*10)+5] = 78
+
+        if(trackerLocation-5+i < sizeof(channelC))
+            chars[(i*10)+7] = channelC[trackerLocation-5+i]
+        else
+            chars[(i*10)+7] = 78
+
+        if(trackerLocation-5+i < sizeof(channelD))
+            chars[(i*10)+9] = channelD[trackerLocation-5+i]
+        else
+            chars[(i*10)+9] = 78
     }
 }
 
 void UpdateTrackerIndexes(){
-    var binNum = trackerLocation
-    var digA = '0'
-    var digB = '0'
-    var digC = '0'
 
-    // if(binNum <= 9){
-    //     digC = binNum
+    // if((binNum & 0b1111) <= 9){
+    //     digC = binNum+39
     // }
+    B36ToChar()
     
-    chars[40] = digA
-    chars[41] = digB
-    chars[42] = digC
+    chars[40] = b36charA
+    chars[41] = b36charB
+    chars[42] = b36charC
 }
 
 void EditTrackerVal(){
-    if(selection == 0){
+    if(selection == 0)
         channelA[trackerLocation] = keyInput
-    }
-    else if(selection == 1){
+    else if(selection == 1)
         channelB[trackerLocation] = keyInput
-    }
-    else if(selection == 2){
+    else if(selection == 2)
         channelC[trackerLocation] = keyInput
-    }
-    else if(selection == 3){
+    else if(selection == 3)
         channelD[trackerLocation] = keyInput
-    }
 }
 
 // Draw the selection box for the first time
@@ -342,11 +339,13 @@ while(true){
         }
         keyInput = keyInput & 255
         if(keyInput != lastKey){
-            if(keyInput == 71){ // Up arrow
-                trackerLocation -= 2
+            if(keyInput == 71) { // Up arrow
+                trackerLocation -= 1
+                B36Decrease()
             }
-            else if(keyInput == 72){ // Down arrow
-                trackerLocation += 2
+            else if(keyInput == 72) { // Down arrow
+                trackerLocation += 1
+                B36Increase()
             }
             else if(keyInput == 9 && selection > 0){ // Left arrow
                 ClearCurrectSelection()
@@ -362,10 +361,10 @@ while(true){
                 playing = 1
                 chars[9] = 10
             }
-            else if(keyInput == 168 || keyInput == 0){}
-            else { // If not a control key, use as input to change currect frequency
-                EditTrackerVal()
-            }
+            else if(keyInput >= 13 && keyInput <= 61) // If not a control key, use as input to change currect frequency
+                if(keyInput != 36 && keyInput != 37 && keyInput != 38)
+                    EditTrackerVal()
+
             UpdateTrackerValues()
             UpdateTrackerIndexes()
         }
@@ -398,11 +397,6 @@ while(true){
             lastKey = keyInput
 
 
-
-            // if(channelA[trackerLocation] == ' '){
-            //     trackerLocation += 1
-            // }
-            
             ///////////////
             // Channel A //
             ///////////////
@@ -512,7 +506,7 @@ while(true){
                 }
             }
 
-            trackerLocation += 2
+            trackerLocation += 1
             
         }
 
@@ -535,10 +529,4 @@ while(true){
         playing = 0
         chars[9] = 1
     }
-}
-
-
-    
-while (true) {
-
 }

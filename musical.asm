@@ -1,1890 +1,2065 @@
 JMP
-HERE 821
-HERE 0 , global value (selection)
-HERE 0 , global value (curChar)
-HERE 0 , global value (noteVal)
-HERE 0 , global value (freqVal)
-HERE 0 , global value (playing)
-HERE 0 , global value (trackerLocation)
-HERE 0 , global value (keyInput)
-HERE 0 , global value (lastKey)
-HERE 0 , global value (i, sectionCount, sectionCount, sectionCount, sectionCount, x, base36Val)
-HERE 0 , global value (x, x, x, x, y, maxSize)
-HERE 0 , global value (y, y, y, y, realLoc, l)
-HERE 0 , global value (realLoc, realLoc, realLoc, realLoc, o)
-HERE 0 , temporary global value
-HERE 0 , temporary global value
-HERE 0 , temporary global value
-HERE 0 , temporary global value
-HERE 0 , temporary global value
-HERE 0 , stack value (decNum, xPos, xPos, binNum)
-HERE 0 , stack value (xWidth, xWidth, digA)
-HERE 0 , stack value (x, x, digB)
-HERE 0 , stack value (digC)
-HERE 0 , stack value (y, y)
-HERE 0 , stack value (realLoc, realLoc)
-HERE 0 , return value
-HERE 57344 , stack pointer
-AIN 3 , load variable 'curChar'
-LDIB 40 , load character '1'
-SUB , operator ==
+HERE 1211
+HERE 0
+HERE 0
+HERE 0
+HERE 0
+HERE 0
+HERE 0
+HERE 0
+HERE 0
+HERE 0
+HERE 0
+HERE 0
+HERE 0
+HERE 0
+HERE 0
+HERE 0
+HERE 0
+HERE 0
+HERE 0
+HERE 0
+HERE 0
+HERE 0
+HERE 0
+HERE 0
+HERE 0
+HERE 0
+HERE 0
+HERE 0
+HERE 0
+HERE 0
+HERE 61197
+AIN 3
+STA 24
+LDIA 40
+BIN 24
+SUB
 JMPZ
-HERE 34
+HERE 41
 JMP
-HERE 38
-LDIA 1 , load small integer
-STA 5 , store value in variable 'freqVal'
+HERE 44
+LDIA 1
 JMP
-HERE 366
-AIN 3 , load variable 'curChar'
-LDIB 34 , load character 'V'
-SUB , operator ==
+HERE 345
+LDIA 41
+BIN 24
+SUB
 JMPZ
-HERE 45
+HERE 51
 JMP
-HERE 49
-LDIA 31 , load small integer
-STA 5 , store value in variable 'freqVal'
+HERE 54
+LDIA 2
 JMP
-HERE 366
-AIN 3 , load variable 'curChar'
-LDIB 33 , load character 'U'
-SUB , operator ==
+HERE 345
+LDIA 42
+BIN 24
+SUB
 JMPZ
-HERE 56
+HERE 61
 JMP
-HERE 60
-LDIA 30 , load small integer
-STA 5 , store value in variable 'freqVal'
+HERE 64
+LDIA 3
 JMP
-HERE 366
-AIN 3 , load variable 'curChar'
-LDIB 32 , load character 'T'
-SUB , operator ==
+HERE 345
+LDIA 43
+BIN 24
+SUB
 JMPZ
-HERE 67
-JMP
 HERE 71
-LDIA 29 , load small integer
-STA 5 , store value in variable 'freqVal'
 JMP
-HERE 366
-AIN 3 , load variable 'curChar'
-LDIB 31 , load character 'S'
-SUB , operator ==
+HERE 74
+LDIA 4
+JMP
+HERE 345
+LDIA 44
+BIN 24
+SUB
 JMPZ
-HERE 78
+HERE 81
 JMP
-HERE 82
-LDIA 28 , load small integer
-STA 5 , store value in variable 'freqVal'
+HERE 84
+LDIA 5
 JMP
-HERE 366
-AIN 3 , load variable 'curChar'
-LDIB 30 , load character 'R'
-SUB , operator ==
+HERE 345
+LDIA 45
+BIN 24
+SUB
 JMPZ
-HERE 89
+HERE 91
 JMP
-HERE 93
-LDIA 27 , load small integer
-STA 5 , store value in variable 'freqVal'
+HERE 94
+LDIA 6
 JMP
-HERE 366
-AIN 3 , load variable 'curChar'
-LDIB 29 , load character 'Q'
-SUB , operator ==
+HERE 345
+LDIA 46
+BIN 24
+SUB
 JMPZ
-HERE 100
+HERE 101
 JMP
 HERE 104
-LDIA 26 , load small integer
-STA 5 , store value in variable 'freqVal'
+LDIA 7
 JMP
-HERE 366
-AIN 3 , load variable 'curChar'
-LDIB 28 , load character 'P'
-SUB , operator ==
+HERE 345
+LDIA 47
+BIN 24
+SUB
 JMPZ
 HERE 111
 JMP
-HERE 115
-LDIA 25 , load small integer
-STA 5 , store value in variable 'freqVal'
+HERE 114
+LDIA 8
 JMP
-HERE 366
-AIN 3 , load variable 'curChar'
-LDIB 27 , load character 'O'
-SUB , operator ==
+HERE 345
+LDIA 48
+BIN 24
+SUB
 JMPZ
-HERE 122
+HERE 121
 JMP
-HERE 126
-LDIA 24 , load small integer
-STA 5 , store value in variable 'freqVal'
+HERE 124
+LDIA 9
 JMP
-HERE 366
-AIN 3 , load variable 'curChar'
-LDIB 26 , load character 'N'
-SUB , operator ==
+HERE 345
+LDIA 13
+BIN 24
+SUB
 JMPZ
-HERE 133
+HERE 131
 JMP
-HERE 137
-LDIA 23 , load small integer
-STA 5 , store value in variable 'freqVal'
+HERE 134
+LDIA 10
 JMP
-HERE 366
-AIN 3 , load variable 'curChar'
-LDIB 25 , load character 'M'
-SUB , operator ==
+HERE 345
+LDIA 14
+BIN 24
+SUB
 JMPZ
+HERE 141
+JMP
 HERE 144
+LDIA 11
 JMP
-HERE 148
-LDIA 22 , load small integer
-STA 5 , store value in variable 'freqVal'
-JMP
-HERE 366
-AIN 3 , load variable 'curChar'
-LDIB 24 , load character 'L'
-SUB , operator ==
+HERE 345
+LDIA 15
+BIN 24
+SUB
 JMPZ
-HERE 155
+HERE 151
 JMP
-HERE 159
-LDIA 21 , load small integer
-STA 5 , store value in variable 'freqVal'
+HERE 154
+LDIA 12
 JMP
-HERE 366
-AIN 3 , load variable 'curChar'
-LDIB 23 , load character 'K'
-SUB , operator ==
+HERE 345
+LDIA 16
+BIN 24
+SUB
 JMPZ
-HERE 166
+HERE 161
 JMP
-HERE 170
-LDIA 20 , load small integer
-STA 5 , store value in variable 'freqVal'
+HERE 164
+LDIA 13
 JMP
-HERE 366
-AIN 3 , load variable 'curChar'
-LDIB 22 , load character 'J'
-SUB , operator ==
+HERE 345
+LDIA 17
+BIN 24
+SUB
 JMPZ
-HERE 177
+HERE 171
 JMP
+HERE 174
+LDIA 14
+JMP
+HERE 345
+LDIA 18
+BIN 24
+SUB
+JMPZ
 HERE 181
-LDIA 19 , load small integer
-STA 5 , store value in variable 'freqVal'
 JMP
-HERE 366
-AIN 3 , load variable 'curChar'
-LDIB 21 , load character 'I'
-SUB , operator ==
+HERE 184
+LDIA 15
+JMP
+HERE 345
+LDIA 19
+BIN 24
+SUB
 JMPZ
-HERE 188
+HERE 191
 JMP
-HERE 192
-LDIA 18 , load small integer
-STA 5 , store value in variable 'freqVal'
+HERE 194
+LDIA 16
 JMP
-HERE 366
-AIN 3 , load variable 'curChar'
-LDIB 20 , load character 'H'
-SUB , operator ==
+HERE 345
+LDIA 20
+BIN 24
+SUB
 JMPZ
-HERE 199
+HERE 201
 JMP
-HERE 203
-LDIA 17 , load small integer
-STA 5 , store value in variable 'freqVal'
+HERE 204
+LDIA 17
 JMP
-HERE 366
-AIN 3 , load variable 'curChar'
-LDIB 19 , load character 'G'
-SUB , operator ==
+HERE 345
+LDIA 21
+BIN 24
+SUB
 JMPZ
-HERE 210
+HERE 211
 JMP
 HERE 214
-LDIA 16 , load small integer
-STA 5 , store value in variable 'freqVal'
+LDIA 18
 JMP
-HERE 366
-AIN 3 , load variable 'curChar'
-LDIB 18 , load character 'F'
-SUB , operator ==
+HERE 345
+LDIA 22
+BIN 24
+SUB
 JMPZ
 HERE 221
 JMP
-HERE 225
-LDIA 15 , load small integer
-STA 5 , store value in variable 'freqVal'
+HERE 224
+LDIA 19
 JMP
-HERE 366
-AIN 3 , load variable 'curChar'
-LDIB 17 , load character 'E'
-SUB , operator ==
+HERE 345
+LDIA 23
+BIN 24
+SUB
 JMPZ
-HERE 232
+HERE 231
 JMP
-HERE 236
-LDIA 14 , load small integer
-STA 5 , store value in variable 'freqVal'
+HERE 234
+LDIA 20
 JMP
-HERE 366
-AIN 3 , load variable 'curChar'
-LDIB 16 , load character 'D'
-SUB , operator ==
+HERE 345
+LDIA 24
+BIN 24
+SUB
 JMPZ
-HERE 243
+HERE 241
 JMP
-HERE 247
-LDIA 13 , load small integer
-STA 5 , store value in variable 'freqVal'
+HERE 244
+LDIA 21
 JMP
-HERE 366
-AIN 3 , load variable 'curChar'
-LDIB 15 , load character 'C'
-SUB , operator ==
+HERE 345
+LDIA 25
+BIN 24
+SUB
 JMPZ
+HERE 251
+JMP
 HERE 254
+LDIA 22
 JMP
-HERE 258
-LDIA 12 , load small integer
-STA 5 , store value in variable 'freqVal'
-JMP
-HERE 366
-AIN 3 , load variable 'curChar'
-LDIB 14 , load character 'B'
-SUB , operator ==
+HERE 345
+LDIA 26
+BIN 24
+SUB
 JMPZ
-HERE 265
+HERE 261
 JMP
-HERE 269
-LDIA 11 , load small integer
-STA 5 , store value in variable 'freqVal'
+HERE 264
+LDIA 23
 JMP
-HERE 366
-AIN 3 , load variable 'curChar'
-LDIB 13 , load character 'A'
-SUB , operator ==
+HERE 345
+LDIA 27
+BIN 24
+SUB
 JMPZ
-HERE 276
+HERE 271
 JMP
-HERE 280
-LDIA 10 , load small integer
-STA 5 , store value in variable 'freqVal'
+HERE 274
+LDIA 24
 JMP
-HERE 366
-AIN 3 , load variable 'curChar'
-LDIB 48 , load character '9'
-SUB , operator ==
+HERE 345
+LDIA 28
+BIN 24
+SUB
 JMPZ
-HERE 287
+HERE 281
 JMP
+HERE 284
+LDIA 25
+JMP
+HERE 345
+LDIA 29
+BIN 24
+SUB
+JMPZ
 HERE 291
-LDIA 9 , load small integer
-STA 5 , store value in variable 'freqVal'
 JMP
-HERE 366
-AIN 3 , load variable 'curChar'
-LDIB 47 , load character '8'
-SUB , operator ==
+HERE 294
+LDIA 26
+JMP
+HERE 345
+LDIA 30
+BIN 24
+SUB
 JMPZ
-HERE 298
+HERE 301
 JMP
-HERE 302
-LDIA 8 , load small integer
-STA 5 , store value in variable 'freqVal'
+HERE 304
+LDIA 27
 JMP
-HERE 366
-AIN 3 , load variable 'curChar'
-LDIB 46 , load character '7'
-SUB , operator ==
+HERE 345
+LDIA 31
+BIN 24
+SUB
 JMPZ
-HERE 309
+HERE 311
 JMP
-HERE 313
-LDIA 7 , load small integer
-STA 5 , store value in variable 'freqVal'
+HERE 314
+LDIA 28
 JMP
-HERE 366
-AIN 3 , load variable 'curChar'
-LDIB 45 , load character '6'
-SUB , operator ==
+HERE 345
+LDIA 32
+BIN 24
+SUB
 JMPZ
-HERE 320
+HERE 321
 JMP
 HERE 324
-LDIA 6 , load small integer
-STA 5 , store value in variable 'freqVal'
+LDIA 29
 JMP
-HERE 366
-AIN 3 , load variable 'curChar'
-LDIB 44 , load character '5'
-SUB , operator ==
+HERE 345
+LDIA 33
+BIN 24
+SUB
 JMPZ
 HERE 331
 JMP
-HERE 335
-LDIA 5 , load small integer
-STA 5 , store value in variable 'freqVal'
+HERE 334
+LDIA 30
 JMP
-HERE 366
-AIN 3 , load variable 'curChar'
-LDIB 43 , load character '4'
-SUB , operator ==
+HERE 345
+LDIA 34
+BIN 24
+SUB
 JMPZ
-HERE 342
+HERE 341
 JMP
-HERE 346
-LDIA 4 , load small integer
-STA 5 , store value in variable 'freqVal'
+HERE 344
+LDIA 31
 JMP
-HERE 366
-AIN 3 , load variable 'curChar'
-LDIB 42 , load character '3'
-SUB , operator ==
+HERE 345
+LDIA 0
+STA 5
+JMP
+HERE 1184
+AIN 10
+LDIB 1
+ADD
+STA 10
+AIN 10
+LDIB 36
+SUB
 JMPZ
-HERE 353
+HERE 361
+JMPC
+HERE 361
 JMP
-HERE 357
-LDIA 3 , load small integer
-STA 5 , store value in variable 'freqVal'
-JMP
-HERE 366
-AIN 3 , load variable 'curChar'
-LDIB 41 , load character '2'
-SUB , operator ==
+HERE 367
+LDIA 0
+STA 10
+AIN 11
+LDIB 1
+ADD
+STA 11
+AIN 11
+LDIB 36
+SUB
 JMPZ
-HERE 364
+HERE 376
+JMPC
+HERE 376
 JMP
-HERE 366
-LDIA 2 , load small integer
-STA 5 , store value in variable 'freqVal'
-JMP
-HERE 794
-AIN 7 , load variable 'trackerLocation'
-STA 19 , store value in variable 'decNum'
-JMP
-HERE 794
-LDIA 18 , load small integer
-STA 19 , store value in variable 'xPos'
-LDIA 8 , load small integer
-STA 20 , store value in variable 'xWidth'
-AIN 2 , load variable 'selection'
-LDIB 0 , load small integer
-SUB , operator ==
+HERE 382
+LDIA 0
+STA 11
+AIN 12
+LDIB 1
+ADD
+STA 12
+AIN 12
+LDIB 36
+SUB
 JMPZ
-HERE 383
+HERE 391
+JMPC
+HERE 391
 JMP
-HERE 389
-LDIA 18 , load small integer
-STA 19 , store value in variable 'xPos'
-LDIA 8 , load small integer
-STA 20 , store value in variable 'xWidth'
+HERE 393
+LDIA 0
+STA 12
 JMP
-HERE 426
-AIN 2 , load variable 'selection'
-LDIB 3 , load small integer
-SUB , operator ==
-JMPZ
-HERE 396
-JMP
-HERE 402
-LDIA 51 , load small integer
-STA 19 , store value in variable 'xPos'
-LDIA 9 , load small integer
-STA 20 , store value in variable 'xWidth'
-JMP
-HERE 426
-AIN 2 , load variable 'selection'
-LDIB 2 , load small integer
-SUB , operator ==
+HERE 1184
+AIN 10
+LDIB 1
+SUB
+STA 10
+AIN 10
+SWP
+LDW
+HERE 65535
+SWP
+SUB
 JMPZ
 HERE 409
 JMP
 HERE 415
-LDIA 39 , load small integer
-STA 19 , store value in variable 'xPos'
-LDIA 11 , load small integer
-STA 20 , store value in variable 'xWidth'
-JMP
-HERE 426
-AIN 2 , load variable 'selection'
-LDIB 1 , load small integer
-SUB , operator ==
-JMPZ
-HERE 422
-JMP
-HERE 426
-LDIA 27 , load small integer
-STA 19 , store value in variable 'xPos'
-LDIA 11 , load small integer
-STA 20 , store value in variable 'xWidth'
-AIN 19 , load variable 'xPos'
-STA 21 , store value in variable 'x'
-JMP
-HERE 434
-AIN 21 , load variable 'x'
+LDIA 35
+STA 10
+AIN 11
 LDIB 1
-ADD , increment value
-STA 21 , store value in variable 'x'
-AIN 21 , load variable 'x'
-STA 22
-AIN 19 , load variable 'xPos'
-BIN 20
-ADD
-BIN 22
-SWP
-SUB , operator <
-JMPZ
-HERE 488
-JMPC
-HERE 488
-JMP
-HERE 448
-LDIA 30 , load small integer
-STA 23 , store value in variable 'y'
-JMP
-HERE 456
-AIN 23 , load variable 'y'
-LDIB 1
-ADD , increment value
-STA 23 , store value in variable 'y'
-AIN 23 , load variable 'y'
-LDIB 36 , load small integer
-SUB , operator <
-JMPZ
-HERE 486
-JMPC
-HERE 486
-JMP
-HERE 465
-AIN 23 , load variable 'y'
-LDIB 64 , load small integer
-MULT
-STA 24 , store value in variable 'realLoc'
-AIN 24 , load variable 'realLoc'
-BIN 21
-ADD
-STA 24 , store value in variable 'realLoc'
-LDW
-HERE 61439 , load large integer
-SWP
-AIN 24 , load variable 'realLoc'
-ADD , add to pointer address
+SUB
+STA 11
+AIN 11
 SWP
 LDW
-HERE 4229 , load large integer
+HERE 65535
 SWP
-STAOUT
-STAOUT , store value in array
-JMP
-HERE 452 , jump to next iteration
-JMP
-HERE 430 , jump to next iteration
-JMP
-HERE 794
-LDIA 18 , load small integer
-STA 19 , store value in variable 'xPos'
-LDIA 12 , load small integer
-STA 20 , store value in variable 'xWidth'
-AIN 2 , load variable 'selection'
-LDIB 0 , load small integer
-SUB , operator ==
+SUB
 JMPZ
-HERE 501
+HERE 425
 JMP
-HERE 507
-LDIA 18 , load small integer
-STA 19 , store value in variable 'xPos'
-LDIA 8 , load small integer
-STA 20 , store value in variable 'xWidth'
-JMP
-HERE 544
-AIN 2 , load variable 'selection'
-LDIB 3 , load small integer
-SUB , operator ==
-JMPZ
-HERE 514
-JMP
-HERE 520
-LDIA 51 , load small integer
-STA 19 , store value in variable 'xPos'
-LDIA 9 , load small integer
-STA 20 , store value in variable 'xWidth'
-JMP
-HERE 544
-AIN 2 , load variable 'selection'
-LDIB 2 , load small integer
-SUB , operator ==
-JMPZ
-HERE 527
-JMP
-HERE 533
-LDIA 39 , load small integer
-STA 19 , store value in variable 'xPos'
-LDIA 11 , load small integer
-STA 20 , store value in variable 'xWidth'
-JMP
-HERE 544
-AIN 2 , load variable 'selection'
-LDIB 1 , load small integer
-SUB , operator ==
-JMPZ
-HERE 540
-JMP
-HERE 544
-LDIA 27 , load small integer
-STA 19 , store value in variable 'xPos'
-LDIA 11 , load small integer
-STA 20 , store value in variable 'xWidth'
-AIN 19 , load variable 'xPos'
-STA 21 , store value in variable 'x'
-JMP
-HERE 552
-AIN 21 , load variable 'x'
+HERE 431
+LDIA 35
+STA 11
+AIN 12
 LDIB 1
-ADD , increment value
-STA 21 , store value in variable 'x'
-AIN 21 , load variable 'x'
-STA 22
-AIN 19 , load variable 'xPos'
-BIN 20
-ADD
-BIN 22
+SUB
+STA 12
+AIN 12
 SWP
-SUB , operator <
+LDW
+HERE 65535
+SWP
+SUB
 JMPZ
-HERE 606
+HERE 441
+JMP
+HERE 443
+LDIA 35
+STA 12
+JMP
+HERE 1184
+AIN 10
+LDIB 9
+SUB
+JMPZ
+HERE 454
 JMPC
-HERE 606
+HERE 460
+JMP
+HERE 454
+AIN 10
+LDIB 39
+ADD
+STA 13
+JMP
+HERE 464
+AIN 10
+LDIB 13
+ADD
+STA 13
+AIN 11
+LDIB 9
+SUB
+JMPZ
+HERE 473
+JMPC
+HERE 479
+JMP
+HERE 473
+AIN 11
+LDIB 39
+ADD
+STA 14
+JMP
+HERE 483
+AIN 11
+LDIB 13
+ADD
+STA 14
+AIN 12
+LDIB 9
+SUB
+JMPZ
+HERE 492
+JMPC
+HERE 498
+JMP
+HERE 492
+AIN 12
+LDIB 39
+ADD
+STA 15
+JMP
+HERE 502
+AIN 12
+LDIB 13
+ADD
+STA 15
+JMP
+HERE 1184
+LDIA 18
+STA 24
+LDIA 8
+STA 25
+AIN 2
+LDIB 0
+SUB
+JMPZ
+HERE 515
+JMP
+HERE 521
+LDIA 18
+STA 24
+LDIA 8
+STA 25
+JMP
+HERE 558
+AIN 2
+LDIB 3
+SUB
+JMPZ
+HERE 528
+JMP
+HERE 534
+LDIA 51
+STA 24
+LDIA 9
+STA 25
+JMP
+HERE 558
+AIN 2
+LDIB 2
+SUB
+JMPZ
+HERE 541
+JMP
+HERE 547
+LDIA 39
+STA 24
+LDIA 11
+STA 25
+JMP
+HERE 558
+AIN 2
+LDIB 1
+SUB
+JMPZ
+HERE 554
+JMP
+HERE 558
+LDIA 27
+STA 24
+LDIA 11
+STA 25
+AIN 24
+STA 26
 JMP
 HERE 566
-LDIA 30 , load small integer
-STA 23 , store value in variable 'y'
-JMP
-HERE 574
-AIN 23 , load variable 'y'
+AIN 26
 LDIB 1
-ADD , increment value
-STA 23 , store value in variable 'y'
-AIN 23 , load variable 'y'
-LDIB 36 , load small integer
-SUB , operator <
-JMPZ
-HERE 604
-JMPC
-HERE 604
-JMP
-HERE 583
-AIN 23 , load variable 'y'
-LDIB 64 , load small integer
-MULT
-STA 24 , store value in variable 'realLoc'
-AIN 24 , load variable 'realLoc'
-BIN 21
 ADD
-STA 24 , store value in variable 'realLoc'
-LDW
-HERE 61439 , load large integer
+STA 26
+AIN 26
+STA 27
+AIN 24
+BIN 25
+ADD
+BIN 27
 SWP
-AIN 24 , load variable 'realLoc'
-ADD , add to pointer address
+SUB
+JMPZ
+HERE 620
+JMPC
+HERE 620
+JMP
+HERE 580
+LDIA 30
+STA 28
+JMP
+HERE 588
+AIN 28
+LDIB 1
+ADD
+STA 28
+AIN 28
+LDIB 36
+SUB
+JMPZ
+HERE 618
+JMPC
+HERE 618
+JMP
+HERE 597
+AIN 28
+LDIB 64
+MULT
+STA 29
+AIN 29
+BIN 26
+ADD
+STA 29
+LDW
+HERE 61439
+SWP
+AIN 29
+ADD
 SWP
 LDW
-HERE 2247 , load large integer
+HERE 4229
 SWP
 STAOUT
-STAOUT , store value in array
+STAOUT
 JMP
-HERE 570 , jump to next iteration
+HERE 584
 JMP
-HERE 548 , jump to next iteration
+HERE 562
 JMP
-HERE 794
-AIN 7 , load variable 'trackerLocation'
-STLGE
-HERE 61344 , store value in pointer
-LDIA 1828
-SWP
-AIN 7 , load variable 'trackerLocation'
-ADD , add to pointer address
-LDAIN
-STLGE
-HERE 61347 , store value in pointer
-AIN 7 , load variable 'trackerLocation'
-LDIB 17 , load small integer
-SUB , operator <
+HERE 1184
+LDIA 18
+STA 24
+LDIA 12
+STA 25
+AIN 2
+LDIB 0
+SUB
 JMPZ
-HERE 636
-JMPC
-HERE 636
-JMP
-HERE 627
-LDIA 1843
-SWP
-AIN 7 , load variable 'trackerLocation'
-ADD , add to pointer address
-LDAIN
-STLGE
-HERE 61349 , store value in pointer
+HERE 633
 JMP
 HERE 639
-LDIA 39 , load character '0'
-STLGE
-HERE 61349 , store value in pointer
-AIN 7 , load variable 'trackerLocation'
-LDIB 15 , load small integer
-SUB , operator <
+LDIA 18
+STA 24
+LDIA 8
+STA 25
+JMP
+HERE 676
+AIN 2
+LDIB 3
+SUB
 JMPZ
-HERE 657
-JMPC
-HERE 657
+HERE 646
 JMP
-HERE 648
-LDIA 1860
-SWP
-AIN 7 , load variable 'trackerLocation'
-ADD , add to pointer address
-LDAIN
-STLGE
-HERE 61351 , store value in pointer
+HERE 652
+LDIA 51
+STA 24
+LDIA 9
+STA 25
 JMP
-HERE 660
-LDIA 39 , load character '0'
-STLGE
-HERE 61351 , store value in pointer
-AIN 7 , load variable 'trackerLocation'
-LDIB 15 , load small integer
-SUB , operator <
+HERE 676
+AIN 2
+LDIB 2
+SUB
 JMPZ
-HERE 678
-JMPC
-HERE 678
+HERE 659
 JMP
-HERE 669
-LDIA 1875
-SWP
-AIN 7 , load variable 'trackerLocation'
-ADD , add to pointer address
-LDAIN
-STLGE
-HERE 61353 , store value in pointer
+HERE 665
+LDIA 39
+STA 24
+LDIA 11
+STA 25
 JMP
-HERE 681
-LDIA 39 , load character '0'
-STLGE
-HERE 61353 , store value in pointer
-JMP
-HERE 794
-AIN 7 , load variable 'trackerLocation'
-STA 19 , store value in variable 'binNum'
-LDIA 39 , load character '0'
-STA 20 , store value in variable 'digA'
-LDIA 39 , load character '0'
-STA 21 , store value in variable 'digB'
-LDIA 39 , load character '0'
-STA 22 , store value in variable 'digC'
-AIN 20 , load variable 'digA'
-STLGE
-HERE 61334 , store value in pointer
-AIN 21 , load variable 'digB'
-STLGE
-HERE 61335 , store value in pointer
-AIN 22 , load variable 'digC'
-STLGE
-HERE 61336 , store value in pointer
-JMP
-HERE 794
-AIN 2 , load variable 'selection'
-LDIB 0 , load small integer
-SUB , operator ==
+HERE 676
+AIN 2
+LDIB 1
+SUB
 JMPZ
-HERE 709
+HERE 672
 JMP
-HERE 717
-LDIA 1828
-SWP
-AIN 7 , load variable 'trackerLocation'
-ADD , add to pointer address
-BIN 8
-STAOUT , store value in array
+HERE 676
+LDIA 27
+STA 24
+LDIA 11
+STA 25
+AIN 24
+STA 26
 JMP
-HERE 760
-AIN 2 , load variable 'selection'
-LDIB 3 , load small integer
-SUB , operator ==
-JMPZ
-HERE 724
-JMP
-HERE 732
-LDIA 1875
-SWP
-AIN 7 , load variable 'trackerLocation'
-ADD , add to pointer address
-BIN 8
-STAOUT , store value in array
-JMP
-HERE 760
-AIN 2 , load variable 'selection'
-LDIB 2 , load small integer
-SUB , operator ==
-JMPZ
-HERE 739
-JMP
-HERE 747
-LDIA 1860
-SWP
-AIN 7 , load variable 'trackerLocation'
-ADD , add to pointer address
-BIN 8
-STAOUT , store value in array
-JMP
-HERE 760
-AIN 2 , load variable 'selection'
-LDIB 1 , load small integer
-SUB , operator ==
-JMPZ
-HERE 754
-JMP
-HERE 760
-LDIA 1843
-SWP
-AIN 7 , load variable 'trackerLocation'
-ADD , add to pointer address
-BIN 8
-STAOUT , store value in array
-JMP
-HERE 794
+HERE 684
 AIN 26
-STAOUT
 LDIB 1
 ADD
-BIN 19
-STAOUT
+STA 26
+AIN 26
+STA 27
+AIN 24
+BIN 25
+ADD
+BIN 27
+SWP
+SUB
+JMPZ
+HERE 735
+JMPC
+HERE 735
+JMP
+HERE 698
+LDIA 30
+STA 28
+JMP
+HERE 706
+AIN 28
 LDIB 1
 ADD
-BIN 20
+STA 28
+AIN 28
+LDIB 36
+SUB
+JMPZ
+HERE 733
+JMPC
+HERE 733
+JMP
+HERE 715
+LDW
+HERE 61439
+STA 29
+AIN 28
+LDIB 64
+MULT
+LDIB 6
+ADD
+BIN 29
+ADD
+SWP
+LDW
+HERE 2247
+SWP
 STAOUT
+STAOUT
+JMP
+HERE 702
+JMP
+HERE 680
+JMP
+HERE 1184
+AIN 7
+STLGE
+HERE 61344
+LDIA 1
+STA 24
+JMP
+HERE 748
+AIN 24
 LDIB 1
 ADD
-BIN 21
-STAOUT
-LDIB 1
+STA 24
+AIN 24
+LDIB 10
+SUB
+JMPZ
+HERE 1069
+JMPC
+HERE 1069
+JMP
+HERE 757
+AIN 7
+LDIB 5
+SUB
+BIN 24
 ADD
-BIN 22
-STAOUT
-LDIB 1
+SWP
+LDW
+HERE 65530
+SWP
+SUB
+JMPZ
+HERE 823
+JMPC
+HERE 773
+JMP
+HERE 823
+LDW
+HERE 61294
+STA 25
+AIN 24
+LDIB 10
+MULT
+LDIB 3
 ADD
-BIN 23
+BIN 25
+ADD
+LDIB 0
+STAOUT
+LDW
+HERE 61294
+STA 25
+AIN 24
+LDIB 10
+MULT
+LDIB 5
+ADD
+BIN 25
+ADD
+LDIB 0
+STAOUT
+LDW
+HERE 61294
+STA 25
+AIN 24
+LDIB 10
+MULT
+LDIB 7
+ADD
+BIN 25
+ADD
+LDIB 0
+STAOUT
+LDW
+HERE 61294
+STA 25
+AIN 24
+LDIB 10
+MULT
+LDIB 9
+ADD
+BIN 25
+ADD
+LDIB 0
+STAOUT
+JMP
+HERE 744
+AIN 7
+LDIB 5
+SUB
+BIN 24
+ADD
+LDIB 148
+SUB
+JMPZ
+HERE 836
+JMPC
+HERE 836
+JMP
+HERE 886
+LDW
+HERE 61294
+STA 25
+AIN 24
+LDIB 10
+MULT
+LDIB 3
+ADD
+BIN 25
+ADD
+LDIB 0
+STAOUT
+LDW
+HERE 61294
+STA 25
+AIN 24
+LDIB 10
+MULT
+LDIB 5
+ADD
+BIN 25
+ADD
+LDIB 0
+STAOUT
+LDW
+HERE 61294
+STA 25
+AIN 24
+LDIB 10
+MULT
+LDIB 7
+ADD
+BIN 25
+ADD
+LDIB 0
+STAOUT
+LDW
+HERE 61294
+STA 25
+AIN 24
+LDIB 10
+MULT
+LDIB 9
+ADD
+BIN 25
+ADD
+LDIB 0
+STAOUT
+JMP
+HERE 744
+LDW
+HERE 61294
+STA 25
+AIN 24
+LDIB 10
+MULT
+LDIB 3
+ADD
+BIN 25
+ADD
+STA 25
+LDW
+HERE 2303
+STA 26
+AIN 7
+LDIB 5
+SUB
+BIN 24
+ADD
+BIN 26
+ADD
+LDAIN
+BIN 25
+SWP
+STAOUT
+AIN 7
+LDIB 5
+SUB
+BIN 24
+ADD
+LDIB 148
+SUB
+JMPZ
+HERE 951
+JMPC
+HERE 951
+JMP
+HERE 924
+LDW
+HERE 61294
+STA 27
+AIN 24
+LDIB 10
+MULT
+LDIB 5
+ADD
+BIN 27
+ADD
+STA 27
+LDW
+HERE 2452
+STA 28
+AIN 7
+LDIB 5
+SUB
+BIN 24
+ADD
+BIN 28
+ADD
+LDAIN
+BIN 27
+SWP
+STAOUT
+JMP
+HERE 963
+LDW
+HERE 61294
+STA 27
+AIN 24
+LDIB 10
+MULT
+LDIB 5
+ADD
+BIN 27
+ADD
+LDIB 78
+STAOUT
+AIN 7
+LDIB 5
+SUB
+BIN 24
+ADD
+LDIB 8
+SUB
+JMPZ
+HERE 1003
+JMPC
+HERE 1003
+JMP
+HERE 976
+LDW
+HERE 61294
+STA 27
+AIN 24
+LDIB 10
+MULT
+LDIB 7
+ADD
+BIN 27
+ADD
+STA 27
+LDW
+HERE 2601
+STA 28
+AIN 7
+LDIB 5
+SUB
+BIN 24
+ADD
+BIN 28
+ADD
+LDAIN
+BIN 27
+SWP
+STAOUT
+JMP
+HERE 1015
+LDW
+HERE 61294
+STA 27
+AIN 24
+LDIB 10
+MULT
+LDIB 7
+ADD
+BIN 27
+ADD
+LDIB 78
+STAOUT
+AIN 7
+LDIB 5
+SUB
+BIN 24
+ADD
+LDIB 64
+SUB
+JMPZ
+HERE 1055
+JMPC
+HERE 1055
+JMP
+HERE 1028
+LDW
+HERE 61294
+STA 27
+AIN 24
+LDIB 10
+MULT
+LDIB 9
+ADD
+BIN 27
+ADD
+STA 27
+LDW
+HERE 2610
+STA 28
+AIN 7
+LDIB 5
+SUB
+BIN 24
+ADD
+BIN 28
+ADD
+LDAIN
+BIN 27
+SWP
+STAOUT
+JMP
+HERE 1067
+LDW
+HERE 61294
+STA 27
+AIN 24
+LDIB 10
+MULT
+LDIB 9
+ADD
+BIN 27
+ADD
+LDIB 78
+STAOUT
+JMP
+HERE 744
+JMP
+HERE 1184
+LDIA 445
+SWPC
+LDIB 1076
+JMP
+HERE 1152
+AIN 30
+AIN 13
+STLGE
+HERE 61334
+AIN 14
+STLGE
+HERE 61335
+AIN 15
+STLGE
+HERE 61336
+JMP
+HERE 1184
+AIN 2
+LDIB 0
+SUB
+JMPZ
+HERE 1095
+JMP
+HERE 1104
+LDW
+HERE 2303
+SWP
+AIN 7
+ADD
+BIN 8
+STAOUT
+JMP
+HERE 1150
+AIN 2
+LDIB 3
+SUB
+JMPZ
+HERE 1111
+JMP
+HERE 1120
+LDW
+HERE 2610
+SWP
+AIN 7
+ADD
+BIN 8
+STAOUT
+JMP
+HERE 1150
+AIN 2
+LDIB 2
+SUB
+JMPZ
+HERE 1127
+JMP
+HERE 1136
+LDW
+HERE 2601
+SWP
+AIN 7
+ADD
+BIN 8
+STAOUT
+JMP
+HERE 1150
+AIN 2
+LDIB 1
+SUB
+JMPZ
+HERE 1143
+JMP
+HERE 1150
+LDW
+HERE 2452
+SWP
+AIN 7
+ADD
+BIN 8
+STAOUT
+JMP
+HERE 1184
+AIN 31
 STAOUT
 LDIB 1
 ADD
 BIN 24
 STAOUT
-AIN 26
-LDIB 7
-ADD
-STA 26
-SWPC
-JREG
-STA 25
-AIN 26
-LDIB 7
-SUB
-STA 26
 LDIB 1
 ADD
-LDAIN
-STA 19
+BIN 25
+STAOUT
+LDIB 1
 ADD
-LDAIN
-STA 20
+BIN 26
+STAOUT
+LDIB 1
 ADD
-LDAIN
-STA 21
+BIN 27
+STAOUT
+LDIB 1
 ADD
-LDAIN
-STA 22
+BIN 28
+STAOUT
+LDIB 1
 ADD
-LDAIN
-STA 23
+BIN 29
+STAOUT
+AIN 31
+LDIB 7
+ADD
+STA 31
+SWPC
+JREG
+STA 30
+AIN 31
+LDIB 7
+SUB
+STA 31
+LDIB 1
 ADD
 LDAIN
 STA 24
-AIN 26
+ADD
+LDAIN
+STA 25
+ADD
+LDAIN
+STA 26
+ADD
+LDAIN
+STA 27
+ADD
+LDAIN
+STA 28
+ADD
+LDAIN
+STA 29
+AIN 31
 LDAIN
 JREG
-LDIA 0 , load small integer
-STA 2 , store value in variable 'selection'
-LDIA 0 , load small integer
-STA 3 , store value in variable 'curChar'
-LDIA 0 , load small integer
-STA 4 , store value in variable 'noteVal'
-LDIA 0 , load small integer
-STA 5 , store value in variable 'freqVal'
-LDIA 0 , load small integer
-STA 6 , store value in variable 'playing'
-LDIA 0 , load small integer
-STA 7 , store value in variable 'trackerLocation'
-LDIA 168 , load small integer
-STA 8 , store value in variable 'keyInput'
-LDIA 168 , load small integer
-STA 9 , store value in variable 'lastKey'
-LDIA 0 , load small integer
-STA 10 , store value in variable 'i'
-JMP
-HERE 845
-AIN 10 , load variable 'i'
-LDIB 1
-ADD , increment value
-STA 10 , store value in variable 'i'
-AIN 10 , load variable 'i'
-LDIB 7 , load small integer
-SUB , operator <
-JMPZ
-HERE 870
-JMPC
-HERE 870
-JMP
-HERE 854
-LDW
-HERE 61294 , load large integer
-SWP
-AIN 10 , load variable 'i'
-ADD , add to pointer address
-STA 14
-LDIA 1821
-SWP
-AIN 10 , load variable 'i'
-ADD , add to pointer address
-LDAIN
-BIN 14
-SWP
-STAOUT , store value in array
-JMP
-HERE 841 , jump to next iteration
-LDIA 1 , load small integer
-STLGE
-HERE 61303 , store value in pointer
-LDIA 1 , load small integer
-STA 10 , store value in variable 'sectionCount'
-JMP
-HERE 881
-AIN 10 , load variable 'sectionCount'
-LDIB 1
-ADD , increment value
-STA 10 , store value in variable 'sectionCount'
-AIN 10 , load variable 'sectionCount'
-LDIB 11 , load small integer
-SUB , operator <
-JMPZ
-HERE 962
-JMPC
-HERE 962
-JMP
-HERE 890
-LDIA 0 , load small integer
-STA 11 , store value in variable 'x'
-JMP
-HERE 898
-AIN 11 , load variable 'x'
-LDIB 1
-ADD , increment value
-STA 11 , store value in variable 'x'
-AIN 11 , load variable 'x'
-LDIB 17 , load small integer
-SUB , operator <
-JMPZ
-HERE 956
-JMPC
-HERE 956
-JMP
-HERE 907
-AIN 10 , load variable 'sectionCount'
-LDIB 6 , load small integer
-MULT
-STA 12 , store value in variable 'y'
-JMP
-HERE 917
-AIN 12 , load variable 'y'
-LDIB 1
-ADD , increment value
-STA 12 , store value in variable 'y'
-AIN 12 , load variable 'y'
-STA 15
-AIN 10 , load variable 'sectionCount'
-LDIB 6 , load small integer
-MULT
-LDIB 6 , load small integer
-ADD
-BIN 15
-SWP
-SUB , operator <
-JMPZ
-HERE 954
-JMPC
-HERE 954
-JMP
-HERE 933
-AIN 12 , load variable 'y'
-LDIB 64 , load small integer
-MULT
-STA 13 , store value in variable 'realLoc'
-AIN 13 , load variable 'realLoc'
-BIN 11
-ADD
-STA 13 , store value in variable 'realLoc'
-LDW
-HERE 61439 , load large integer
-SWP
-AIN 13 , load variable 'realLoc'
-ADD , add to pointer address
-SWP
-LDW
-HERE 5293 , load large integer
-SWP
-STAOUT
-STAOUT , store value in array
-JMP
-HERE 913 , jump to next iteration
-JMP
-HERE 894 , jump to next iteration
-AIN 10 , load variable 'sectionCount'
-LDIB 1 , load small integer
-ADD
-STA 10 , store value in variable 'sectionCount'
-JMP
-HERE 877 , jump to next iteration
-LDIA 2 , load small integer
-STA 10 , store value in variable 'sectionCount'
-JMP
-HERE 970
-AIN 10 , load variable 'sectionCount'
-LDIB 1
-ADD , increment value
-STA 10 , store value in variable 'sectionCount'
-AIN 10 , load variable 'sectionCount'
-LDIB 10 , load small integer
-SUB , operator <
-JMPZ
-HERE 1051
-JMPC
-HERE 1051
-JMP
-HERE 979
-LDIA 0 , load small integer
-STA 11 , store value in variable 'x'
-JMP
-HERE 987
-AIN 11 , load variable 'x'
-LDIB 1
-ADD , increment value
-STA 11 , store value in variable 'x'
-AIN 11 , load variable 'x'
-LDIB 17 , load small integer
-SUB , operator <
-JMPZ
-HERE 1045
-JMPC
-HERE 1045
-JMP
-HERE 996
-AIN 10 , load variable 'sectionCount'
-LDIB 6 , load small integer
-MULT
-STA 12 , store value in variable 'y'
-JMP
-HERE 1006
-AIN 12 , load variable 'y'
-LDIB 1
-ADD , increment value
-STA 12 , store value in variable 'y'
-AIN 12 , load variable 'y'
-STA 16
-AIN 10 , load variable 'sectionCount'
-LDIB 6 , load small integer
-MULT
-LDIB 6 , load small integer
-ADD
-BIN 16
-SWP
-SUB , operator <
-JMPZ
-HERE 1043
-JMPC
-HERE 1043
-JMP
-HERE 1022
-AIN 12 , load variable 'y'
-LDIB 64 , load small integer
-MULT
-STA 13 , store value in variable 'realLoc'
-AIN 13 , load variable 'realLoc'
-BIN 11
-ADD
-STA 13 , store value in variable 'realLoc'
-LDW
-HERE 61439 , load large integer
-SWP
-AIN 13 , load variable 'realLoc'
-ADD , add to pointer address
-SWP
-LDW
-HERE 4234 , load large integer
-SWP
-STAOUT
-STAOUT , store value in array
-JMP
-HERE 1002 , jump to next iteration
-JMP
-HERE 983 , jump to next iteration
-AIN 10 , load variable 'sectionCount'
-LDIB 1 , load small integer
-ADD
-STA 10 , store value in variable 'sectionCount'
-JMP
-HERE 966 , jump to next iteration
-LDIA 10 , load small integer
-STLGE
-HERE 61345 , store value in pointer
-LDW
-HERE 65535 , load large integer
-STLGE
-HERE 63496 , store value in pointer
-LDW
-HERE 65535 , load large integer
-STLGE
-HERE 63497 , store value in pointer
-LDW
-HERE 65535 , load large integer
-STLGE
-HERE 63432 , store value in pointer
-LDW
-HERE 65535 , load large integer
-STLGE
-HERE 63560 , store value in pointer
-LDIA 1 , load small integer
-STA 10 , store value in variable 'sectionCount'
-JMP
-HERE 1078
-AIN 10 , load variable 'sectionCount'
-LDIB 1
-ADD , increment value
-STA 10 , store value in variable 'sectionCount'
-AIN 10 , load variable 'sectionCount'
-LDIB 11 , load small integer
-SUB , operator <
-JMPZ
-HERE 1159
-JMPC
-HERE 1159
-JMP
-HERE 1087
-LDIA 18 , load small integer
-STA 11 , store value in variable 'x'
-JMP
-HERE 1095
-AIN 11 , load variable 'x'
-LDIB 1
-ADD , increment value
-STA 11 , store value in variable 'x'
-AIN 11 , load variable 'x'
-LDIB 60 , load small integer
-SUB , operator <
-JMPZ
-HERE 1153
-JMPC
-HERE 1153
-JMP
-HERE 1104
-AIN 10 , load variable 'sectionCount'
-LDIB 6 , load small integer
-MULT
-STA 12 , store value in variable 'y'
-JMP
-HERE 1114
-AIN 12 , load variable 'y'
-LDIB 1
-ADD , increment value
-STA 12 , store value in variable 'y'
-AIN 12 , load variable 'y'
-STA 17
-AIN 10 , load variable 'sectionCount'
-LDIB 6 , load small integer
-MULT
-LDIB 6 , load small integer
-ADD
-BIN 17
-SWP
-SUB , operator <
-JMPZ
-HERE 1151
-JMPC
-HERE 1151
-JMP
-HERE 1130
-AIN 12 , load variable 'y'
-LDIB 64 , load small integer
-MULT
-STA 13 , store value in variable 'realLoc'
-AIN 13 , load variable 'realLoc'
-BIN 11
-ADD
-STA 13 , store value in variable 'realLoc'
-LDW
-HERE 61439 , load large integer
-SWP
-AIN 13 , load variable 'realLoc'
-ADD , add to pointer address
-SWP
-LDW
-HERE 4229 , load large integer
-SWP
-STAOUT
-STAOUT , store value in array
-JMP
-HERE 1110 , jump to next iteration
-JMP
-HERE 1091 , jump to next iteration
-AIN 10 , load variable 'sectionCount'
-LDIB 1 , load small integer
-ADD
-STA 10 , store value in variable 'sectionCount'
-JMP
-HERE 1074 , jump to next iteration
-LDIA 2 , load small integer
-STA 10 , store value in variable 'sectionCount'
-JMP
-HERE 1167
-AIN 10 , load variable 'sectionCount'
-LDIB 1
-ADD , increment value
-STA 10 , store value in variable 'sectionCount'
-AIN 10 , load variable 'sectionCount'
-LDIB 10 , load small integer
-SUB , operator <
-JMPZ
-HERE 1248
-JMPC
-HERE 1248
-JMP
-HERE 1176
-LDIA 18 , load small integer
-STA 11 , store value in variable 'x'
-JMP
-HERE 1184
-AIN 11 , load variable 'x'
-LDIB 1
-ADD , increment value
-STA 11 , store value in variable 'x'
-AIN 11 , load variable 'x'
-LDIB 60 , load small integer
-SUB , operator <
-JMPZ
-HERE 1242
-JMPC
-HERE 1242
-JMP
-HERE 1193
-AIN 10 , load variable 'sectionCount'
-LDIB 6 , load small integer
-MULT
-STA 12 , store value in variable 'y'
-JMP
-HERE 1203
-AIN 12 , load variable 'y'
-LDIB 1
-ADD , increment value
-STA 12 , store value in variable 'y'
-AIN 12 , load variable 'y'
-STA 18
-AIN 10 , load variable 'sectionCount'
-LDIB 6 , load small integer
-MULT
-LDIB 6 , load small integer
-ADD
-BIN 18
-SWP
-SUB , operator <
-JMPZ
-HERE 1240
-JMPC
-HERE 1240
-JMP
-HERE 1219
-AIN 12 , load variable 'y'
-LDIB 64 , load small integer
-MULT
-STA 13 , store value in variable 'realLoc'
-AIN 13 , load variable 'realLoc'
-BIN 11
-ADD
-STA 13 , store value in variable 'realLoc'
-LDW
-HERE 61439 , load large integer
-SWP
-AIN 13 , load variable 'realLoc'
-ADD , add to pointer address
-SWP
-LDW
-HERE 3171 , load large integer
-SWP
-STAOUT
-STAOUT , store value in array
-JMP
-HERE 1199 , jump to next iteration
-JMP
-HERE 1180 , jump to next iteration
-AIN 10 , load variable 'sectionCount'
-LDIB 1 , load small integer
-ADD
-STA 10 , store value in variable 'sectionCount'
-JMP
-HERE 1163 , jump to next iteration
-LDIA 26 , load small integer
-STA 10 , store value in variable 'x'
-JMP
-HERE 1256
-AIN 10 , load variable 'x'
-LDIB 1
-ADD , increment value
-STA 10 , store value in variable 'x'
-AIN 10 , load variable 'x'
-LDIB 60 , load small integer
-SUB , operator <
-JMPZ
-HERE 1313
-JMPC
-HERE 1313
-JMP
-HERE 1265
-LDIA 6 , load small integer
-STA 11 , store value in variable 'y'
-JMP
-HERE 1273
-AIN 11 , load variable 'y'
-LDIB 1
-ADD , increment value
-STA 11 , store value in variable 'y'
-AIN 11 , load variable 'y'
-LDIB 60 , load small integer
-SUB , operator <
-JMPZ
-HERE 1307
-JMPC
-HERE 1307
-JMP
-HERE 1282
-AIN 11 , load variable 'y'
-LDIB 64 , load small integer
-MULT
-STA 12 , store value in variable 'realLoc'
-AIN 12 , load variable 'realLoc'
-BIN 10
-ADD
-STA 12 , store value in variable 'realLoc'
-LDW
-HERE 61439 , load large integer
-SWP
-AIN 12 , load variable 'realLoc'
-ADD , add to pointer address
-SWP
-LDW
-HERE 12684 , load large integer
-SWP
-STAOUT
-STAOUT , store value in array
-AIN 11 , load variable 'y'
-LDIB 1 , load small integer
-ADD
-STA 11 , store value in variable 'y'
-JMP
-HERE 1269 , jump to next iteration
-AIN 10 , load variable 'x'
-LDIB 11 , load small integer
-ADD
-STA 10 , store value in variable 'x'
-JMP
-HERE 1252 , jump to next iteration
-HERE 168
-LDAIN
-WREXP
-LDIA 0 , load small integer
-STA 10 , store value in variable 'base36Val'
-LDIA 490
-SWPC
-LDIB 1323
-JMP
-HERE 762
-AIN 25
-AIN 6 , load variable 'playing'
-LDIB 0 , load small integer
-SUB , operator ==
-JMPZ
-HERE 1331
-JMP
-HERE 1542
-RDEXP
+LDIA 0
+STA 2
+LDIA 0
+STA 3
+LDIA 0
+STA 4
+LDIA 0
+STA 5
+LDIA 0
+STA 6
+LDIA 0
+STA 7
+LDIA 168
 STA 8
-AIN 8 , load variable 'keyInput'
-LDIB 255 , load small integer
-AND
-STA 8 , store value in variable 'keyInput'
-AIN 8 , load variable 'keyInput'
-BIN 9
-SUB , operator !=
-JMPZ
-HERE 1540
+LDIA 168
+STA 9
+LDIA 0
+STA 10
+LDIA 0
+STA 11
+LDIA 0
+STA 12
+LDIA 0
+STA 13
 JMP
-HERE 1344
-AIN 8 , load variable 'keyInput'
-LDIB 71 , load small integer
-SUB , operator ==
+HERE 1241
+AIN 13
+LDIB 1
+ADD
+STA 13
+AIN 13
+LDIB 7
+SUB
+JMPZ
+HERE 1267
+JMPC
+HERE 1267
+JMP
+HERE 1250
+LDW
+HERE 61294
+SWP
+AIN 13
+ADD
+STA 19
+LDW
+HERE 2295
+SWP
+AIN 13
+ADD
+LDAIN
+BIN 19
+SWP
+STAOUT
+JMP
+HERE 1237
+LDIA 1
+STLGE
+HERE 61303
+LDIA 1
+STA 13
+JMP
+HERE 1278
+AIN 13
+LDIB 1
+ADD
+STA 13
+AIN 13
+LDIB 11
+SUB
+JMPZ
+HERE 1359
+JMPC
+HERE 1359
+JMP
+HERE 1287
+LDIA 0
+STA 14
+JMP
+HERE 1295
+AIN 14
+LDIB 1
+ADD
+STA 14
+AIN 14
+LDIB 17
+SUB
+JMPZ
+HERE 1353
+JMPC
+HERE 1353
+JMP
+HERE 1304
+AIN 13
+LDIB 6
+MULT
+STA 15
+JMP
+HERE 1314
+AIN 15
+LDIB 1
+ADD
+STA 15
+AIN 15
+STA 20
+AIN 13
+LDIB 6
+MULT
+LDIB 6
+ADD
+BIN 20
+SWP
+SUB
 JMPZ
 HERE 1351
-JMP
-HERE 1357
-AIN 7 , load variable 'trackerLocation'
-LDIB 2 , load small integer
-SUB
-STA 7 , store value in variable 'trackerLocation'
-JMP
-HERE 1528
-AIN 8 , load variable 'keyInput'
-LDIB 168 , load small integer
-SUB , operator ==
-JMPZ
-HERE 1367
-JMP
-HERE 1364
-LDIA 0
-JMP
-HERE 1368
-LDIA 1
-LDIB 1
-SUB
-JMPZ
-HERE 1389
-AIN 8 , load variable 'keyInput'
-LDIB 0 , load small integer
-SUB , operator ==
-JMPZ
-HERE 1382
-JMP
-HERE 1379
-LDIA 0
-JMP
-HERE 1383
-LDIA 1
-LDIB 1
-SUB
-JMPZ
-HERE 1389
-JMP
-HERE 1391
-JMP
-HERE 1528
-AIN 8 , load variable 'keyInput'
-LDIB 8 , load small integer
-SUB , operator ==
-JMPZ
-HERE 1398
-JMP
-HERE 1405
-LDIA 1 , load small integer
-STA 6 , store value in variable 'playing'
-LDIA 10 , load small integer
-STLGE
-HERE 61303 , store value in pointer
-JMP
-HERE 1528
-AIN 8 , load variable 'keyInput'
-LDIB 10 , load small integer
-SUB , operator ==
-JMPZ
-HERE 1415
-JMP
-HERE 1412
-LDIA 0
-JMP
-HERE 1416
-LDIA 1
-LDIB 0
-SUB
-JMPZ
-HERE 1457
-AIN 2 , load variable 'selection'
-LDIB 3 , load small integer
-SUB , operator <
-JMPZ
-HERE 1429
 JMPC
-HERE 1429
+HERE 1351
 JMP
-HERE 1432
-LDIA 0
-JMP
-HERE 1433
-LDIA 1
-LDIB 0
-SUB
-JMPZ
-HERE 1457
-JMP
-HERE 1439
-LDIA 372
-SWPC
-LDIB 1444
-JMP
-HERE 762
-AIN 25
-AIN 2 , load variable 'selection'
-LDIB 1 , load small integer
+HERE 1330
+AIN 15
+LDIB 64
+MULT
+STA 16
+AIN 16
+BIN 14
 ADD
-STA 2 , store value in variable 'selection'
-LDIA 490
-SWPC
-LDIB 1454
-JMP
-HERE 762
-AIN 25
-JMP
-HERE 1528
-AIN 8 , load variable 'keyInput'
-LDIB 9 , load small integer
-SUB , operator ==
-JMPZ
-HERE 1467
-JMP
-HERE 1464
-LDIA 0
-JMP
-HERE 1468
-LDIA 1
-LDIB 0
-SUB
-JMPZ
-HERE 1509
-AIN 2 , load variable 'selection'
-LDIB 0 , load small integer
-SUB , operator >
-JMPZ
-HERE 1481
-JMPC
-HERE 1484
-JMP
-HERE 1481
-LDIA 0
-JMP
-HERE 1485
-LDIA 1
-LDIB 0
-SUB
-JMPZ
-HERE 1509
-JMP
-HERE 1491
-LDIA 372
-SWPC
-LDIB 1496
-JMP
-HERE 762
-AIN 25
-AIN 2 , load variable 'selection'
-LDIB 1 , load small integer
-SUB
-STA 2 , store value in variable 'selection'
-LDIA 490
-SWPC
-LDIB 1506
-JMP
-HERE 762
-AIN 25
-JMP
-HERE 1528
-AIN 8 , load variable 'keyInput'
-LDIB 72 , load small integer
-SUB , operator ==
-JMPZ
-HERE 1516
-JMP
-HERE 1522
-AIN 7 , load variable 'trackerLocation'
-LDIB 2 , load small integer
-ADD
-STA 7 , store value in variable 'trackerLocation'
-JMP
-HERE 1528
-LDIA 702
-SWPC
-LDIB 1527
-JMP
-HERE 762
-AIN 25
-LDIA 608
-SWPC
-LDIB 1533
-JMP
-HERE 762
-AIN 25
-LDIA 683
-SWPC
-LDIB 1539
-JMP
-HERE 762
-AIN 25
-AIN 8 , load variable 'keyInput'
-STA 9 , store value in variable 'lastKey'
-AIN 6 , load variable 'playing'
-LDIB 1 , load small integer
-SUB , operator ==
-JMPZ
-HERE 1549
-JMP
-HERE 1815
-LDIA 0 , load small integer
-STA 7 , store value in variable 'trackerLocation'
-LDIA 15 , load small integer
-STA 11 , store value in variable 'maxSize'
-AIN 11 , load variable 'maxSize'
-LDIB 1 , load small integer
-SUB
-STA 11 , store value in variable 'maxSize'
-AIN 7 , load variable 'trackerLocation'
-BIN 11
-SUB , operator <
-JMPZ
-HERE 1566
-JMPC
-HERE 1566
-JMP
-HERE 1569
-LDIA 0
-JMP
-HERE 1570
-LDIA 1
-LDIB 0
-SUB
-JMPZ
-HERE 1800
-AIN 6 , load variable 'playing'
-LDIB 1 , load small integer
-SUB , operator ==
-JMPZ
-HERE 1584
-JMP
-HERE 1581
-LDIA 0
-JMP
-HERE 1585
-LDIA 1
-LDIB 0
-SUB
-JMPZ
-HERE 1800
-JMP
-HERE 1591
-LDIA 608
-SWPC
-LDIB 1596
-JMP
-HERE 762
-AIN 25
-LDIA 683
-SWPC
-LDIB 1602
-JMP
-HERE 762
-AIN 25
-RDEXP
-STA 8
-AIN 8 , load variable 'keyInput'
-LDIB 255 , load small integer
-AND
-STA 8 , store value in variable 'keyInput'
-AIN 8 , load variable 'keyInput'
-BIN 9
-SUB , operator !=
-JMPZ
-HERE 1628
-JMP
-HERE 1616
-AIN 8 , load variable 'keyInput'
-LDIB 8 , load small integer
-SUB , operator ==
-JMPZ
-HERE 1623
-JMP
-HERE 1628
-LDIA 0 , load small integer
-STA 6 , store value in variable 'playing'
-LDIA 1 , load small integer
-STLGE
-HERE 61303 , store value in pointer
-AIN 8 , load variable 'keyInput'
-STA 9 , store value in variable 'lastKey'
-LDIA 0 , load small integer
-STA 5 , store value in variable 'freqVal'
-LDIA 1828
+STA 16
+LDW
+HERE 61439
 SWP
-AIN 7 , load variable 'trackerLocation'
-ADD , add to pointer address
-LDAIN
-STA 3 , store value in variable 'curChar'
-LDIA 27
-SWPC
-LDIB 1643
-JMP
-HERE 762
-AIN 25
-AIN 5 , load variable 'freqVal'
-LDIB 11 , load small integer
-BSL
-STA 5 , store value in variable 'freqVal'
-AIN 5 , load variable 'freqVal'
-LDIB 256 , load small integer
+AIN 16
 ADD
-STA 5 , store value in variable 'freqVal'
-AIN 5
-WREXP
-AIN 7 , load variable 'trackerLocation'
-LDIB 17 , load small integer
-SUB , operator <
-JMPZ
-HERE 1687
-JMPC
-HERE 1687
-JMP
-HERE 1663
-LDIA 0 , load small integer
-STA 5 , store value in variable 'freqVal'
-LDIA 1843
-SWP
-AIN 7 , load variable 'trackerLocation'
-ADD , add to pointer address
-LDAIN
-STA 3 , store value in variable 'curChar'
-LDIA 27
-SWPC
-LDIB 1676
-JMP
-HERE 762
-AIN 25
-AIN 5 , load variable 'freqVal'
-LDIB 11 , load small integer
-BSL
-STA 5 , store value in variable 'freqVal'
-AIN 5 , load variable 'freqVal'
-LDIB 512 , load small integer
-ADD
-STA 5 , store value in variable 'freqVal'
-AIN 5
-WREXP
-AIN 7 , load variable 'trackerLocation'
-LDIB 15 , load small integer
-SUB , operator <
-JMPZ
-HERE 1720
-JMPC
-HERE 1720
-JMP
-HERE 1696
-LDIA 0 , load small integer
-STA 5 , store value in variable 'freqVal'
-LDIA 1860
-SWP
-AIN 7 , load variable 'trackerLocation'
-ADD , add to pointer address
-LDAIN
-STA 3 , store value in variable 'curChar'
-LDIA 27
-SWPC
-LDIB 1709
-JMP
-HERE 762
-AIN 25
-AIN 5 , load variable 'freqVal'
-LDIB 11 , load small integer
-BSL
-STA 5 , store value in variable 'freqVal'
-AIN 5 , load variable 'freqVal'
-LDIB 768 , load small integer
-ADD
-STA 5 , store value in variable 'freqVal'
-AIN 5
-WREXP
-AIN 7 , load variable 'trackerLocation'
-LDIB 15 , load small integer
-SUB , operator <
-JMPZ
-HERE 1753
-JMPC
-HERE 1753
-JMP
-HERE 1729
-LDIA 0 , load small integer
-STA 5 , store value in variable 'freqVal'
-LDIA 1875
-SWP
-AIN 7 , load variable 'trackerLocation'
-ADD , add to pointer address
-LDAIN
-STA 3 , store value in variable 'curChar'
-LDIA 27
-SWPC
-LDIB 1742
-JMP
-HERE 762
-AIN 25
-AIN 5 , load variable 'freqVal'
-LDIB 11 , load small integer
-BSL
-STA 5 , store value in variable 'freqVal'
-AIN 5 , load variable 'freqVal'
-LDIB 1024 , load small integer
-ADD
-STA 5 , store value in variable 'freqVal'
-AIN 5
-WREXP
-LDIA 0 , load small integer
-STA 12 , store value in variable 'l'
-JMP
-HERE 1761
-AIN 12 , load variable 'l'
-LDIB 1
-ADD , increment value
-STA 12 , store value in variable 'l'
-AIN 12 , load variable 'l'
 SWP
 LDW
-HERE 9000 , load large integer
+HERE 5293
 SWP
-SUB , operator <
+STAOUT
+STAOUT
+JMP
+HERE 1310
+JMP
+HERE 1291
+AIN 13
+LDIB 1
+ADD
+STA 13
+JMP
+HERE 1274
+LDIA 2
+STA 13
+JMP
+HERE 1367
+AIN 13
+LDIB 1
+ADD
+STA 13
+AIN 13
+LDIB 10
+SUB
 JMPZ
-HERE 1794
+HERE 1448
 JMPC
-HERE 1794
+HERE 1448
+JMP
+HERE 1376
+LDIA 0
+STA 14
+JMP
+HERE 1384
+AIN 14
+LDIB 1
+ADD
+STA 14
+AIN 14
+LDIB 17
+SUB
+JMPZ
+HERE 1442
+JMPC
+HERE 1442
+JMP
+HERE 1393
+AIN 13
+LDIB 6
+MULT
+STA 15
+JMP
+HERE 1403
+AIN 15
+LDIB 1
+ADD
+STA 15
+AIN 15
+STA 21
+AIN 13
+LDIB 6
+MULT
+LDIB 6
+ADD
+BIN 21
+SWP
+SUB
+JMPZ
+HERE 1440
+JMPC
+HERE 1440
+JMP
+HERE 1419
+AIN 15
+LDIB 64
+MULT
+STA 16
+AIN 16
+BIN 14
+ADD
+STA 16
+LDW
+HERE 61439
+SWP
+AIN 16
+ADD
+SWP
+LDW
+HERE 4234
+SWP
+STAOUT
+STAOUT
+JMP
+HERE 1399
+JMP
+HERE 1380
+AIN 13
+LDIB 1
+ADD
+STA 13
+JMP
+HERE 1363
+LDIA 10
+STLGE
+HERE 61345
+LDW
+HERE 65535
+STLGE
+HERE 63496
+LDW
+HERE 65535
+STLGE
+HERE 63497
+LDW
+HERE 65535
+STLGE
+HERE 63432
+LDW
+HERE 65535
+STLGE
+HERE 63560
+LDIA 1
+STA 13
+JMP
+HERE 1475
+AIN 13
+LDIB 1
+ADD
+STA 13
+AIN 13
+LDIB 11
+SUB
+JMPZ
+HERE 1556
+JMPC
+HERE 1556
+JMP
+HERE 1484
+LDIA 18
+STA 14
+JMP
+HERE 1492
+AIN 14
+LDIB 1
+ADD
+STA 14
+AIN 14
+LDIB 60
+SUB
+JMPZ
+HERE 1550
+JMPC
+HERE 1550
+JMP
+HERE 1501
+AIN 13
+LDIB 6
+MULT
+STA 15
+JMP
+HERE 1511
+AIN 15
+LDIB 1
+ADD
+STA 15
+AIN 15
+STA 22
+AIN 13
+LDIB 6
+MULT
+LDIB 6
+ADD
+BIN 22
+SWP
+SUB
+JMPZ
+HERE 1548
+JMPC
+HERE 1548
+JMP
+HERE 1527
+AIN 15
+LDIB 64
+MULT
+STA 16
+AIN 16
+BIN 14
+ADD
+STA 16
+LDW
+HERE 61439
+SWP
+AIN 16
+ADD
+SWP
+LDW
+HERE 4229
+SWP
+STAOUT
+STAOUT
+JMP
+HERE 1507
+JMP
+HERE 1488
+AIN 13
+LDIB 1
+ADD
+STA 13
+JMP
+HERE 1471
+LDIA 2
+STA 13
+JMP
+HERE 1564
+AIN 13
+LDIB 1
+ADD
+STA 13
+AIN 13
+LDIB 10
+SUB
+JMPZ
+HERE 1645
+JMPC
+HERE 1645
+JMP
+HERE 1573
+LDIA 18
+STA 14
+JMP
+HERE 1581
+AIN 14
+LDIB 1
+ADD
+STA 14
+AIN 14
+LDIB 60
+SUB
+JMPZ
+HERE 1639
+JMPC
+HERE 1639
+JMP
+HERE 1590
+AIN 13
+LDIB 6
+MULT
+STA 15
+JMP
+HERE 1600
+AIN 15
+LDIB 1
+ADD
+STA 15
+AIN 15
+STA 23
+AIN 13
+LDIB 6
+MULT
+LDIB 6
+ADD
+BIN 23
+SWP
+SUB
+JMPZ
+HERE 1637
+JMPC
+HERE 1637
+JMP
+HERE 1616
+AIN 15
+LDIB 64
+MULT
+STA 16
+AIN 16
+BIN 14
+ADD
+STA 16
+LDW
+HERE 61439
+SWP
+AIN 16
+ADD
+SWP
+LDW
+HERE 3171
+SWP
+STAOUT
+STAOUT
+JMP
+HERE 1596
+JMP
+HERE 1577
+AIN 13
+LDIB 1
+ADD
+STA 13
+JMP
+HERE 1560
+LDIA 26
+STA 13
+JMP
+HERE 1653
+AIN 13
+LDIB 1
+ADD
+STA 13
+AIN 13
+LDIB 60
+SUB
+JMPZ
+HERE 1710
+JMPC
+HERE 1710
+JMP
+HERE 1662
+LDIA 6
+STA 14
+JMP
+HERE 1670
+AIN 14
+LDIB 1
+ADD
+STA 14
+AIN 14
+LDIB 60
+SUB
+JMPZ
+HERE 1704
+JMPC
+HERE 1704
+JMP
+HERE 1679
+AIN 14
+LDIB 64
+MULT
+STA 15
+AIN 15
+BIN 13
+ADD
+STA 15
+LDW
+HERE 61439
+SWP
+AIN 15
+ADD
+SWP
+LDW
+HERE 12684
+SWP
+STAOUT
+STAOUT
+AIN 14
+LDIB 1
+ADD
+STA 14
+JMP
+HERE 1666
+AIN 13
+LDIB 11
+ADD
+STA 13
+JMP
+HERE 1649
+LDAIN
+HERE 168
+WREXP
+LDIA 0
+STA 13
+LDIA 0
+STA 14
+LDIA 0
+STA 15
+LDIA 622
+SWPC
+LDIB 1724
+JMP
+HERE 1152
+AIN 30
+AIN 6
+LDIB 0
+SUB
+JMPZ
+HERE 1732
+JMP
+HERE 2014
+RDEXP
+STA 8
+AIN 8
+LDIB 255
+AND
+STA 8
+AIN 8
+BIN 9
+SUB
+JMPZ
+HERE 2012
+JMP
+HERE 1745
+AIN 8
+LDIB 71
+SUB
+JMPZ
+HERE 1752
+JMP
+HERE 1764
+AIN 7
+LDIB 1
+SUB
+STA 7
+LDIA 395
+SWPC
+LDIB 1761
+JMP
+HERE 1152
+AIN 30
+JMP
+HERE 2000
+AIN 8
+LDIB 13
+SUB
+JMPZ
+HERE 1776
+JMPC
+HERE 1776
 JMP
 HERE 1773
-LDIA 0 , load small integer
-STA 13 , store value in variable 'o'
+LDIA 0
 JMP
-HERE 1781
-AIN 13 , load variable 'o'
-LDIB 1
-ADD , increment value
-STA 13 , store value in variable 'o'
-AIN 13 , load variable 'o'
-LDIB 1 , load small integer
-SUB , operator <
+HERE 1777
+LDIA 1
+LDIB 0
+SUB
 JMPZ
-HERE 1792
+HERE 1865
+AIN 8
+LDIB 61
+SUB
+JMPZ
+HERE 1793
 JMPC
-HERE 1792
-JMP
 HERE 1790
 JMP
-HERE 1777 , jump to next iteration
+HERE 1793
+LDIA 0
 JMP
-HERE 1757 , jump to next iteration
-AIN 7 , load variable 'trackerLocation'
-LDIB 2 , load small integer
-ADD
-STA 7 , store value in variable 'trackerLocation'
+HERE 1794
+LDIA 1
+LDIB 0
+SUB
+JMPZ
+HERE 1865
 JMP
-HERE 1557
-LDIA 256
-WREXP
-LDIA 512
-WREXP
-LDIA 768
-WREXP
-LDIA 1024
-WREXP
-LDIA 0 , load small integer
-STA 7 , store value in variable 'trackerLocation'
-LDIA 0 , load small integer
-STA 6 , store value in variable 'playing'
-LDIA 1 , load small integer
+HERE 1800
+AIN 8
+LDIB 36
+SUB
+JMPZ
+HERE 1807
+JMP
+HERE 1810
+LDIA 0
+JMP
+HERE 1811
+LDIA 1
+LDIB 0
+SUB
+JMPZ
+HERE 1832
+AIN 8
+LDIB 37
+SUB
+JMPZ
+HERE 1822
+JMP
+HERE 1825
+LDIA 0
+JMP
+HERE 1826
+LDIA 1
+LDIB 0
+SUB
+JMPZ
+HERE 1832
+JMP
+HERE 1835
+LDIA 0
+JMP
+HERE 1836
+LDIA 1
+LDIB 0
+SUB
+JMPZ
+HERE 1863
+AIN 8
+LDIB 38
+SUB
+JMPZ
+HERE 1847
+JMP
+HERE 1850
+LDIA 0
+JMP
+HERE 1851
+LDIA 1
+LDIB 0
+SUB
+JMPZ
+HERE 1863
+JMP
+HERE 1857
+LDIA 1088
+SWPC
+LDIB 1862
+JMP
+HERE 1152
+AIN 30
+JMP
+HERE 2000
+AIN 8
+LDIB 8
+SUB
+JMPZ
+HERE 1872
+JMP
+HERE 1879
+LDIA 1
+STA 6
+LDIA 10
 STLGE
-HERE 61303 , store value in pointer
+HERE 61303
 JMP
-HERE 1324
+HERE 2000
+AIN 8
+LDIB 10
+SUB
+JMPZ
+HERE 1889
 JMP
-HERE 1817
+HERE 1886
+LDIA 0
 JMP
 HERE 1890
-HERE 25 , string 'musical'
-HERE 33
-HERE 31
-HERE 21
-HERE 15
-HERE 13
-HERE 24
-HERE 39 , string '0 1 2 3 4 5 6 7'
-HERE 0
-HERE 40
-HERE 0
-HERE 41
-HERE 0
-HERE 42
-HERE 0
-HERE 43
-HERE 0
-HERE 44
-HERE 0
-HERE 45
-HERE 0
-HERE 46
-HERE 39 , string '0 1 2 3 4 5 6 7 0'
-HERE 0
-HERE 40
-HERE 0
-HERE 41
-HERE 0
-HERE 42
-HERE 0
-HERE 43
-HERE 0
-HERE 44
-HERE 0
-HERE 45
-HERE 0
-HERE 46
-HERE 0
-HERE 39
-HERE 28 , string 'P 0 0 0 0 0 0 0'
-HERE 0
-HERE 39
-HERE 0
-HERE 39
-HERE 0
-HERE 39
-HERE 0
-HERE 39
-HERE 0
-HERE 39
-HERE 0
-HERE 39
-HERE 0
-HERE 39
-HERE 16 , string 'D 0 0 0 0 0 0 0'
-HERE 0
-HERE 39
-HERE 0
-HERE 39
-HERE 0
-HERE 39
-HERE 0
-HERE 39
-HERE 0
-HERE 39
-HERE 0
-HERE 39
-HERE 0
-HERE 39
+LDIA 1
+LDIB 0
+SUB
+JMPZ
+HERE 1931
+AIN 2
+LDIB 3
+SUB
+JMPZ
+HERE 1903
+JMPC
+HERE 1903
+JMP
+HERE 1906
+LDIA 0
+JMP
+HERE 1907
+LDIA 1
+LDIB 0
+SUB
+JMPZ
+HERE 1931
+JMP
+HERE 1913
+LDIA 504
+SWPC
+LDIB 1918
+JMP
+HERE 1152
+AIN 30
+AIN 2
+LDIB 1
+ADD
+STA 2
+LDIA 622
+SWPC
+LDIB 1928
+JMP
+HERE 1152
+AIN 30
+JMP
+HERE 2000
+AIN 8
+LDIB 9
+SUB
+JMPZ
+HERE 1941
+JMP
+HERE 1938
+LDIA 0
+JMP
+HERE 1942
+LDIA 1
+LDIB 0
+SUB
+JMPZ
+HERE 1983
+AIN 2
+LDIB 0
+SUB
+JMPZ
+HERE 1955
+JMPC
+HERE 1958
+JMP
+HERE 1955
+LDIA 0
+JMP
+HERE 1959
+LDIA 1
+LDIB 0
+SUB
+JMPZ
+HERE 1983
+JMP
+HERE 1965
+LDIA 504
+SWPC
+LDIB 1970
+JMP
+HERE 1152
+AIN 30
+AIN 2
+LDIB 1
+SUB
+STA 2
+LDIA 622
+SWPC
+LDIB 1980
+JMP
+HERE 1152
+AIN 30
+JMP
+HERE 2000
+AIN 8
+LDIB 72
+SUB
+JMPZ
+HERE 1990
+JMP
+HERE 2000
+AIN 7
+LDIB 1
+ADD
+STA 7
+LDIA 348
+SWPC
+LDIB 1999
+JMP
+HERE 1152
+AIN 30
+LDIA 737
+SWPC
+LDIB 2005
+JMP
+HERE 1152
+AIN 30
+LDIA 1071
+SWPC
+LDIB 2011
+JMP
+HERE 1152
+AIN 30
+AIN 8
+STA 9
+AIN 6
+LDIB 1
+SUB
+JMPZ
+HERE 2021
+JMP
+HERE 2291
+LDIA 0
+STA 7
+LDIA 148
+STA 16
+AIN 16
+LDIB 1
+SUB
+STA 16
+AIN 7
+BIN 16
+SUB
+JMPZ
+HERE 2038
+JMPC
+HERE 2038
+JMP
+HERE 2041
+LDIA 0
+JMP
+HERE 2042
+LDIA 1
+LDIB 0
+SUB
+JMPZ
+HERE 2276
+AIN 6
+LDIB 1
+SUB
+JMPZ
+HERE 2056
+JMP
+HERE 2053
+LDIA 0
+JMP
+HERE 2057
+LDIA 1
+LDIB 0
+SUB
+JMPZ
+HERE 2276
+JMP
+HERE 2063
+LDIA 737
+SWPC
