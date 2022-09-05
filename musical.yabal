@@ -8,11 +8,11 @@ const var pixels = create_pointer(61439)
 // const var channelD = "0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D "
 
 const var channelA = "PPPPP000PPPPP00000PPPPP0000KKKKK0000PPPPP0000UUUUUUUU0000000FFFFFF00000000000DDDDD00000FFFFF00000DDDDD000HHHHH000JJJJJ000JJJJJ000HHHHH000FFFFF000000"
-const var channelB = "DDDDD000DDDDD00000DDDDD0000AAAAA0000DDDDD0000FFFFFFFF000000077777700000000000KKKKK00000AAAAA00000AAAAA000AAAAA000BBBBB000BBBBB000AAAAA000AAAAA000000"
+const var channelB = "DDDDD000DDDDD00000DDDDD0000AAAAA0000DDDDD0000FFFFFFFF000000077777700000000000KKKKK00000AAAAA00000AAAAA000AAAAA000BBBBB000BBBBB000AAAAA000AAAAA00000000000000"
 //const var channelB = "A 0 0 0 0 "
-const var channelC = "00000000"
-//const var channelD = "D 0 0 0 0 0 0 0"
-const var channelD = "7770000777000000777000000777000000077700000077700000000000777000"
+const var channelC = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+const var channelD = "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+//const var channelD = "7770000777000000777000000777000000077700000077700000000000777000"
 
 
 // const var channelC = "03 03 03 03 03 03 00 00 00 00 06 06 06 06 06 06 00 00 00 00 03 03 03 03 03 03 00 00 00 00 06 06 06 06 06 06 00 00 00 00 03 03 03 03 03 03 00 00 00 00 05 05 05 05 05 05 00 00 00 00 03 03 03 03 03 03 00 00 00 00 05 05 05 05 05 05 00 00 00 00 00 00 00"
@@ -30,43 +30,28 @@ var trackerLocation = 0
 var keyInput = 168
 var lastKey = 168
 
-var b36cA = 0
+var b36cA = 5
 var b36cB = 0
 var b36cC = 0
 
 
 // Print title to char mem
-for(var i = 0; i < sizeof(title); i++){
+for(var i = 0; i < sizeof(title); i++)
     chars[i] = title[i]
-}
 // Print paused char
 chars[9] = 1
 
 
 
 // Draw background on left side of screen
-for(var sectionCount = 1; sectionCount < 11; sectionCount++){
-    for(var x = 0; x < 17; x++){
-        for(var y = sectionCount*6; y < (sectionCount*6)+6; y++){
-            var realLoc = (y * 64)
-            realLoc += x
-            pixels[realLoc] = 5293
-            // pixels[realLoc] = 4234
-        }
-    }
-    sectionCount += 1
-}
-for(var sectionCount = 2; sectionCount < 10; sectionCount++){
-    for(var x = 0; x < 17; x++){
-        for(var y = sectionCount*6; y < (sectionCount*6)+6; y++){
-            var realLoc = (y * 64)
-            realLoc += x
-            //pixels[realLoc] = 5293
-            pixels[realLoc] = 4234
-        }
-    }
-    sectionCount += 1
-}
+for(var sectionCount = 1; sectionCount < 11; sectionCount += 2)
+    for(var x = 0; x < 17; x++)
+        for(var y = sectionCount*6; y < (sectionCount*6)+6; y++)
+            pixels[(y * 64)+x] = 5293
+for(var sectionCount = 2; sectionCount < 10; sectionCount += 2)
+    for(var x = 0; x < 17; x++)
+        for(var y = sectionCount*6; y < (sectionCount*6)+6; y++)
+            pixels[(y * 64)+x] = 4234
 
 // Print arrow to show where the tracker currently is
 chars[51] = 10
@@ -76,39 +61,19 @@ pixels[1993] = 65535
 pixels[2121] = 65535
 
 
-for(var sectionCount = 1; sectionCount < 11; sectionCount++){
-    for(var x = 18; x < 60; x++){
-        for(var y = sectionCount*6; y < (sectionCount*6)+6; y++){
-            var realLoc = (y * 64)
-            realLoc += x
-            pixels[realLoc] = 4229
-            // pixels[realLoc] = 4234
-        }
-    }
-    sectionCount += 1
-}
-for(var sectionCount = 2; sectionCount < 10; sectionCount++){
-    for(var x = 18; x < 60; x++){
-        for(var y = sectionCount*6; y < (sectionCount*6)+6; y++){
-            var realLoc = (y * 64)
-            realLoc += x
-            //pixels[realLoc] = 5293
-            pixels[realLoc] = 3171
-        }
-    }
-    sectionCount += 1
-}
+for(var sectionCount = 1; sectionCount < 11; sectionCount += 2)
+    for(var x = 18; x < 60; x++)
+        for(var y = sectionCount*6; y < (sectionCount*6)+6; y++)
+            pixels[(y * 64)+x] = 4229
+for(var sectionCount = 2; sectionCount < 10; sectionCount += 2)
+    for(var x = 18; x < 60; x++)
+        for(var y = sectionCount*6; y < (sectionCount*6)+6; y++)
+            pixels[(y * 64)+x] = 3171
 
 // Draw dividing lines between tracks
-for(var x = 26; x < 60; x++){
-    for(var y = 6; y < 60; y++){
-        var realLoc = (y * 64)
-        realLoc += x
-        pixels[realLoc] = 12684
-        y += 1
-    }
-    x += 11
-}
+for(var x = 26; x < 60; x += 11)
+    for(var y = 6; y < 60; y += 2)
+        pixels[(y * 64)+x] = 12684
 
 // Clear expansion port value
 asm{
@@ -155,56 +120,56 @@ void GetFreq(){
 
 void B36Increase(){
     b36cA += 1
-    if(b36cA >= 36){
+    if(b36cA == 36){
         b36cA = 0
         b36cB += 1
     }
-    if(b36cB >= 36){
+    if(b36cB == 36){
         b36cB = 0
         b36cC += 1
     }
-    if(b36cC >= 36){
+    if(b36cC == 36)
         b36cC = 0
-    }
 }
 
 void B36Decrease(){
     b36cA -= 1
-    if(b36cA == 65535){
+    if(b36cA == 65534){
         b36cA = 35
         b36cB -= 1
     }
-    if(b36cB == 65535){
+    if(b36cB == 65534){
         b36cB = 35
         b36cC -= 1
     }
-    if(b36cC == 65535){
+    if(b36cC == 65534)
         b36cC = 35
-    }
 }
 
 var b36charA = 0
 var b36charB = 0
 var b36charC = 0
 void B36ToChar(){
-    if(b36cA<=9){
-        b36charA = b36cA + 39
-    }
-    else {
-        b36charA = b36cA + 13
-    }
-    if(b36cB<=9){
-        b36charB = b36cB + 39
-    }
-    else {
-        b36charB = b36cB + 13
-    }
     if(b36cC<=9){
         b36charC = b36cC + 39
+        if(b36charC=='0')
+            b36charC=0
     }
-    else {
-        b36charC = b36cC + 13
+    else
+        b36charC = b36cC + 3
+
+    if(b36cB<=9){
+        b36charB = b36cB + 39
+        if(b36charB=='0' && b36charC == 0)
+            b36charB=0
     }
+    else
+        b36charB = b36cB + 3
+
+    if(b36cA<=9)
+        b36charA = b36cA + 39
+    else
+        b36charA = b36cA + 3
 }
 
 void ClearCurrectSelection(){
@@ -228,12 +193,8 @@ void ClearCurrectSelection(){
     }
 
     for(var x = xPos; x < xPos + xWidth; x++)
-        for(var y = 30; y < 30 + 6; y++){
-            var realLoc = (y * 64)
-            realLoc += x
-            pixels[realLoc] = 4229
-            //pixels[realLoc] = 31744
-        }
+        for(var y = 30; y < 30 + 6; y++)
+            pixels[(y * 64)+x] = 4229
 }
 
 void DrawNewSelection(){
@@ -257,27 +218,13 @@ void DrawNewSelection(){
     }
 
     for(var x = xPos; x < xPos + xWidth; x++)
-        for(var y = 30; y < 30 + 6; y++){
-            var realLoc = (y * 64)
-            realLoc += x
-            pixels[realLoc] = 2247
-            //pixels[realLoc] = 31744
-        }
+        for(var y = 30; y < 30 + 6; y++)
+            pixels[(y * 64) + x] = 2345
 }
 
 void UpdateTrackerValues(){
-    chars[50] = trackerLocation
-    
     for(var i = 1; i < 10; i++){
-        
-        if(trackerLocation-5+i>65530){
-            chars[(i*10)+3] = ' '
-            chars[(i*10)+5] = ' '
-            chars[(i*10)+7] = ' '
-            chars[(i*10)+9] = ' '
-            continue
-        }
-        if(trackerLocation-5+i >= sizeof(channelA)){
+        if(trackerLocation-5+i>65530 || trackerLocation-5+i >= sizeof(channelA)){
             chars[(i*10)+3] = ' '
             chars[(i*10)+5] = ' '
             chars[(i*10)+7] = ' '
@@ -306,14 +253,29 @@ void UpdateTrackerValues(){
 
 void UpdateTrackerIndexes(){
 
-    // if((binNum & 0b1111) <= 9){
-    //     digC = binNum+39
-    // }
-    B36ToChar()
-    
-    chars[40] = b36charA
-    chars[41] = b36charB
-    chars[42] = b36charC
+    for(var i = 0; i < 9; i++)
+        B36Decrease()
+
+    for(var i = 1; i < 10; i++){
+
+        B36Increase()
+
+        if(i == 5)
+            continue
+            
+        if(trackerLocation-5+i>65530 || trackerLocation-5+i >= sizeof(channelA)){
+            chars[(i*10)] = ' '
+            chars[(i*10)+1] = ' '
+            chars[(i*10)+2] = ' '
+            continue
+        }
+
+        B36ToChar()
+        
+        chars[i*10] = b36charC
+        chars[i*10+1] = b36charB
+        chars[i*10+2] = b36charA
+    }
 }
 
 void EditTrackerVal(){
@@ -339,11 +301,11 @@ while(true){
         }
         keyInput = keyInput & 255
         if(keyInput != lastKey){
-            if(keyInput == 71) { // Up arrow
+            if(keyInput == 71 && trackerLocation > 0) { // Up arrow
                 trackerLocation -= 1
                 B36Decrease()
             }
-            else if(keyInput == 72) { // Down arrow
+            else if(keyInput == 72 && trackerLocation < sizeof(channelA) - 1) { // Down arrow
                 trackerLocation += 1
                 B36Increase()
             }
@@ -361,7 +323,15 @@ while(true){
                 playing = 1
                 chars[9] = 10
             }
-            else if(keyInput >= 13 && keyInput <= 61) // If not a control key, use as input to change currect frequency
+            else if(keyInput == 70){ // backspace, return to beginning
+                trackerLocation = 0
+                b36cA = 5
+                b36cB = 0
+                b36cC = 0
+                UpdateTrackerValues()
+                UpdateTrackerIndexes()
+            }
+            else if(keyInput >= 13 && keyInput <= 61) // If not a control key, use as input to change current frequency
                 if(keyInput != 36 && keyInput != 37 && keyInput != 38)
                     EditTrackerVal()
 
@@ -372,8 +342,6 @@ while(true){
     }
 
     if (playing == 1) {
-        trackerLocation = 0
-
         // Iterate through all notes and play them
         var maxSize = sizeof(channelA)
         maxSize -= 1
@@ -388,12 +356,11 @@ while(true){
                 STA @keyInput
             }
             keyInput = keyInput & 255
-            if(keyInput != lastKey){
+            if(keyInput != lastKey)
                 if(keyInput == 8){ // '_' for pause/play
                     playing = 0
                     chars[9] = 1
                 }
-            }
             lastKey = keyInput
 
 
@@ -507,6 +474,7 @@ while(true){
             }
 
             trackerLocation += 1
+            B36Increase()
             
         }
 
@@ -524,7 +492,14 @@ while(true){
         }
 
 
-        trackerLocation = 0
+        // trackerLocation = 0
+
+        // b36cA = 5
+        // b36cB = 0
+        // b36cC = 0
+
+        UpdateTrackerValues()
+        UpdateTrackerIndexes()
 
         playing = 0
         chars[9] = 1
