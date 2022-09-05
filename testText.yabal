@@ -1,0 +1,8 @@
+const var chars = create_pointer(61294)
+const var message = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+
+while (true) {
+    for (var i = 0; i < sizeof(message); i++) {
+        chars[i] = message[i]
+    }
+}

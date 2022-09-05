@@ -1,322 +1,499 @@
 
 const var pixels = create_pointer(61439)
-// const var channelA="00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 30 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 09 08 07 06 05 04 03 02 01 00"
-const var channelA = "25 25 25 25 25 00 00 25 25 25 25 25 00 00 00 00 00 25 25 25 25 25 00 00 00 00 20 20 20 20 20 00 00 00 00 25 25 25 25 25 00 00 00 00 30 30 30 30 30 30 30 30 00 00 00 00 00 00 00 15 15 15 15 15 15 00 00 00 00 00 00 00 00 00 00 00 13 13 13 13 13 00 00 00 00 00 15 15 15 15 15 00 00 00 00 00 13 13 13 13 13 00 00 00 17 17 17 17 17 00 00 00 19 19 19 19 19 00 00 00 19 19 19 19 19 00 00 00 17 17 17 17 17 00 00 00 15 15 15 15 15 00 00 00 00 00 00"
-const var channelB = "13 13 13 13 13 00 00 13 13 13 13 13 00 00 00 00 00 13 13 13 13 13 00 00 00 00 10 10 10 10 10 00 00 00 00 13 13 13 13 13 00 00 00 00 15 15 15 15 15 15 15 15 00 00 00 00 00 00 00 07 07 07 07 07 07 00 00 00 00 00 00 00 00 00 00 00 20 20 20 20 20 00 00 00 00 00 10 10 10 10 10 00 00 00 00 00 10 10 10 10 10 00 00 00 10 10 10 10 10 00 00 00 11 11 11 11 11 00 00 00 11 11 11 11 11 00 00 00 10 10 10 10 10 00 00 00 10 10 10 10 10 00 00 00 00 00 00"
-const var channelC = "00 00 00 00 00"
-const var channelD = "07 07 07 00 00 00 00 07 07 07 00 00 00 00 00 00 07 07 07 00 00 00 00 00 00 07 07 07 00 00 00 00 00 00 00 07 07 07 00 00 00 00 00 00 07 07 07 00 00 00 00 00 00 00 00 00 00 00 07 07 07 00 00 00"
+
+const var channelA = "0 1 2 3 4 5 6 7 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"
+//const var channelA = "0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 0 1 2 3 4 5 6 7 8 9 A B C D"
+const var channelB = "0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 0 1 2 3 4 5 6 7 8 9 A B C D"
+// const var channelC = "0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D "
+// const var channelD = "0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D 0 1 2 3 4 5 6 7 8 9 A B C D "
+
+//const var channelA = "P P P P P 0 0 0 P P P P P 0 0 0 0 0 P P P P P 0 0 0 0 K K K K K 0 0 0 0 P P P P P 0 0 0 0 U U U U U U U U 0 0 0 0 0 0 0 F F F F F F 0 0 0 0 0 0 0 0 0 0 0 D D D D D 0 0 0 0 0 F F F F F 0 0 0 0 0 D D D D D 0 0 0 H H H H H 0 0 0 J J J J J 0 0 0 J J J J J 0 0 0 H H H H H 0 0 0 F F F F F 0 0 0 0 0 0"
+// const var channelB = "D D D D D 0 0 0 D D D D D 0 0 0 0 0 D D D D D 0 0 0 0 A A A A A 0 0 0 0 D D D D D 0 0 0 0 F F F F F F F F 0 0 0 0 0 0 0 7 7 7 7 7 7 0 0 0 0 0 0 0 0 0 0 0 K K K K K 0 0 0 0 0 A A A A A 0 0 0 0 0 A A A A A 0 0 0 A A A A A 0 0 0 B B B B B 0 0 0 B B B B B 0 0 0 A A A A A 0 0 0 A A A A A 0 0 0 0 0 0"
+//const var channelB = "A 0 0 0 0 "
+const var channelC = "P 0 0 0 0 "
+const var channelD = "D 0 0 0 0 "
+//const var channelD = "7 7 7 0 0 0 0 7 7 7 0 0 0 0 0 0 7 7 7 0 0 0 0 0 0 7 7 7 0 0 0 0 0 0 0 7 7 7 0 0 0 0 0 0 7 7 7 0 0 0 0 0 0 0 0 0 0 0 7 7 7 0 0 0"
+
+
 // const var channelC = "03 03 03 03 03 03 00 00 00 00 06 06 06 06 06 06 00 00 00 00 03 03 03 03 03 03 00 00 00 00 06 06 06 06 06 06 00 00 00 00 03 03 03 03 03 03 00 00 00 00 05 05 05 05 05 05 00 00 00 00 03 03 03 03 03 03 00 00 00 00 05 05 05 05 05 05 00 00 00 00 00 00 00"
 // const var channelD = "25 30 30 00 00 00 00 00 00 12 12 00 00 00 00 00 00 00 00 00 25 30 30 00 00 00 00 00 00 12 12 00 00 00 00 00 00 00 00 00 25 30 30 00 00 00 00 00 00 12 12 00 00 00 00 00 00 00 00 00 25 30 30 00 00 00 00 00 00 12 12 00 00 00 00 00 00 00 00 00 25 30 30"
 
 const var chars = create_pointer(61294)
 const var title = "musical"
 
+var selection = 0
+var curChar = 0
 var noteVal = 0
-var freqVal = 15
+var freqVal = 0
+var playing = 0
+var trackerLocation = 0
+var keyInput = 168
+var lastKey = 168
 
 
 // Print title to char mem
 for(var i = 0; i < sizeof(title); i++){
     chars[i] = title[i]
 }
+// Print paused char
+chars[9] = 1
+
+chars[40] = '1'
+chars[41] = 'f'
+chars[42] = 'v'
 
 
+// Draw background on left side of screen
+for(var sectionCount = 1; sectionCount < 11; sectionCount++){
+    for(var x = 0; x < 17; x++){
+        for(var y = sectionCount*6; y < (sectionCount*6)+6; y++){
+            var realLoc = (y * 64)
+            realLoc += x
+            pixels[realLoc] = 5293
+            // pixels[realLoc] = 4234
+        }
+    }
+    sectionCount += 1
+}
+for(var sectionCount = 2; sectionCount < 10; sectionCount++){
+    for(var x = 0; x < 17; x++){
+        for(var y = sectionCount*6; y < (sectionCount*6)+6; y++){
+            var realLoc = (y * 64)
+            realLoc += x
+            //pixels[realLoc] = 5293
+            pixels[realLoc] = 4234
+        }
+    }
+    sectionCount += 1
+}
 
-while (true) {
-    var i = 0
-
-    // Iterate through all notes and play them
-    var maxSize = sizeof(channelA)
-    maxSize -= 1
-    while(i < maxSize) {
-        if(channelA[i] == ' '){
-            i += 1
-        }
-        
-        ///////////////
-        // Channel A //
-        ///////////////
+// Print arrow to show where the tracker currently is
+chars[51] = 10
+pixels[2057] = 65535
+pixels[2058] = 65535
+pixels[1993] = 65535
+pixels[2121] = 65535
 
 
-        // Process new note
-        
-        freqVal = 0
-        // Get first digit of frequency
-        if (channelA[i] == '0'){
-            freqVal = 0
+for(var sectionCount = 1; sectionCount < 11; sectionCount++){
+    for(var x = 18; x < 60; x++){
+        for(var y = sectionCount*6; y < (sectionCount*6)+6; y++){
+            var realLoc = (y * 64)
+            realLoc += x
+            pixels[realLoc] = 4229
+            // pixels[realLoc] = 4234
         }
-        if (channelA[i] == '1'){
-            freqVal = 10
+    }
+    sectionCount += 1
+}
+for(var sectionCount = 2; sectionCount < 10; sectionCount++){
+    for(var x = 18; x < 60; x++){
+        for(var y = sectionCount*6; y < (sectionCount*6)+6; y++){
+            var realLoc = (y * 64)
+            realLoc += x
+            //pixels[realLoc] = 5293
+            pixels[realLoc] = 3171
         }
-        if (channelA[i] == '2'){
-            freqVal = 20
-        }
-        if (channelA[i] == '3'){
-            freqVal = 30
-        }
+    }
+    sectionCount += 1
+}
 
-        // Get second digit of frequency
-        if (channelA[i+1] == '0'){
-            freqVal += 0
-        }
-        if (channelA[i+1] == '1'){
-            freqVal += 1
-        }
-        if (channelA[i+1] == '2'){
-            freqVal += 2
-        }
-        if (channelA[i+1] == '3'){
-            freqVal += 3
-        }
-        if (channelA[i+1] == '4'){
-            freqVal += 4
-        }
-        if (channelA[i+1] == '5'){
-            freqVal += 5
-        }
-        if (channelA[i+1] == '6'){
-            freqVal += 6
-        }
-        if (channelA[i+1] == '7'){
-            freqVal += 7
-        }
-        if (channelA[i+1] == '8'){
-            freqVal += 8
-        }
-        if (channelA[i+1] == '9'){
-            freqVal += 9
-        }
-        
-        // Shift left
-        freqVal = freqVal << 11
+// Draw dividing lines between tracks
+for(var x = 26; x < 60; x++){
+    for(var y = 6; y < 60; y++){
+        var realLoc = (y * 64)
+        realLoc += x
+        pixels[realLoc] = 12684
+        y += 1
+    }
+    x += 11
+}
 
-        // // Also add channel ID
-        freqVal += 256
+// Clear expansion port value
+asm{
+    LDAIN 168
+    WREXP
+}
 
-        // Write note value to expansion port
+void GetFreq(){
+    if (curChar == '1'){
+        freqVal = 1
+    }
+    else if (curChar == '2'){
+        freqVal = 2
+    }
+    else if (curChar == '3'){
+        freqVal = 3
+    }
+    else if (curChar == '4'){
+        freqVal = 4
+    }
+    else if (curChar == '5'){
+        freqVal = 5
+    }
+    else if (curChar == '6'){
+        freqVal = 6
+    }
+    else if (curChar == '7'){
+        freqVal = 7
+    }
+    else if (curChar == '8'){
+        freqVal = 8
+    }
+    else if (curChar == '9'){
+        freqVal = 9
+    }
+    else if (curChar == 'A'){
+        freqVal = 10
+    }
+    else if (curChar == 'B'){
+        freqVal = 11
+    }
+    else if (curChar == 'C'){
+        freqVal = 12
+    }
+    else if (curChar == 'D'){
+        freqVal = 13
+    }
+    else if (curChar == 'E'){
+        freqVal = 14
+    }
+    else if (curChar == 'F'){
+        freqVal = 15
+    }
+    else if (curChar == 'G'){
+        freqVal = 16
+    }
+    else if (curChar == 'H'){
+        freqVal = 17
+    }
+    else if (curChar == 'I'){
+        freqVal = 18
+    }
+    else if (curChar == 'J'){
+        freqVal = 19
+    }
+    else if (curChar == 'K'){
+        freqVal = 20
+    }
+    else if (curChar == 'L'){
+        freqVal = 21
+    }
+    else if (curChar == 'M'){
+        freqVal = 22
+    }
+    else if (curChar == 'N'){
+        freqVal = 23
+    }
+    else if (curChar == 'O'){
+        freqVal = 24
+    }
+    else if (curChar == 'P'){
+        freqVal = 25
+    }
+    else if (curChar == 'Q'){
+        freqVal = 26
+    }
+    else if (curChar == 'R'){
+        freqVal = 27
+    }
+    else if (curChar == 'S'){
+        freqVal = 28
+    }
+    else if (curChar == 'T'){
+        freqVal = 29
+    }
+    else if (curChar == 'U'){
+        freqVal = 30
+    }
+    else if (curChar == 'V'){
+        freqVal = 31
+    }
+}
+
+void ClearCurrectSelection(){
+    var xPos = 18
+    var xWidth = 8
+    if(selection == 0){
+        xPos = 18
+        xWidth = 8
+    }
+    else if(selection == 1){
+        xPos = 27
+        xWidth = 11
+    }
+    else if(selection == 2){
+        xPos = 39
+        xWidth = 11
+    }
+    else if(selection == 3){
+        xPos = 51
+        xWidth = 9
+    }
+
+    for(var x = xPos; x < xPos + xWidth; x++){
+        for(var y = 30; y < 30 + 6; y++){
+            var realLoc = (y * 64)
+            realLoc += x
+            pixels[realLoc] = 4229
+            //pixels[realLoc] = 31744
+        }
+    }
+}
+
+void DrawNewSelection(){
+    var xPos = 18
+    var xWidth = 12
+    if(selection == 0){
+        xPos = 18
+        xWidth = 8
+    }
+    else if(selection == 1){
+        xPos = 27
+        xWidth = 11
+    }
+    else if(selection == 2){
+        xPos = 39
+        xWidth = 11
+    }
+    else if(selection == 3){
+        xPos = 51
+        xWidth = 9
+    }
+
+    for(var x = xPos; x < xPos + xWidth; x++){
+        for(var y = 30; y < 30 + 6; y++){
+            var realLoc = (y * 64)
+            realLoc += x
+            pixels[realLoc] = 2247
+            //pixels[realLoc] = 31744
+        }
+    }
+}
+
+void UpdateTrackerValues(){
+    chars[50] = trackerLocation
+    
+    chars[53] = channelA[trackerLocation]
+    
+    if(trackerLocation < sizeof(channelB)){
+        chars[55] = channelB[trackerLocation]
+    }
+    else {
+        chars[55] = '0'
+    }
+    if(trackerLocation < sizeof(channelC)){
+        chars[57] = channelC[trackerLocation]
+    }
+    else {
+        chars[57] = '0'
+    }
+    if(trackerLocation < sizeof(channelD)){
+        chars[59] = channelD[trackerLocation]
+    }
+    else {
+        chars[59] = '0'
+    }
+}
+
+// Draw the selection box for the first time
+DrawNewSelection()
+
+while(true){
+    if(playing == 0){
+        // Read key input from expansion port
         asm{
-            AIN @freqVal
+            RDEXP
+            STA @keyInput
+        }
+        keyInput = keyInput & 255
+        if(keyInput != lastKey){
+            if(keyInput == 71){
+                trackerLocation -= 2
+            }
+            if(keyInput == 72){
+                trackerLocation += 2
+            }
+            if(keyInput == 9 && selection > 0){
+                ClearCurrectSelection()
+                selection -= 1
+                DrawNewSelection()
+            }
+            if(keyInput == 10 && selection < 3){
+                ClearCurrectSelection()
+                selection += 1
+                DrawNewSelection()
+            }
+            if(keyInput == 28){
+                playing = 1
+                chars[9] = 10
+            }
+            UpdateTrackerValues()
+        }
+        lastKey = keyInput
+    }
+
+    if (playing == 1) {
+        trackerLocation = 0
+
+        // Iterate through all notes and play them
+        var maxSize = sizeof(channelA)
+        maxSize -= 1
+        while(trackerLocation < maxSize && playing == 1) {
+            
+            UpdateTrackerValues()
+
+            // Read key input from expansion port
+            asm{
+                RDEXP
+                STA @keyInput
+            }
+            keyInput = keyInput & 255
+            if(keyInput != lastKey){
+                if(keyInput == 28){
+                    playing = 0
+                    chars[9] = 1
+                }
+            }
+            lastKey = keyInput
+
+
+
+            // if(channelA[trackerLocation] == ' '){
+            //     trackerLocation += 1
+            // }
+            
+            ///////////////
+            // Channel A //
+            ///////////////
+
+
+            // Process new note
+            
+            freqVal = 0
+            curChar = channelA[trackerLocation]
+            GetFreq()
+            
+            // Shift left
+            freqVal = freqVal << 11
+
+            // // Also add channel ID
+            freqVal += 256
+
+            // Write note value to expansion port
+            asm{
+                AIN @freqVal
+                WREXP
+            }
+
+
+
+            ///////////////
+            // Channel B //
+            ///////////////
+
+            if(trackerLocation < sizeof(channelB)){
+                // Process new note
+
+                freqVal = 0
+                curChar = channelB[trackerLocation]
+                GetFreq()
+
+                // Shift left
+                freqVal = freqVal << 11
+
+                // // Also add channel ID
+                freqVal += 512
+
+                // Write note value to expansion port
+                asm{
+                    AIN @freqVal
+                    WREXP
+                }
+            }
+
+
+
+            ///////////////
+            // Channel C //
+            ///////////////
+
+            if(trackerLocation < sizeof(channelC)){
+                // Process new note
+
+                freqVal = 0
+                curChar = channelC[trackerLocation]
+                GetFreq()
+
+                // Shift left
+                freqVal = freqVal << 11
+
+                // // Also add channel ID
+                freqVal += 768
+
+                // Write note value to expansion port
+                asm{
+                    AIN @freqVal
+                    WREXP
+                }
+            }
+
+
+
+            ///////////////
+            // Channel D //
+            ///////////////
+            
+            if(trackerLocation < sizeof(channelD)){
+                // Process new note
+
+                freqVal = 0
+                curChar = channelD[trackerLocation]
+                GetFreq()
+
+                // Shift left
+                freqVal = freqVal << 11
+
+                // // Also add channel ID
+                freqVal += 1024
+
+                // Write note value to expansion port
+                asm{
+                    AIN @freqVal
+                    WREXP
+                }
+            }
+
+
+            // Delay for the next set of notes
+            for (var l = 0; l < 9000; l++){
+                for (var o = 0; o < 1; o++){
+                    // Do nothing  _(¦3」∠)_
+                }
+            }
+
+            trackerLocation += 2
+            
+        }
+
+
+        // Stop all audio channels
+        asm{
+            LDIA 256
+            WREXP
+            LDIA 512
+            WREXP
+            LDIA 768
+            WREXP
+            LDIA 1024
             WREXP
         }
 
 
+        trackerLocation = 0
 
-        ///////////////
-        // Channel B //
-        ///////////////
-
-        if(i < sizeof(channelB)){
-            // Process new note
-
-            freqVal = 0
-            // Get first digit of frequency
-            if (channelB[i] == '0'){
-                freqVal = 0
-            }
-            if (channelB[i] == '1'){
-                freqVal = 10
-            }
-            if (channelB[i] == '2'){
-                freqVal = 20
-            }
-            if (channelB[i] == '3'){
-                freqVal = 30
-            }
-
-            // Get second digit of frequency
-            if (channelB[i+1] == '0'){
-                freqVal += 0
-            }
-            if (channelB[i+1] == '1'){
-                freqVal += 1
-            }
-            if (channelB[i+1] == '2'){
-                freqVal += 2
-            }
-            if (channelB[i+1] == '3'){
-                freqVal += 3
-            }
-            if (channelB[i+1] == '4'){
-                freqVal += 4
-            }
-            if (channelB[i+1] == '5'){
-                freqVal += 5
-            }
-            if (channelB[i+1] == '6'){
-                freqVal += 6
-            }
-            if (channelB[i+1] == '7'){
-                freqVal += 7
-            }
-            if (channelB[i+1] == '8'){
-                freqVal += 8
-            }
-            if (channelB[i+1] == '9'){
-                freqVal += 9
-            }
-
-            // Shift left
-            freqVal = freqVal << 11
-
-            // // Also add channel ID
-            freqVal += 512
-
-            // Write note value to expansion port
-            asm{
-                AIN @freqVal
-                WREXP
-            }
-        }
-
-
-
-        ///////////////
-        // Channel C //
-        ///////////////
-
-        if(i < sizeof(channelC)){
-            // Process new note
-
-            freqVal = 0
-            // Get first digit of frequency
-            if (channelC[i] == '0'){
-                freqVal = 0
-            }
-            if (channelC[i] == '1'){
-                freqVal = 10
-            }
-            if (channelC[i] == '2'){
-                freqVal = 20
-            }
-            if (channelC[i] == '3'){
-                freqVal = 30
-            }
-
-            // Get second digit of frequency
-            if (channelC[i+1] == '0'){
-                freqVal += 0
-            }
-            if (channelC[i+1] == '1'){
-                freqVal += 1
-            }
-            if (channelC[i+1] == '2'){
-                freqVal += 2
-            }
-            if (channelC[i+1] == '3'){
-                freqVal += 3
-            }
-            if (channelC[i+1] == '4'){
-                freqVal += 4
-            }
-            if (channelC[i+1] == '5'){
-                freqVal += 5
-            }
-            if (channelC[i+1] == '6'){
-                freqVal += 6
-            }
-            if (channelC[i+1] == '7'){
-                freqVal += 7
-            }
-            if (channelC[i+1] == '8'){
-                freqVal += 8
-            }
-            if (channelC[i+1] == '9'){
-                freqVal += 9
-            }
-
-            // Shift left
-            freqVal = freqVal << 11
-
-            // // Also add channel ID
-            freqVal += 768
-
-            // Write note value to expansion port
-            asm{
-                AIN @freqVal
-                WREXP
-            }
-        }
-
-
-
-        ///////////////
-        // Channel D //
-        ///////////////
-
-        if(i < sizeof(channelD)){
-            // Process new note
-
-            freqVal = 0
-            // Get first digit of frequency
-            if (channelD[i] == '0'){
-                freqVal = 0
-            }
-            if (channelD[i] == '1'){
-                freqVal = 10
-            }
-            if (channelD[i] == '2'){
-                freqVal = 20
-            }
-            if (channelD[i] == '3'){
-                freqVal = 30
-            }
-
-            // Get second digit of frequency
-            if (channelD[i+1] == '0'){
-                freqVal += 0
-            }
-            if (channelD[i+1] == '1'){
-                freqVal += 1
-            }
-            if (channelD[i+1] == '2'){
-                freqVal += 2
-            }
-            if (channelD[i+1] == '3'){
-                freqVal += 3
-            }
-            if (channelD[i+1] == '4'){
-                freqVal += 4
-            }
-            if (channelD[i+1] == '5'){
-                freqVal += 5
-            }
-            if (channelD[i+1] == '6'){
-                freqVal += 6
-            }
-            if (channelD[i+1] == '7'){
-                freqVal += 7
-            }
-            if (channelD[i+1] == '8'){
-                freqVal += 8
-            }
-            if (channelD[i+1] == '9'){
-                freqVal += 9
-            }
-
-            // Shift left
-            freqVal = freqVal << 11
-
-            // // Also add channel ID
-            freqVal += 1024
-
-            // Write note value to expansion port
-            asm{
-                AIN @freqVal
-                WREXP
-            }
-        }
-
-
-
-
-        // Delay for the next set of notes
-        for (var l = 0; l < 9000; l++){
-            for (var o = 0; o < 1; o++){
-                // Do nothing  _(¦3」∠)_
-            }
-        }
-
-        i += 3
+        playing = 0
+        chars[9] = 1
     }
 }
 
