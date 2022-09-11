@@ -1,30 +1,33 @@
 
-const var pixels = create_pointer(61439)
+const var pixels = create_pointer(53871, 1)
+
+const var SCREENW = 108
+
 
 // // Chad:
 // // python3 ./notetocpufreq.py -n b4 b4 b4 b4 b4 b4 b4 - - - - - - - b4 b4 b4 b4 b4 b4 b4 - - - - - - - b4 b4 b4 b4 b4 b4 b4 - - - - - - - d5 d5 d5 d5 d5 d5 d5 - - - - - c5 c5 c5 c5 c5 c5 c5 - - - - b4 b4 b4 b4 b4 b4 b4 - - - - - - - b4 b4 b4 b4 b4 b4 b4 - - - - e4 e4 e4 e4 e4 e4 e4 - - - - b4 b4 b4 b4 b4 b4 b4 - - - - - - -
-// const var channelA = "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+// const var channelA = "................................................................................................................................................................"
 // // python3 ./notetocpufreq.py -n c5 c5 c5 c5 c5 c5 c5 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - a4 a4 a4 a4 a4 a4 a4 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// const var channelB = "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
-// const var channelC = "JJJJJJJ0000000JJJJJJJ0000000JJJJJJJ0000000NNNNNNN00000KKKKKKK0000JJJJJJJ0000000JJJJJJJ0000DDDDDDD0000JJJJJJJ0000000"
-// const var channelD = "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+// const var channelB = "................................................................................................................................................................"
+// const var channelC = "JJJJJJJ.......JJJJJJJ.......JJJJJJJ.......NNNNNNN.....KKKKKKK....JJJJJJJ.......JJJJJJJ....DDDDDDD....JJJJJJJ......."
+// const var channelD = "................................................................................................................................................................"
 
 // // Megalovania:
 // // python3 ./notetocpufreq.py -n d4 d4 d4 - - d4 d4 d4 d4 - - d5 d5 d5 d5 - - - a4 a4 a4 a4 a4 a4 - - - - - g4 g4 g4 g4 g4 - - - g4 g4 g4 g4 - - - - f4 f4 f4 f4 - - - - d4 d4 d4 - - f4 f4 f4 - - g4 g4 g4 - - - c4 c4 c4 c4 - - - c4 c4 c4 - - - d5 d5 d5 d5 - - - a4 a4 a4 - - - - - g4 g4 g4 - - - - g4 g4 g4 - - - - f4 f4 f4 f4 f4 f4 f4 f4
-// const var channelA = "BBB00BBBB00NNNN000HHHHHH00000FFFFF000FFFF0000EEEE0000BBB00EEE00FFF000AAAA000AAA000NNNN000HHH00000FFF0000FFF0000EEEEEEEE"
-// const var channelB = "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+// const var channelA = "BBB..BBBB..NNNN...HHHHHH.....FFFFF...FFFF....EEEE....BBB..EEE..FFF...AAAA...AAA...NNNN...HHH.....FFF....FFF....EEEEEEEE"
+// const var channelB = "................................................................................................................................................................"
 // // python3 ./notetocpufreq.py -n - d3 d3 d3 - - - d3 d3 d3 - - - d2 d2 d2 - - - - a3 a3 a3 a3 a3 a3 - - - - - g3 g3 g3 g3 g3 - - - g3 g3 g3 g3 - - f3 f3 f3 f3 - - - - d3 d3 d3 - - f3 f3 f3 - - g3 g3 g3 - - - c3 c3 c3 c3 - - - c3 c3 c3 - - - d2 d2 d2 d2 - - - a3 a3 a3 - - - - - g3 g3 g3 - - - - g3 g3 g3 - - - - f3 f3 f3 f3 f3 f3 f3 f3
-// const var channelC = "66600666600333300099999900000888880008888000077770000666007770088800055550005550003333000999000008880000888000077777777"
-// const var channelD = "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+// const var channelC = "666..6666..3333...999999.....88888...8888....7777....666..777..888...5555...555...3333...999.....888....888....77777777"
+// const var channelD = "................................................................................................................................................................"
 
 // Mario:
-const var channelA = "PPPPP000PPPPP0000PPPP0000KKKK000PPPP000UUUUU00000FFFFF00000000000DDDDD00000FFFFF00000DDDDD000HHHHH000JJJJJ000JJJJJ000HHHHH000FFFFF000000"
-const var channelB = "DDDDD000DDDDD0000DDDD0000AAAA000DDDD000FFFFF000007777700000000000KKKKK00000AAAAA00000AAAAA000AAAAA000BBBBB000BBBBB000AAAAA000AAAAA00000000000000"
-const var channelC = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
-const var channelD = "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+const var channelA = "QQQQQQ...QQQQQQ...QQQQQQQQQ.....KKKKKK...QQQQQQ...UUUUUU...FFFFFFFFF..........KKKKKK...FFFFFF...DDDDDDDDD.....HHHHHH...JJJJJJ...IIIIII...HHHHHHHHH.....FFFFFF...QQQQQQ...UUUUUU...VVVVVVVVV.....RRRRRR...UUUUUU...QQQQQQ...KKKKKK...NNNNNN...JJJJJJJJJ..........KKKKKK...FFFFFF...DDDDDDDDD.....HHHHHH...JJJJJJ...IIIIII...HHHHHHHHH.....FFFFFF...QQQQQQ...UUUUUU...VVVVVVVVV.....RRRRRR...UUUUUU...QQQQQQ...KKKKKK...NNNNNN...JJJJJJJJJ..........UUUUUU...TTTTTT...RRRRRR...NNNNNN...QQQQQQQQQ.....FFFFFF...HHHHHH...KKKKKKKKK.....HHHHHH...KKKKKK...NNNNNNNNN.....UUUUUU...TTTTTT...RRRRRR...NNNNNN...QQQQQQQQQ.....VVVVVV...VVVVVV...VVVVVVVVV..........UUUUUU...TTTTTT...RRRRRR...NNNNNN...QQQQQQQQQ.....FFFFFF...HHHHHH...KKKKKKKKK.....HHHHHH...KKKKKK...NNNNNNNNN.....OOOOOO...NNNNNN...KKKKKKKKK..........KKKKKK...KKKKKK...KKKKKKKKK.....KKKKKK...NNNNNN...QQQQQQ...KKKKKK...HHHHHH...FFFFFFFFF.....KKKKKK...KKKKKK...KKKKKKKKK.....KKKKKK...NNNNNN...QQQQQQQQQ..........KKKKKK...KKKKKK...KKKKKKKKK.....KKKKKK...NNNNNN...QQQQQQ...KKKKKK...HHHHHH...FFFFFFFFF.....QQQQQQ...QQQQQQ...QQQQQQQQQ.....KKKKKK...QQQQQQ...UUUUUUUUU.....FFFFFFFFF..........KKKKKK...FFFFFF...DDDDDDDDD.....HHHHHH...JJJJJJ...IIIIII...HHHHHHHHH.....FFFFFF...QQQQQQ...UUUUUU...VVVVVVVVV.....RRRRRR...UUUUUU...QQQQQQ...KKKKKK...NNNNNN...JJJJJJJJJ..........KKKKKK...FFFFFF...DDDDDDDDD.....HHHHHH...JJJJJJ...IIIIII...HHHHHHHHH.....FFFFFF...QQQQQQ...UUUUUU...VVVVVVVVV.....RRRRRR...UUUUUU...QQQQQQ...KKKKKK...NNNNNN...JJJJJJJJJ..........QQQQQQ...KKKKKK...FFFFFFFFF.....FFFFFF...HHHHHH...RRRRRR...RRRRRR...HHHHHHHHH.....JJJJJJ...VVVVVV...VVVVVV...VVVVVV...UUUUUU...RRRRRRRRR.....QQQQQQ...KKKKKK...HHHHHH...FFFFFFFFF..........QQQQQQ...KKKKKK...FFFFFFFFF.....FFFFFF...HHHHHH...RRRRRR...RRRRRR...HHHHHHHHH.....JJJJJJ...RRRRRR...RRRRRR...RRRRRR...QQQQQQ...NNNNNN...KKKKKKKKK.....FFFFFF...DDDDDD...AAAAAAAAA..........KKKKKK...FFFFFF...DDDDDDDDD.....HHHHHH...JJJJJJ...HHHHHHHHH.....GGGGGG...IIIIII...GGGGGG.....FFFFFF...EEEEEE...FFFFFF"
+const var channelB = "."
+const var channelC = "................................................................................................................................................................"
+const var channelD = "..................................................................................................................................................................."
 
 
-const var chars = create_pointer(61294)
+const var chars = create_pointer(53546, 1)
 const var title = "musical"
 
 var selection = 0
@@ -36,55 +39,60 @@ var trackerLocation = 0
 var keyInput = 168
 var lastKey = 168
 
-var b36cA = 5
+var b36cA = 9
 var b36cB = 0
 var b36cC = 0
 
 
-// Print title to char mem
-for(var i = 0; i < sizeof(title); i++)
-    chars[i] = title[i]
+// // Print title to char mem
+// for(var i = 0; i < sizeof(title); i++)
+//     chars[i] = title[i]
 // Print paused char
 chars[9] = 1
 
 
 
 // Draw background on left side of screen
-for(var sectionCount = 1; sectionCount < 11; sectionCount += 2)
+for(var sectionCount = 2; sectionCount < 17; sectionCount += 2)
     for(var x = 0; x < 17; x++)
         for(var y = sectionCount*6; y < (sectionCount*6)+6; y++)
-            pixels[(y * 64)+x] = 5293
-for(var sectionCount = 2; sectionCount < 10; sectionCount += 2)
+            pixels[(y * SCREENW)+x] = 5293
+for(var sectionCount = 3; sectionCount < 18; sectionCount += 2)
     for(var x = 0; x < 17; x++)
         for(var y = sectionCount*6; y < (sectionCount*6)+6; y++)
-            pixels[(y * 64)+x] = 4234
+            pixels[(y * SCREENW)+x] = 4234
 
 // Print arrow to show where the tracker currently is
-chars[51] = 10
-pixels[2057] = 65535
-pixels[2058] = 65535
-pixels[1993] = 65535
-pixels[2121] = 65535
+chars[162] = 10
+pixels[6051] = 65535
+pixels[5943] = 65535
+pixels[6159] = 65535
+pixels[6052] = 65535
+
+chars[22] = 'A'
+chars[24] = 'B'
+chars[26] = 'C'
+chars[28] = 'D'
 
 
-for(var sectionCount = 1; sectionCount < 11; sectionCount += 2)
-    for(var x = 18; x < 60; x++)
+for(var sectionCount = 2; sectionCount < 17; sectionCount += 2)
+    for(var x = 22; x < 69; x++)
         for(var y = sectionCount*6; y < (sectionCount*6)+6; y++)
-            pixels[(y * 64)+x] = 4229
-for(var sectionCount = 2; sectionCount < 10; sectionCount += 2)
-    for(var x = 18; x < 60; x++)
+            pixels[(y * SCREENW)+x] = 4229
+for(var sectionCount = 3; sectionCount < 18; sectionCount += 2)
+    for(var x = 22; x < 69; x++)
         for(var y = sectionCount*6; y < (sectionCount*6)+6; y++)
-            pixels[(y * 64)+x] = 3171
+            pixels[(y * SCREENW)+x] = 3171
 
 // Draw dividing lines between tracks
-for(var x = 26; x < 60; x += 11)
-    for(var y = 6; y < 60; y += 2)
-        pixels[(y * 64)+x] = 12684
+for(var x = 21; x < 70; x += 12)
+    for(var y = 12; y < 108; y += 2)
+        pixels[(y * SCREENW)+x] = 12684
 
 // Clear expansion port value
 asm{
     LDAIN 168
-    WREXP
+    WREXP 0
 }
 
 void GetFreq(){
@@ -120,6 +128,7 @@ void GetFreq(){
         'T' => 29,
         'U' => 30,
         'V' => 31,
+        54  => 0,
         _ => 0
     }
 }
@@ -179,112 +188,116 @@ void B36ToChar(){
 }
 
 void ClearCurrectSelection(){
-    var xPos = 18
-    var xWidth = 8
+    var xPos = 22
+    var xWidth = 11
     if(selection == 0){
-        xPos = 18
-        xWidth = 8
+        xPos = 22
+        xWidth = 11
     }
     else if(selection == 1){
-        xPos = 27
-        xWidth = 10
+        xPos = 34
+        xWidth = 11
     }
     else if(selection == 2){
-        xPos = 38
-        xWidth = 10
+        xPos = 46
+        xWidth = 11
     }
     else if(selection == 3){
-        xPos = 49
-        xWidth = 10
+        xPos = 58
+        xWidth = 11
     }
 
     for(var x = xPos; x < xPos + xWidth; x++)
-        for(var y = 30; y < 30 + 6; y++)
-            pixels[(y * 64)+x] = 4229
+        for(var y = 54; y < 54 + 6; y++)
+            pixels[(y * SCREENW)+x] = 4229
 }
 
 void DrawNewSelection(){
-    var xPos = 18
-    var xWidth = 12
+    var xPos = 22
+    var xWidth = 11
     if(selection == 0){
-        xPos = 18
-        xWidth = 8
+        xPos = 22
+        xWidth = 11
     }
     else if(selection == 1){
-        xPos = 27
-        xWidth = 10
+        xPos = 34
+        xWidth = 11
     }
     else if(selection == 2){
-        xPos = 38
-        xWidth = 10
+        xPos = 46
+        xWidth = 11
     }
     else if(selection == 3){
-        xPos = 49
-        xWidth = 10
+        xPos = 58
+        xWidth = 11
     }
 
     for(var x = xPos; x < xPos + xWidth; x++)
-        for(var y = 30; y < 30 + 6; y++)
-            pixels[(y * 64) + x] = 2345
+        for(var y = 54; y < 54 + 6; y++)
+            pixels[(y * SCREENW) + x] = 2345
 }
 
 void UpdateTrackerValues(){
-    for(var i = 1; i < 10; i++){
-        if(trackerLocation-5+i>65530 || trackerLocation-5+i >= sizeof(channelA)){
-            chars[(i*10)+3] = ' '
-            chars[(i*10)+5] = ' '
-            chars[(i*10)+7] = ' '
-            chars[(i*10)+9] = ' '
-            continue
+    for(var i = 2; i < 18; i++){
+        if(trackerLocation-9+i>65526 || trackerLocation-9+i >= sizeof(channelA)){
+            chars[(i*18)+4] = ' '
+            chars[(i*18)+6] = ' '
+            chars[(i*18)+8] = ' '
+            chars[(i*18)+10] = ' '
+        }
+        else{
+            chars[(i*18)+4] = channelA[trackerLocation-9+i]
+
+            if(trackerLocation-9+i < sizeof(channelB))
+                chars[(i*18)+6] = channelB[trackerLocation-9+i]
+            else
+                chars[(i*18)+6] = 78
+
+            if(trackerLocation-9+i < sizeof(channelC))
+                chars[(i*18)+8] = channelC[trackerLocation-9+i]
+            else
+                chars[(i*18)+8] = 78
+
+            if(trackerLocation-9+i < sizeof(channelD))
+                chars[(i*18)+10] = channelD[trackerLocation-9+i]
+            else
+                chars[(i*18)+10] = 78
         }
         
-        chars[(i*10)+3] = channelA[trackerLocation-5+i]
-
-        if(trackerLocation-5+i < sizeof(channelB))
-            chars[(i*10)+5] = channelB[trackerLocation-5+i]
-        else
-            chars[(i*10)+5] = 78
-
-        if(trackerLocation-5+i < sizeof(channelC))
-            chars[(i*10)+7] = channelC[trackerLocation-5+i]
-        else
-            chars[(i*10)+7] = 78
-
-        if(trackerLocation-5+i < sizeof(channelD))
-            chars[(i*10)+9] = channelD[trackerLocation-5+i]
-        else
-            chars[(i*10)+9] = 78
     }
 }
 
 void UpdateTrackerIndexes(){
 
-    for(var i = 0; i < 9; i++)
+    for(var i = 1; i < 17; i++)
         B36Decrease()
 
-    for(var i = 1; i < 10; i++){
+    for(var i = 2; i < 18; i++){
 
         B36Increase()
 
-        if(i == 5)
+        if(i == 9)
             continue
             
-        if(trackerLocation-5+i>65530 || trackerLocation-5+i >= sizeof(channelA)){
-            chars[(i*10)] = ' '
-            chars[(i*10)+1] = ' '
-            chars[(i*10)+2] = ' '
+        if(trackerLocation-9+i>65526 || trackerLocation-9+i >= sizeof(channelA)){
+            chars[(i*18)] = ' '
+            chars[(i*18)+1] = ' '
+            chars[(i*18)+2] = ' '
             continue
         }
 
         B36ToChar()
         
-        chars[i*10] = b36charC
-        chars[i*10+1] = b36charB
-        chars[i*10+2] = b36charA
+        chars[i*18] = b36charC
+        chars[i*18+1] = b36charB
+        chars[i*18+2] = b36charA
     }
 }
 
 void EditTrackerVal(){
+    if(keyInput == 54) // If user presses '.' key, convert to ' '
+        keyInput = 0
+
     if(selection == 0)
         channelA[trackerLocation] = keyInput
     else if(selection == 1)
@@ -302,7 +315,7 @@ while(true){
     if(playing == 0){
         // Read key input from expansion port
         asm{
-            RDEXP
+            RDEXP 0
             STA @keyInput
         }
         keyInput = keyInput & 255
@@ -337,8 +350,8 @@ while(true){
                 UpdateTrackerValues()
                 UpdateTrackerIndexes()
             }
-            else if(keyInput >= 13 && keyInput <= 61) // If not a control key, use as input to change current frequency
-                if(keyInput != 36 && keyInput != 37 && keyInput != 38)
+            else if(keyInput >= 13 && keyInput <= 48 || keyInput == 54) // If not a control key, use as input to change current frequency
+                if(keyInput != 35 && keyInput != 36 && keyInput != 37 && keyInput != 38)
                     EditTrackerVal()
 
             UpdateTrackerValues()
@@ -358,7 +371,7 @@ while(true){
 
             // Read key input from expansion port
             asm{
-                RDEXP
+                RDEXP 0
                 STA @keyInput
             }
             keyInput = keyInput & 255
@@ -386,11 +399,11 @@ while(true){
 
             // // Also add channel ID
             freqVal += 256
-
+            
             // Write note value to expansion port
             asm{
                 AIN @freqVal
-                WREXP
+                WREXP 2
             }
 
 
@@ -415,7 +428,7 @@ while(true){
                 // Write note value to expansion port
                 asm{
                     AIN @freqVal
-                    WREXP
+                    WREXP 2
                 }
             }
 
@@ -441,7 +454,7 @@ while(true){
                 // Write note value to expansion port
                 asm{
                     AIN @freqVal
-                    WREXP
+                    WREXP 2
                 }
             }
 
@@ -467,7 +480,7 @@ while(true){
                 // Write note value to expansion port
                 asm{
                     AIN @freqVal
-                    WREXP
+                    WREXP 2
                 }
             }
 
@@ -488,13 +501,14 @@ while(true){
         // Stop all audio channels
         asm{
             LDIA 256
-            WREXP
+            WREXP 2
             LDIA 512
-            WREXP
+            WREXP 2
             LDIA 768
-            WREXP
-            LDIA 1024
-            WREXP
+            WREXP 2
+            ldw
+            here 1024
+            WREXP 2
         }
 
 
@@ -511,3 +525,4 @@ while(true){
         chars[9] = 1
     }
 }
+while(true){}
