@@ -400,10 +400,10 @@ while(true){
             GetFreq()
             
             // Shift left
-            freqVal = freqVal << 11
+            freqVal = freqVal << 3
 
             // // Also add channel ID
-            freqVal += 256
+            freqVal += 1
             
             // Write note value to expansion port
             expansionPort[2] = freqVal
@@ -422,10 +422,10 @@ while(true){
                 GetFreq()
 
                 // Shift left
-                freqVal = freqVal << 11
+                freqVal = freqVal << 3
 
                 // // Also add channel ID
-                freqVal += 512
+                freqVal += 2
 
                 // Write note value to expansion port
                 expansionPort[2] = freqVal
@@ -445,10 +445,10 @@ while(true){
                 GetFreq()
 
                 // Shift left
-                freqVal = freqVal << 11
+                freqVal = freqVal << 3
 
                 // // Also add channel ID
-                freqVal += 768
+                freqVal += 3
 
                 // Write note value to expansion port
                 expansionPort[2] = freqVal
@@ -468,10 +468,10 @@ while(true){
                 GetFreq()
 
                 // Shift left
-                freqVal = freqVal << 11
+                freqVal = freqVal << 3
 
                 // // Also add channel ID
-                freqVal += 1024
+                freqVal += 4
 
                 // Write note value to expansion port
                 expansionPort[2] = freqVal
