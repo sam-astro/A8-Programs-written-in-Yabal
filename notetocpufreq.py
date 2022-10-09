@@ -1,6 +1,7 @@
 
 from curses.ascii import isalpha
 import sys
+import numpy as np
 
 print()
 
@@ -189,8 +190,8 @@ def NoteToFreq(note):
 	return freq
 
 def FreqToBase36(f):
-	return base36[max(0, min(round( np.log((5*(100*f+9991))/52641)/0.09616 ), 31))]
-	#return base36[max(0, min(round((f / 400) / 2 * 31), 31))]
+	#return base36[max(0, min(round( np.log((5*(100*f+9991))/52641)/0.09616 ), 31))]
+	return base36[max(0, min(round((f / 400) / 2 * 30), 31))]
 	# return base36[max(0, min(round(((f / 400) / (1.1+(2.5+(0.84*f)/100)/10)*31) - f/100), 31))]
 
 def CompressLines(section):

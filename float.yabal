@@ -1,0 +1,239 @@
+var chars = create_pointer(53546, 1)
+var offset = 0
+
+void write(int c) {
+    chars[offset] = c
+    offset++
+}
+
+void newline(){
+    offset = offset / 18 * 18 + 18
+}
+
+void write_int(int value) {
+    var reverser = create_pointer(65530, 0)
+    var i = 0
+    for (var i = 0; i < 5; i++){
+        reverser[i] = 0
+    }
+    while (value > 0) {
+        var char = (value % 10) switch {
+            1 => '1',
+            2 => '2',
+            3 => '3',
+            4 => '4',
+            5 => '5',
+            6 => '6',
+            7 => '7',
+            8 => '8',
+            9 => '9',
+            _ => '0'
+        }
+
+        reverser[i] = char
+        value = value / 10
+        i += 1
+    }
+    for (var i = 0; i < 5; i++){
+        write(reverser[4-i])
+    }
+}
+
+void write_binary(int value) {
+    var reverser = create_pointer(65519, 0)
+    var i = 0
+    for (var i = 0; i < 16; i++){
+        reverser[i] = 0
+    }
+    while (value > 0) {
+        var char = (value & 1) switch {
+            1 => '1',
+            _ => '0'
+        }
+
+        reverser[15-i] = char
+        value = value >> 1
+        i += 1
+    }
+    for (var i = 0; i < 16; i++){
+        write(reverser[i])
+    }
+}
+
+// void write_float(Float16 value) {
+//     if (value.sign == 1) {
+//         write('-')
+//     }
+
+//     write_int(value.exponent)
+//     write('.')
+//     write_int(value.fraction)
+// }
+
+
+int Negative(int x){
+    return (~x)+1
+}
+
+// string DecimalToBinaryString(int a)
+// {
+//     uint b = (uint)a
+//     string binary = ""
+//     uint mask = 0x80000000u
+//     while (mask > 0)
+//     {
+//         binary += ((b & mask) == 0) ? '0' : '1'
+//         mask >>= 1
+//     }
+//     return binary
+// }
+
+int pow(int x, int exponent){
+    var calculated = x
+    for (var i = 1; i < exponent; i++){
+        calculated = calculated * x
+    }
+    return calculated
+}
+
+int FloatToInt(int sign, int exponent, int mantissa){
+    int tmpM = mantissa + 0b10000000000
+    int tmpE = (exponent - 15)
+    // var calculated = 2
+    // for (var i = 0; i < tmpE; i++){
+    //     calculated = calculated * tmpE
+    // }
+    // int out = ((calculated)*tmpM)>>10
+    int out = (pow(2, tmpE)*tmpM)>>10
+    return out
+}
+
+// int AddFloats(int signA, int exponentA, int mantissaA, int signB, int exponentB, int mantissaB){
+//     int out = 0
+//     if(exponentA > exponentB){
+//         //exponentB = signB == 0 ? exponentB : Negative(exponentB);
+//         int tmpMA = mantissaB<<(exponentA-exponentB)
+//         int tmpMB = mantissaA
+        
+//         tmpMA = signB == 0 ? tmpMA : Negative(tmpMA)
+//         tmpMB = signA == 0 ? tmpMB : Negative(tmpMB)
+        
+//         int tmpM = tmpMA+tmpMB
+//         out = FloatToInt(signA, exponentB+1, tmpM)
+//     }
+//     else if(exponentA < exponentB){
+//         int tmpMA = mantissaB
+//         int tmpMB = mantissaA<<(exponentB-exponentA)
+        
+//         tmpMA = signB == 0 ? tmpMA : Negative(tmpMA)
+//         tmpMB = signA == 0 ? tmpMB : Negative(tmpMB)
+        
+//         int tmpM = tmpMA+tmpMB
+//         out = FloatToInt(signA, exponentA+1, tmpM)
+//     }
+//     else {
+//         int tmpMA = mantissaB>>1
+//         int tmpMB = mantissaA>>1
+        
+//         tmpMA = signB == 0 ? tmpMA : Negative(tmpMA)
+//         tmpMB = signA == 0 ? tmpMB : Negative(tmpMB)
+        
+//         int tmpM = tmpMA+tmpMB
+//         out = FloatToInt(signA, exponentB+1, tmpM)
+//     }
+
+//     return out;
+// }
+
+// int MultFloats(int signA, int exponentA, int mantissaA, int signB, int exponentB, int mantissaB){
+//     int out = 0
+//     int tmpMA = mantissaB + 0b10000000000
+//     int tmpMB = mantissaA + 0b10000000000
+//     if(exponentA > exponentB){
+//         int tmpMA = mantissaB<<(exponentA-exponentB)
+//         int tmpMB = mantissaA
+//     }
+//     else if(exponentA < exponentB){
+//         int tmpMA = mantissaB
+//         int tmpMB = mantissaA<<(exponentB-exponentA)
+//     }
+//     else {
+//         int tmpMA = mantissaB>>1
+//         int tmpMB = mantissaA>>1
+//     }
+//     int tmpM = tmpMA*tmpMB
+//     out = FloatToInt(signA, (exponentA+exponentB-15), tmpM)>>10
+    
+//     return out
+// }
+
+// int SubFloats(int signA, int exponentA, int mantissaA, int signB, int exponentB, int mantissaB){
+//     return AddFloats(signA, exponentA, mantissaA, !signB, exponentB, mantissaB)
+// }
+
+// t1: Float to int 160
+write('t')
+write('1')
+write(' ')
+var val = FloatToInt(0, 0b10110, 0b0100000000)
+write_int(val)
+newline()
+write_binary(val)
+newline()
+newline()
+write_int(pow(2, 4))
+//cout << DecimalToBinaryString(val) << " : " << val << endl
+
+//    cout << "Float To Int: 13.78" <<endl;
+//    val = FloatToInt(0, 0b10010, 0b1011100011);
+//    cout << DecimalToBinaryString(val) << " : " << val << endl;
+//    cout<<endl;
+
+//    cout << "Float To Int: 2100" <<endl;
+//    val = FloatToInt(0, 0b11010, 0b0000011010);
+//    cout << DecimalToBinaryString(val) << " : " << val << endl;
+//    cout<<endl;
+
+//    cout << "Float To Int: 3.141" <<endl;
+//    val = FloatToInt(0, 0b10000, 0b1001001000);
+//    cout << DecimalToBinaryString(val) << " : " << val << endl;
+//    cout<<endl;
+
+//    cout << "Add floats: 3.141 + 20 = 23.141" <<endl;
+//    val = AddFloats(0, 0b10000, 0b1001001000, 0, 0b10011, 0b0100000000);
+//    cout << DecimalToBinaryString(val) << " : " << val << endl;
+//    cout<<endl;
+
+//    cout << "Add floats: 281 + 425.5 = 706.5" <<endl;
+//    val = AddFloats(0, 0b10111, 0b0001100100, 0, 0b10111, 0b1010100110);
+//    cout << DecimalToBinaryString(val) << " : " << val << endl;
+//    cout<<endl;
+
+//    cout << "Sub floats: 800 - 425.5 = 374.5" <<endl;
+//    val = SubFloats(0, 0b11000, 0b1001000000, 0, 0b10111, 0b1010100110);
+//    cout << DecimalToBinaryString(val) << " : " << val << endl;
+//    cout<<endl;
+
+//    cout << "Mult floats: 15 * 3.5 = 52.5" <<endl;
+//    val = MultFloats(0, 0b10010, 0b1110000000, 0, 0b10000, 0b1100000000);
+//    cout << DecimalToBinaryString(val) << " : " << val << endl;
+//    cout<<endl;
+
+//    cout << "Mult floats: 300 * 3.5 = 1050" <<endl;
+//    val = MultFloats(0, 0b10111, 0b0010110000, 0, 0b10000, 0b1100000000);
+//    cout << DecimalToBinaryString(val) << " : " << val << endl;
+//    cout<<endl;
+
+//    cout << "Mult floats: 300 * 0.5 = 150" <<endl;
+//    val = MultFloats(0, 0b10111, 0b0010110000, 0, 0b01110, 0b0000000000);
+//    cout << DecimalToBinaryString(val) << " : " << val << endl;
+//    cout<<endl;
+
+//    cout << "Mult floats: 0.5 * 0.5 = 0.25" <<endl;
+//    val = MultFloats(0, 0b01110, 0b0000000000, 0, 0b01110, 0b0000000000);
+//    cout << DecimalToBinaryString(val) << " : " << val << endl;
+//    cout<<endl;
+
+while (true) {
+    
+}
