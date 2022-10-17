@@ -1,0 +1,24 @@
+const var SCREENW = 108
+const var SCREENH = 108
+const var pixels = create_pointer(53871, 1)
+
+const var color1 = 255+255+255
+const var color2 = 255
+var color = 0
+var tgl = false
+
+while (true) {
+    for (var y = 0; y < SCREENH; y++) {
+        for (var x = 0; x < SCREENW; x++) {
+            if (tgl) {
+                tgl = false
+                color = color1
+            } else {
+                tgl = true
+                color = color2
+            }
+            var loc = y*SCREENW+x
+            pixels[loc] = color
+        }
+    }
+}

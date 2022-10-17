@@ -99,9 +99,26 @@ int pow(int base, int exponent){
 
 // Return the integer rounded approximation of a float
 int FloatToInt(int sign, int exponent, int mantissa){
-    int tmpM = mantissa | 0b10000000000
-    int tmpE = (exponent - 15)
-    int out = (pow(2, tmpE)*tmpM)>>10
+    int tmpM = mantissa + 0b10000000000
+    newline()
+    write_binary(tmpM)
+    int tmpE = exponent - 15
+    newline()
+    write_binary(tmpE)
+    int out = pow(2, tmpE)
+    newline()
+    write_binary(out)
+    out = (out*tmpM)>>10
+    // newline()
+    // write_binary(out)
+    // out = out>>10
+
+    // out = out * tmpM
+    // newline()
+    // write_binary(out)
+    // out = out>>10
+    newline()
+    write_binary(out)
     return out
 }
 
@@ -168,17 +185,18 @@ int FloatToInt(int sign, int exponent, int mantissa){
 //     return AddFloats(signA, exponentA, mantissaA, !signB, exponentB, mantissaB)
 // }
 
-// t1: Float to int 160
-write('t')
-write('1')
-write(' ')
+
+
+// // t1: Float to int 160
+// write('t')
+// write('1')
+// write(' ')
 var val = FloatToInt(0, 0b10110, 0b0100000000)
-write_int(val)
-newline()
-write_binary(val) // Binary should be: 0000000010100000
-newline()
-newline()
-write_int(pow(2, 4))
+// write_int(val)
+// newline()
+// write_binary(val) // Binary should be: 0000000010100000
+
+
 //cout << DecimalToBinaryString(val) << " : " << val << endl
 
 //    cout << "Float To Int: 13.78" <<endl;
