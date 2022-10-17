@@ -88,22 +88,19 @@ int Negative(int x){
 //     return binary
 // }
 
-int pow(int x, int exponent){
-    var calculated = x
+// Returns the integer base raised to the power integer exponent
+int pow(int base, int exponent){
+    var calculated = base
     for (var i = 1; i < exponent; i++){
-        calculated = calculated * x
+        calculated = calculated * base
     }
     return calculated
 }
 
+// Return the integer rounded approximation of a float
 int FloatToInt(int sign, int exponent, int mantissa){
-    int tmpM = mantissa + 0b10000000000
+    int tmpM = mantissa | 0b10000000000
     int tmpE = (exponent - 15)
-    // var calculated = 2
-    // for (var i = 0; i < tmpE; i++){
-    //     calculated = calculated * tmpE
-    // }
-    // int out = ((calculated)*tmpM)>>10
     int out = (pow(2, tmpE)*tmpM)>>10
     return out
 }
@@ -178,7 +175,7 @@ write(' ')
 var val = FloatToInt(0, 0b10110, 0b0100000000)
 write_int(val)
 newline()
-write_binary(val)
+write_binary(val) // Binary should be: 0000000010100000
 newline()
 newline()
 write_int(pow(2, 4))
