@@ -75,6 +75,11 @@ int Negative(int x){
     return (~x)+1
 }
 
+
+int get_shift_amnt(int man, int exp){
+    return 10-exp
+}
+
 // string DecimalToBinaryString(int a)
 // {
 //     uint b = (uint)a
@@ -105,10 +110,10 @@ int FloatToInt(int sign, int exponent, int mantissa){
     int tmpE = exponent - 15
     newline()
     write_binary(tmpE)
-    int out = pow(2, tmpE)
-    newline()
-    write_binary(out)
-    out = (out*tmpM)>>10
+    int out = tmpM >> get_shift_amnt(tmpM, tmpE)
+    //newline()
+    //write_binary(out)
+    //out = (out*tmpM)>>10
     // newline()
     // write_binary(out)
     // out = out>>10
