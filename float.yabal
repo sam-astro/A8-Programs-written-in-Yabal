@@ -105,64 +105,59 @@ int pow(int base, int exponent){
 // Return the integer rounded approximation of a float
 int FloatToInt(int sign, int exponent, int mantissa){
     int tmpM = mantissa + 0b10000000000
-    newline()
-    write_binary(tmpM)
+    //newline()
+    //write_binary(tmpM)
     int tmpE = exponent - 15
-    newline()
-    write_binary(tmpE)
+    //newline()
+    //write_binary(tmpE)
     int out = tmpM >> get_shift_amnt(tmpM, tmpE)
     //newline()
     //write_binary(out)
-    //out = (out*tmpM)>>10
-    // newline()
-    // write_binary(out)
-    // out = out>>10
-
-    // out = out * tmpM
-    // newline()
-    // write_binary(out)
-    // out = out>>10
-    newline()
-    write_binary(out)
     return out
 }
 
-// int AddFloats(int signA, int exponentA, int mantissaA, int signB, int exponentB, int mantissaB){
-//     int out = 0
-//     if(exponentA > exponentB){
-//         //exponentB = signB == 0 ? exponentB : Negative(exponentB);
-//         int tmpMA = mantissaB<<(exponentA-exponentB)
-//         int tmpMB = mantissaA
+int AddFloats(int signA, int exponentA, int mantissaA, int signB, int exponentB, int mantissaB){
+    int out = 0
+    if(exponentA > exponentB){
+        //exponentB = signB == 0 ? exponentB : Negative(exponentB);
+        int tmpMA = mantissaB<<(exponentA-exponentB)
+        int tmpMB = mantissaA
         
-//         tmpMA = signB == 0 ? tmpMA : Negative(tmpMA)
-//         tmpMB = signA == 0 ? tmpMB : Negative(tmpMB)
+        if(signB != 0)
+            tmpMA = Negative(tmpMA)
+        if(signA != 0)
+            tmpMB = Negative(tmpMB)
         
-//         int tmpM = tmpMA+tmpMB
-//         out = FloatToInt(signA, exponentB+1, tmpM)
-//     }
-//     else if(exponentA < exponentB){
-//         int tmpMA = mantissaB
-//         int tmpMB = mantissaA<<(exponentB-exponentA)
+        int tmpM = tmpMA+tmpMB
+        out = FloatToInt(signA, exponentB+1, tmpM)
+    }
+    else if(exponentA < exponentB){
+        int tmpMA = mantissaB
+        int tmpMB = mantissaA<<(exponentB-exponentA)
         
-//         tmpMA = signB == 0 ? tmpMA : Negative(tmpMA)
-//         tmpMB = signA == 0 ? tmpMB : Negative(tmpMB)
+        if(signB != 0)
+            tmpMA = Negative(tmpMA)
+        if(signA != 0)
+            tmpMB = Negative(tmpMB)
         
-//         int tmpM = tmpMA+tmpMB
-//         out = FloatToInt(signA, exponentA+1, tmpM)
-//     }
-//     else {
-//         int tmpMA = mantissaB>>1
-//         int tmpMB = mantissaA>>1
+        int tmpM = tmpMA+tmpMB
+        out = FloatToInt(signA, exponentA+1, tmpM)
+    }
+    else {
+        int tmpMA = mantissaB>>1
+        int tmpMB = mantissaA>>1
         
-//         tmpMA = signB == 0 ? tmpMA : Negative(tmpMA)
-//         tmpMB = signA == 0 ? tmpMB : Negative(tmpMB)
+        if(signB != 0)
+            tmpMA = Negative(tmpMA)
+        if(signA != 0)
+            tmpMB = Negative(tmpMB)
         
-//         int tmpM = tmpMA+tmpMB
-//         out = FloatToInt(signA, exponentB+1, tmpM)
-//     }
+        int tmpM = tmpMA+tmpMB
+        out = FloatToInt(signA, exponentB+1, tmpM)
+    }
 
-//     return out;
-// }
+    return out;
+}
 
 // int MultFloats(int signA, int exponentA, int mantissaA, int signB, int exponentB, int mantissaB){
 //     int out = 0
@@ -192,14 +187,22 @@ int FloatToInt(int sign, int exponent, int mantissa){
 
 
 
-// // t1: Float to int 160
-// write('t')
-// write('1')
-// write(' ')
+// t1: Float to int 160
+write('t')
+write('1')
+write(' ')
 var val = FloatToInt(0, 0b10110, 0b0100000000)
-// write_int(val)
-// newline()
+write_int(val)
+newline()
 // write_binary(val) // Binary should be: 0000000010100000
+
+// t2: Add floats 150 + 500 = 650
+write('t')
+write('2')
+write(' ')
+var val = AddFloats(0, 0b10110, 0b0010110000, 0, 0b10111, 0b1111010000)
+write_int(val)
+newline()
 
 
 //cout << DecimalToBinaryString(val) << " : " << val << endl
