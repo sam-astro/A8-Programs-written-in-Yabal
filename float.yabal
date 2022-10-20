@@ -196,9 +196,17 @@ write_int(val)
 newline()
 // write_binary(val) // Binary should be: 0000000010100000
 
-// t2: Add floats 150 + 500 = 650
+// t2: Add floats 160 + 160 = 320
 write('t')
 write('2')
+write(' ')
+var val = AddFloats(0, 0b10110, 0b0100000000, 0, 0b10110, 0b0100000000)
+write_int(val)
+newline()
+
+// t3: Add floats 150 + 500 = 650
+write('t')
+write('3')
 write(' ')
 var val = AddFloats(0, 0b10110, 0b0010110000, 0, 0b10111, 0b1111010000)
 write_int(val)
