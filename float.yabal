@@ -1,6 +1,12 @@
 var chars = create_pointer(53546, 1)
 var offset = 0
 
+// struct Float16 {
+//     int sign : 1
+//     int exponent : 5
+//     int fraction : 10
+// }
+
 void write(int c) {
     chars[offset] = c
     offset++
@@ -159,27 +165,27 @@ int AddFloats(int signA, int exponentA, int mantissaA, int signB, int exponentB,
     return out;
 }
 
-// int MultFloats(int signA, int exponentA, int mantissaA, int signB, int exponentB, int mantissaB){
-//     int out = 0
-//     int tmpMA = mantissaB + 0b10000000000
-//     int tmpMB = mantissaA + 0b10000000000
-//     if(exponentA > exponentB){
-//         int tmpMA = mantissaB<<(exponentA-exponentB)
-//         int tmpMB = mantissaA
-//     }
-//     else if(exponentA < exponentB){
-//         int tmpMA = mantissaB
-//         int tmpMB = mantissaA<<(exponentB-exponentA)
-//     }
-//     else {
-//         int tmpMA = mantissaB>>1
-//         int tmpMB = mantissaA>>1
-//     }
-//     int tmpM = tmpMA*tmpMB
-//     out = FloatToInt(signA, (exponentA+exponentB-15), tmpM)>>10
+int MultFloats(int signA, int exponentA, int mantissaA, int signB, int exponentB, int mantissaB){
+    int out = 0
+    int tmpMA = mantissaA | 0b10000000000
+    int tmpMB = mantissaB | 0b10000000000
+    if(exponentA > exponentB){
+        int tmpMA = mantissaA<<(exponentA-exponentB)
+        int tmpMB = mantissaB
+    }
+    else if(exponentA < exponentB){
+        int tmpMA = mantissaA
+        int tmpMB = mantissaB<<(exponentB-exponentA)
+    }
+    else {
+        int tmpMA = mantissaA>>1
+        int tmpMB = mantissaB>>1
+    }
+    int tmpM = tmpMA*tmpMB
+    out = FloatToInt(signA, ((exponentA)+exponentB), tmpM)
     
-//     return out
-// }
+    return out
+}
 
 // int SubFloats(int signA, int exponentA, int mantissaA, int signB, int exponentB, int mantissaB){
 //     return AddFloats(signA, exponentA, mantissaA, !signB, exponentB, mantissaB)
@@ -210,6 +216,16 @@ write('3')
 write(' ')
 var val = AddFloats(0, 0b10110, 0b0010110000, 0, 0b10111, 0b1111010000)
 write_int(val)
+newline()
+
+// t4: Multiply floats 10 * 2 = 20
+write('t')
+write('4')
+write(' ')
+var val = MultFloats(0, 0b10010, 0b0100000000, 0, 0b10000, 0b0000000000)
+write_int(val)
+newline()
+write_binary(val)
 newline()
 
 
