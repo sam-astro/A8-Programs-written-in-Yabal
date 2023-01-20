@@ -1,0 +1,126 @@
+
+var screen = create_pointer(53871, 1)
+
+// int sign (int p1x, int p1y, int p2x, int p2y, int p3x, int p3y)
+// {
+//     return ((p1x - p3x) * (p2y - p3y) - (p2x - p3x) * (p1y - p3y))
+// }
+
+// int PointInTriangle (int px, int py, int t1x, int t1y, int t2x, int t2y, int t3x, int t3y)
+// {
+//     var d1 = 0
+//     var d2 = 0
+//     var d3 = 0
+//     var has_neg = false
+//     var has_pos = false
+
+//     d1 = sign(px, py, t1x, t1y, t2x, t2y)
+//     d2 = sign(px, py, t2x, t2y, t3x, t3y)
+//     d3 = sign(px, py, t3x, t3y, t1x, t1y)
+
+//     has_neg = (d1 > 60000) || (d2 > 60000) || (d3 > 60000)
+//     has_pos = (d1 < 60000) || (d2 < 60000) || (d3 < 60000)
+
+//     return !(has_neg && has_pos)
+// }
+
+bool ptInTriangle(int px, int py, int p0x, int p0y, int p1x, int p1y, int p2x, int p2y)
+{
+    var dX = px-p2x
+    var dY = py-p2y
+    var dX21 = p2x-p1x
+    var dY12 = p1y-p2y
+    var D = dY12*(p0x-p2x) + dX21*(p0y-p2y)
+    var s = dY12*dX + dX21*dY
+    var t = (p2y-p0y)*dX + (p0x-p2x)*dY
+    if (D<0)
+        return s<=0 && t<=0 && s+t>=D
+    return s>=0 && t>=0 && s+t<=D
+}
+
+/* A utility function to calculate area of triangle formed by (x1, y1),
+   (x2, y2) and (x3, y3) */
+int area(int x1, int y1, int x2, int y2, int x3, int y3)
+{
+   return (x1*(y2-y3) + x2*(y3-y1)+ x3*(y1-y2))/2
+}
+
+bool isInside(int x, int y, int x1, int y1, int x2, int y2, int x3, int y3)
+{  
+   /* Calculate area of triangle ABC */
+   int A = area(x1, y1, x2, y2, x3, y3);
+  
+   /* Calculate area of triangle PBC */ 
+   int A1 = area(x, y, x2, y2, x3, y3);
+  
+   /* Calculate area of triangle PAC */ 
+   int A2 = area(x1, y1, x, y, x3, y3);
+  
+   /* Calculate area of triangle PAB */  
+   int A3 = area(x1, y1, x2, y2, x, y);
+    
+   /* Check if sum of A1, A2 and A3 is same as A */
+   var sum = A1 + A2 + A3
+   return (A >= sum-(10)&&A <= sum+(10));
+}
+
+
+var chars = create_pointer(53546, 1)
+var offset = 0
+
+void write(int c) {
+    chars[offset] = c
+    offset++
+}
+
+void write_int(int value) {
+    var reverser = create_pointer(65530, 0)
+    var i = 0
+    for (var i = 0; i < 5; i++){
+        reverser[i] = 0
+    }
+    while (value > 0) {
+        var char = (value % 10) switch {
+            1 => '1',
+            2 => '2',
+            3 => '3',
+            4 => '4',
+            5 => '5',
+            6 => '6',
+            7 => '7',
+            8 => '8',
+            9 => '9',
+            _ => '0'
+        }
+
+        reverser[i] = char
+        value = value / 10
+        i += 1
+    }
+    for (var i = 0; i < 5; i++){
+        write(reverser[4-i])
+    }
+}
+
+write_int(area(3, 100, 54, 5, 100, 100))
+
+for (var x = 0; x < 108; x++) {
+    for (var y = 0; y < 108; y++) {
+        var screenOffset = (y * 108) + x
+        var pixel = 0
+        if(isInside(x, y, 3, 100, 54, 5, 100, 100)){
+            pixel = 65535
+        }
+        screen[screenOffset] = pixel
+        // // Delay
+        // for (var l = 0; l < 90 * 1; l++){
+        //     for (var o = 0; o < 1; o++){
+        //         // Do nothing  _(¦3」∠)_
+        //     }
+        // }
+    }
+}
+
+while (true){
+
+}

@@ -1,12 +1,19 @@
-var pixels = create_pointer(53871, 1)
-var exps = create_pointer(53500, 1)
-var chars = create_pointer(53546, 1)
-var key = 168
-var lastKey = 168
+// Include and draw doom image
+var file = include_image("vp.png")
+var screen = create_pointer(53871, 1)
 
-while (true) {
+var meta = file[-1]
+var width = meta >> 8 & 0xFF
+var height = meta & 0xFF
 
-    pixels[54] = chars[0] << 4
-
-    //exps[2] = chars[0] << 4
+for (var x = 0; x < width; x++) {
+    for (var y = 0; y < height; y++) {
+        var screenOffset = (y * 108) + x
+        var pixelOffset = (y * width) + x
+        var pixel = file[pixelOffset]
+        var a = pixel >> 15
+        if (a == 1) {
+            screen[screenOffset] = pixel
+        }
+    }
 }

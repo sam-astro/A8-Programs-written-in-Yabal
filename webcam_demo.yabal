@@ -1,0 +1,27 @@
+var screen = create_pointer(53871, 1)
+var webcam = create_pointer(53503, 1)
+
+
+while(true) {
+    var input = webcam[0];
+    var color = (input >> 14)&0b11
+    var x = input & 0b1111111
+    var y = (input >> 7) & 0b1111111
+
+    var pixelOffset = (y * 108) + x
+    
+    if(color==0){
+        color = 0
+    }
+    else if(color==1){
+        color = 7399
+    }
+    else if(color==2){
+        color = 14798
+    }
+    else if(color==3){
+        color = 32767
+    }
+
+    screen[pixelOffset] = color
+}
