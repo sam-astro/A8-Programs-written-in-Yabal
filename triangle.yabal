@@ -24,6 +24,74 @@ var screen = create_pointer(53871, 1)
 //     return !(has_neg && has_pos)
 // }
 
+// Function foor drawign a single pixel to the screen
+void SetPixel(int x, int y, int color){
+    var screenOffset = (y * 108) + x
+    screen[screenOffset] = color
+}
+
+
+// Bresenham's line algorithm
+void DrawLine(Float16 x1, Float16 y1, Float16 x2, Float16 y2, int color)
+{
+  bool steep = (fabs(SubFloats(y2 - y1)) > fabs(SubFloats(x2 - x1)))
+  if(steep)
+  {
+    // Swap x1 and y1
+    Float16 tmpx1 = x1
+    x1 = y1
+    y1 = tmpx1
+    // Swap x2 and y2
+    Float16 tmpx2 = x2
+    x2 = y2
+    y2 = tmpx2
+  }
+
+  if(x1 > x2)
+  {
+    // Swap x1 and x2
+    Float16 tmpx1 = x1
+    x1 = x2
+    x2 = tmpx1
+    // Swap y1 and y2
+    Float16 tmpy1 = y1
+    y1 = y2
+    y2 = tmpy2
+  }
+
+  Float16 dx = SubFloats(x2 - x1)
+  Float16 dy = fabs(SubFloats(y2 - y1))
+  
+  //Float16 two = { sign : 0, exponent : 10000, fraction : 0 };
+  Float16 error = DivideFloat(dx, IntToFloat(2))
+  SignedInt ystep = {s:0, val:1};
+  if (y1 < y2){
+      ystep.s = 0
+  }
+  else{
+      ystep.s = 1
+  }
+  SignedInt y = IntToSignedInt(FloatToInt(y1))
+
+  SignedInt maxX = FloatToInt(x2)
+
+  var strt = FloatToInt(x1)
+  for(int x=strt; x<=maxX.val; x++)
+  {
+    if(steep)
+        SetPixel(y.val,x, color)
+    else
+        SetPixel(x,y.val, color)
+              
+    error = SubFloats(error, dy)
+    if(FloatToInt(error).s == 1) // If error is less than 0, ie sign bit is 1
+    {
+        y = AddSignedInts(y, ystep)
+        error = AddFloats(error, dx)
+    }
+  }
+}
+
 bool ptInTriangle(int px, int py, int p0x, int p0y, int p1x, int p1y, int p2x, int p2y)
 {
     var dX = px-p2x
