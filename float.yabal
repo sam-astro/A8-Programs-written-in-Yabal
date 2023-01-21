@@ -13,6 +13,12 @@ void write(int c) {
     offset++
 }
 
+// Get the absolute value of a float value
+Float16 fabs(Float16 f){
+    f.sign = 0
+    return f
+}
+
 // void writeStr(int s) {
 //     var size = sizeof(s)
 //     for (var i = 0; i < size; i++) {
