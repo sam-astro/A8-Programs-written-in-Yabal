@@ -1,6 +1,10 @@
 
 var screen = create_pointer(53871, 1)
 
+inline int get_color(int r, int g, int b) {
+    return (r / 8 << 10) + (g / 8 << 5) + (b / 8);
+}
+
 // int sign (int p1x, int p1y, int p2x, int p2y, int p3x, int p3y)
 // {
 //     return ((p1x - p3x) * (p2y - p3y) - (p2x - p3x) * (p1y - p3y))
