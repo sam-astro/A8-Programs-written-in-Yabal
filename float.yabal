@@ -1,5 +1,6 @@
 
 var floats = create_pointer<Float16>(0x3FFE);
+var signedInts = create_pointer<SignedInt>(0x4000);
 var chars = create_pointer(53546, 1)
 var offset = 0
 
@@ -71,7 +72,15 @@ void write_binary(int value) {
 }
 
 int TruncateTrailingZeros(int x){
-
+    var o = x
+    for (var i = 0; i < 16; i++){
+        // If the last digit is 1, then stop shifting
+        if((o & 1) == 1)
+            break
+        // Otherwise shift again
+        o = o >> 1
+    }
+    return o
 }
 
 // void write_float(Float16 value) {
@@ -108,10 +117,19 @@ int get_shift_amnt(int man, int exp){
 // }
 
 // Returns the integer base raised to the power integer exponent
-int pow(int base, int exponent){
+int pow(int base, SignedInt exponent){
     var calculated = base
-    for (var i = 1; i < exponent; i++){
-        calculated = calculated * base
+    // If the exponent is negative, we divide each time instead of multiply
+    if(exponent.s == 1){
+        for (var i = 1; i < exponent.val; i++){
+            calculated = calculated / base
+        }
+    }
+    // Otherwise it is normal multiplication exponent
+    else {
+        for (var i = 1; i < exponent.val; i++){
+            calculated = calculated * base
+        }
     }
     return calculated
 }
@@ -121,21 +139,53 @@ Float16 normalizeFloat(Float16 f){
 }
 
 int deNormalizeFraction(int f, int exp){
-    // return (f * pow(2, exp))>>(10-exp)
-    return f>>(10-exp)
+    bool sn = (10-exp>60000)
+    var vl = 10-exp
+    // SignedInt powNum = { s : 0, val : 0 };
+    if (sn){
+        vl = 65535-(10-exp)
+        // powNum.s = 1
+    }
+    // powNum.val = vl
+
+
+    // return (f * pow(2, powNum))
+    // If negative
+    if(sn == 1){
+        return f<<vl
+    }
+    // Otherwise shift normal way
+    else{
+        return f>>vl
+    }
 }
 
 // Return the integer rounded approximation of a float
 int FloatToInt(Float16 fl){
-    int tmpM = fl.fraction + 0b10000000000
+    int tmpF = fl.fraction + 0b10000000000
+    // tmpF = TruncateTrailingZeros(tmpF)
 
     int tmpE = fl.exponent - 15
 
-    // int out = tmpM >> get_shift_amnt(tmpM, tmpE)
+    // int out = tmpF >> get_shift_amnt(tmpF, tmpE)
 
-    int out = deNormalizeFraction(tmpM, tmpE)
+    int out = deNormalizeFraction(tmpF, tmpE)
     return out
 }
+
+// // Return the integer rounded approximation of a float
+// int FloatToInt(Float16 fl){
+//     int tmpF = fl.fraction
+//     tmpF = TruncateTrailingZeros(tmpF)
+//     Float16 fFrac = { sign : 0, exponent : 1, fraction : tmpF };
+
+//     int tmpE = fl.exponent - 15
+
+//     // int out = tmpM >> get_shift_amnt(tmpM, tmpE)
+
+//     int out = deNormalizeFraction(tmpM, tmpE)
+//     return out
+// }
 
 // Float16 FloatToInt(Float16 fl)
 // {
@@ -322,7 +372,7 @@ int MultFloats(Float16 floatA, Float16 floatB){
 write('t')
 write('1')
 write(' ')
-Float16 t1 = IntToFloat(2);
+Float16 t1 = IntToFloat(7285);
 var val = FloatToInt(t1)
 write_int(val)
 newline()
@@ -448,7 +498,7 @@ struct Float16 {
     int fraction : 10
 }
 
-// struct SignedInt {
-//     int sign : 1
-//     int val : 15
-// }
+struct SignedInt {
+    int s
+    int val
+}
