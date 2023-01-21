@@ -38,7 +38,14 @@ void SetPixel(int x, int y, int color){
 // Bresenham's line algorithm
 void DrawLine(Float16 x1, Float16 y1, Float16 x2, Float16 y2, int color)
 {
-  bool steep = (fabs(SubFloats(y2 - y1)) > fabs(SubFloats(x2 - x1)))
+  bool steep = false
+  Float16 y2y1sub = fabs(SubFloats(y2 - y1))
+  Float16 x2x1sub = fabs(SubFloats(x2 - x1))
+  if(y2y1sub.exponent-15 >= x2x1sub.exponent-15)
+    if(y2y1sub.exponent-15 == x2x1sub.exponent-15 && y2y1sub.fraction > x2x1sub.fraction)
+        steep = true
+    else if(y2y1sub.exponent-15 == x2x1sub.exponent-15)
+            steep = true
   if(steep)
   {
     // Swap x1 and y1
@@ -176,22 +183,24 @@ void write_int(int value) {
 
 write_int(area(3, 100, 54, 5, 100, 100))
 
-for (var x = 0; x < 108; x++) {
-    for (var y = 0; y < 108; y++) {
-        var screenOffset = (y * 108) + x
-        var pixel = 0
-        if(isInside(x, y, 3, 100, 54, 5, 100, 100)){
-            pixel = 65535
-        }
-        screen[screenOffset] = pixel
-        // // Delay
-        // for (var l = 0; l < 90 * 1; l++){
-        //     for (var o = 0; o < 1; o++){
-        //         // Do nothing  _(¦3」∠)_
-        //     }
-        // }
-    }
-}
+DrawLine(IntToFloat(10, 20, 60, 100, get_color(255, 255, 255)))
+
+// for (var x = 0; x < 108; x++) {
+//     for (var y = 0; y < 108; y++) {
+//         var screenOffset = (y * 108) + x
+//         var pixel = 0
+//         if(isInside(x, y, 3, 100, 54, 5, 100, 100)){
+//             pixel = 65535
+//         }
+//         screen[screenOffset] = pixel
+//         // // Delay
+//         // for (var l = 0; l < 90 * 1; l++){
+//         //     for (var o = 0; o < 1; o++){
+//         //         // Do nothing  _(¦3」∠)_
+//         //     }
+//         // }
+//     }
+// }
 
 while (true){
 
