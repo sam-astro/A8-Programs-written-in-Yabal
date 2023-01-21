@@ -5,7 +5,8 @@ var chars = create_pointer(53546, 1)
 var offset = 0
 
 
-//Float16 PI = {0b0, 0b10000, 0b1001001000}
+Float16 PI = { sign : 0b0, exponent : 0b10000, fraction : 0b1001001000 };
+
 
 void write(int c) {
     chars[offset] = c
@@ -26,8 +27,8 @@ void newline(){
 void write_int(int value) {
     var reverser = create_pointer(65530, 0)
     var i = 0
-    for (var i = 0; i < 5; i++){
-        reverser[i] = 0
+    for (var o = 0; o < 5; o++){
+        reverser[o] = 0
     }
     while (value > 0) {
         var char = (value % 10) switch {
@@ -47,8 +48,15 @@ void write_int(int value) {
         value = value / 10
         i += 1
     }
-    for (var i = 0; i < 5; i++){
-        write(reverser[4-i])
+    bool atFirst = false
+    for (var o = 0; o < 5; o++){
+        // If the first non-zero number has finally been found, start writing number
+        if(reverser[4-o] != 0)
+            atFirst = true
+        // Otherwise it is just a trailing zero, so skip
+        else if(atFirst==false)
+            continue
+        write(reverser[4-o])
     }
 }
 
@@ -142,7 +150,19 @@ int pow(int base, SignedInt exponent){
 }
 
 Float16 normalizeFloat(Float16 f){
-    
+    var frac = f.fraction
+    var exp = f.exponent
+    // Shift left until mantissa leftmost digit is 1
+    for (var i = 0; i < 16; i++){
+        // If the left digit is 1, then stop shifting
+        if((frac & 0b1000000000000000) == 0b1000000000000000)
+            break
+        // Otherwise shift again
+        frac = frac << 1
+        exp -= 1
+    }
+    Float16 outFloat = { sign : f.sign, exponent : exp, fraction : frac };
+    return outFloat
 }
 
 int deNormalizeFraction(int f, int exp){
@@ -269,7 +289,7 @@ Float16 IntToFloat(int x){
     // Find the exponent, by shifting left until the largest digit is reached
     var count = 1
     var tmp = x
-    var mask = 0b1
+    var mask = 1
     for (var i = 0; i < 16; i++){
         // If the first digit is 1, then stop shifting because we have the count
         if((tmp & 0b1000000000000000) == 0b1000000000000000)
@@ -282,60 +302,86 @@ Float16 IntToFloat(int x){
     var exp = (16-count) + 15
     
     // Only get the right part of the input number, since 1 is already included in mantissa
-    mask = mask << (16-count)
-    var mant = x & (~mask)
+    mask = ~(mask << (16-count))
+    // mask = ~(pow(2, 16-count))
+    var mant = x & (mask)
+    // var mant = x
+    // If the mantissa is >= 10 bits long already, only use first 10
+    if(mant >= 512){
+        var cnt = 0
+        var tmp = mant
+        for (var i = 0; i < 16; i++){ // Count until which bit is a one, then use that number to shift right accordingly
+            if((tmp & 0b1000000000000000) == 0b1000000000000000)
+                break
+            // Otherwise shift again
+            tmp = tmp << 1
+            cnt += 1
+        }
+        mant = mant >> cnt
+    }
+    // var mant = (x & (~mask)) << (10-((16-count)-1))
     // The mantissa needs to be 10 bits long, so add zeros to the right side until it is:
     for (var i = 0; i < 16; i++){
         // If the first digit is 1, then stop shifting
-        if((mant & 0b1000000000) == 0b1000000000)
+        if(mant >= 512)
             break
         // Otherwise shift again
         mant = mant << 1
     }
+    newline()
+    write(':')
+    write_binary(mant)
+    // write_int(mask)
+    write(':')
 
     // For a whole number
     Float16 outFloat = { sign : 0, exponent : exp, fraction : mant };
+    // outFloat = normalizeFloat(outFloat)
 
     return outFloat
 }
 
 int AddFloats(Float16 floatA, Float16 floatB){
     int out = 0
+    // If the exponents are different, then we need to make the float with the smaller exponent the same as the larger one
     if(floatA.exponent > floatB.exponent){
         //floatB.exponent = floatB.sign == 0 ? floatB.exponent : Negative(floatB.exponent);
-        int tmpMA = floatB.fraction<<(floatA.exponent-floatB.exponent)
-        int tmpMB = floatA.fraction
+        int tmpMB = floatB.fraction<<(floatA.exponent-floatB.exponent)
+        int tmpMA = floatA.fraction
         
         if(floatB.sign != 0)
-            tmpMA = Negative(tmpMA)
-        if(floatA.sign != 0)
             tmpMB = Negative(tmpMB)
+        if(floatA.sign != 0)
+            tmpMA = Negative(tmpMA)
         
         int tmpM = tmpMA+tmpMB
-        Float16 outFloat = { sign : floatA.sign, exponent : floatB.exponent+1, fraction : tmpM };
+        Float16 outFloat = { sign : floatA.sign, exponent : floatA.exponent, fraction : tmpM };
         out = FloatToInt(outFloat)
     }
+    // 150+500
     else if(floatA.exponent < floatB.exponent){
-        int tmpMA = floatB.fraction
-        int tmpMB = floatA.fraction<<(floatB.exponent-floatA.exponent)
+        int tmpMB = floatB.fraction+0b1000000000000000
+        int tmpMA = (floatA.fraction<<(floatB.exponent-floatA.exponent))+0b1000000000000000
         
-        if(floatB.sign != 0)
-            tmpMA = Negative(tmpMA)
-        if(floatA.sign != 0)
-            tmpMB = Negative(tmpMB)
+        // if(floatB.sign != 0)
+        //     tmpMB = Negative(tmpMB)
+        // if(floatA.sign != 0)
+        //     tmpMA = Negative(tmpMA)
         
         int tmpM = tmpMA+tmpMB
-        Float16 outFloat = { sign : floatA.sign, exponent : floatA.exponent+1, fraction : tmpM };
+        // tmpM = deNormalizeFraction(tmpM, floatB.exponent)
+        Float16 outFloat = { sign : floatA.sign, exponent : floatB.exponent, fraction : tmpM };
         out = FloatToInt(outFloat)
     }
+    // Else the exponents are the same, so no need to change them
     else {
-        int tmpMA = floatB.fraction>>1
-        int tmpMB = floatA.fraction>>1
+        int tmpMB = floatB.fraction>>1
+        int tmpMA = floatA.fraction>>1
         
         if(floatB.sign != 0)
-            tmpMA = Negative(tmpMA)
+            tmpMA = Negative(tmpMB)
         if(floatA.sign != 0)
-            tmpMB = Negative(tmpMB)
+            tmpMB = Negative(tmpMA)
         
         int tmpM = tmpMA+tmpMB
         Float16 outFloat = { sign : floatA.sign, exponent : floatB.exponent+1, fraction : tmpM };
@@ -375,7 +421,7 @@ int MultFloats(Float16 floatA, Float16 floatB){
 // Float16 f16 = { sign : 1, exponent : 5, fraction : 10 };
 // write_int(f16.exponent)
 
-// t1: Float to int 160
+// t1: Float to int 7285
 write('t')
 write('1')
 write(' ')
@@ -400,7 +446,6 @@ write('t')
 write('3')
 write(' ')
 Float16 t3a = { sign : 0, exponent : 0b10110, fraction : 0b0010110000 };
-write(' ')
 write_int(FloatToInt(t3a))
 Float16 t3b = { sign : 0, exponent : 0b10111, fraction : 0b1111010000 };
 write('+')
@@ -422,20 +467,21 @@ newline()
 write_binary(val)
 newline()
 
-// t5: Float to int 0.6
+// t5: Float to int 1.7
 write('t')
 write('5')
 write(' ')
-Float16 t5 = { sign : 0, exponent : 0b01110, fraction : 0b0011001100 };
+Float16 t5 = { sign : 0, exponent : 0b01111, fraction : 0b1011001100 };
 var val = FloatToInt(t5)
 write_int(val)
 newline()
 
-// t6: Int to Float to int 36
+// t6: Int to Float to int 27
 write('t')
 write('6')
 write(' ')
-Float16 t6 = IntToFloat(1);
+Float16 t6 = IntToFloat(27);
+// Float16 t6 = { sign : 0, exponent : 0b10100, fraction : 0b0010000000 };
 var val = FloatToInt(t6)
 write_int(val)
 newline()
