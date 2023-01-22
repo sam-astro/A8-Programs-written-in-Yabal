@@ -1,0 +1,6032 @@
+JMP
+HERE 2616 , Program
+, reference [2:0]
+HERE 0 , size: 2, variables: floats@2:4
+HERE 0
+, reference [4:0]
+HERE 0 , size: 2, variables: signedInts@3:4
+HERE 0
+, reference [6:0]
+HERE 0 , size: 2, variables: screen@4:4
+HERE 0
+, reference [8:0]
+HERE 0 , size: 2, variables: chars@5:4
+HERE 0
+, reference [10:0]
+HERE 0 , size: 1, variables: offset@6:4
+, reference [11:0]
+HERE 0 , size: 1, variables: highlightColor@8:4
+, reference [12:0]
+HERE 0 , size: 1, variables: highlightOppositeColor@9:4
+, reference [13:0]
+HERE 0 , size: 1, variables: PI@12:8
+, reference [14:0]
+HERE 0 , size: 1, variables: prenotted@646:4
+, reference [15:0]
+HERE 0 , size: 1, variables: notted@648:4
+, reference [16:0]
+HERE 0 , size: 1, variables: correctVal@675:4
+, reference [17:0]
+HERE 0 , size: 1, variables: val@676:4
+, reference [18:0]
+HERE 0 , size: 1, variables: inValue@684:8
+, reference [19:0]
+HERE 0 , size: 1, variables: inValue@705:8
+, reference [20:0]
+HERE 0 , size: 1, variables: AVal@743:4
+, reference [21:0]
+HERE 0 , size: 1, variables: BVal@744:4
+, reference [22:0]
+HERE 0 , size: 1, variables: inValueA@750:8
+, reference [23:0]
+HERE 0 , size: 1, variables: inValueB@752:8
+, reference [24:0]
+HERE 0 , size: 1, variables: val@755:4
+, reference [25:0]
+HERE 0 , size: 1, variables: AVal@768:4
+, reference [26:0]
+HERE 0 , size: 1, variables: BVal@769:4
+, reference [27:0]
+HERE 0 , size: 1, variables: inValueA@775:8
+, reference [28:0]
+HERE 0 , size: 1, variables: inValueB@777:8
+, reference [29:0]
+HERE 0 , size: 1, variables: val@780:4
+, reference [30:0]
+HERE 0 , size: 1, variables: AVal@793:4
+, reference [31:0]
+HERE 0 , size: 1, variables: BVal@794:4
+, reference [32:0]
+HERE 0 , size: 1, variables: inValueA@800:8
+, reference [33:0]
+HERE 0 , size: 1, variables: inValueB@802:8
+, reference [34:0]
+HERE 0 , size: 1, variables: val@805:4
+, reference [35:0]
+HERE 0 , size: 1, variables: AVal@819:4
+, reference [36:0]
+HERE 0 , size: 1, variables: BVal@820:4
+, reference [37:0]
+HERE 0 , size: 1, variables: inValueA@825:8
+, reference [38:0]
+HERE 0 , size: 1, variables: inValueB@826:8
+, reference [39:0]
+HERE 0 , size: 1, variables: AVal@840:4
+, reference [40:0]
+HERE 0 , size: 1, variables: inValueA@845:8
+, reference [41:0]
+HERE 0 , size: 1, variables: inValueB@846:8
+, reference [42:0]
+HERE 0 , size: 1, variables: AVal@860:4
+, reference [43:0]
+HERE 0 , size: 1, variables: BVal@861:4
+, reference [44:0]
+HERE 0 , size: 1, variables: inValueA@866:8
+, reference [45:0]
+HERE 0 , size: 1, variables: inValueB@867:8
+, reference [46:0]
+HERE 0 , size: 1, variables: 
+, reference [47:0]
+HERE 0 , size: 1, variables: 
+, reference [48:0]
+HERE 0 , size: 1, variables: 
+, reference [49:0]
+HERE 0 , size: 1, variables: 
+, reference [50:0]
+HERE 0 , size: 1, variables: 
+, reference [51:0]
+HERE 0 , size: 1, variables: 
+, reference [52:0]
+HERE 0 , size: 1, variables: 
+, reference [53:0]
+HERE 0 , size: 1, variables: 
+, reference [54:0]
+HERE 0 , size: 1, variables: 
+, reference [55:0]
+HERE 0 , size: 1, variables: 
+, reference [56:0]
+HERE 0 , size: 1, variables: 
+, reference [57:0]
+HERE 0 , size: 1, variables: 
+, reference [58:0]
+HERE 0 , size: 1, variables: 
+, reference [59:0]
+HERE 0 , size: 1, variables: 
+, reference [60:0]
+HERE 0 , size: 1, variables: 
+, reference [61:0]
+HERE 0 , size: 1, variables: 
+, reference [62:0]
+HERE 0 , size: 1, variables: 
+, reference [63:0]
+HERE 0 , size: 1, variables: x@19:18, r@24:30, c@29:15, f@47:21, x@52:29, value@68:19, value@104:22, f@125:25, x@136:30, a@164:21, x@187:17, man@193:23, base@211:12, fraction@229:27, f@261:28, fl@284:23, x@381:23, floatA@450:22, floatA@577:22, floatA@584:23
+, reference [64:0]
+HERE 0 , size: 1, variables: y@19:25, g@24:37, b@164:28, exp@193:32, exponent@229:41, exp@261:35, floatB@450:38, floatB@577:38, floatB@584:39, pixOffsetY@33:8, i@70:8, i@106:8, exp@128:8, o@137:8, xo@188:8, calculated@212:8, tmpF@285:8, count@383:8
+, reference [65:0]
+HERE 0 , size: 1, variables: color@19:32, b@24:44, range@164:35, pixOffsetX@34:8, o@71:13, char@75:12, atFirst@92:9, i@107:13, char@111:12, i@120:13, frac@132:8, i@138:13, i@215:17, i@221:17, frac@230:8, sn@262:9, tmpE@288:8, tmp@384:8, out@451:8, fb@578:12, out@585:8
+, reference [66:0]
+HERE 0 , size: 1, variables: screenOffset@20:8, r@14:25, r@14:25, x@35:13, o@93:13, exp@231:8, vl@263:8, out@292:8, mask@385:8, tmpMB@472:12, tmpMA@586:8
+, reference [67:0]
+HERE 0 , size: 1, variables: g@14:32, g@14:32, y@36:17, j@238:17, i@247:17, outFloat@257:12, i@386:13, exp@395:8, tmpMA@473:12, tmpMB@587:8
+, reference [68:0]
+HERE 0 , size: 1, variables: b@14:39, b@14:39, pixel@37:16, mant@401:8, tmpM@501:12, count@598:8
+, reference [69:0]
+HERE 0 , size: 1, variables: outFloat@444:12, outFloat@504:16, i@599:13, tmpM@622:8
+, reference [70:0]
+HERE 0 , size: 1, variables: tmpMB@517:12, exp@623:8
+, reference [71:0]
+HERE 0 , size: 1, variables: tmpMA@518:12, outFloat@625:12
+, reference [72:0]
+HERE 0 , size: 1, variables: tmpM@537:12
+, reference [73:0]
+HERE 0 , size: 1, variables: outFloat@540:16
+, reference [74:0]
+HERE 0 , size: 1, variables: tmpMB@553:12
+, reference [75:0]
+HERE 0 , size: 1, variables: tmpMA@554:12
+, reference [76:0]
+HERE 0 , size: 1, variables: tmpM@561:12
+, reference [77:0]
+HERE 0 , size: 1, variables: outFloat@564:16
+, reference [78:0]
+HERE 0 , size: 1, variables: 
+, reference [79:0]
+HERE 0 , size: 1, variables: 
+, reference [80:0]
+HERE 0 , size: 1, variables: 
+, reference [81:0]
+HERE 0 , size: 2, variables: exponent@211:28, o@53:14, reverser@69:8, reverser@105:8
+HERE 0
+, reference [83:0]
+HERE 0 , return value
+, reference [84:0]
+HERE 60989 , stack pointer
+, reference [85:0]
+HERE 0 , temporary pointer
+, label get_color
+JMP
+HERE 2493 , __return
+, label SetPixel
+AIN 64 , [Stack:1]
+LDIB 108 , load small integer
+MULT
+BIN 63 , [Stack:0]
+ADD
+STLGE
+HERE 66 , [Stack:4]
+AIN 6 , [Global:2]
+BIN 66 , [Stack:4]
+ADD , load address
+BIN 65 , [Stack:2], set value in B
+BNK 1
+STAOUT
+BNK 0
+, label SetPixel
+JMP
+HERE 2493 , __return
+, label ChangeHighlightColor
+AIN 63 , [Stack:0], load value
+STA 66 , [Stack:4], store value
+AIN 64 , [Stack:1], load value
+STA 67 , [Stack:5], store value
+AIN 65 , [Stack:2], load value
+STA 68 , [Stack:6], store value
+AIN 66 , [Stack:4]
+LDIB 8 , load small integer
+DIV
+LDIB 10 , load small integer
+BSL
+STA 70 , [Stack:8]
+AIN 67 , [Stack:5]
+LDIB 8 , load small integer
+DIV
+LDIB 5 , load small integer
+BSL
+BIN 70 , [Stack:8]
+SWP
+ADD
+STA 69 , [Stack:7]
+AIN 68 , [Stack:6]
+LDIB 8 , load small integer
+DIV
+BIN 69 , [Stack:7]
+SWP
+ADD
+JMP
+HERE 133 , L0
+, label L0
+STLGE
+HERE 11 , [Global:5]
+LDIA 256 , load small integer
+BIN 63 , [Stack:0]
+SUB
+STLGE
+HERE 66 , [Stack:4]
+LDIA 256 , load small integer
+BIN 64 , [Stack:1]
+SUB
+STLGE
+HERE 67 , [Stack:5]
+LDIA 256 , load small integer
+BIN 65 , [Stack:2]
+SUB
+STLGE
+HERE 68 , [Stack:6]
+AIN 66 , [Stack:4]
+LDIB 8 , load small integer
+DIV
+LDIB 10 , load small integer
+BSL
+STA 70 , [Stack:8]
+AIN 67 , [Stack:5]
+LDIB 8 , load small integer
+DIV
+LDIB 5 , load small integer
+BSL
+BIN 70 , [Stack:8]
+SWP
+ADD
+STA 69 , [Stack:7]
+AIN 68 , [Stack:6]
+LDIB 8 , load small integer
+DIV
+BIN 69 , [Stack:7]
+SWP
+ADD
+JMP
+HERE 173 , L1
+, label L1
+STLGE
+HERE 12 , [Global:6]
+, label ChangeHighlightColor
+JMP
+HERE 2493 , __return
+, label write
+AIN 8 , [Global:3]
+BIN 10 , [Global:4]
+ADD , load address
+BIN 63 , [Stack:0], set value in B
+BNK 1
+STAOUT
+BNK 0
+AIN 10 , [Global:4]
+LDIB 18 , load small integer
+DIV
+LDIB 6 , load small integer
+MULT
+STLGE
+HERE 64 , [Stack:1]
+AIN 10 , [Global:4]
+LDIB 6 , load small integer
+MULT
+LDIB 108 , load small integer
+STA 46 , [Temp:0]
+DIV
+MULT
+BIN 46 , [Temp:0]
+SWP
+SUB
+STLGE
+HERE 65 , [Stack:2]
+LDIA 0 , load small integer
+STLGE
+HERE 66 , [Stack:4]
+JMP
+HERE 212 , L3
+, label L0
+AIN 66 , [Stack:4]
+LDIB 1
+ADD , increment value
+STA 66 , [Stack:4]
+, label L3
+AIN 66 , [Stack:4]
+LDIB 6 , load small integer
+SUB , operator <
+JMPZ
+HERE 269 , L2
+JMPC
+HERE 269 , L2
+JMP
+HERE 221 , L1
+, label L1
+LDIA 0 , load small integer
+STLGE
+HERE 67 , [Stack:5]
+JMP
+HERE 230 , L7
+, label L4
+AIN 67 , [Stack:5]
+LDIB 1
+ADD , increment value
+STA 67 , [Stack:5]
+, label L7
+AIN 67 , [Stack:5]
+LDIB 6 , load small integer
+SUB , operator <
+JMPZ
+HERE 267 , L6
+JMPC
+HERE 267 , L6
+JMP
+HERE 239 , L5
+, label L5
+AIN 11 , [Global:5], load value
+STA 68 , [Stack:6], store value
+LDW
+HERE 250 , L9
+SWPC
+LDW
+HERE 264 , L8
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L9
+AIN 65 , [Stack:2]
+BIN 66 , [Stack:4]
+ADD
+STLGE
+HERE 63 , [Stack:0]
+AIN 64 , [Stack:1]
+BIN 67 , [Stack:5]
+ADD
+STLGE
+HERE 64 , [Stack:1]
+AIN 68 , [Stack:6], load value
+STA 65 , [Stack:2], store value
+JMP
+HERE 88 , SetPixel
+, label L8
+AIN 83 , Yabal:return_value
+JMP
+HERE 226 , L4, jump to next iteration
+, label L6
+JMP
+HERE 208 , L0, jump to next iteration
+, label L2
+AIN 10 , [Global:4]
+LDIB 1
+ADD , increment value
+STA 10 , [Global:4]
+, label write
+JMP
+HERE 2493 , __return
+, label fabs
+LDIA 63 , [Stack:0]
+LDAIN
+LDWB
+HERE 65534
+AND
+LDWB
+HERE 0
+OR
+SWP
+LDIA 63 , [Stack:0]
+STAOUT
+AIN 63 , [Stack:0]
+JMP
+HERE 289 , fabs
+, label fabs
+JMP
+HERE 2493 , __return
+, label IntToSignedInt
+LDIA 0 , load small integer
+STLGE
+HERE 81 , [Stack:3]
+AIN 63 , [Stack:0], load value
+STA 82 , [Stack:3]+1, store value
+AIN 81 , [Stack:3]
+JMP
+HERE 299 , IntToSignedInt
+, label IntToSignedInt
+JMP
+HERE 2493 , __return
+, label newline
+AIN 10 , [Global:4]
+LDIB 18 , load small integer
+DIV
+LDIB 18 , load small integer
+MULT
+LDIB 18 , load small integer
+ADD
+STLGE
+HERE 10 , [Global:4]
+, label newline
+JMP
+HERE 2493 , __return
+, label write_int
+LDW
+HERE 65530 , load large integer
+STA 81 , [Stack:3]
+LDIA 0
+STA 82 , [Stack:3]+1
+LDIA 0 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 0 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 329 , L3
+, label L0
+AIN 65 , [Stack:2]
+LDIB 1
+ADD , increment value
+STA 65 , [Stack:2]
+, label L3
+AIN 65 , [Stack:2]
+LDIB 5 , load small integer
+SUB , operator <
+JMPZ
+HERE 345 , L2
+JMPC
+HERE 345 , L2
+JMP
+HERE 338 , L1
+, label L1
+AIN 81 , [Stack:3]
+BIN 65 , [Stack:2]
+ADD , load address
+LDIB 0 , set value in B
+STAOUT
+JMP
+HERE 325 , L0, jump to next iteration
+, label L2
+, label L4
+AIN 63 , [Stack:0]
+LDIB 0 , load small integer
+SUB , operator >
+JMPZ
+HERE 473 , L6
+JMPC
+HERE 354 , L5
+JMP
+HERE 473 , L6
+, label L5
+AIN 63 , [Stack:0]
+LDIB 10 , load small integer
+STA 47 , [Temp:1]
+DIV
+MULT
+BIN 47 , [Temp:1]
+SWP
+SUB
+STA 47 , [Temp:1]
+LDIA 1 , load small integer
+BIN 47 , [Temp:1]
+SUB
+JMPZ
+HERE 370 , L12
+JMP
+HERE 373 , L13
+, label L12
+LDIA 40 , load character '1'
+JMP
+HERE 454 , L11
+, label L13
+LDIA 2 , load small integer
+BIN 47 , [Temp:1]
+SUB
+JMPZ
+HERE 380 , L14
+JMP
+HERE 383 , L15
+, label L14
+LDIA 41 , load character '2'
+JMP
+HERE 454 , L11
+, label L15
+LDIA 3 , load small integer
+BIN 47 , [Temp:1]
+SUB
+JMPZ
+HERE 390 , L16
+JMP
+HERE 393 , L17
+, label L16
+LDIA 42 , load character '3'
+JMP
+HERE 454 , L11
+, label L17
+LDIA 4 , load small integer
+BIN 47 , [Temp:1]
+SUB
+JMPZ
+HERE 400 , L18
+JMP
+HERE 403 , L19
+, label L18
+LDIA 43 , load character '4'
+JMP
+HERE 454 , L11
+, label L19
+LDIA 5 , load small integer
+BIN 47 , [Temp:1]
+SUB
+JMPZ
+HERE 410 , L20
+JMP
+HERE 413 , L21
+, label L20
+LDIA 44 , load character '5'
+JMP
+HERE 454 , L11
+, label L21
+LDIA 6 , load small integer
+BIN 47 , [Temp:1]
+SUB
+JMPZ
+HERE 420 , L22
+JMP
+HERE 423 , L23
+, label L22
+LDIA 45 , load character '6'
+JMP
+HERE 454 , L11
+, label L23
+LDIA 7 , load small integer
+BIN 47 , [Temp:1]
+SUB
+JMPZ
+HERE 430 , L24
+JMP
+HERE 433 , L25
+, label L24
+LDIA 46 , load character '7'
+JMP
+HERE 454 , L11
+, label L25
+LDIA 8 , load small integer
+BIN 47 , [Temp:1]
+SUB
+JMPZ
+HERE 440 , L26
+JMP
+HERE 443 , L27
+, label L26
+LDIA 47 , load character '8'
+JMP
+HERE 454 , L11
+, label L27
+LDIA 9 , load small integer
+BIN 47 , [Temp:1]
+SUB
+JMPZ
+HERE 450 , L28
+JMP
+HERE 453 , L29
+, label L28
+LDIA 48 , load character '9'
+JMP
+HERE 454 , L11
+, label L29
+LDIA 39 , load character '0'
+, label L11
+STLGE
+HERE 65 , [Stack:2]
+AIN 81 , [Stack:3]
+BIN 64 , [Stack:1]
+ADD , load address
+BIN 65 , [Stack:2], set value in B
+STAOUT
+AIN 63 , [Stack:0]
+LDIB 10 , load small integer
+DIV
+STLGE
+HERE 63 , [Stack:0]
+AIN 64 , [Stack:1]
+LDIB 1 , load small integer
+ADD
+STLGE
+HERE 64 , [Stack:1]
+JMP
+HERE 345 , L4
+, label L6
+LDIA 0 , load boolean false
+STLGE
+HERE 65 , [Stack:2]
+LDIA 0 , load small integer
+STLGE
+HERE 66 , [Stack:4]
+JMP
+HERE 485 , L10
+, label L7
+AIN 66 , [Stack:4]
+LDIB 1
+ADD , increment value
+STA 66 , [Stack:4]
+, label L10
+AIN 66 , [Stack:4]
+LDIB 5 , load small integer
+SUB , operator <
+JMPZ
+HERE 546 , L9
+JMPC
+HERE 546 , L9
+JMP
+HERE 494 , L8
+, label L8
+AIN 81 , [Stack:3]
+STA 67 , [Stack:5]
+LDIA 4 , load small integer
+BIN 66 , [Stack:4]
+SUB
+BIN 67 , [Stack:5]
+ADD , add to pointer address
+LDAIN
+LDIB 0 , load small integer
+SUB , operator !=
+JMPZ
+HERE 513 , L31
+JMP
+HERE 508 , L30
+, label L30
+LDIA 1 , load boolean true
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 522 , L32
+, label L31
+AIN 65 , [Stack:2]
+LDIB 0 , load boolean false
+SUB , operator ==
+JMPZ
+HERE 520 , L33
+JMP
+HERE 522 , L34
+, label L33
+JMP
+HERE 481 , L7
+, label L34
+, label L32
+LDW
+HERE 531 , L36
+SWPC
+LDW
+HERE 543 , L35
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L36
+AIN 81 , [Stack:3]
+STA 67 , [Stack:5]
+LDIA 4 , load small integer
+BIN 66 , [Stack:4]
+SUB
+BIN 67 , [Stack:5]
+ADD , add to pointer address
+LDAIN
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L35
+AIN 83 , Yabal:return_value
+JMP
+HERE 481 , L7, jump to next iteration
+, label L9
+, label write_int
+JMP
+HERE 2493 , __return
+, label write_binary
+LDW
+HERE 65519 , load large integer
+STA 81 , [Stack:3]
+LDIA 0
+STA 82 , [Stack:3]+1
+LDIA 0 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 0 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 565 , L3
+, label L0
+AIN 65 , [Stack:2]
+LDIB 1
+ADD , increment value
+STA 65 , [Stack:2]
+, label L3
+AIN 65 , [Stack:2]
+LDIB 16 , load small integer
+SUB , operator <
+JMPZ
+HERE 581 , L2
+JMPC
+HERE 581 , L2
+JMP
+HERE 574 , L1
+, label L1
+AIN 81 , [Stack:3]
+BIN 65 , [Stack:2]
+ADD , load address
+LDIB 0 , set value in B
+STAOUT
+JMP
+HERE 561 , L0, jump to next iteration
+, label L2
+, label L4
+AIN 63 , [Stack:0]
+LDIB 0 , load small integer
+SUB , operator >
+JMPZ
+HERE 628 , L6
+JMPC
+HERE 590 , L5
+JMP
+HERE 628 , L6
+, label L5
+AIN 63 , [Stack:0]
+LDIB 1 , load small integer
+AND
+STA 66 , [Stack:4]
+LDIA 1 , load small integer
+BIN 66 , [Stack:4]
+SUB
+JMPZ
+HERE 601 , L12
+JMP
+HERE 604 , L13
+, label L12
+LDIA 40 , load character '1'
+JMP
+HERE 605 , L11
+, label L13
+LDIA 39 , load character '0'
+, label L11
+STLGE
+HERE 65 , [Stack:2]
+AIN 81 , [Stack:3]
+STA 66 , [Stack:4]
+LDIA 15 , load small integer
+BIN 64 , [Stack:1]
+SUB
+BIN 66 , [Stack:4]
+ADD , load address
+BIN 65 , [Stack:2], set value in B
+STAOUT
+AIN 63 , [Stack:0]
+LDIB 1 , load small integer
+BSR
+STLGE
+HERE 63 , [Stack:0]
+AIN 64 , [Stack:1]
+LDIB 1 , load small integer
+ADD
+STLGE
+HERE 64 , [Stack:1]
+JMP
+HERE 581 , L4
+, label L6
+LDIA 0 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 637 , L10
+, label L7
+AIN 65 , [Stack:2]
+LDIB 1
+ADD , increment value
+STA 65 , [Stack:2]
+, label L10
+AIN 65 , [Stack:2]
+LDIB 16 , load small integer
+SUB , operator <
+JMPZ
+HERE 666 , L9
+JMPC
+HERE 666 , L9
+JMP
+HERE 646 , L8
+, label L8
+LDW
+HERE 655 , L15
+SWPC
+LDW
+HERE 663 , L14
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L15
+AIN 81 , [Stack:3]
+BIN 65 , [Stack:2]
+ADD , add to pointer address
+LDAIN
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L14
+AIN 83 , Yabal:return_value
+JMP
+HERE 633 , L7, jump to next iteration
+, label L9
+, label write_binary
+JMP
+HERE 2493 , __return
+, label write_float
+LDW
+HERE 677 , L1
+SWPC
+LDW
+HERE 682 , L0
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L1
+LDIA 17 , load character 'e'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L0
+AIN 83 , Yabal:return_value
+LDW
+HERE 692 , L3
+SWPC
+LDW
+HERE 697 , L2
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L3
+LDIA 56 , load character ':'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L2
+AIN 83 , Yabal:return_value
+LDIA 63 , [Stack:0]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+STLGE
+HERE 64 , [Stack:1]
+LDW
+HERE 717 , L5
+SWPC
+LDW
+HERE 729 , L4
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L5
+LDIA 63 , [Stack:0]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 548 , write_binary
+, label L4
+AIN 83 , Yabal:return_value
+LDW
+HERE 739 , L7
+SWPC
+LDW
+HERE 744 , L6
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L7
+LDIA 18 , load character 'f'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L6
+AIN 83 , Yabal:return_value
+LDW
+HERE 754 , L9
+SWPC
+LDW
+HERE 759 , L8
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L9
+LDIA 56 , load character ':'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L8
+AIN 83 , Yabal:return_value
+LDIA 63 , [Stack:0]
+LDAIN
+LDWB
+HERE 6
+BSR
+LDWB
+HERE 1023
+AND
+STLGE
+HERE 65 , [Stack:2]
+LDW
+HERE 779 , L11
+SWPC
+LDW
+HERE 791 , L10
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L11
+LDIA 63 , [Stack:0]
+LDAIN
+LDWB
+HERE 6
+BSR
+LDWB
+HERE 1023
+AND
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 548 , write_binary
+, label L10
+AIN 83 , Yabal:return_value
+, label write_float
+JMP
+HERE 2493 , __return
+, label TruncateTrailingZeros
+AIN 63 , [Stack:0], load value
+STA 64 , [Stack:1], store value
+LDIA 0 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 805 , L3
+, label L0
+AIN 65 , [Stack:2]
+LDIB 1
+ADD , increment value
+STA 65 , [Stack:2]
+, label L3
+AIN 65 , [Stack:2]
+LDIB 16 , load small integer
+SUB , operator <
+JMPZ
+HERE 832 , L2
+JMPC
+HERE 832 , L2
+JMP
+HERE 814 , L1
+, label L1
+AIN 64 , [Stack:1]
+LDIB 1 , load small integer
+AND
+LDIB 1 , load small integer
+SUB , operator ==
+JMPZ
+HERE 823 , L4
+JMP
+HERE 825 , L5
+, label L4
+JMP
+HERE 832 , L2
+, label L5
+AIN 64 , [Stack:1]
+LDIB 1 , load small integer
+BSR
+STLGE
+HERE 64 , [Stack:1]
+JMP
+HERE 801 , L0, jump to next iteration
+, label L2
+AIN 64 , [Stack:1]
+JMP
+HERE 835 , TruncateTrailingZeros
+, label TruncateTrailingZeros
+JMP
+HERE 2493 , __return
+, label WithinRange
+AIN 63 , [Stack:0]
+BIN 64 , [Stack:1]
+SUB , operator >
+JMPZ
+HERE 867 , L1
+JMPC
+HERE 846 , L0
+JMP
+HERE 867 , L1
+, label L0
+AIN 63 , [Stack:0]
+BIN 64 , [Stack:1]
+SUB
+BIN 65 , [Stack:2]
+SUB , operator <=
+JMPZ
+HERE 857 , L3
+JMPC
+HERE 862 , L4
+JMP
+HERE 857 , L3
+, label L3
+LDIA 1 , load boolean true
+JMP
+HERE 898 , WithinRange
+JMP
+HERE 865 , L5
+, label L4
+LDIA 0 , load boolean false
+JMP
+HERE 898 , WithinRange
+, label L5
+JMP
+HERE 895 , L2
+, label L1
+AIN 63 , [Stack:0]
+BIN 64 , [Stack:1]
+SUB , operator <
+JMPZ
+HERE 895 , L7
+JMPC
+HERE 895 , L7
+JMP
+HERE 876 , L6
+, label L6
+AIN 64 , [Stack:1]
+BIN 63 , [Stack:0]
+SUB
+BIN 65 , [Stack:2]
+SUB , operator <=
+JMPZ
+HERE 887 , L8
+JMPC
+HERE 892 , L9
+JMP
+HERE 887 , L8
+, label L8
+LDIA 1 , load boolean true
+JMP
+HERE 898 , WithinRange
+JMP
+HERE 895 , L10
+, label L9
+LDIA 0 , load boolean false
+JMP
+HERE 898 , WithinRange
+, label L10
+, label L7
+, label L2
+LDIA 1 , load boolean true
+JMP
+HERE 898 , WithinRange
+, label WithinRange
+JMP
+HERE 2493 , __return
+, label Negative
+AIN 63 , [Stack:0], load value
+STA 64 , [Stack:1], store value
+AIN 64 , [Stack:1]
+NOT
+LDIB 1 , load small integer
+ADD
+JMP
+HERE 908 , Negative
+, label Negative
+JMP
+HERE 2493 , __return
+, label get_shift_amnt
+LDIA 10 , load small integer
+BIN 64 , [Stack:1]
+SUB
+JMP
+HERE 915 , get_shift_amnt
+, label get_shift_amnt
+JMP
+HERE 2493 , __return
+, label pow
+AIN 63 , [Stack:0], load value
+STA 64 , [Stack:1], store value
+LDIA 81 , [Stack:3]
+LDAIN
+LDIB 1 , load small integer
+SUB , operator ==
+JMPZ
+HERE 927 , L8
+JMP
+HERE 960 , L9
+, label L8
+LDIA 1 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 936 , L3
+, label L0
+AIN 65 , [Stack:2]
+LDIB 1
+ADD , increment value
+STA 65 , [Stack:2]
+, label L3
+AIN 65 , [Stack:2]
+STA 66 , [Stack:4]
+LDIA 81 , [Stack:3]
+LDIB 1
+ADD
+LDAIN
+BIN 66 , [Stack:4]
+SWP
+SUB , operator <
+JMPZ
+HERE 958 , L2
+JMPC
+HERE 958 , L2
+JMP
+HERE 951 , L1
+, label L1
+AIN 64 , [Stack:1]
+BIN 63 , [Stack:0]
+DIV
+STLGE
+HERE 64 , [Stack:1]
+JMP
+HERE 932 , L0, jump to next iteration
+, label L2
+JMP
+HERE 991 , L10
+, label L9
+LDIA 1 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 969 , L7
+, label L4
+AIN 65 , [Stack:2]
+LDIB 1
+ADD , increment value
+STA 65 , [Stack:2]
+, label L7
+AIN 65 , [Stack:2]
+STA 66 , [Stack:4]
+LDIA 81 , [Stack:3]
+LDIB 1
+ADD
+LDAIN
+BIN 66 , [Stack:4]
+SWP
+SUB , operator <
+JMPZ
+HERE 991 , L6
+JMPC
+HERE 991 , L6
+JMP
+HERE 984 , L5
+, label L5
+AIN 64 , [Stack:1]
+BIN 63 , [Stack:0]
+MULT
+STLGE
+HERE 64 , [Stack:1]
+JMP
+HERE 965 , L4, jump to next iteration
+, label L6
+, label L10
+AIN 64 , [Stack:1]
+JMP
+HERE 994 , pow
+, label pow
+JMP
+HERE 2493 , __return
+, label normalizeFloat
+AIN 63 , [Stack:0], load value
+STA 65 , [Stack:2], store value
+AIN 64 , [Stack:1], load value
+STA 66 , [Stack:4], store value
+AIN 65 , [Stack:2]
+LDWB
+HERE 63488 , load large integer
+AND
+LDIB 0 , load small integer
+SUB , operator ==
+JMPZ
+HERE 1013 , L12
+JMP
+HERE 1010 , L11
+, label L11
+LDIA 0
+JMP
+HERE 1014 , L13
+, label L12
+LDIA 1
+, label L13
+LDIB 0
+SUB
+JMPZ
+HERE 1046 , L9
+AIN 65 , [Stack:2]
+LDWB
+HERE 1024 , load large integer
+AND
+LDWB
+HERE 1024 , load large integer
+SUB , operator ==
+JMPZ
+HERE 1032 , L15
+JMP
+HERE 1029 , L14
+, label L14
+LDIA 0
+JMP
+HERE 1033 , L16
+, label L15
+LDIA 1
+, label L16
+LDIB 0
+SUB
+JMPZ
+HERE 1046 , L9
+JMP
+HERE 1039 , L8
+, label L8
+AIN 66 , [Stack:4]
+LDIB 1 , load small integer
+ADD
+STLGE
+HERE 66 , [Stack:4]
+JMP
+HERE 1131 , L10
+, label L9
+LDIA 0 , load small integer
+STLGE
+HERE 67 , [Stack:5]
+JMP
+HERE 1055 , L3
+, label L0
+AIN 67 , [Stack:5]
+LDIB 1
+ADD , increment value
+STA 67 , [Stack:5]
+, label L3
+AIN 67 , [Stack:5]
+LDIB 10 , load small integer
+SUB , operator <
+JMPZ
+HERE 1088 , L2
+JMPC
+HERE 1088 , L2
+JMP
+HERE 1064 , L1
+, label L1
+AIN 65 , [Stack:2]
+LDWB
+HERE 63488 , load large integer
+AND
+LDIB 0 , load small integer
+SUB , operator ==
+JMPZ
+HERE 1074 , L17
+JMP
+HERE 1076 , L18
+, label L17
+JMP
+HERE 1088 , L2
+, label L18
+AIN 65 , [Stack:2]
+LDIB 1 , load small integer
+BSR
+STLGE
+HERE 65 , [Stack:2]
+AIN 66 , [Stack:4]
+LDIB 1 , load small integer
+ADD
+STLGE
+HERE 66 , [Stack:4]
+JMP
+HERE 1051 , L0, jump to next iteration
+, label L2
+LDIA 0 , load small integer
+STLGE
+HERE 67 , [Stack:5]
+JMP
+HERE 1097 , L7
+, label L4
+AIN 67 , [Stack:5]
+LDIB 1
+ADD , increment value
+STA 67 , [Stack:5]
+, label L7
+AIN 67 , [Stack:5]
+LDIB 12 , load small integer
+SUB , operator <
+JMPZ
+HERE 1131 , L6
+JMPC
+HERE 1131 , L6
+JMP
+HERE 1106 , L5
+, label L5
+AIN 65 , [Stack:2]
+LDWB
+HERE 1024 , load large integer
+AND
+LDWB
+HERE 1024 , load large integer
+SUB , operator ==
+JMPZ
+HERE 1117 , L19
+JMP
+HERE 1119 , L20
+, label L19
+JMP
+HERE 1131 , L6
+, label L20
+AIN 65 , [Stack:2]
+LDIB 1 , load small integer
+BSL
+STLGE
+HERE 65 , [Stack:2]
+AIN 66 , [Stack:4]
+LDIB 1 , load small integer
+SUB
+STLGE
+HERE 66 , [Stack:4]
+JMP
+HERE 1093 , L4, jump to next iteration
+, label L6
+, label L10
+AIN 65 , [Stack:2]
+LDIB 1023 , load small integer
+AND
+STLGE
+HERE 65 , [Stack:2]
+AIN 67 , [Stack:5]
+LDWB
+HERE 65534
+AND
+LDWB
+HERE 0
+OR
+STA 67 , [Stack:5]
+AIN 66 , [Stack:4]
+LDIB 31
+AND
+LDIB 1
+BSL
+STA 48 , [Temp:2]
+AIN 67 , [Stack:5]
+SWP
+LDW
+HERE 65473
+AND
+BIN 48 , [Temp:2]
+OR
+STA 67 , [Stack:5]
+AIN 65 , [Stack:2]
+LDIB 1023
+AND
+LDIB 6
+BSL
+STA 49 , [Temp:3]
+AIN 67 , [Stack:5]
+SWP
+LDW
+HERE 63
+AND
+BIN 49 , [Temp:3]
+OR
+STA 67 , [Stack:5]
+AIN 67 , [Stack:5]
+JMP
+HERE 1175 , normalizeFloat
+, label normalizeFloat
+JMP
+HERE 2493 , __return
+, label deNormalizeFraction
+LDIA 10 , load small integer
+BIN 64 , [Stack:1]
+SUB
+LDWB
+HERE 60000 , load large integer
+SUB , operator >
+JMPZ
+HERE 1189 , L0
+JMPC
+HERE 1192 , L1
+JMP
+HERE 1189 , L0
+, label L0
+LDIA 0
+JMP
+HERE 1193 , L2
+, label L1
+LDIA 1
+, label L2
+STLGE
+HERE 65 , [Stack:2]
+LDIA 10 , load small integer
+BIN 64 , [Stack:1]
+SUB
+STLGE
+HERE 66 , [Stack:4]
+AIN 65 , [Stack:2]
+LDIB 0
+SUB
+JMPZ
+HERE 1218 , L4
+JMP
+HERE 1207 , L3
+, label L3
+LDW
+HERE 65535 , load large integer
+STA 67 , [Stack:5]
+LDIA 10 , load small integer
+BIN 64 , [Stack:1]
+SUB
+BIN 67 , [Stack:5]
+SWP
+SUB
+STLGE
+HERE 66 , [Stack:4]
+, label L4
+AIN 65 , [Stack:2]
+LDIB 1 , load small integer
+SUB , operator ==
+JMPZ
+HERE 1225 , L5
+JMP
+HERE 1232 , L6
+, label L5
+AIN 63 , [Stack:0]
+BIN 66 , [Stack:4]
+BSL
+JMP
+HERE 1237 , deNormalizeFraction
+JMP
+HERE 1237 , L7
+, label L6
+AIN 63 , [Stack:0]
+BIN 66 , [Stack:4]
+BSR
+JMP
+HERE 1237 , deNormalizeFraction
+, label L7
+, label deNormalizeFraction
+JMP
+HERE 2493 , __return
+, label FloatToInt
+LDIA 63 , [Stack:0]
+LDAIN
+LDWB
+HERE 6
+BSR
+LDWB
+HERE 1023
+AND
+LDWB
+HERE 1024 , load large integer
+ADD
+STLGE
+HERE 64 , [Stack:1]
+LDIA 63 , [Stack:0]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+LDIB 15 , load small integer
+SUB
+STLGE
+HERE 65 , [Stack:2]
+LDW
+HERE 1273 , L1
+SWPC
+LDW
+HERE 1279 , L0
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L1
+AIN 64 , [Stack:1], load value
+STA 63 , [Stack:0], store value
+AIN 65 , [Stack:2], load value
+STA 64 , [Stack:1], store value
+JMP
+HERE 1177 , deNormalizeFraction
+, label L0
+AIN 83 , Yabal:return_value
+STLGE
+HERE 66 , [Stack:4]
+AIN 66 , [Stack:4]
+JMP
+HERE 1285 , FloatToInt
+, label FloatToInt
+JMP
+HERE 2493 , __return
+, label IntToFloat
+LDIA 1 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+AIN 63 , [Stack:0], load value
+STA 65 , [Stack:2], store value
+LDIA 1 , load small integer
+STLGE
+HERE 66 , [Stack:4]
+LDIA 0 , load small integer
+STLGE
+HERE 67 , [Stack:5]
+JMP
+HERE 1304 , L3
+, label L0
+AIN 67 , [Stack:5]
+LDIB 1
+ADD , increment value
+STA 67 , [Stack:5]
+, label L3
+AIN 67 , [Stack:5]
+LDIB 16 , load small integer
+SUB , operator <
+JMPZ
+HERE 1338 , L2
+JMPC
+HERE 1338 , L2
+JMP
+HERE 1313 , L1
+, label L1
+AIN 65 , [Stack:2]
+LDWB
+HERE 32768 , load large integer
+AND
+LDWB
+HERE 32768 , load large integer
+SUB , operator ==
+JMPZ
+HERE 1324 , L4
+JMP
+HERE 1326 , L5
+, label L4
+JMP
+HERE 1338 , L2
+, label L5
+AIN 65 , [Stack:2]
+LDIB 1 , load small integer
+BSL
+STLGE
+HERE 65 , [Stack:2]
+AIN 64 , [Stack:1]
+LDIB 1 , load small integer
+ADD
+STLGE
+HERE 64 , [Stack:1]
+JMP
+HERE 1300 , L0, jump to next iteration
+, label L2
+LDIA 15 , load small integer
+BIN 64 , [Stack:1]
+SUB
+LDIB 15 , load small integer
+ADD
+STLGE
+HERE 67 , [Stack:5]
+AIN 63 , [Stack:0], load value
+STA 68 , [Stack:6], store value
+AIN 68 , [Stack:6]
+LDWB
+HERE 2047 , load large integer
+SUB , operator >
+JMPZ
+HERE 1371 , L7
+JMPC
+HERE 1357 , L6
+JMP
+HERE 1371 , L7
+, label L6
+AIN 68 , [Stack:6]
+STA 70 , [Stack:8]
+LDIA 16 , load small integer
+BIN 64 , [Stack:1]
+SUB
+LDIB 11 , load small integer
+SUB
+BIN 70 , [Stack:8]
+SWP
+BSR
+STLGE
+HERE 68 , [Stack:6]
+JMP
+HERE 1396 , L8
+, label L7
+AIN 68 , [Stack:6]
+LDWB
+HERE 1024 , load large integer
+SUB , operator <
+JMPZ
+HERE 1396 , L10
+JMPC
+HERE 1396 , L10
+JMP
+HERE 1381 , L9
+, label L9
+AIN 68 , [Stack:6]
+STA 70 , [Stack:8]
+LDIA 11 , load small integer
+STA 71 , [Stack:9]
+LDIA 16 , load small integer
+BIN 64 , [Stack:1]
+SUB
+BIN 71 , [Stack:9]
+SWP
+SUB
+BIN 70 , [Stack:8]
+SWP
+BSL
+STLGE
+HERE 68 , [Stack:6]
+, label L10
+, label L8
+LDW
+HERE 1405 , L12
+SWPC
+LDW
+HERE 1411 , L11
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L12
+AIN 68 , [Stack:6], load value
+STA 63 , [Stack:0], store value
+AIN 67 , [Stack:5], load value
+STA 64 , [Stack:1], store value
+JMP
+HERE 996 , normalizeFloat
+, label L11
+AIN 83 , Yabal:return_value
+STLGE
+HERE 69 , [Stack:7]
+AIN 69 , [Stack:7]
+JMP
+HERE 1417 , IntToFloat
+, label IntToFloat
+JMP
+HERE 2493 , __return
+, label AddFloats
+LDIA 0 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+LDIA 63 , [Stack:0]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+STA 78 , [Stack:16]
+LDIA 64 , [Stack:1]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+BIN 78 , [Stack:16]
+SWP
+SUB , operator >
+JMPZ
+HERE 1814 , L1
+JMPC
+HERE 1448 , L0
+JMP
+HERE 1814 , L1
+, label L0
+LDIA 64 , [Stack:1]
+LDAIN
+LDWB
+HERE 6
+BSR
+LDWB
+HERE 1023
+AND
+LDWB
+HERE 1024 , load large integer
+ADD
+STA 79 , [Stack:17]
+LDIA 63 , [Stack:0]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+STA 80 , [Stack:18]
+LDIA 64 , [Stack:1]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+BIN 80 , [Stack:18]
+SWP
+SUB
+BIN 79 , [Stack:17]
+SWP
+BSR
+STLGE
+HERE 66 , [Stack:4]
+LDIA 63 , [Stack:0]
+LDAIN
+LDWB
+HERE 6
+BSR
+LDWB
+HERE 1023
+AND
+LDWB
+HERE 1024 , load large integer
+ADD
+STLGE
+HERE 67 , [Stack:5]
+LDW
+HERE 1507 , L4
+SWPC
+LDW
+HERE 1512 , L3
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L4
+LDIA 31 , load character 's'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L3
+AIN 83 , Yabal:return_value
+LDW
+HERE 1522 , L6
+SWPC
+LDW
+HERE 1527 , L5
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L6
+LDIA 0 , load character ' '
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L5
+AIN 83 , Yabal:return_value
+LDW
+HERE 1537 , L8
+SWPC
+LDW
+HERE 1546 , L7
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L8
+LDIA 64 , [Stack:1]
+LDAIN
+LDWB
+HERE 1
+AND
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 312 , write_int
+, label L7
+AIN 83 , Yabal:return_value
+LDIA 64 , [Stack:1]
+LDAIN
+LDWB
+HERE 1
+AND
+LDIB 1 , load boolean true
+SUB , operator ==
+JMPZ
+HERE 1558 , L9
+JMP
+HERE 1576 , L10
+, label L9
+AIN 74 , [Stack:12]
+NOT
+STA 74 , [Stack:12]
+LDW
+HERE 1570 , L12
+SWPC
+LDW
+HERE 1575 , L11
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L12
+LDIA 30 , load character 'r'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L11
+AIN 83 , Yabal:return_value
+, label L10
+LDIA 63 , [Stack:0]
+LDAIN
+LDWB
+HERE 1
+AND
+LDIB 1 , load boolean true
+SUB , operator ==
+JMPZ
+HERE 1587 , L13
+JMP
+HERE 1603 , L14
+, label L13
+LDW
+HERE 1596 , L16
+SWPC
+LDW
+HERE 1600 , L15
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L16
+AIN 67 , [Stack:5], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 900 , Negative
+, label L15
+AIN 83 , Yabal:return_value
+STLGE
+HERE 67 , [Stack:5]
+, label L14
+LDW
+HERE 301 , newline
+SWPC
+LDW
+HERE 1612 , L17
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L17
+AIN 83 , Yabal:return_value
+LDW
+HERE 1622 , L20
+SWPC
+LDW
+HERE 1627 , L19
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L20
+LDIA 13 , load character 'a'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L19
+AIN 83 , Yabal:return_value
+LDW
+HERE 1637 , L22
+SWPC
+LDW
+HERE 1642 , L21
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L22
+LDIA 56 , load character ':'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L21
+AIN 83 , Yabal:return_value
+LDW
+HERE 1652 , L24
+SWPC
+LDW
+HERE 1656 , L23
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L24
+AIN 67 , [Stack:5], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 548 , write_binary
+, label L23
+AIN 83 , Yabal:return_value
+LDW
+HERE 1666 , L26
+SWPC
+LDW
+HERE 1671 , L25
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L26
+LDIA 14 , load character 'b'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L25
+AIN 83 , Yabal:return_value
+LDW
+HERE 1681 , L28
+SWPC
+LDW
+HERE 1686 , L27
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L28
+LDIA 56 , load character ':'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L27
+AIN 83 , Yabal:return_value
+LDW
+HERE 1696 , L30
+SWPC
+LDW
+HERE 1700 , L29
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L30
+AIN 66 , [Stack:4], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 548 , write_binary
+, label L29
+AIN 83 , Yabal:return_value
+AIN 67 , [Stack:5]
+BIN 66 , [Stack:4]
+ADD
+STLGE
+HERE 68 , [Stack:6]
+LDIA 63 , [Stack:0]
+LDAIN
+LDWB
+HERE 1
+AND
+LDIB 1
+AND
+LDIB 0
+BSL
+STA 50 , [Temp:4]
+AIN 69 , [Stack:7]
+SWP
+LDW
+HERE 65534
+AND
+BIN 50 , [Temp:4]
+OR
+STA 69 , [Stack:7]
+LDIA 63 , [Stack:0]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+LDIB 31
+AND
+LDIB 1
+BSL
+STA 51 , [Temp:5]
+AIN 69 , [Stack:7]
+SWP
+LDW
+HERE 65473
+AND
+BIN 51 , [Temp:5]
+OR
+STA 69 , [Stack:7]
+AIN 68 , [Stack:6]
+LDIB 1023
+AND
+LDIB 6
+BSL
+STA 52 , [Temp:6]
+AIN 69 , [Stack:7]
+SWP
+LDW
+HERE 63
+AND
+BIN 52 , [Temp:6]
+OR
+STA 69 , [Stack:7]
+AIN 68 , [Stack:6]
+LDWB
+HERE 1024 , load large integer
+AND
+LDWB
+HERE 1024 , load large integer
+SUB , operator !=
+JMPZ
+HERE 1796 , L32
+JMP
+HERE 1770 , L31
+, label L31
+LDW
+HERE 1779 , L34
+SWPC
+LDW
+HERE 1793 , L33
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L34
+AIN 68 , [Stack:6], load value
+STA 63 , [Stack:0], store value
+LDIA 64 , [Stack:1]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+STLGE
+HERE 64 , [Stack:1]
+JMP
+HERE 996 , normalizeFloat
+, label L33
+AIN 83 , Yabal:return_value
+STLGE
+HERE 69 , [Stack:7]
+, label L32
+LDW
+HERE 1805 , L36
+SWPC
+LDW
+HERE 1809 , L35
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L36
+AIN 69 , [Stack:7], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 1239 , FloatToInt
+, label L35
+AIN 83 , Yabal:return_value
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 2140 , L2
+, label L1
+LDIA 63 , [Stack:0]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+STA 78 , [Stack:16]
+LDIA 64 , [Stack:1]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+BIN 78 , [Stack:16]
+SWP
+SUB , operator <
+JMPZ
+HERE 2003 , L38
+JMPC
+HERE 2003 , L38
+JMP
+HERE 1840 , L37
+, label L37
+LDIA 64 , [Stack:1]
+LDAIN
+LDWB
+HERE 6
+BSR
+LDWB
+HERE 1023
+AND
+LDWB
+HERE 1024 , load large integer
+ADD
+STLGE
+HERE 70 , [Stack:8]
+LDIA 63 , [Stack:0]
+LDAIN
+LDWB
+HERE 6
+BSR
+LDWB
+HERE 1023
+AND
+LDWB
+HERE 1024 , load large integer
+ADD
+STA 79 , [Stack:17]
+LDIA 64 , [Stack:1]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+STA 80 , [Stack:18]
+LDIA 63 , [Stack:0]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+BIN 80 , [Stack:18]
+SWP
+SUB
+BIN 79 , [Stack:17]
+SWP
+BSR
+STLGE
+HERE 71 , [Stack:9]
+AIN 71 , [Stack:9]
+BIN 70 , [Stack:8]
+ADD
+STLGE
+HERE 72 , [Stack:10]
+LDIA 63 , [Stack:0]
+LDAIN
+LDWB
+HERE 1
+AND
+LDIB 1
+AND
+LDIB 0
+BSL
+STA 53 , [Temp:7]
+AIN 73 , [Stack:11]
+SWP
+LDW
+HERE 65534
+AND
+BIN 53 , [Temp:7]
+OR
+STA 73 , [Stack:11]
+LDIA 64 , [Stack:1]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+LDIB 31
+AND
+LDIB 1
+BSL
+STA 54 , [Temp:8]
+AIN 73 , [Stack:11]
+SWP
+LDW
+HERE 65473
+AND
+BIN 54 , [Temp:8]
+OR
+STA 73 , [Stack:11]
+AIN 72 , [Stack:10]
+LDIB 1023
+AND
+LDIB 6
+BSL
+STA 55 , [Temp:9]
+AIN 73 , [Stack:11]
+SWP
+LDW
+HERE 63
+AND
+BIN 55 , [Temp:9]
+OR
+STA 73 , [Stack:11]
+AIN 72 , [Stack:10]
+LDWB
+HERE 1024 , load large integer
+AND
+LDWB
+HERE 1024 , load large integer
+SUB , operator !=
+JMPZ
+HERE 1985 , L41
+JMP
+HERE 1959 , L40
+, label L40
+LDW
+HERE 1968 , L43
+SWPC
+LDW
+HERE 1982 , L42
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L43
+AIN 72 , [Stack:10], load value
+STA 63 , [Stack:0], store value
+LDIA 64 , [Stack:1]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+STLGE
+HERE 64 , [Stack:1]
+JMP
+HERE 996 , normalizeFloat
+, label L42
+AIN 83 , Yabal:return_value
+STLGE
+HERE 73 , [Stack:11]
+, label L41
+LDW
+HERE 1994 , L45
+SWPC
+LDW
+HERE 1998 , L44
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L45
+AIN 73 , [Stack:11], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 1239 , FloatToInt
+, label L44
+AIN 83 , Yabal:return_value
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 2140 , L39
+, label L38
+LDIA 64 , [Stack:1]
+LDAIN
+LDWB
+HERE 6
+BSR
+LDWB
+HERE 1023
+AND
+LDWB
+HERE 1024 , load large integer
+ADD
+STLGE
+HERE 74 , [Stack:12]
+LDIA 63 , [Stack:0]
+LDAIN
+LDWB
+HERE 6
+BSR
+LDWB
+HERE 1023
+AND
+LDWB
+HERE 1024 , load large integer
+ADD
+STLGE
+HERE 75 , [Stack:13]
+AIN 75 , [Stack:13]
+BIN 74 , [Stack:12]
+ADD
+STLGE
+HERE 76 , [Stack:14]
+LDIA 63 , [Stack:0]
+LDAIN
+LDWB
+HERE 1
+AND
+LDIB 1
+AND
+LDIB 0
+BSL
+STA 56 , [Temp:10]
+AIN 77 , [Stack:15]
+SWP
+LDW
+HERE 65534
+AND
+BIN 56 , [Temp:10]
+OR
+STA 77 , [Stack:15]
+LDIA 64 , [Stack:1]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+LDIB 31
+AND
+LDIB 1
+BSL
+STA 57 , [Temp:11]
+AIN 77 , [Stack:15]
+SWP
+LDW
+HERE 65473
+AND
+BIN 57 , [Temp:11]
+OR
+STA 77 , [Stack:15]
+AIN 76 , [Stack:14]
+LDIB 1023
+AND
+LDIB 6
+BSL
+STA 58 , [Temp:12]
+AIN 77 , [Stack:15]
+SWP
+LDW
+HERE 63
+AND
+BIN 58 , [Temp:12]
+OR
+STA 77 , [Stack:15]
+AIN 76 , [Stack:14]
+LDWB
+HERE 1024 , load large integer
+AND
+LDWB
+HERE 1024 , load large integer
+SUB , operator !=
+JMPZ
+HERE 2124 , L47
+JMP
+HERE 2098 , L46
+, label L46
+LDW
+HERE 2107 , L49
+SWPC
+LDW
+HERE 2121 , L48
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L49
+AIN 76 , [Stack:14], load value
+STA 63 , [Stack:0], store value
+LDIA 64 , [Stack:1]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+STLGE
+HERE 64 , [Stack:1]
+JMP
+HERE 996 , normalizeFloat
+, label L48
+AIN 83 , Yabal:return_value
+STLGE
+HERE 77 , [Stack:15]
+, label L47
+LDW
+HERE 2133 , L51
+SWPC
+LDW
+HERE 2137 , L50
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L51
+AIN 77 , [Stack:15], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 1239 , FloatToInt
+, label L50
+AIN 83 , Yabal:return_value
+STLGE
+HERE 65 , [Stack:2]
+, label L39
+, label L2
+AIN 65 , [Stack:2]
+JMP
+HERE 2143 , AddFloats
+, label AddFloats
+JMP
+HERE 2493 , __return
+, label SubFloats
+AIN 64 , [Stack:1], load value
+STA 65 , [Stack:2], store value
+LDIA 65 , [Stack:2]
+LDAIN
+LDWB
+HERE 1
+AND
+LDIB 1
+SUB
+JMPZ
+HERE 2157 , L0
+LDIA 1
+, label L0
+LDIB 1
+AND
+LDIB 0
+BSL
+STA 59 , [Temp:13]
+LDIA 65 , [Stack:2]
+LDAIN
+SWP
+LDW
+HERE 65534
+AND
+BIN 59 , [Temp:13]
+OR
+SWP
+LDIA 65 , [Stack:2]
+STAOUT
+LDW
+HERE 2182 , L2
+SWPC
+LDW
+HERE 2188 , L1
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L2
+AIN 63 , [Stack:0], load value
+STA 63 , [Stack:0], store value
+AIN 65 , [Stack:2], load value
+STA 64 , [Stack:1], store value
+JMP
+HERE 1419 , AddFloats
+, label L1
+AIN 83 , Yabal:return_value
+JMP
+HERE 2191 , SubFloats
+, label SubFloats
+JMP
+HERE 2493 , __return
+, label MultFloats
+LDIA 0 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+LDIA 63 , [Stack:0]
+LDAIN
+LDWB
+HERE 6
+BSR
+LDWB
+HERE 1023
+AND
+LDWB
+HERE 1024 , load large integer
+ADD
+STLGE
+HERE 66 , [Stack:4]
+LDIA 64 , [Stack:1]
+LDAIN
+LDWB
+HERE 6
+BSR
+LDWB
+HERE 1023
+AND
+LDWB
+HERE 1024 , load large integer
+ADD
+STLGE
+HERE 67 , [Stack:5]
+LDIA 0 , load small integer
+STLGE
+HERE 68 , [Stack:6]
+LDIA 0 , load small integer
+STLGE
+HERE 69 , [Stack:7]
+JMP
+HERE 2234 , L3
+, label L0
+AIN 69 , [Stack:7]
+LDIB 1
+ADD , increment value
+STA 69 , [Stack:7]
+, label L3
+AIN 69 , [Stack:7]
+LDIB 16 , load small integer
+SUB , operator <
+JMPZ
+HERE 2280 , L2
+JMPC
+HERE 2280 , L2
+JMP
+HERE 2243 , L1
+, label L1
+AIN 66 , [Stack:4]
+LDIB 1 , load boolean true
+AND
+LDIB 1
+SUB
+JMPZ
+HERE 2259 , L4
+AIN 67 , [Stack:5]
+LDIB 1 , load boolean true
+AND
+LDIB 1
+SUB
+JMPZ
+HERE 2259 , L4
+JMP
+HERE 2263 , L5
+, label L4
+JMP
+HERE 2280 , L2
+JMP
+HERE 2278 , L6
+, label L5
+AIN 66 , [Stack:4]
+LDIB 1 , load small integer
+BSR
+STLGE
+HERE 66 , [Stack:4]
+AIN 67 , [Stack:5]
+LDIB 1 , load small integer
+BSR
+STLGE
+HERE 67 , [Stack:5]
+AIN 68 , [Stack:6]
+LDIB 1 , load small integer
+ADD
+STLGE
+HERE 68 , [Stack:6]
+, label L6
+JMP
+HERE 2230 , L0, jump to next iteration
+, label L2
+AIN 66 , [Stack:4]
+BIN 67 , [Stack:5]
+MULT
+STLGE
+HERE 69 , [Stack:7]
+LDIA 63 , [Stack:0]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+STA 72 , [Stack:10]
+LDIA 64 , [Stack:1]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+BIN 72 , [Stack:10]
+SWP
+ADD
+LDIB 15 , load small integer
+SUB
+BIN 68 , [Stack:6]
+ADD
+LDIB 4 , load small integer
+SUB
+STLGE
+HERE 70 , [Stack:8]
+LDIA 63 , [Stack:0]
+LDAIN
+LDWB
+HERE 1
+AND
+LDIB 1
+AND
+LDIB 0
+BSL
+STA 60 , [Temp:14]
+AIN 71 , [Stack:9]
+SWP
+LDW
+HERE 65534
+AND
+BIN 60 , [Temp:14]
+OR
+STA 71 , [Stack:9]
+AIN 70 , [Stack:8]
+LDIB 31
+AND
+LDIB 1
+BSL
+STA 61 , [Temp:15]
+AIN 71 , [Stack:9]
+SWP
+LDW
+HERE 65473
+AND
+BIN 61 , [Temp:15]
+OR
+STA 71 , [Stack:9]
+AIN 69 , [Stack:7]
+LDIB 1023
+AND
+LDIB 6
+BSL
+STA 62 , [Temp:16]
+AIN 71 , [Stack:9]
+SWP
+LDW
+HERE 63
+AND
+BIN 62 , [Temp:16]
+OR
+STA 71 , [Stack:9]
+AIN 69 , [Stack:7]
+LDWB
+HERE 1024 , load large integer
+AND
+LDWB
+HERE 1024 , load large integer
+SUB , operator !=
+JMPZ
+HERE 2388 , L8
+JMP
+HERE 2370 , L7
+, label L7
+LDW
+HERE 2379 , L10
+SWPC
+LDW
+HERE 2385 , L9
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L10
+AIN 69 , [Stack:7], load value
+STA 63 , [Stack:0], store value
+AIN 70 , [Stack:8], load value
+STA 64 , [Stack:1], store value
+JMP
+HERE 996 , normalizeFloat
+, label L9
+AIN 83 , Yabal:return_value
+STLGE
+HERE 71 , [Stack:9]
+, label L8
+LDW
+HERE 2397 , L12
+SWPC
+LDW
+HERE 2401 , L11
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L12
+AIN 71 , [Stack:9], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 1239 , FloatToInt
+, label L11
+AIN 83 , Yabal:return_value
+STLGE
+HERE 65 , [Stack:2]
+AIN 65 , [Stack:2]
+JMP
+HERE 2407 , MultFloats
+, label MultFloats
+JMP
+HERE 2493 , __return
+, label __call
+AIN 84 , Yabal:stack_pointer
+STAOUT
+LDIB 1
+ADD
+BIN 63 , [Stack:0]
+STAOUT
+LDIB 1
+ADD
+BIN 64 , [Stack:1]
+STAOUT
+LDIB 1
+ADD
+BIN 65 , [Stack:2]
+STAOUT
+LDIB 1
+ADD
+BIN 66 , [Stack:4]
+STAOUT
+LDIB 1
+ADD
+BIN 67 , [Stack:5]
+STAOUT
+LDIB 1
+ADD
+BIN 68 , [Stack:6]
+STAOUT
+LDIB 1
+ADD
+BIN 69 , [Stack:7]
+STAOUT
+LDIB 1
+ADD
+BIN 70 , [Stack:8]
+STAOUT
+LDIB 1
+ADD
+BIN 71 , [Stack:9]
+STAOUT
+LDIB 1
+ADD
+BIN 72 , [Stack:10]
+STAOUT
+LDIB 1
+ADD
+BIN 73 , [Stack:11]
+STAOUT
+LDIB 1
+ADD
+BIN 74 , [Stack:12]
+STAOUT
+LDIB 1
+ADD
+BIN 75 , [Stack:13]
+STAOUT
+LDIB 1
+ADD
+BIN 76 , [Stack:14]
+STAOUT
+LDIB 1
+ADD
+BIN 77 , [Stack:15]
+STAOUT
+LDIB 1
+ADD
+BIN 78 , [Stack:16]
+STAOUT
+LDIB 1
+ADD
+BIN 79 , [Stack:17]
+STAOUT
+LDIB 1
+ADD
+BIN 80 , [Stack:18]
+STAOUT
+LDIB 1
+ADD
+BIN 81 , [Stack:3]
+STAOUT
+AIN 84 , Yabal:stack_pointer
+LDIB 20
+ADD
+STA 84 , Yabal:stack_pointer
+SWPC
+JREG
+, label __return
+STA 83 , Yabal:return_value
+AIN 84 , Yabal:stack_pointer
+LDIB 20
+SUB
+STA 84 , Yabal:stack_pointer
+STA 85 , Yabal:temp
+AIN 85 , Yabal:temp
+LDIB 1
+ADD
+STA 85 , Yabal:temp
+LDAIN
+STA 63 , [Stack:0]
+AIN 85 , Yabal:temp
+LDIB 1
+ADD
+STA 85 , Yabal:temp
+LDAIN
+STA 64 , [Stack:1]
+AIN 85 , Yabal:temp
+LDIB 1
+ADD
+STA 85 , Yabal:temp
+LDAIN
+STA 65 , [Stack:2]
+AIN 85 , Yabal:temp
+LDIB 1
+ADD
+STA 85 , Yabal:temp
+LDAIN
+STA 66 , [Stack:4]
+AIN 85 , Yabal:temp
+LDIB 1
+ADD
+STA 85 , Yabal:temp
+LDAIN
+STA 67 , [Stack:5]
+AIN 85 , Yabal:temp
+LDIB 1
+ADD
+STA 85 , Yabal:temp
+LDAIN
+STA 68 , [Stack:6]
+AIN 85 , Yabal:temp
+LDIB 1
+ADD
+STA 85 , Yabal:temp
+LDAIN
+STA 69 , [Stack:7]
+AIN 85 , Yabal:temp
+LDIB 1
+ADD
+STA 85 , Yabal:temp
+LDAIN
+STA 70 , [Stack:8]
+AIN 85 , Yabal:temp
+LDIB 1
+ADD
+STA 85 , Yabal:temp
+LDAIN
+STA 71 , [Stack:9]
+AIN 85 , Yabal:temp
+LDIB 1
+ADD
+STA 85 , Yabal:temp
+LDAIN
+STA 72 , [Stack:10]
+AIN 85 , Yabal:temp
+LDIB 1
+ADD
+STA 85 , Yabal:temp
+LDAIN
+STA 73 , [Stack:11]
+AIN 85 , Yabal:temp
+LDIB 1
+ADD
+STA 85 , Yabal:temp
+LDAIN
+STA 74 , [Stack:12]
+AIN 85 , Yabal:temp
+LDIB 1
+ADD
+STA 85 , Yabal:temp
+LDAIN
+STA 75 , [Stack:13]
+AIN 85 , Yabal:temp
+LDIB 1
+ADD
+STA 85 , Yabal:temp
+LDAIN
+STA 76 , [Stack:14]
+AIN 85 , Yabal:temp
+LDIB 1
+ADD
+STA 85 , Yabal:temp
+LDAIN
+STA 77 , [Stack:15]
+AIN 85 , Yabal:temp
+LDIB 1
+ADD
+STA 85 , Yabal:temp
+LDAIN
+STA 78 , [Stack:16]
+AIN 85 , Yabal:temp
+LDIB 1
+ADD
+STA 85 , Yabal:temp
+LDAIN
+STA 79 , [Stack:17]
+AIN 85 , Yabal:temp
+LDIB 1
+ADD
+STA 85 , Yabal:temp
+LDAIN
+STA 80 , [Stack:18]
+AIN 85 , Yabal:temp
+LDIB 1
+ADD
+STA 85 , Yabal:temp
+LDAIN
+STA 81 , [Stack:3]
+AIN 84 , Yabal:stack_pointer
+LDAIN
+JREG
+, label Program
+LDW
+HERE 16382 , load large integer
+STA 2 , [Global:0]
+LDIA 0
+STA 3 , [Global:0]+1
+LDW
+HERE 16384 , load large integer
+STA 4 , [Global:1]
+LDIA 0
+STA 5 , [Global:1]+1
+LDW
+HERE 53871 , load large integer
+STA 6 , [Global:2]
+LDIA 1
+STA 7 , [Global:2]+1
+LDW
+HERE 53546 , load large integer
+STA 8 , [Global:3]
+LDIA 1
+STA 9 , [Global:3]+1
+LDIA 0 , load small integer
+STLGE
+HERE 10 , [Global:4]
+LDIA 0 , load small integer
+STLGE
+HERE 11 , [Global:5]
+LDIA 255 , load small integer
+STLGE
+HERE 12 , [Global:6]
+AIN 13 , [Global:7]
+LDWB
+HERE 65534
+AND
+LDWB
+HERE 0
+OR
+STA 13 , [Global:7]
+AIN 13 , [Global:7]
+LDWB
+HERE 65473
+AND
+LDWB
+HERE 32
+OR
+STA 13 , [Global:7]
+AIN 13 , [Global:7]
+LDWB
+HERE 63
+AND
+LDWB
+HERE 37376
+OR
+STA 13 , [Global:7]
+LDIA 143 , load small integer
+STLGE
+HERE 14 , [Global:8]
+LDW
+HERE 2681 , L4
+SWPC
+LDW
+HERE 2685 , L3
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L4
+AIN 14 , [Global:8], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 548 , write_binary
+, label L3
+AIN 83 , Yabal:return_value
+AIN 14 , [Global:8]
+NOT
+STLGE
+HERE 15 , [Global:9]
+AIN 14 , [Global:8]
+NOT
+STA 15 , [Global:9]
+LDW
+HERE 2702 , L6
+SWPC
+LDW
+HERE 2706 , L5
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L6
+AIN 15 , [Global:9], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 548 , write_binary
+, label L5
+AIN 83 , Yabal:return_value
+LDW
+HERE 301 , newline
+SWPC
+LDW
+HERE 2716 , L7
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L7
+AIN 83 , Yabal:return_value
+LDW
+HERE 2726 , L10
+SWPC
+LDW
+HERE 2737 , L9
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L10
+LDIA 0 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 0 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 200 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L9
+AIN 83 , Yabal:return_value
+LDW
+HERE 2747 , L12
+SWPC
+LDW
+HERE 2752 , L11
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L12
+LDIA 18 , load character 'f'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L11
+AIN 83 , Yabal:return_value
+LDW
+HERE 2762 , L14
+SWPC
+LDW
+HERE 2767 , L13
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L14
+LDIA 24 , load character 'l'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L13
+AIN 83 , Yabal:return_value
+LDW
+HERE 2777 , L16
+SWPC
+LDW
+HERE 2782 , L15
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L16
+LDIA 27 , load character 'o'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L15
+AIN 83 , Yabal:return_value
+LDW
+HERE 2792 , L18
+SWPC
+LDW
+HERE 2797 , L17
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L18
+LDIA 13 , load character 'a'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L17
+AIN 83 , Yabal:return_value
+LDW
+HERE 2807 , L20
+SWPC
+LDW
+HERE 2812 , L19
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L20
+LDIA 32 , load character 't'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L19
+AIN 83 , Yabal:return_value
+LDW
+HERE 2822 , L22
+SWPC
+LDW
+HERE 2827 , L21
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L22
+LDIA 0 , load character ' '
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L21
+AIN 83 , Yabal:return_value
+LDW
+HERE 2837 , L24
+SWPC
+LDW
+HERE 2842 , L23
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L24
+LDIA 32 , load character 't'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L23
+AIN 83 , Yabal:return_value
+LDW
+HERE 2852 , L26
+SWPC
+LDW
+HERE 2857 , L25
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L26
+LDIA 17 , load character 'e'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L25
+AIN 83 , Yabal:return_value
+LDW
+HERE 2867 , L28
+SWPC
+LDW
+HERE 2872 , L27
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L28
+LDIA 31 , load character 's'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L27
+AIN 83 , Yabal:return_value
+LDW
+HERE 2882 , L30
+SWPC
+LDW
+HERE 2887 , L29
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L30
+LDIA 32 , load character 't'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L29
+AIN 83 , Yabal:return_value
+LDW
+HERE 2897 , L32
+SWPC
+LDW
+HERE 2902 , L31
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L32
+LDIA 31 , load character 's'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L31
+AIN 83 , Yabal:return_value
+LDW
+HERE 2912 , L34
+SWPC
+LDW
+HERE 2917 , L33
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L34
+LDIA 56 , load character ':'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L33
+AIN 83 , Yabal:return_value
+LDW
+HERE 301 , newline
+SWPC
+LDW
+HERE 2927 , L35
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L35
+AIN 83 , Yabal:return_value
+LDIA 0 , load small integer
+STLGE
+HERE 16 , [Global:10]
+LDIA 0 , load small integer
+STLGE
+HERE 17 , [Global:11]
+LDW
+HERE 1024 , load large integer
+STLGE
+HERE 16 , [Global:10]
+LDW
+HERE 2947 , L38
+SWPC
+LDW
+HERE 2958 , L37
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L38
+LDIA 0 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 128 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 128 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L37
+AIN 83 , Yabal:return_value
+LDW
+HERE 2968 , L40
+SWPC
+LDW
+HERE 2973 , L39
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L40
+LDIA 32 , load character 't'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L39
+AIN 83 , Yabal:return_value
+LDW
+HERE 2983 , L42
+SWPC
+LDW
+HERE 2988 , L41
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L42
+LDIA 40 , load character '1'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L41
+AIN 83 , Yabal:return_value
+LDW
+HERE 2998 , L44
+SWPC
+LDW
+HERE 3003 , L43
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L44
+LDIA 0 , load character ' '
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L43
+AIN 83 , Yabal:return_value
+LDW
+HERE 3013 , L46
+SWPC
+LDW
+HERE 3017 , L45
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L46
+AIN 16 , [Global:10], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 1287 , IntToFloat
+, label L45
+AIN 83 , Yabal:return_value
+STLGE
+HERE 18 , [Global:12]
+LDW
+HERE 3029 , L48
+SWPC
+LDW
+HERE 3033 , L47
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L48
+AIN 18 , [Global:12], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 1239 , FloatToInt
+, label L47
+AIN 83 , Yabal:return_value
+STLGE
+HERE 17 , [Global:11]
+LDW
+HERE 3045 , L53
+SWPC
+LDW
+HERE 3054 , L52
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L53
+AIN 16 , [Global:10], load value
+STA 63 , [Stack:0], store value
+AIN 17 , [Global:11], load value
+STA 64 , [Stack:1], store value
+LDIA 10 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 837 , WithinRange
+, label L52
+AIN 83 , Yabal:return_value
+LDIB 0 , load boolean false
+SUB , operator ==
+JMPZ
+HERE 3061 , L49
+JMP
+HERE 3084 , L50
+, label L49
+LDW
+HERE 3070 , L55
+SWPC
+LDW
+HERE 3081 , L54
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L55
+LDIA 230 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 0 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 0 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L54
+AIN 83 , Yabal:return_value
+JMP
+HERE 3105 , L51
+, label L50
+LDW
+HERE 3093 , L57
+SWPC
+LDW
+HERE 3104 , L56
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L57
+LDIA 0 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 230 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 0 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L56
+AIN 83 , Yabal:return_value
+, label L51
+LDW
+HERE 3114 , L59
+SWPC
+LDW
+HERE 3118 , L58
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L59
+AIN 17 , [Global:11], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 312 , write_int
+, label L58
+AIN 83 , Yabal:return_value
+LDW
+HERE 3128 , L61
+SWPC
+LDW
+HERE 3133 , L60
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L61
+LDIA 0 , load character ' '
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L60
+AIN 83 , Yabal:return_value
+LDW
+HERE 3143 , L63
+SWPC
+LDW
+HERE 3154 , L62
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L63
+LDIA 128 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 128 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 0 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L62
+AIN 83 , Yabal:return_value
+LDW
+HERE 3164 , L65
+SWPC
+LDW
+HERE 3168 , L64
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L65
+AIN 16 , [Global:10], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 312 , write_int
+, label L64
+AIN 83 , Yabal:return_value
+LDW
+HERE 3178 , L67
+SWPC
+LDW
+HERE 3189 , L66
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L67
+LDIA 0 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 128 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 128 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L66
+AIN 83 , Yabal:return_value
+LDW
+HERE 301 , newline
+SWPC
+LDW
+HERE 3199 , L68
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L68
+AIN 83 , Yabal:return_value
+LDW
+HERE 2751 , load large integer
+STLGE
+HERE 16 , [Global:10]
+LDW
+HERE 3213 , L71
+SWPC
+LDW
+HERE 3224 , L70
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L71
+LDIA 0 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 128 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 128 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L70
+AIN 83 , Yabal:return_value
+LDW
+HERE 3234 , L73
+SWPC
+LDW
+HERE 3239 , L72
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L73
+LDIA 32 , load character 't'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L72
+AIN 83 , Yabal:return_value
+LDW
+HERE 3249 , L75
+SWPC
+LDW
+HERE 3254 , L74
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L75
+LDIA 41 , load character '2'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L74
+AIN 83 , Yabal:return_value
+LDW
+HERE 3264 , L77
+SWPC
+LDW
+HERE 3269 , L76
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L77
+LDIA 0 , load character ' '
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L76
+AIN 83 , Yabal:return_value
+LDW
+HERE 3279 , L79
+SWPC
+LDW
+HERE 3283 , L78
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L79
+AIN 16 , [Global:10], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 1287 , IntToFloat
+, label L78
+AIN 83 , Yabal:return_value
+STLGE
+HERE 19 , [Global:13]
+LDW
+HERE 3295 , L81
+SWPC
+LDW
+HERE 3299 , L80
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L81
+AIN 19 , [Global:13], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 1239 , FloatToInt
+, label L80
+AIN 83 , Yabal:return_value
+STLGE
+HERE 17 , [Global:11]
+LDW
+HERE 3311 , L86
+SWPC
+LDW
+HERE 3320 , L85
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L86
+AIN 16 , [Global:10], load value
+STA 63 , [Stack:0], store value
+AIN 17 , [Global:11], load value
+STA 64 , [Stack:1], store value
+LDIA 10 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 837 , WithinRange
+, label L85
+AIN 83 , Yabal:return_value
+LDIB 0 , load boolean false
+SUB , operator ==
+JMPZ
+HERE 3327 , L82
+JMP
+HERE 3350 , L83
+, label L82
+LDW
+HERE 3336 , L88
+SWPC
+LDW
+HERE 3347 , L87
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L88
+LDIA 230 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 0 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 0 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L87
+AIN 83 , Yabal:return_value
+JMP
+HERE 3371 , L84
+, label L83
+LDW
+HERE 3359 , L90
+SWPC
+LDW
+HERE 3370 , L89
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L90
+LDIA 0 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 230 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 0 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L89
+AIN 83 , Yabal:return_value
+, label L84
+LDW
+HERE 3380 , L92
+SWPC
+LDW
+HERE 3384 , L91
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L92
+AIN 17 , [Global:11], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 312 , write_int
+, label L91
+AIN 83 , Yabal:return_value
+LDW
+HERE 3394 , L94
+SWPC
+LDW
+HERE 3399 , L93
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L94
+LDIA 0 , load character ' '
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L93
+AIN 83 , Yabal:return_value
+LDW
+HERE 3409 , L96
+SWPC
+LDW
+HERE 3420 , L95
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L96
+LDIA 128 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 128 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 0 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L95
+AIN 83 , Yabal:return_value
+LDW
+HERE 3430 , L98
+SWPC
+LDW
+HERE 3434 , L97
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L98
+AIN 16 , [Global:10], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 312 , write_int
+, label L97
+AIN 83 , Yabal:return_value
+LDW
+HERE 3444 , L100
+SWPC
+LDW
+HERE 3455 , L99
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L100
+LDIA 0 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 128 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 128 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L99
+AIN 83 , Yabal:return_value
+LDW
+HERE 301 , newline
+SWPC
+LDW
+HERE 3465 , L101
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L101
+AIN 83 , Yabal:return_value
+LDIA 650 , load small integer
+STLGE
+HERE 16 , [Global:10]
+LDW
+HERE 3478 , L104
+SWPC
+LDW
+HERE 3489 , L103
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L104
+LDIA 0 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 128 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 128 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L103
+AIN 83 , Yabal:return_value
+LDW
+HERE 3499 , L106
+SWPC
+LDW
+HERE 3504 , L105
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L106
+LDIA 32 , load character 't'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L105
+AIN 83 , Yabal:return_value
+LDW
+HERE 3514 , L108
+SWPC
+LDW
+HERE 3519 , L107
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L108
+LDIA 42 , load character '3'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L107
+AIN 83 , Yabal:return_value
+LDW
+HERE 3529 , L110
+SWPC
+LDW
+HERE 3534 , L109
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L110
+LDIA 0 , load character ' '
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L109
+AIN 83 , Yabal:return_value
+LDW
+HERE 3544 , L112
+SWPC
+LDW
+HERE 3549 , L111
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L112
+LDIA 150 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 1287 , IntToFloat
+, label L111
+AIN 83 , Yabal:return_value
+STLGE
+HERE 22 , [Global:16]
+LDW
+HERE 3561 , L114
+SWPC
+LDW
+HERE 3579 , L113
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L114
+LDW
+HERE 3570 , L116
+SWPC
+LDW
+HERE 3574 , L115
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L116
+AIN 22 , [Global:16], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 1239 , FloatToInt
+, label L115
+AIN 83 , Yabal:return_value
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 312 , write_int
+, label L113
+AIN 83 , Yabal:return_value
+LDW
+HERE 3589 , L118
+SWPC
+LDW
+HERE 3594 , L117
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L118
+LDIA 500 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 1287 , IntToFloat
+, label L117
+AIN 83 , Yabal:return_value
+STLGE
+HERE 23 , [Global:17]
+LDW
+HERE 3606 , L120
+SWPC
+LDW
+HERE 3611 , L119
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L120
+LDIA 3 , load character '+'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L119
+AIN 83 , Yabal:return_value
+LDW
+HERE 3621 , L122
+SWPC
+LDW
+HERE 3639 , L121
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L122
+LDW
+HERE 3630 , L124
+SWPC
+LDW
+HERE 3634 , L123
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L124
+AIN 23 , [Global:17], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 1239 , FloatToInt
+, label L123
+AIN 83 , Yabal:return_value
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 312 , write_int
+, label L121
+AIN 83 , Yabal:return_value
+LDW
+HERE 3649 , L126
+SWPC
+LDW
+HERE 3655 , L125
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L126
+AIN 22 , [Global:16], load value
+STA 63 , [Stack:0], store value
+AIN 23 , [Global:17], load value
+STA 64 , [Stack:1], store value
+JMP
+HERE 1419 , AddFloats
+, label L125
+AIN 83 , Yabal:return_value
+STLGE
+HERE 24 , [Global:18]
+LDW
+HERE 3667 , L131
+SWPC
+LDW
+HERE 3676 , L130
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L131
+AIN 16 , [Global:10], load value
+STA 63 , [Stack:0], store value
+AIN 24 , [Global:18], load value
+STA 64 , [Stack:1], store value
+LDIA 10 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 837 , WithinRange
+, label L130
+AIN 83 , Yabal:return_value
+LDIB 0 , load boolean false
+SUB , operator ==
+JMPZ
+HERE 3683 , L127
+JMP
+HERE 3706 , L128
+, label L127
+LDW
+HERE 3692 , L133
+SWPC
+LDW
+HERE 3703 , L132
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L133
+LDIA 230 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 0 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 0 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L132
+AIN 83 , Yabal:return_value
+JMP
+HERE 3727 , L129
+, label L128
+LDW
+HERE 3715 , L135
+SWPC
+LDW
+HERE 3726 , L134
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L135
+LDIA 0 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 230 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 0 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L134
+AIN 83 , Yabal:return_value
+, label L129
+LDW
+HERE 3736 , L137
+SWPC
+LDW
+HERE 3741 , L136
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L137
+LDIA 68 , load character '='
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L136
+AIN 83 , Yabal:return_value
+LDW
+HERE 3751 , L139
+SWPC
+LDW
+HERE 3755 , L138
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L139
+AIN 24 , [Global:18], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 312 , write_int
+, label L138
+AIN 83 , Yabal:return_value
+LDW
+HERE 3765 , L141
+SWPC
+LDW
+HERE 3770 , L140
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L141
+LDIA 0 , load character ' '
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L140
+AIN 83 , Yabal:return_value
+LDW
+HERE 3780 , L143
+SWPC
+LDW
+HERE 3791 , L142
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L143
+LDIA 128 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 128 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 0 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L142
+AIN 83 , Yabal:return_value
+LDW
+HERE 3801 , L145
+SWPC
+LDW
+HERE 3805 , L144
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L145
+AIN 16 , [Global:10], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 312 , write_int
+, label L144
+AIN 83 , Yabal:return_value
+LDW
+HERE 3815 , L147
+SWPC
+LDW
+HERE 3826 , L146
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L147
+LDIA 0 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 128 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 128 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L146
+AIN 83 , Yabal:return_value
+LDIA 840 , load small integer
+STLGE
+HERE 16 , [Global:10]
+LDW
+HERE 3839 , L149
+SWPC
+LDW
+HERE 3850 , L148
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L149
+LDIA 0 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 128 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 128 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L148
+AIN 83 , Yabal:return_value
+LDW
+HERE 3860 , L151
+SWPC
+LDW
+HERE 3865 , L150
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L151
+LDIA 32 , load character 't'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L150
+AIN 83 , Yabal:return_value
+LDW
+HERE 3875 , L153
+SWPC
+LDW
+HERE 3880 , L152
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L153
+LDIA 43 , load character '4'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L152
+AIN 83 , Yabal:return_value
+LDW
+HERE 3890 , L155
+SWPC
+LDW
+HERE 3895 , L154
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L155
+LDIA 0 , load character ' '
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L154
+AIN 83 , Yabal:return_value
+LDW
+HERE 3905 , L157
+SWPC
+LDW
+HERE 3910 , L156
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L157
+LDIA 700 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 1287 , IntToFloat
+, label L156
+AIN 83 , Yabal:return_value
+STLGE
+HERE 27 , [Global:21]
+LDW
+HERE 3922 , L159
+SWPC
+LDW
+HERE 3940 , L158
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L159
+LDW
+HERE 3931 , L161
+SWPC
+LDW
+HERE 3935 , L160
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L161
+AIN 27 , [Global:21], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 1239 , FloatToInt
+, label L160
+AIN 83 , Yabal:return_value
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 312 , write_int
+, label L158
+AIN 83 , Yabal:return_value
+LDW
+HERE 3950 , L163
+SWPC
+LDW
+HERE 3955 , L162
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L163
+LDIA 140 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 1287 , IntToFloat
+, label L162
+AIN 83 , Yabal:return_value
+STLGE
+HERE 28 , [Global:22]
+LDW
+HERE 3967 , L165
+SWPC
+LDW
+HERE 3972 , L164
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L165
+LDIA 3 , load character '+'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L164
+AIN 83 , Yabal:return_value
+LDW
+HERE 3982 , L167
+SWPC
+LDW
+HERE 4000 , L166
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L167
+LDW
+HERE 3991 , L169
+SWPC
+LDW
+HERE 3995 , L168
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L169
+AIN 28 , [Global:22], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 1239 , FloatToInt
+, label L168
+AIN 83 , Yabal:return_value
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 312 , write_int
+, label L166
+AIN 83 , Yabal:return_value
+LDW
+HERE 4010 , L171
+SWPC
+LDW
+HERE 4016 , L170
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L171
+AIN 27 , [Global:21], load value
+STA 63 , [Stack:0], store value
+AIN 28 , [Global:22], load value
+STA 64 , [Stack:1], store value
+JMP
+HERE 1419 , AddFloats
+, label L170
+AIN 83 , Yabal:return_value
+STLGE
+HERE 29 , [Global:23]
+LDW
+HERE 4028 , L176
+SWPC
+LDW
+HERE 4037 , L175
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L176
+AIN 16 , [Global:10], load value
+STA 63 , [Stack:0], store value
+AIN 29 , [Global:23], load value
+STA 64 , [Stack:1], store value
+LDIA 10 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 837 , WithinRange
+, label L175
+AIN 83 , Yabal:return_value
+LDIB 0 , load boolean false
+SUB , operator ==
+JMPZ
+HERE 4044 , L172
+JMP
+HERE 4067 , L173
+, label L172
+LDW
+HERE 4053 , L178
+SWPC
+LDW
+HERE 4064 , L177
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L178
+LDIA 230 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 0 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 0 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L177
+AIN 83 , Yabal:return_value
+JMP
+HERE 4088 , L174
+, label L173
+LDW
+HERE 4076 , L180
+SWPC
+LDW
+HERE 4087 , L179
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L180
+LDIA 0 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 230 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 0 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L179
+AIN 83 , Yabal:return_value
+, label L174
+LDW
+HERE 4097 , L182
+SWPC
+LDW
+HERE 4102 , L181
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L182
+LDIA 68 , load character '='
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L181
+AIN 83 , Yabal:return_value
+LDW
+HERE 4112 , L184
+SWPC
+LDW
+HERE 4116 , L183
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L184
+AIN 29 , [Global:23], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 312 , write_int
+, label L183
+AIN 83 , Yabal:return_value
+LDW
+HERE 4126 , L186
+SWPC
+LDW
+HERE 4131 , L185
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L186
+LDIA 0 , load character ' '
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L185
+AIN 83 , Yabal:return_value
+LDW
+HERE 4141 , L188
+SWPC
+LDW
+HERE 4152 , L187
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L188
+LDIA 128 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 128 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 0 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L187
+AIN 83 , Yabal:return_value
+LDW
+HERE 4162 , L190
+SWPC
+LDW
+HERE 4166 , L189
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L190
+AIN 16 , [Global:10], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 312 , write_int
+, label L189
+AIN 83 , Yabal:return_value
+LDW
+HERE 4176 , L192
+SWPC
+LDW
+HERE 4187 , L191
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L192
+LDIA 0 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 128 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 128 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L191
+AIN 83 , Yabal:return_value
+LDW
+HERE 18000 , load large integer
+STLGE
+HERE 16 , [Global:10]
+LDW
+HERE 4201 , L194
+SWPC
+LDW
+HERE 4212 , L193
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L194
+LDIA 0 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 128 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 128 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L193
+AIN 83 , Yabal:return_value
+LDW
+HERE 4222 , L196
+SWPC
+LDW
+HERE 4227 , L195
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L196
+LDIA 32 , load character 't'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L195
+AIN 83 , Yabal:return_value
+LDW
+HERE 4237 , L198
+SWPC
+LDW
+HERE 4242 , L197
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L198
+LDIA 44 , load character '5'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L197
+AIN 83 , Yabal:return_value
+LDW
+HERE 4252 , L200
+SWPC
+LDW
+HERE 4257 , L199
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L200
+LDIA 0 , load character ' '
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L199
+AIN 83 , Yabal:return_value
+LDW
+HERE 4267 , L202
+SWPC
+LDW
+HERE 4273 , L201
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L202
+LDW
+HERE 9000 , load large integer
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 1287 , IntToFloat
+, label L201
+AIN 83 , Yabal:return_value
+STLGE
+HERE 32 , [Global:26]
+LDW
+HERE 4285 , L204
+SWPC
+LDW
+HERE 4303 , L203
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L204
+LDW
+HERE 4294 , L206
+SWPC
+LDW
+HERE 4298 , L205
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L206
+AIN 32 , [Global:26], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 1239 , FloatToInt
+, label L205
+AIN 83 , Yabal:return_value
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 312 , write_int
+, label L203
+AIN 83 , Yabal:return_value
+LDW
+HERE 4313 , L208
+SWPC
+LDW
+HERE 4319 , L207
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L208
+LDW
+HERE 9000 , load large integer
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 1287 , IntToFloat
+, label L207
+AIN 83 , Yabal:return_value
+STLGE
+HERE 33 , [Global:27]
+LDW
+HERE 4331 , L210
+SWPC
+LDW
+HERE 4336 , L209
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L210
+LDIA 3 , load character '+'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L209
+AIN 83 , Yabal:return_value
+LDW
+HERE 4346 , L212
+SWPC
+LDW
+HERE 4364 , L211
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L212
+LDW
+HERE 4355 , L214
+SWPC
+LDW
+HERE 4359 , L213
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L214
+AIN 33 , [Global:27], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 1239 , FloatToInt
+, label L213
+AIN 83 , Yabal:return_value
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 312 , write_int
+, label L211
+AIN 83 , Yabal:return_value
+LDW
+HERE 4374 , L216
+SWPC
+LDW
+HERE 4380 , L215
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L216
+AIN 32 , [Global:26], load value
+STA 63 , [Stack:0], store value
+AIN 33 , [Global:27], load value
+STA 64 , [Stack:1], store value
+JMP
+HERE 1419 , AddFloats
+, label L215
+AIN 83 , Yabal:return_value
+STLGE
+HERE 34 , [Global:28]
+LDW
+HERE 4392 , L221
+SWPC
+LDW
+HERE 4401 , L220
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L221
+AIN 16 , [Global:10], load value
+STA 63 , [Stack:0], store value
+AIN 34 , [Global:28], load value
+STA 64 , [Stack:1], store value
+LDIA 10 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 837 , WithinRange
+, label L220
+AIN 83 , Yabal:return_value
+LDIB 0 , load boolean false
+SUB , operator ==
+JMPZ
+HERE 4408 , L217
+JMP
+HERE 4431 , L218
+, label L217
+LDW
+HERE 4417 , L223
+SWPC
+LDW
+HERE 4428 , L222
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L223
+LDIA 230 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 0 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 0 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L222
+AIN 83 , Yabal:return_value
+JMP
+HERE 4452 , L219
+, label L218
+LDW
+HERE 4440 , L225
+SWPC
+LDW
+HERE 4451 , L224
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L225
+LDIA 0 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 230 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 0 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L224
+AIN 83 , Yabal:return_value
+, label L219
+LDW
+HERE 4461 , L227
+SWPC
+LDW
+HERE 4466 , L226
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L227
+LDIA 68 , load character '='
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L226
+AIN 83 , Yabal:return_value
+LDW
+HERE 4476 , L229
+SWPC
+LDW
+HERE 4480 , L228
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L229
+AIN 34 , [Global:28], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 312 , write_int
+, label L228
+AIN 83 , Yabal:return_value
+LDW
+HERE 4490 , L231
+SWPC
+LDW
+HERE 4495 , L230
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L231
+LDIA 0 , load character ' '
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L230
+AIN 83 , Yabal:return_value
+LDW
+HERE 4505 , L233
+SWPC
+LDW
+HERE 4516 , L232
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L233
+LDIA 128 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 128 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 0 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L232
+AIN 83 , Yabal:return_value
+LDW
+HERE 4526 , L235
+SWPC
+LDW
+HERE 4530 , L234
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L235
+AIN 16 , [Global:10], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 312 , write_int
+, label L234
+AIN 83 , Yabal:return_value
+LDW
+HERE 4540 , L237
+SWPC
+LDW
+HERE 4551 , L236
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L237
+LDIA 0 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 128 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 128 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L236
+AIN 83 , Yabal:return_value
+LDW
+HERE 301 , newline
+SWPC
+LDW
+HERE 4561 , L238
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L238
+AIN 83 , Yabal:return_value
+LDIA 200 , load small integer
+STLGE
+HERE 16 , [Global:10]
+LDW
+HERE 4574 , L241
+SWPC
+LDW
+HERE 4579 , L240
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L241
+LDIA 32 , load character 't'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L240
+AIN 83 , Yabal:return_value
+LDW
+HERE 4589 , L243
+SWPC
+LDW
+HERE 4594 , L242
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L243
+LDIA 45 , load character '6'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L242
+AIN 83 , Yabal:return_value
+LDW
+HERE 4604 , L245
+SWPC
+LDW
+HERE 4609 , L244
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L245
+LDIA 0 , load character ' '
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L244
+AIN 83 , Yabal:return_value
+LDW
+HERE 4619 , L247
+SWPC
+LDW
+HERE 4624 , L246
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L247
+LDIA 50 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 1287 , IntToFloat
+, label L246
+AIN 83 , Yabal:return_value
+STLGE
+HERE 37 , [Global:31]
+LDW
+HERE 4636 , L249
+SWPC
+LDW
+HERE 4641 , L248
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L249
+LDIA 4 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 1287 , IntToFloat
+, label L248
+AIN 83 , Yabal:return_value
+STLGE
+HERE 38 , [Global:32]
+LDW
+HERE 4653 , L251
+SWPC
+LDW
+HERE 4659 , L250
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L251
+AIN 37 , [Global:31], load value
+STA 63 , [Stack:0], store value
+AIN 38 , [Global:32], load value
+STA 64 , [Stack:1], store value
+JMP
+HERE 2193 , MultFloats
+, label L250
+AIN 83 , Yabal:return_value
+STLGE
+HERE 34 , [Global:28]
+LDW
+HERE 4671 , L256
+SWPC
+LDW
+HERE 4680 , L255
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L256
+AIN 16 , [Global:10], load value
+STA 63 , [Stack:0], store value
+AIN 34 , [Global:28], load value
+STA 64 , [Stack:1], store value
+LDIA 10 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 837 , WithinRange
+, label L255
+AIN 83 , Yabal:return_value
+LDIB 0 , load boolean false
+SUB , operator ==
+JMPZ
+HERE 4687 , L252
+JMP
+HERE 4710 , L253
+, label L252
+LDW
+HERE 4696 , L258
+SWPC
+LDW
+HERE 4707 , L257
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L258
+LDIA 230 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 0 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 0 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L257
+AIN 83 , Yabal:return_value
+JMP
+HERE 4731 , L254
+, label L253
+LDW
+HERE 4719 , L260
+SWPC
+LDW
+HERE 4730 , L259
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L260
+LDIA 0 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 230 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 0 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L259
+AIN 83 , Yabal:return_value
+, label L254
+LDW
+HERE 4740 , L262
+SWPC
+LDW
+HERE 4744 , L261
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L262
+AIN 34 , [Global:28], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 312 , write_int
+, label L261
+AIN 83 , Yabal:return_value
+LDW
+HERE 4754 , L264
+SWPC
+LDW
+HERE 4759 , L263
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L264
+LDIA 0 , load character ' '
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L263
+AIN 83 , Yabal:return_value
+LDW
+HERE 4769 , L266
+SWPC
+LDW
+HERE 4780 , L265
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L266
+LDIA 128 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 128 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 0 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L265
+AIN 83 , Yabal:return_value
+LDW
+HERE 4790 , L268
+SWPC
+LDW
+HERE 4794 , L267
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L268
+AIN 16 , [Global:10], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 312 , write_int
+, label L267
+AIN 83 , Yabal:return_value
+LDW
+HERE 4804 , L270
+SWPC
+LDW
+HERE 4815 , L269
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L270
+LDIA 0 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 128 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 128 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L269
+AIN 83 , Yabal:return_value
+LDW
+HERE 301 , newline
+SWPC
+LDW
+HERE 4825 , L271
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L271
+AIN 83 , Yabal:return_value
+LDIA 8 , load small integer
+STLGE
+HERE 16 , [Global:10]
+LDW
+HERE 4838 , L274
+SWPC
+LDW
+HERE 4843 , L273
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L274
+LDIA 32 , load character 't'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L273
+AIN 83 , Yabal:return_value
+LDW
+HERE 4853 , L276
+SWPC
+LDW
+HERE 4858 , L275
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L276
+LDIA 46 , load character '7'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L275
+AIN 83 , Yabal:return_value
+LDW
+HERE 4868 , L278
+SWPC
+LDW
+HERE 4873 , L277
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L278
+LDIA 0 , load character ' '
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L277
+AIN 83 , Yabal:return_value
+LDW
+HERE 4883 , L280
+SWPC
+LDW
+HERE 4888 , L279
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L280
+LDIA 17 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 1287 , IntToFloat
+, label L279
+AIN 83 , Yabal:return_value
+STLGE
+HERE 40 , [Global:34]
+AIN 41 , [Global:35]
+LDWB
+HERE 65534
+AND
+LDWB
+HERE 0
+OR
+STA 41 , [Global:35]
+AIN 41 , [Global:35]
+LDWB
+HERE 65473
+AND
+LDWB
+HERE 28
+OR
+STA 41 , [Global:35]
+AIN 41 , [Global:35]
+LDWB
+HERE 63
+AND
+LDWB
+HERE 0
+OR
+STA 41 , [Global:35]
+LDW
+HERE 4924 , L282
+SWPC
+LDW
+HERE 4930 , L281
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L282
+AIN 40 , [Global:34], load value
+STA 63 , [Stack:0], store value
+AIN 41 , [Global:35], load value
+STA 64 , [Stack:1], store value
+JMP
+HERE 2193 , MultFloats
+, label L281
+AIN 83 , Yabal:return_value
+STLGE
+HERE 34 , [Global:28]
+LDW
+HERE 4942 , L287
+SWPC
+LDW
+HERE 4951 , L286
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L287
+AIN 16 , [Global:10], load value
+STA 63 , [Stack:0], store value
+AIN 34 , [Global:28], load value
+STA 64 , [Stack:1], store value
+LDIA 10 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 837 , WithinRange
+, label L286
+AIN 83 , Yabal:return_value
+LDIB 0 , load boolean false
+SUB , operator ==
+JMPZ
+HERE 4958 , L283
+JMP
+HERE 4981 , L284
+, label L283
+LDW
+HERE 4967 , L289
+SWPC
+LDW
+HERE 4978 , L288
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L289
+LDIA 230 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 0 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 0 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L288
+AIN 83 , Yabal:return_value
+JMP
+HERE 5002 , L285
+, label L284
+LDW
+HERE 4990 , L291
+SWPC
+LDW
+HERE 5001 , L290
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L291
+LDIA 0 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 230 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 0 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L290
+AIN 83 , Yabal:return_value
+, label L285
+LDW
+HERE 5011 , L293
+SWPC
+LDW
+HERE 5015 , L292
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L293
+AIN 34 , [Global:28], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 312 , write_int
+, label L292
+AIN 83 , Yabal:return_value
+LDW
+HERE 5025 , L295
+SWPC
+LDW
+HERE 5030 , L294
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L295
+LDIA 0 , load character ' '
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L294
+AIN 83 , Yabal:return_value
+LDW
+HERE 5040 , L297
+SWPC
+LDW
+HERE 5051 , L296
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L297
+LDIA 128 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 128 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 0 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L296
+AIN 83 , Yabal:return_value
+LDW
+HERE 5061 , L299
+SWPC
+LDW
+HERE 5065 , L298
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L299
+AIN 16 , [Global:10], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 312 , write_int
+, label L298
+AIN 83 , Yabal:return_value
+LDW
+HERE 5075 , L301
+SWPC
+LDW
+HERE 5086 , L300
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L301
+LDIA 0 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 128 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 128 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L300
+AIN 83 , Yabal:return_value
+LDW
+HERE 301 , newline
+SWPC
+LDW
+HERE 5096 , L302
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L302
+AIN 83 , Yabal:return_value
+LDIA 33 , load small integer
+STLGE
+HERE 16 , [Global:10]
+LDW
+HERE 5109 , L305
+SWPC
+LDW
+HERE 5114 , L304
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L305
+LDIA 32 , load character 't'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L304
+AIN 83 , Yabal:return_value
+LDW
+HERE 5124 , L307
+SWPC
+LDW
+HERE 5129 , L306
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L307
+LDIA 47 , load character '8'
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L306
+AIN 83 , Yabal:return_value
+LDW
+HERE 5139 , L309
+SWPC
+LDW
+HERE 5144 , L308
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L309
+LDIA 0 , load character ' '
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L308
+AIN 83 , Yabal:return_value
+LDW
+HERE 5154 , L311
+SWPC
+LDW
+HERE 5159 , L310
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L311
+LDIA 70 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 1287 , IntToFloat
+, label L310
+AIN 83 , Yabal:return_value
+STLGE
+HERE 44 , [Global:38]
+LDW
+HERE 5171 , L313
+SWPC
+LDW
+HERE 5176 , L312
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L313
+LDIA 37 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 1287 , IntToFloat
+, label L312
+AIN 83 , Yabal:return_value
+STLGE
+HERE 45 , [Global:39]
+LDW
+HERE 5188 , L315
+SWPC
+LDW
+HERE 5194 , L314
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L315
+AIN 44 , [Global:38], load value
+STA 63 , [Stack:0], store value
+AIN 45 , [Global:39], load value
+STA 64 , [Stack:1], store value
+JMP
+HERE 2145 , SubFloats
+, label L314
+AIN 83 , Yabal:return_value
+STLGE
+HERE 34 , [Global:28]
+LDW
+HERE 5206 , L320
+SWPC
+LDW
+HERE 5215 , L319
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L320
+AIN 16 , [Global:10], load value
+STA 63 , [Stack:0], store value
+AIN 34 , [Global:28], load value
+STA 64 , [Stack:1], store value
+LDIA 10 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 837 , WithinRange
+, label L319
+AIN 83 , Yabal:return_value
+LDIB 0 , load boolean false
+SUB , operator ==
+JMPZ
+HERE 5222 , L316
+JMP
+HERE 5245 , L317
+, label L316
+LDW
+HERE 5231 , L322
+SWPC
+LDW
+HERE 5242 , L321
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L322
+LDIA 230 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 0 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 0 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L321
+AIN 83 , Yabal:return_value
+JMP
+HERE 5266 , L318
+, label L317
+LDW
+HERE 5254 , L324
+SWPC
+LDW
+HERE 5265 , L323
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L324
+LDIA 0 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 230 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 0 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L323
+AIN 83 , Yabal:return_value
+, label L318
+LDW
+HERE 5275 , L326
+SWPC
+LDW
+HERE 5279 , L325
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L326
+AIN 34 , [Global:28], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 312 , write_int
+, label L325
+AIN 83 , Yabal:return_value
+LDW
+HERE 5289 , L328
+SWPC
+LDW
+HERE 5294 , L327
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L328
+LDIA 0 , load character ' '
+STLGE
+HERE 63 , [Stack:0]
+JMP
+HERE 177 , write
+, label L327
+AIN 83 , Yabal:return_value
+LDW
+HERE 5304 , L330
+SWPC
+LDW
+HERE 5315 , L329
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L330
+LDIA 128 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 128 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 0 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L329
+AIN 83 , Yabal:return_value
+LDW
+HERE 5325 , L332
+SWPC
+LDW
+HERE 5329 , L331
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L332
+AIN 16 , [Global:10], load value
+STA 63 , [Stack:0], store value
+JMP
+HERE 312 , write_int
+, label L331
+AIN 83 , Yabal:return_value
+LDW
+HERE 5339 , L334
+SWPC
+LDW
+HERE 5350 , L333
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L334
+LDIA 0 , load small integer
+STLGE
+HERE 63 , [Stack:0]
+LDIA 128 , load small integer
+STLGE
+HERE 64 , [Stack:1]
+LDIA 128 , load small integer
+STLGE
+HERE 65 , [Stack:2]
+JMP
+HERE 104 , ChangeHighlightColor
+, label L333
+AIN 83 , Yabal:return_value
+LDW
+HERE 301 , newline
+SWPC
+LDW
+HERE 5360 , L335
+STA 85 , Yabal:temp
+BIN 85 , Yabal:temp
+JMP
+HERE 2409 , __call
+, label L335
+AIN 83 , Yabal:return_value
+, label L0
+JMP
+HERE 5361 , L0
+, label L2
