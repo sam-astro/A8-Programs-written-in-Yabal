@@ -452,8 +452,8 @@ int AddFloats(Float16 floatA, Float16 floatB){
     var expA = floatA.exponent
     var fracB = floatB.fraction
     var expB = floatB.exponent
-    floatA = normalizeFloat(fracA, expA)
-    floatB = normalizeFloat(fracB, expB)
+    // floatA = normalizeFloat(fracA, expA)
+    // floatB = normalizeFloat(fracB, expB)
     // newline()
     // write_binary(floatA.exponent)
     // newline()
@@ -461,33 +461,70 @@ int AddFloats(Float16 floatA, Float16 floatB){
     // newline()
     // If the exponents are different, then we need to make the float with the smaller exponent the same as the larger one
     if(floatA.exponent > floatB.exponent){
-        //floatB.exponent = floatB.sign == 0 ? floatB.exponent : Negative(floatB.exponent);
-        int tmpMB = floatB.fraction<<(floatA.exponent-floatB.exponent)
-        int tmpMA = floatA.fraction
+        int tmpMB = ((floatB.fraction+0b10000000000)>>(floatA.exponent-floatB.exponent))
+        int tmpMA = floatA.fraction+0b10000000000
+        // write(' ')
+        // write('d')
+        // write(':')
+        // write(' ')
+        // write_int((floatB.exponent-floatA.exponent))
+        // newline()
+        // write('a')
+        // write(':')
+        // write_binary(tmpMA)
+        // write('b')
+        // write(':')
+        // write_binary(tmpMB)
         
-        if(floatB.sign != 0)
-            tmpMB = Negative(tmpMB)
-        if(floatA.sign != 0)
-            tmpMA = Negative(tmpMA)
-        
-        int tmpM = tmpMA+tmpMB
-        Float16 outFloat = { sign : floatA.sign, exponent : floatA.exponent, fraction : tmpM };
-        out = FloatToInt(outFloat)
-    }
-    // 150+500
-    else if(floatA.exponent < floatB.exponent){
-        int tmpMB = floatB.fraction
-        int tmpMA = (floatA.fraction>>(floatB.exponent-floatA.exponent))
-        
-        if(floatB.sign != 0)
-            tmpMB = Negative(tmpMB)
-        if(floatA.sign != 0)
-            tmpMA = Negative(tmpMA)
+        // if(floatB.sign != 0)
+        //     tmpMB = Negative(tmpMB)
+        // if(floatA.sign != 0)
+        //     tmpMA = Negative(tmpMA)
         
         int tmpM = tmpMA+tmpMB
         // newline()
         // write_binary(tmpM)
-        Float16 outFloat = normalizeFloat(tmpM, floatB.exponent)
+        Float16 outFloat = { sign : floatA.sign, exponent : floatA.exponent, fraction : tmpM };
+        if ((tmpM & 0b10000000000) != 0b10000000000) // If the 11th bit is 0, then normalize
+            outFloat = normalizeFloat(tmpM, floatB.exponent)
+        // newline()
+        // write_float(outFloat)
+        // newline()
+        // write_binary(outFloat.fraction)
+        // newline()
+        // write_float(outFloat)
+        out = FloatToInt(outFloat)
+    }
+    // 150+500
+    else if(floatA.exponent < floatB.exponent){
+        int tmpMB = floatB.fraction+0b10000000000
+        int tmpMA = ((floatA.fraction+0b10000000000)>>(floatB.exponent-floatA.exponent))
+        // write(' ')
+        // write('d')
+        // write(':')
+        // write(' ')
+        // write_int((floatB.exponent-floatA.exponent))
+        // newline()
+        // write('a')
+        // write(':')
+        // write_binary(tmpMA)
+        // write('b')
+        // write(':')
+        // write_binary(tmpMB)
+        
+        // if(floatB.sign != 0)
+        //     tmpMB = Negative(tmpMB)
+        // if(floatA.sign != 0)
+        //     tmpMA = Negative(tmpMA)
+        
+        int tmpM = tmpMA+tmpMB
+        // newline()
+        // write_binary(tmpM)
+        Float16 outFloat = { sign : floatA.sign, exponent : floatB.exponent, fraction : tmpM };
+        if ((tmpM & 0b10000000000) != 0b10000000000) // If the 11th bit is 0, then normalize
+            outFloat = normalizeFloat(tmpM, floatB.exponent)
+        // newline()
+        // write_float(outFloat)
         // newline()
         // write_binary(outFloat.fraction)
         // newline()
@@ -558,8 +595,8 @@ write('1')
 write(' ')
 Float16 t1 = IntToFloat(correctVal);
 val = FloatToInt(t1)
-newline()
-write_float(t1)
+// newline()
+// write_float(t1)
 if(WithinRange(correctVal, val, 10) == false)
     ChangeHighlightColor(230, 0, 0)
 else
@@ -580,8 +617,8 @@ write('2')
 write(' ')
 Float16 t1 = IntToFloat(correctVal);
 val = FloatToInt(t1)
-newline()
-write_float(t1)
+// newline()
+// write_float(t1)
 if(WithinRange(correctVal, val, 10) == false)
     ChangeHighlightColor(230, 0, 0)
 else
@@ -616,30 +653,80 @@ newline()
 // newline()
 // newline()
 
-// // t3: Add floats 150 + 500 = 650
-// correctVal = 650
-// ChangeHighlightColor(0, 128, 128)
-// write('t')
-// write('3')
-// write(' ')
-// Float16 t3a = { sign : 0, exponent : 0b10110, fraction : 0b0010110000 };
-// write_int(FloatToInt(t3a))
-// Float16 t3b = { sign : 0, exponent : 0b10111, fraction : 0b1111010000 };
-// write('+')
-// write_int(FloatToInt(t3b))
-// var val = AddFloats(t3a, t3b)
-// if(WithinRange(correctVal, val, 10) == false)
-//     ChangeHighlightColor(230, 0, 0)
-// else
-//     ChangeHighlightColor(0, 230, 0)
-// write('=')
-// write_int(val)
-// write(' ')
-// ChangeHighlightColor(128, 128, 0)
-// write_int(correctVal)
-// ChangeHighlightColor(0, 128, 128)
-// newline()
-// newline()
+// t3: Add floats 150 + 500 = 650
+correctVal = 150+500
+ChangeHighlightColor(0, 128, 128)
+write('t')
+write('3')
+write(' ')
+Float16 t3a = IntToFloat(150);
+write_int(FloatToInt(t3a))
+Float16 t3b = IntToFloat(500);
+write('+')
+write_int(FloatToInt(t3b))
+var val = AddFloats(t3a, t3b)
+if(WithinRange(correctVal, val, 10) == false)
+    ChangeHighlightColor(230, 0, 0)
+else
+    ChangeHighlightColor(0, 230, 0)
+write('=')
+write_int(val)
+write(' ')
+ChangeHighlightColor(128, 128, 0)
+write_int(correctVal)
+ChangeHighlightColor(0, 128, 128)
+newline()
+newline()
+
+// t4: Add floats 700 + 140 = 840
+correctVal = 700 + 140
+ChangeHighlightColor(0, 128, 128)
+write('t')
+write('3')
+write(' ')
+Float16 t3a = IntToFloat(700);
+write_int(FloatToInt(t3a))
+Float16 t3b = IntToFloat(140);
+write('+')
+write_int(FloatToInt(t3b))
+var val = AddFloats(t3a, t3b)
+if(WithinRange(correctVal, val, 10) == false)
+    ChangeHighlightColor(230, 0, 0)
+else
+    ChangeHighlightColor(0, 230, 0)
+write('=')
+write_int(val)
+write(' ')
+ChangeHighlightColor(128, 128, 0)
+write_int(correctVal)
+ChangeHighlightColor(0, 128, 128)
+newline()
+newline()
+
+// t5: Add floats 9000 + 9000 = 18000
+correctVal = 9000 + 9000
+ChangeHighlightColor(0, 128, 128)
+write('t')
+write('5')
+write(' ')
+Float16 t3a = IntToFloat(9000);
+write_int(FloatToInt(t3a))
+Float16 t3b = IntToFloat(9000);
+write('+')
+write_int(FloatToInt(t3b))
+var val = AddFloats(t3a, t3b)
+if(WithinRange(correctVal, val, 10) == false)
+    ChangeHighlightColor(230, 0, 0)
+else
+    ChangeHighlightColor(0, 230, 0)
+write('=')
+write_int(val)
+write(' ')
+ChangeHighlightColor(128, 128, 0)
+write_int(correctVal)
+ChangeHighlightColor(0, 128, 128)
+newline()
+newline()
 
 // // t4: Multiply floats 10 * 2 = 20
 // correctVal = 20
@@ -673,64 +760,64 @@ newline()
 // newline()
 // newline()
 
-// t6: Int to Float to int 0 through 10000
-write('t')
-write('6')
-write(' ')
-// Iterate through all values 0 through 10000, and count the number of incorrect
-var numWrong = 0
-var startWrong = 0
-var endWrong = 0
-for (var i = 0; i < 10000; i++){
-    correctVal = i
-    Float16 t6 = IntToFloat(correctVal);
-    // t6 = normalizeFloat(t6.fraction, t6.exponent)
-    // Float16 t6 = { sign : 0, exponent : 0b10100, fraction : 0b0010000000 };
-    val = FloatToInt(t6)
-    if(WithinRange(correctVal, val, 10) == false){
-        numWrong += 1
-        if(startWrong==0)
-            startWrong = i
+// // t6: Int to Float to int 0 through 10000
+// write('t')
+// write('6')
+// write(' ')
+// // Iterate through all values 0 through 10000, and count the number of incorrect
+// var numWrong = 0
+// var startWrong = 0
+// var endWrong = 0
+// for (var i = 0; i < 10000; i++){
+//     correctVal = i
+//     Float16 t6 = IntToFloat(correctVal);
+//     // t6 = normalizeFloat(t6.fraction, t6.exponent)
+//     // Float16 t6 = { sign : 0, exponent : 0b10100, fraction : 0b0010000000 };
+//     val = FloatToInt(t6)
+//     if(WithinRange(correctVal, val, 10) == false){
+//         numWrong += 1
+//         if(startWrong==0)
+//             startWrong = i
 
-        endWrong = i
-        // write_int(i)
-        // break
-    }
-}
-write(' ')
-write('w')
-write('r')
-write('o')
-write('n')
-write('g')
-write(':')
-write(' ')
-ChangeHighlightColor(128, 0, 128)
-if(numWrong > 0)
-    write_int(numWrong)
-else{
-    ChangeHighlightColor(0, 230, 0)
-    write('n')
-    write('o')
-    write('n')
-    write('e')
-}
-newline()
-ChangeHighlightColor(0, 128, 128)
-write('s')
-write('t')
-write('a')
-write(':')
-write(' ')
-write_int(startWrong)
-newline()
-write('e')
-write('n')
-write('d')
-write(':')
-write(' ')
-write_int(endWrong)
-newline()
+//         endWrong = i
+//         // write_int(i)
+//         // break
+//     }
+// }
+// write(' ')
+// write('w')
+// write('r')
+// write('o')
+// write('n')
+// write('g')
+// write(':')
+// write(' ')
+// ChangeHighlightColor(128, 0, 128)
+// if(numWrong > 0)
+//     write_int(numWrong)
+// else{
+//     ChangeHighlightColor(0, 230, 0)
+//     write('n')
+//     write('o')
+//     write('n')
+//     write('e')
+// }
+// newline()
+// ChangeHighlightColor(0, 128, 128)
+// write('s')
+// write('t')
+// write('a')
+// write(':')
+// write(' ')
+// write_int(startWrong)
+// newline()
+// write('e')
+// write('n')
+// write('d')
+// write(':')
+// write(' ')
+// write_int(endWrong)
+// newline()
 
 
 //cout << DecimalToBinaryString(val) << " : " << val << endl
