@@ -336,167 +336,120 @@ Float16 IntToFloat(SignedInt x){
     // Get exponent from count, then add offset of 15 for float format
     var exp = (15-count)+15
     
-    // // Only get the right part of the input number, since 1 is already included in mantissa
-    // mask = ~(mask << (16-count))
-    // mask = ~(pow(2, 16-count))
-    // var mant = x & (mask)
     var mant = x.val
     // If the mantissa is >= 10 bits long already, only use first 10
     if(mant > 0b11111111111){
         mant = mant >> ((16-count)-11)
-        // exp += (16-count-11)
-        // write('X')
     }
     else if(mant < 0b10000000000){
         mant = mant << (11-(16-count))
-        // exp += (16-count-11)
-        // write('Q')
     }
-    //else{
-    //     // var mant = (x & (~mask)) << (10-((16-count)-1))
-    //     // The mantissa needs to be 10 bits long, so add zeros to the right side until it is:
-    //     for (var i = 0; i < 11; i++){
-    //         // If the first digit is 1, then stop shifting
-    //         if(mant >= 1024)
-    //             break
-    //         // Otherwise shift again
-    //         mant = mant << 1
-    //         write('Q')
-    //         exp += 1
-    //     }
-    // }
 
-    // mant = mant & 0b10000000000
-    // newline()
-    // write(':')
-    // write_binary(mant)
-    // // write_int(mask)
-    // write(':')
-
-    // For a whole number
-    // Float16 outFloat = { sign : 0, exponent : exp, fraction : mant };
-    // newline()
-    // write('e')
-    // write(':')
-    // write_binary(exp)
-    // write('f')
-    // write(':')
-    // write_binary(mant)
-    // write_float(outFloat)
     Float16 outFloat = normalizeFloat(mant, exp);
     outFloat.sign = x.s
-    // outFloat = normalizeFloat(outFloat)
 
     return outFloat
 }
 
-SignedInt AddFloats(Float16 floatA, Float16 floatB){
-    SignedInt out = {s:0, val:0};
-    // var frA = floatA.fraction
-    // var frB = floatB.fraction
-    
-    // if(floatB.sign == 1)
-    //     floatB.fraction = Negative(frB)
-    // if(floatA.sign == 1)
-    //     floatA.fraction = Negative(frA)
-    // var fracA = floatA.fraction
-    // var expA = floatA.exponent
-    // var fracB = floatB.fraction
-    // var expB = floatB.exponent
-    // floatA = normalizeFloat(fracA, expA)
-    // floatB = normalizeFloat(fracB, expB)
-    // newline()
-    // write_binary(floatA.exponent)
-    // newline()
-    // write_binary(floatB.exponent)
-    // newline()
+Float16 AddFloats(Float16 floatA, Float16 floatB){
+    Float16 outFloat = { sign : 0, exponent : 0, fraction : 0 };
     // If the exponents are different, then we need to make the float with the smaller exponent the same as the larger one
     if(floatA.exponent > floatB.exponent){
         var tmpMB = ((floatB.fraction+0b10000000000)>>(floatA.exponent-floatB.exponent))
         var tmpMA = floatA.fraction+0b10000000000
-        // write(' ')
-        // write('d')
-        // write(':')
-        // write(' ')
-        // write_int((floatB.exponent-floatA.exponent))
-        if(floatB.sign == true)
+
+        bool finalSign = false
+        if(floatB.sign == true){
             tmpMB = Negative(tmpMB)
-        if(floatA.sign == true)
+            // Determine the final sign, it is 1 if B is > A
+            if(floatB.exponent > floatA.exponent)
+                finalSign = true
+            // If they have the same exponent, check mantissas as well
+            else if((floatB.exponent == floatA.exponent) && (floatB.fraction > floatA.fraction))
+                finalSign = true
+        }
+        if(floatA.sign == true){
             tmpMA = Negative(tmpMA)
+            // Determine the final sign, it is 1 if A is > B
+            if(floatA.exponent > floatB.exponent)
+                finalSign = true
+            // If they have the same exponent, check mantissas as well
+            else if((floatA.exponent == floatB.exponent) && (floatA.fraction > floatB.fraction))
+                finalSign = true
+        }
         
         int tmpM = tmpMA+tmpMB
         int exp = floatA.exponent
-        Float16 outFloat = { sign : floatA.sign, exponent : exp, fraction : tmpM };
+        outFloat = { sign : finalSign, exponent : exp, fraction : tmpM };
         if ((tmpM & 0b10000000000) != 0b10000000000) // If the 11th bit is 0, then normalize
             outFloat = normalizeFloat(tmpM, exp)
-        // newline()
-        // write_float(outFloat)
-        // newline()
-        // write_binary(outFloat.fraction)
-        out = FloatToInt(outFloat)
     }
     // 150+500
     else if(floatA.exponent < floatB.exponent){
         int tmpMB = floatB.fraction+0b10000000000
         int tmpMA = ((floatA.fraction+0b10000000000)>>(floatB.exponent-floatA.exponent))
-        // write(' ')
-        // write('d')
-        // write(':')
-        // write(' ')
-        // write_int((floatB.exponent-floatA.exponent))
-        // newline()
-        // write('a')
-        // write(':')
-        // write_binary(tmpMA)
-        // write('b')
-        // write(':')
-        // write_binary(tmpMB)
         
-        if(floatB.sign == 1)
+        bool finalSign = false
+        if(floatB.sign == true){
             tmpMB = Negative(tmpMB)
-        if(floatA.sign == 1)
+            // Determine the final sign, it is 1 if B is > A
+            if(floatB.exponent > floatA.exponent)
+                finalSign = true
+            // If they have the same exponent, check mantissas as well
+            else if((floatB.exponent == floatA.exponent) && (floatB.fraction > floatA.fraction))
+                finalSign = true
+        }
+        if(floatA.sign == true){
             tmpMA = Negative(tmpMA)
+            // Determine the final sign, it is 1 if A is > B
+            if(floatA.exponent > floatB.exponent)
+                finalSign = true
+            // If they have the same exponent, check mantissas as well
+            else if((floatA.exponent == floatB.exponent) && (floatA.fraction > floatB.fraction))
+                finalSign = true
+        }
         
         int tmpM = tmpMA+tmpMB
-        // newline()
-        // write_binary(tmpM)
+        
         int exp = floatB.exponent
-        Float16 outFloat = { sign : floatA.sign, exponent : exp, fraction : tmpM };
+        outFloat = { sign : finalSign, exponent : exp, fraction : tmpM };
         if ((tmpM & 0b10000000000) != 0b10000000000) // If the 11th bit is 0, then normalize
             outFloat = normalizeFloat(tmpM, floatB.exponent)
-        // newline()
-        // write_float(outFloat)
-        // newline()
-        // write_binary(outFloat.fraction)
-        // newline()
-        // write_float(outFloat)
-        out = FloatToInt(outFloat)
     }
     // Else the exponents are the same, so no need to change them
     else {
         int tmpMB = (floatB.fraction+0b10000000000)>>1
         int tmpMA = (floatA.fraction+0b10000000000)>>1
         
-        if(floatB.sign == 1)
+        bool finalSign = false
+        if(floatB.sign == true){
             tmpMB = Negative(tmpMB)
-        if(floatA.sign == 1)
+            // Determine the final sign, it is 1 if B is > A
+            if(floatB.exponent > floatA.exponent)
+                finalSign = true
+            // If they have the same exponent, check mantissas as well
+            else if((floatB.exponent == floatA.exponent) && (floatB.fraction > floatA.fraction))
+                finalSign = true
+        }
+        if(floatA.sign == true){
             tmpMA = Negative(tmpMA)
+            // Determine the final sign, it is 1 if A is > B
+            if(floatA.exponent > floatB.exponent)
+                finalSign = true
+            // If they have the same exponent, check mantissas as well
+            else if((floatA.exponent == floatB.exponent) && (floatA.fraction > floatB.fraction))
+                finalSign = true
+        }
         
         int tmpM = tmpMA+tmpMB
-        // newline()
-        // write_binary(tmpM)
+        
         int exp = floatB.exponent+1
-        Float16 outFloat = { sign : floatA.sign, exponent : exp, fraction : tmpM };
+        outFloat = { sign : finalSign, exponent : exp, fraction : tmpM };
         if ((tmpM & 0b10000000000) != 0b10000000000) // If the 11th bit is 0, then normalize
             outFloat = normalizeFloat(tmpM, floatB.exponent)
-        // newline()
-        // write_binary(outFloat.fraction)
-        // newline()
-        // write_float(outFloat)
-        out = FloatToInt(outFloat)
     }
 
-    return out
+    return outFloat
 }
 
 SignedInt SubFloats(Float16 floatA, Float16 floatB){
@@ -506,8 +459,7 @@ SignedInt SubFloats(Float16 floatA, Float16 floatB){
 }
 
 
-SignedInt MultFloats(Float16 floatA, Float16 floatB){
-    SignedInt out = {s:0, val:0}
+Float16 MultFloats(Float16 floatA, Float16 floatB){
     int tmpMA = floatA.fraction+0b10000000000
     int tmpMB = floatB.fraction+0b10000000000
 
@@ -518,14 +470,6 @@ SignedInt MultFloats(Float16 floatA, Float16 floatB){
     var finalSign = 0
     if(snA != snB)
         finalSign = 1
-    
-    // newline()
-    // write('a')
-    // write(':')
-    // write_binary(tmpMA)
-    // write('b')
-    // write(':')
-    // write_binary(tmpMB)
 
     // Get the lowest bit that is 1 in either A or B
     var count = 0 // count is for the lowest index there is a 1
@@ -540,38 +484,21 @@ SignedInt MultFloats(Float16 floatA, Float16 floatB){
             count += 1
         }
     }
-    // if(floatA.exponent > floatB.exponent){
-    //     int tmpMA = floatA.fraction<<(floatA.exponent-floatB.exponent)
-    //     int tmpMB = floatB.fraction
-    // }
-    // else if(floatA.exponent < floatB.exponent){
-    //     int tmpMA = floatA.fraction
-    //     int tmpMB = floatB.fraction<<(floatB.exponent-floatA.exponent)
-    // }
-    // else {
-    //     int tmpMA = floatA.fraction>>1
-    //     int tmpMB = floatB.fraction>>1
-    // }
+    
     int tmpM = tmpMA*tmpMB
     int exp = floatA.exponent+floatB.exponent-15+count-4
     
     Float16 outFloat = { sign : finalSign, exponent : exp, fraction : tmpM };
     if ((tmpM & 0b10000000000) != 0b10000000000) // If the 11th bit is 0, then normalize
         outFloat = normalizeFloat(tmpM, exp)
-    // newline()
-    // write_float(outFloat)
 
-    // Float16 outFloat = { sign : floatA.sign, exponent : (floatA.exponent+floatB.exponent), fraction : tmpM };
-    // Float16 outFloat = normalizeFloat(tmpM, exp)
-    out = FloatToInt(outFloat)
-    
-    return out
+    return outFloat
 }
 
 // Credit to njuffa (https://cs.stackexchange.com/users/51535/njuffa),
 // "Simple algorithm for IEEE-754 division on 8-bit CPU?"",
 // URL (version: 2019-02-28): https://cs.stackexchange.com/q/104961
-Float16 fp16_div_kernel (Float16 a, Float16 b)
+Float16 DivFloats (Float16 a, Float16 b)
 {
     int r = 0
     int x = 0
@@ -724,25 +651,6 @@ Float16 fp16_div_kernel (Float16 a, Float16 b)
     return outVal
 }
 
-SignedInt DivFloats(Float16 floatA, Float16 floatB){
-    SignedInt out = {s:0, val:0}
-    
-    Float16 outFloat = fp16_div_kernel(floatA, floatB);
-    // if ((tmpM & 0b10000000000) != 0b10000000000) // If the 11th bit is 0, then normalize
-    //     outFloat = normalizeFloat(tmpM, exp)
-
-    out = FloatToInt(outFloat)
-    
-    return out
-}
-
-// int SubFloats(int floatA.sign, int floatA.exponent, int floatA.fraction, int floatB.sign, int floatB.exponent, int floatB.fraction){
-//     return AddFloats(floatA.sign, floatA.exponent, floatA.fraction, !floatB.sign, floatB.exponent, floatB.fraction)
-// }
-
-SignedInt RetSame(SignedInt x){
-    return x
-}
 
 /////////////////////////
 // These are the tests //
@@ -856,7 +764,7 @@ write_signed_int(FloatToInt(inValueA))
 Float16 inValueB = IntToFloat(BVal);
 write('+')
 write_signed_int(FloatToInt(inValueB))
-val = AddFloats(inValueA, inValueB)
+val = FloatToInt(AddFloats(inValueA, inValueB))
 if(WithinRange(correctVal, val, 10) == false)
     ChangeHighlightColor(230, 0, 0)
 else
@@ -881,7 +789,7 @@ write_signed_int(FloatToInt(inValueA))
 Float16 inValueB = IntToFloat(BVal);
 write('+')
 write_signed_int(FloatToInt(inValueB))
-val = AddFloats(inValueA, inValueB)
+val = FloatToInt(AddFloats(inValueA, inValueB))
 if(WithinRange(correctVal, val, 10) == false)
     ChangeHighlightColor(230, 0, 0)
 else
@@ -893,10 +801,10 @@ ChangeHighlightColor(128, 128, 0)
 write_signed_int(correctVal)
 ChangeHighlightColor(0, 128, 128)
 
-// t5: Add floats 9000 + 9000 = 18000
-SignedInt AVal = {s:0, val:9000};
-SignedInt BVal = {s:0, val:9000};
-correctVal = {s:0, val:(AVal.val + BVal.val)};
+// t5: Add floats 3000 + -7000 = -4000
+SignedInt AVal = {s:0, val:3000};
+SignedInt BVal = {s:1, val:7000};
+correctVal = {s:0, val:(AVal.val - BVal.val)};
 ChangeHighlightColor(0, 128, 128)
 write('t')
 write('5')
@@ -906,7 +814,7 @@ write_signed_int(FloatToInt(inValueA))
 Float16 inValueB = IntToFloat(BVal);
 write('+')
 write_signed_int(FloatToInt(inValueB))
-val = AddFloats(inValueA, inValueB)
+val = FloatToInt(AddFloats(inValueA, inValueB))
 if(WithinRange(correctVal, val, 10) == false)
     ChangeHighlightColor(230, 0, 0)
 else
@@ -928,7 +836,7 @@ write('6')
 write(' ')
 Float16 inValueA = IntToFloat(AVal);
 Float16 inValueB = IntToFloat(BVal);
-val = MultFloats(inValueA, inValueB)
+val = FloatToInt(MultFloats(inValueA, inValueB))
 if(WithinRange(correctVal, val, 10) == false)
     ChangeHighlightColor(230, 0, 0)
 else
@@ -948,7 +856,7 @@ write('7')
 write(' ')
 Float16 inValueA = IntToFloat(AVal);
 Float16 inValueB = { sign : 0, exponent : 0b01110, fraction : 0 };
-val = MultFloats(inValueA, inValueB)
+val = FloatToInt(MultFloats(inValueA, inValueB))
 if(WithinRange(correctVal, val, 10) == false)
     ChangeHighlightColor(230, 0, 0)
 else
@@ -969,7 +877,7 @@ write('8')
 write(' ')
 Float16 inValueA = IntToFloat(AVal);
 Float16 inValueB = IntToFloat(BVal);
-val = SubFloats(inValueA, inValueB)
+val = FloatToInt(SubFloats(inValueA, inValueB))
 if(WithinRange(correctVal, val, 10) == false)
     ChangeHighlightColor(230, 0, 0)
 else
@@ -992,7 +900,7 @@ write('9')
 write(' ')
 Float16 inValueA = IntToFloat(AVal);
 Float16 inValueB = {sign:0, fraction:0b0011001100, exponent:0b01110};
-val = DivFloats(inValueA, inValueB)
+val = FloatToInt(DivFloats(inValueA, inValueB))
 if(WithinRange(correctVal, val, 10) == false)
     ChangeHighlightColor(230, 0, 0)
 else
@@ -1014,7 +922,7 @@ write('x')
 write(' ')
 Float16 inValueA = IntToFloat(AVal);
 Float16 inValueB = IntToFloat(BVal);
-val = DivFloats(inValueA, inValueB)
+val = FloatToInt(DivFloats(inValueA, inValueB))
 if(WithinRange(correctVal, val, 10) == false)
     ChangeHighlightColor(230, 0, 0)
 else
