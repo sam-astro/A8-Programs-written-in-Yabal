@@ -197,13 +197,17 @@ bool WithinRange(SignedInt aI, SignedInt bI, int range){
 
 // Temporary bitwise not ~ operator function, since currently that operator
 // is broken and only returns 0 unless used like this:
-int not(int x){
+int NOT(int x){
     return ~x&0b1111111111111111
 }
 
 // Convert integer to it's negative value in twos complement
 int Negative(int x){
-    return not(x) + 1
+    return NOT(x) + 1
+}
+
+inline int XOR(int a, int b){
+    return (a|b)&(NOT(a&b))
 }
 
 
@@ -564,133 +568,169 @@ SignedInt MultFloats(Float16 floatA, Float16 floatB){
     return out
 }
 
+// Credit to njuffa (https://cs.stackexchange.com/users/51535/njuffa),
+// "Simple algorithm for IEEE-754 division on 8-bit CPU?"",
+// URL (version: 2019-02-28): https://cs.stackexchange.com/q/104961
+Float16 fp16_div_kernel (Float16 a, Float16 b)
+{
+    int r = 0
+    int x = 0
+    int y = 0
+    int sign = 0
+
+    int expo_x = 0
+    int expo_y = 0
+
+    int i = 0
+    int odd = 0
+    int rnd = 0
+    int sticky = 0
+
+    Float16 outVal = {sign:0, exponent:0, fraction:0};
+
+    /* extract biased exponents and sign bits */
+    expo_x = a.exponent
+    expo_y = b.exponent
+    sign = XOR(a.sign, b.sign)
+
+    var processNow = false
+
+    for (var jj = 0; jj < 2; jj++){
+        if (((expo_x >= 1) && (expo_x <= 0b11110) &&
+            (expo_y >= 1) && (expo_y <= 1)) || processNow) { /* fast path */
+    // divide:
+            /* add significand leading 1 int */
+            x = a.fraction + 0b10000000000
+            y = b.fraction + 0b10000000000
+            /* compute exponent of result */
+            outVal.exponent = expo_x - expo_y + 15
+            /* dividend may not be smaller than divisor: normalize */
+            if (x < y) {
+                x = x << 1
+                outVal.exponent -= 1
+            }
+            /* generate quotient one bit at at time */
+            r = 0
+            for (i = 0; i < 12; i++) {
+                r = r << 1
+                if (x >= y) {
+                    x = x - y
+                    r = r | 1
+                }
+                x = x << 1
+            }
+            /* OR remainder bits into sticky bit */
+            sticky = (x != 0)
+            if ((outVal.exponent >= 1) && 
+                (outVal.exponent <= 0b11110)) { /* normal, may overflow to infinity*/
+                /* extract round and lsb bits */
+                rnd = (r & 1)
+                odd = (r & 2) != 0
+                /* remove round bit from quotient and round to-nearest-even */
+                r = (r >> 1) + (rnd & (sticky | odd))
+                /* set significand */
+                outVal.fraction = r - 0b10000000000
+            } else if (outVal.exponent > 0b11110) { // overflow: infinity
+                outVal.exponent = 0b011111
+            } else { /* underflow: result is zero, subnormal, or smallest normal */
+                int shift = (1 - outVal.exponent)
+                /* clamp shift count */
+                if (shift > 12) shift = 12
+                /* OR shifted-off bits of significand into sticky bit */
+                sticky = sticky | ((r & NOT(NOT(0) << shift)) != 0)
+                /* denormalize significand */
+                r = r >> shift
+                /* extract round and lsb bits */
+                rnd = (r & 1)
+                odd = (r & 2) != 0
+                /* remove round bit from quotient and round to-nearest-even */
+                // r = (r >> 1) + (rnd & (sticky | odd));
+                outVal.fraction = (r >> 1) + (rnd & (sticky | odd))
+            }
+            // /* combine sign bit with combo of exponent and significand */
+            // r = r | sign;
+            outVal.sign = sign
+        } else { /* slow path */
+            // /* take absolute value of arguments */
+            // x = a & NOT(SIGN_MASK);
+            // y = b & NOT(SIGN_MASK);
+            /* if dividend is a NaN, convert that NaN into a QNaN and return it */
+            if ((a.exponent == 0b11111) && (a.fraction > 0)){
+                outVal.sign = a.sign
+                outVal.fraction = a.fraction | 0b1000000000
+                outVal.exponent = a.exponent
+                return outVal
+            }
+            /* if divisor is a NaN, convert that NaN into a QNaN and return it */
+            if ((b.exponent == 0b11111) &&(b.fraction > 0)){
+                outVal.sign = b.sign
+                outVal.fraction = b.fraction | 0b1000000000
+                outVal.exponent = b.exponent
+                return outVal
+            }
+            /* dividend and divisor are both zero or infinity: invalid operation */
+            if (((a.exponent == 0 && a.fraction == 0) && (b.exponent == 0 && b.fraction == 0)) || 
+                ((a.exponent == 0b11111) && (b.exponent == 0b11111)))
+            {
+                outVal.sign = 1
+                outVal.fraction = 0b1000000000
+                outVal.exponent = 0b11111
+                return outVal
+            }
+            /* 0/y or x/INF -> 0 */
+            if ((a.exponent == 0 && a.fraction == 0) || (a.exponent == 0b11111))
+            {
+                outVal.sign = sign
+                return outVal
+            }
+            /* x/0 or INF/y -> INF */
+            if ((b.exponent == 0 && b.fraction == 0) || (a.exponent == 0b11111))
+            {
+                outVal.sign = sign
+                outVal.fraction = 0
+                outVal.exponent = 0b11111
+                return outVal
+            }
+            /* if dividend is a subnormal, normalize it */
+            if (expo_x == 0) {
+                expo_x += 1
+                int afrac = a.fraction
+                for (var afs = 0; afs < 16; afs++){
+                    if((afrac & 0b10000000000)==0b10000000000)
+                        break
+                    afrac = afrac << 1
+                    expo_x -= 1
+                }
+                a.fraction = afrac
+            }
+            /* if divisor is a subnormal, normalize it */
+            if (expo_y == 0) {
+                expo_y += 1
+                int bfrac = b.fraction
+                for (var bs = 0; bs < 16; bs++){
+                    if((bfrac & 0b10000000000)==0b10000000000)
+                        break
+                    bfrac = bfrac << 1
+                    expo_y -= 1
+                }
+                b.fraction = bfrac
+            }
+            /* now that dividend and divisor are normalized, do the division */
+            // goto divide
+            processNow = true
+        }
+    }
+    
+    return outVal
+}
 
 SignedInt DivFloats(Float16 floatA, Float16 floatB){
     SignedInt out = {s:0, val:0}
-    int tmpMA = floatA.fraction+0b10000000000
-    int tmpMB = floatB.fraction+0b10000000000
-    // int tmpMA = floatA.fraction
-    // int tmpMB = floatB.fraction
-
-    int snA = floatA.sign
-    int snB = floatB.sign
-
-    // Determine final sign, if they are different it is 1, if they are both 0 it is 0, and if they are both 1 it is also 0
-    var finalSign = 0
-    if(snA != snB)
-        finalSign = 1
     
-    // newline()
-    // write('a')
-    // write(':')
-    // write_binary(tmpMA)
-    // write('b')
-    // write(':')
-    // write_binary(tmpMB)
+    Float16 outFloat = fp16_div_kernel(floatA, floatB);
+    // if ((tmpM & 0b10000000000) != 0b10000000000) // If the 11th bit is 0, then normalize
+    //     outFloat = normalizeFloat(tmpM, exp)
 
-    // Get the lowest bit that is 1 in either A or B
-    var cntA = 0 // count is for the lowest index there is a 1
-    var tmmpA = tmpMA
-    for (var i = 0; i < 16; i++){
-        // If the lowest bit in A is 1, stop the loop
-        if((tmmpA & 1) == 1)
-            break
-        else{
-            // Shift right
-            tmmpA = tmmpA >> 1
-            cntA += 1
-        }
-    }
-    var cntB = 0 // count is for the lowest index there is a 1
-    var tmmpB = tmpMB
-    for (var i = 0; i < 16; i++){
-        // If the lowest bit in B is 1, stop the loop
-        if((tmmpB & 1) == 1)
-            break
-        else{
-            // Shift right
-            tmmpB = tmmpB >> 1
-            cntB += 1
-        }
-    }
-
-    // Get the total distance between cntA and cntB, and swap if necessary to make sure cntA is always larger
-    var cntDist = 0
-    if(cntA > cntB)
-        cntDist = cntA-cntB
-    else if(cntB > cntA)
-        cntDist = cntB-cntA
-    // // Get the distance the first 1 is from the left
-    // var dis = 0 // count is for the lowest index there is a 1
-    // for (var i = 0; i < 16; i++){
-    //     // If the highest bit in A is 1, stop the loop
-    //     if((tmpMA & 0b1000000000000000) == 0b1000000000000000)
-    //         break
-    //     else{
-    //         // Shift left
-    //         tmpMA = tmpMA << 1
-    //         dis += 1
-    //     }
-    // }
-    // if(floatA.exponent > floatB.exponent){
-    //     int tmpMA = floatA.fraction<<(floatA.exponent-floatB.exponent)
-    //     int tmpMB = floatB.fraction
-    // }
-    // else if(floatA.exponent < floatB.exponent){
-    //     int tmpMA = floatA.fraction
-    //     int tmpMB = floatB.fraction<<(floatB.exponent-floatA.exponent)
-    // }
-    // else {
-    //     int tmpMA = floatA.fraction>>1
-    //     int tmpMB = floatB.fraction>>1
-    // }
-
-
-
-
-    int exp = (floatA.exponent-floatB.exponent)+15
-    // tmpMA = tmpMA<<(floatA.exponent-floatB.exponent)
-    int tmpM = (tmpMA/(tmpMB>>cntDist))<<cntDist
-
-
-    // Dividing by mantissa of 1, out mantissa should become same as A
-    if(tmpMB == 0b10000000000)
-        tmpM = tmpMA
-
-    write('d')
-    write(' ')
-    write_int(cntDist)
-    // for (var i = 0; i < 16; i++){
-    //     // If the lowest bit in A or B is 1, stop the loop
-    //     if((ttmp & 0b10000000000) == 0b10000000000)
-    //         break
-    //     else{
-    //         // Shift right
-    //         ttmp = ttmp >> 1
-    //         exp-=1
-    //     }
-    // }
-    // write_int(floatA.exponent-floatB.exponent)
-    // newline()
-    // write_int(count)
-    // newline()
-    // write_binary(tmpMA)
-    // newline()
-    // write_binary(tmpMB)
-    newline()
-    write_binary(exp)
-    newline()
-    write_binary(tmpM)
-    newline()
-    
-    Float16 outFloat = { sign : finalSign, exponent : exp, fraction : tmpM };
-    if ((tmpM & 0b10000000000) != 0b10000000000) // If the 11th bit is 0, then normalize
-        outFloat = normalizeFloat(tmpM, exp)
-    // newline()
-    // write_float(outFloat)
-
-    // Float16 outFloat = { sign : floatA.sign, exponent : (floatA.exponent+floatB.exponent), fraction : tmpM };
-    // Float16 outFloat = normalizeFloat(tmpM, exp)
     out = FloatToInt(outFloat)
     
     return out
@@ -723,12 +763,14 @@ write('s')
 write(':')
 newline()
 
+// // herethisis:
 // var valu = 0b1000000001
 // newline()
 // write_binary(valu)
-// valu = valu<<7
+// valu = valu^0b1100000001
 // newline()
 // write_binary(valu)
+// // goto herethisis
 
 
 // Float16 f16 = { sign : 1, exponent : 5, fraction : 10 };
@@ -1121,5 +1163,5 @@ struct Float16 {
 
 struct SignedInt {
     bool s : 1
-    int val : 10
+    int val : 15
 }
