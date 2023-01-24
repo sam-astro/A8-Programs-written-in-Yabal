@@ -528,8 +528,6 @@ void draw_line(int x1, int y1, int x2, int y2, int color) {
 	// write(',')
 	// write_signed_int(dy)
 		
-	SetPixel(x1, y1, get_color(255, 0, 0))
-	SetPixel(x2, y2, get_color(0, 255, 0))
 	if (CompareSignedInts(dx, dy, '>')) {
 		SetPixel(x, y, color)
 		e = SubSignedInts(dy, dx)
@@ -632,37 +630,82 @@ void draw_line(int x1, int y1, int x2, int y2, int color) {
 //    return (A >= sum-(10)&&A <= sum+(10));
 // }
 
+var lfsr = 0b1011101011101000;
+int lfsr()
+{
+    // var start_state = 0b1100101011011100
+    var bit = 0
+    // var period = 0
 
-int colorCount = 0
-var colors = create_pointer(30000, 0)
-colors[0] = get_color(255, 0, 0)
-colors[1] = get_color(255, 255, 0)
-colors[2] = get_color(0, 255, 255)
-colors[3] = get_color(0, 255, 0)
-colors[4] = get_color(255, 0, 255)
-colors[5] = get_color(0, 0, 255)
+    // while(true)
+    // {   /* taps: 16 14 13 11; feedback polynomial: x^16 + x^14 + x^13 + x^11 + 1 */
+        bit = ((lfsr >> 1) ^ (lfsr >> 2) ^ (lfsr >> 3) ^ (lfsr >> 7)) & 1
+        lfsr = (lfsr >> 1) | (bit << 15)
+        // period += 1
+		// if(lfsr != start_state)
+		// 	break
+    // }
+
+    return bit;
+}
+int rand(int bits)
+{
+    // var start_state = 0b1100101011011100
+    var out = 0
+	int count = 0
+    // var period = 0
+
+    while(count < bits)
+    {
+		out = out << 1
+		out = out | lfsr()
+		count += 1
+    }
+
+    return out;
+}
+
+// int colorCount = 0
+// var colors = create_pointer(30000, 0)
+// colors[0] = get_color(255, 0, 0)
+// colors[1] = get_color(255, 255, 0)
+// colors[2] = get_color(0, 255, 255)
+// colors[3] = get_color(0, 255, 0)
+// colors[4] = get_color(255, 0, 255)
+// colors[5] = get_color(0, 0, 255)
+// write_int(rand()&0b1111111)
+// newline()
+// write_int(rand()&0b1111111)
+// newline()
+// write_int(rand()&0b1111111)
+// newline()
 while (true) {
-    MouseInput input = expansionPorts[1];
-    var offset = input.y * 108 + input.x;
+    // MouseInput input = expansionPorts[1];
+    // var offset = input.y * 108 + input.x;
 
-    int xpos = input.x
-    int ypos = input.y
-    draw_line(54, 54, xpos, ypos, colors[colorCount])
-	colorCount += 1
+    // int xpos = input.x
+    // int ypos = input.y
+    int x1 = rand(7)
+    int y1 = rand(7)
+    int x2 = rand(7)
+    int y2 = rand(7)
+	var color = rand(15)
+    draw_line(x1, y1, x2, y2, color)
+	// colorCount += 1
     // if (input.left == 1) {
     //     screen[offset] = get_color(255, 255, 255);
     // }
     // break
-	if(colorCount >= 6)
-		colorCount = 0
+	// if(colorCount >= 6)
+	// 	colorCount = 0
 }
 
-struct MouseInput {
-    int y : 7;
-    int x : 7;
-    int left : 1;
-    int right : 1;
-};
+// struct MouseInput {
+//     int y : 7;
+//     int x : 7;
+//     int left : 1;
+//     int right : 1;
+// };
 
 // var chars = create_pointer(53546, 1)
 // var offset = 0
@@ -772,7 +815,7 @@ int ClampInt(int x, int min, int max){
 
 // Function for drawing a single pixel to the screen
 void SetPixel(int x, int y, int color){
-    var screenOffset = (ClampInt(y, 0, 108) * 108) + ClampInt(x, 0, 108)
+    var screenOffset = (ClampInt(y, 0, 107) * 108) + ClampInt(x, 0, 107)
     screen[screenOffset] = color
 }
 
