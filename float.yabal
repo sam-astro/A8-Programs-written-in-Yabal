@@ -16,9 +16,18 @@ inline int get_color(int r, int g, int b) {
     return (r / 8 << 10) + (g / 8 << 5) + (b / 8);
 }
 
+int ClampInt(int x, int min, int max){
+    if(x<min)
+        return min
+    else if(x>max)
+        return max
+
+    return x
+}
+
 // Function for drawing a single pixel to the screen
 void SetPixel(int x, int y, int color){
-    var screenOffset = (y * 108) + x
+    var screenOffset = (ClampInt(y, 0, 108) * 108) + ClampInt(x, 0, 108)
     screen[screenOffset] = color
 }
 
@@ -46,8 +55,10 @@ void write(int c) {
 
 // Get the absolute value of a float value
 Float16 fabs(Float16 f){
-    f.sign = 0
-    return f
+    Float16 outFloat = {sign:0, exponent:0, fraction:0};
+    outFloat.exponent = f.exponent
+    outFloat.fraction = f.fraction
+    return outFloat
 }
 
 SignedInt IntToSignedInt(int x){
@@ -195,6 +206,15 @@ bool WithinRange(SignedInt aI, SignedInt bI, int range){
     return true
 }
 
+int Delta(int a, int b){
+    if(a > b)
+        return a - b
+    else if(a < b)
+        return b - a
+    
+    return 0
+}
+
 // Temporary bitwise not ~ operator function, since currently that operator
 // is broken and only returns 0 unless used like this:
 int NOT(int x){
@@ -301,7 +321,64 @@ int deNormalizeFraction(int f, int exp){
     }
 }
 
+SignedInt AddSignedInts(SignedInt a, SignedInt b){
+    SignedInt outInt = {s: 0, val:0};
+
+    // If the signs are the same, just add and return that same sign
+    if(a.s == b.s){
+        outInt.s = a.s
+        outInt.val = a.val+b.val
+    }
+    // Else if the signs are different and a is negative while b is positive, subtract a from b (b-a)
+    else if(a.s == 1 && b.s == 0){
+        // If the value of A is bigger than the value of B, then that means subtracting will make B negative
+        if(a.val > b.val)
+            outInt.s = 1
+        outInt.val = b.val-a.val
+    }
+    // Else if the signs are different and b is negative while a is positive, subtract b from a (a-b)
+    else if(b.s == 1 && a.s == 0){
+        // If the value of B is bigger than the value of A, then that means subtracting will make A negative
+        if(b.val > a.val)
+            outInt.s = 1
+        outInt.val = a.val-b.val
+    }
+
+    return outInt
+}
+
+SignedInt SubSignedInts(SignedInt a, SignedInt b){
+    // Invert b's sign bit
+    SignedInt bInt = b
+    bInt.s = !bInt.s
+
+    SignedInt outInt = AddSignedInts(a, bInt);
+
+    return outInt
+}
+
+SignedInt Signed(int a){
+    SignedInt outInt = {s: 0, val:a};
+    return outInt
+}
+
+SignedInt NegativeSigned(int a){
+    SignedInt outInt = {s: 1, val:a};
+    return outInt
+}
+
 // Return the integer rounded approximation of a float
+int FloatToUnsignedInt(Float16 fl){
+    var tmpF = fl.fraction + 0b10000000000
+
+    var tmpE = fl.exponent - 15
+
+    var ouval = deNormalizeFraction(tmpF, tmpE) // Int version
+
+    return ouval
+}
+
+// Return the signed integer rounded approximation of a float
 SignedInt FloatToInt(Float16 fl){
     var tmpF = fl.fraction + 0b10000000000
     // tmpF = TruncateTrailingZeros(tmpF)
@@ -317,6 +394,150 @@ SignedInt FloatToInt(Float16 fl){
     SignedInt out = { s:si, val:ouval }; // Add correct sign
 
     return out
+}
+
+bool CompareSignedInts(SignedInt a, SignedInt b, int comp){
+    int compresult = 0 // This stores the result of the comparison, 0 is for equal, 1 is if a > b, and 2 is if a < b
+
+    // If a is negative and b is not it is only less than
+    if(a.s > b.s){
+        compresult = 2
+    }
+    // If b is negative and a is not it is only greater than
+    else if(a.s < b.s){
+        compresult = 1
+    }
+    // If the signs are both negative, check each absolute value
+    //   (since we are negative, a greater magnitude means a lower number)
+    else if(a.s == 1){
+        // If the values are the same
+        if(a.val == b.val){
+            compresult = 0
+        }
+        // If a is greater than b
+        else if(a.val > b.val){
+            compresult = 2
+        }
+        // If b is greater than a
+        else if(a.val < b.val){
+            compresult = 1
+        }
+    }
+    // If the signs are both positive, check each absolute value
+    else if(a.s == 0){
+        // If the values are the same
+        if(a.val == b.val){
+            compresult = 0
+        }
+        // If a is greater than b
+        else if(a.val > b.val){
+            compresult = 1
+        }
+        // If b is greater than a
+        else if(a.val < b.val){
+            compresult = 2
+        }
+    }
+    
+
+    // Now that the actual comparision is done, return a true or false based upon what we are looking for in `comp`
+    if(comp == '='){ // Equal
+        if(compresult == 0)
+            return true
+    }
+    else if(comp == '>'){ // Greater
+        if(compresult == 1)
+            return true
+    }
+    else if(comp == '<'){ // Less
+        if(compresult == 2)
+            return true
+    }
+
+    return false
+}
+
+bool CompareFloats(Float16 a, Float16 b, int comp){
+    int compresult = 0 // This stores the result of the comparison, 0 is for equal, 1 is if a > b, and 2 is if a < b
+
+    // If a is negative and b is not it is only less than
+    if(a.sign > b.sign){
+        compresult = 2
+    }
+    // If b is negative and a is not it is only greater than
+    else if(a.sign < b.sign){
+        compresult = 1
+    }
+    // If the signs are both negative, check each absolute value
+    //   (since we are negative, a greater magnitude means a lower number)
+    else if(a.sign == 1){
+        // If the exponents are the same, compare mantisssas
+        if(a.exponent == b.exponent){
+            // If they are the same, then these values are equal
+            if(a.fraction == b.fraction){
+                compresult = 0
+            }
+            // Else if a mantissa is greater than b
+            else if(a.fraction > b.fraction){
+                compresult = 2 // A greater mantissa means a lower negative number
+            }
+            // Else if b mantissa is greater than a
+            else if(b.fraction > a.fraction){
+                compresult = 1
+            }
+        }
+        // If a is greater than b
+        else if(a.exponent > b.exponent){
+            compresult = 2
+        }
+        // If b is greater than a
+        else if(a.exponent < b.exponent){
+            compresult = 1
+        }
+    }
+    // If the signs are both positive, check each absolute value
+    else if(a.sign == 0){
+        // If the exponents are the same, compare mantisssas
+        if(a.exponent == b.exponent){
+            // If they are the same, then these values are equal
+            if(a.fraction == b.fraction){
+                compresult = 0
+            }
+            // Else if a mantissa is greater than b
+            else if(a.fraction > b.fraction){
+                compresult = 1
+            }
+            // Else if b mantissa is greater than a
+            else if(b.fraction > a.fraction){
+                compresult = 2
+            }
+        }
+        // If a is greater than b
+        else if(a.exponent > b.exponent){
+            compresult = 1
+        }
+        // If b is greater than a
+        else if(a.exponent < b.exponent){
+            compresult = 2
+        }
+    }
+    
+
+    // Now that the actual comparision is done, return a true or false based upon what we are looking for in `comp`
+    if(comp == '='){ // Equal
+        if(compresult == 0)
+            return true
+    }
+    else if(comp == '>'){ // Greater
+        if(compresult == 1)
+            return true
+    }
+    else if(comp == '<'){ // Less
+        if(compresult == 2)
+            return true
+    }
+
+    return false
 }
 
 // Return the integer rounded approximation of a float
@@ -452,7 +673,7 @@ Float16 AddFloats(Float16 floatA, Float16 floatB){
     return outFloat
 }
 
-SignedInt SubFloats(Float16 floatA, Float16 floatB){
+Float16 SubFloats(Float16 floatA, Float16 floatB){
     Float16 fb = floatB
     fb.sign = !fb.sign
     return AddFloats(floatA, fb)
@@ -652,287 +873,287 @@ Float16 DivFloats (Float16 a, Float16 b)
 }
 
 
-/////////////////////////
-// These are the tests //
-/////////////////////////
+// /////////////////////////
+// // These are the tests //
+// /////////////////////////
 
-ChangeHighlightColor(0, 0, 200)
-write('f')
-write('l')
-write('o')
-write('a')
-write('t')
-write(' ')
-write('t')
-write('e')
-write('s')
-write('t')
-write('s')
-write(':')
-newline()
-
-// // herethisis:
-// var valu = 0b1000000001
+// ChangeHighlightColor(0, 0, 200)
+// write('f')
+// write('l')
+// write('o')
+// write('a')
+// write('t')
+// write(' ')
+// write('t')
+// write('e')
+// write('s')
+// write('t')
+// write('s')
+// write(':')
 // newline()
-// write_binary(valu)
-// valu = valu^0b1100000001
-// newline()
-// write_binary(valu)
-// // goto herethisis
+
+// // // herethisis:
+// // var valu = 0b1000000001
+// // newline()
+// // write_binary(valu)
+// // valu = valu^0b1100000001
+// // newline()
+// // write_binary(valu)
+// // // goto herethisis
 
 
-// Float16 f16 = { sign : 1, exponent : 5, fraction : 10 };
-// write_int(f16.exponent)
-SignedInt correctVal = {s:0, val:0};
-SignedInt val = {s:0, val:0};
-// write_signed_int(RetSame(val))
+// // Float16 f16 = { sign : 1, exponent : 5, fraction : 10 };
+// // write_int(f16.exponent)
+// SignedInt correctVal = {s:0, val:0};
+// SignedInt val = {s:0, val:0};
+// // write_signed_int(RetSame(val))
 
-// t1: Float to int 1022
-correctVal = {s:0, val:1022};
-ChangeHighlightColor(0, 128, 128)
-write('t')
-write('1')
-write(' ')
-Float16 inValue = IntToFloat(correctVal);
-val = FloatToInt(inValue)
-// newline()
-// write_float(inValue)
-if(WithinRange(correctVal, val, 10) == false)
-    ChangeHighlightColor(230, 0, 0)
-else
-    ChangeHighlightColor(0, 230, 0)
-write_signed_int(val)
-write(' ')
-ChangeHighlightColor(128, 128, 0)
-write_signed_int(correctVal)
-ChangeHighlightColor(0, 128, 128)
-newline()
-
-// t2: Float to int 2751
-correctVal = {s:0, val:2751};
-ChangeHighlightColor(0, 128, 128)
-write('t')
-write('2')
-write(' ')
-Float16 inValue = IntToFloat(correctVal);
-val = FloatToInt(inValue)
-// newline()
-// write_float(inValue)
-if(WithinRange(correctVal, val, 10) == false)
-    ChangeHighlightColor(230, 0, 0)
-else
-    ChangeHighlightColor(0, 230, 0)
-write_signed_int(val)
-write(' ')
-ChangeHighlightColor(128, 128, 0)
-write_signed_int(correctVal)
-ChangeHighlightColor(0, 128, 128)
-newline()
-// write_binary(val) // Binary should be: 0000000010100000
-
-// // t2: Add floats 160 + 160 = 320
-// correctVal = 320
+// // t1: Float to int 1022
+// correctVal = {s:0, val:1022};
 // ChangeHighlightColor(0, 128, 128)
 // write('t')
-// write('2')
+// write('1')
 // write(' ')
-// Float16 t2a = { sign : 0, exponent : 0b10110, fraction : 0b0100000000 };
-// Float16 t2b = { sign : 0, exponent : 0b10110, fraction : 0b0100000000 };
-// val = AddFloats(t2a, t2b)
+// Float16 inValue = IntToFloat(correctVal);
+// val = FloatToInt(inValue)
+// // newline()
+// // write_float(inValue)
 // if(WithinRange(correctVal, val, 10) == false)
 //     ChangeHighlightColor(230, 0, 0)
 // else
 //     ChangeHighlightColor(0, 230, 0)
-// write_int(val)
+// write_signed_int(val)
 // write(' ')
 // ChangeHighlightColor(128, 128, 0)
-// write_int(correctVal)
+// write_signed_int(correctVal)
 // ChangeHighlightColor(0, 128, 128)
 // newline()
+
+// // t2: Float to int 2751
+// correctVal = {s:0, val:2751};
+// ChangeHighlightColor(0, 128, 128)
+// write('t')
+// write('2')
+// write(' ')
+// Float16 inValue = IntToFloat(correctVal);
+// val = FloatToInt(inValue)
+// // newline()
+// // write_float(inValue)
+// if(WithinRange(correctVal, val, 10) == false)
+//     ChangeHighlightColor(230, 0, 0)
+// else
+//     ChangeHighlightColor(0, 230, 0)
+// write_signed_int(val)
+// write(' ')
+// ChangeHighlightColor(128, 128, 0)
+// write_signed_int(correctVal)
+// ChangeHighlightColor(0, 128, 128)
+// newline()
+// // write_binary(val) // Binary should be: 0000000010100000
+
+// // // t2: Add floats 160 + 160 = 320
+// // correctVal = 320
+// // ChangeHighlightColor(0, 128, 128)
+// // write('t')
+// // write('2')
+// // write(' ')
+// // Float16 t2a = { sign : 0, exponent : 0b10110, fraction : 0b0100000000 };
+// // Float16 t2b = { sign : 0, exponent : 0b10110, fraction : 0b0100000000 };
+// // val = AddFloats(t2a, t2b)
+// // if(WithinRange(correctVal, val, 10) == false)
+// //     ChangeHighlightColor(230, 0, 0)
+// // else
+// //     ChangeHighlightColor(0, 230, 0)
+// // write_int(val)
+// // write(' ')
+// // ChangeHighlightColor(128, 128, 0)
+// // write_int(correctVal)
+// // ChangeHighlightColor(0, 128, 128)
+// // newline()
+// // newline()
+
+// // t3: Add floats 150 + 500 = 650
+// SignedInt AVal = {s:0, val:150};
+// SignedInt BVal = {s:0, val:500};
+// correctVal = {s:0, val:(AVal.val+BVal.val)};
+// ChangeHighlightColor(0, 128, 128)
+// write('t')
+// write('3')
+// write(' ')
+// Float16 inValueA = IntToFloat(AVal);
+// write_signed_int(FloatToInt(inValueA))
+// Float16 inValueB = IntToFloat(BVal);
+// write('+')
+// write_signed_int(FloatToInt(inValueB))
+// val = FloatToInt(AddFloats(inValueA, inValueB))
+// if(WithinRange(correctVal, val, 10) == false)
+//     ChangeHighlightColor(230, 0, 0)
+// else
+//     ChangeHighlightColor(0, 230, 0)
+// write('=')
+// write_signed_int(val)
+// write(' ')
+// ChangeHighlightColor(128, 128, 0)
+// write_signed_int(correctVal)
+// ChangeHighlightColor(0, 128, 128)
+
+// // t4: Add floats 700 + 140 = 840
+// SignedInt AVal = {s:0, val:700};
+// SignedInt BVal = {s:0, val:140};
+// correctVal = {s:0, val:(AVal.val + BVal.val)};
+// ChangeHighlightColor(0, 128, 128)
+// write('t')
+// write('4')
+// write(' ')
+// Float16 inValueA = IntToFloat(AVal);
+// write_signed_int(FloatToInt(inValueA))
+// Float16 inValueB = IntToFloat(BVal);
+// write('+')
+// write_signed_int(FloatToInt(inValueB))
+// val = FloatToInt(AddFloats(inValueA, inValueB))
+// if(WithinRange(correctVal, val, 10) == false)
+//     ChangeHighlightColor(230, 0, 0)
+// else
+//     ChangeHighlightColor(0, 230, 0)
+// write('=')
+// write_signed_int(val)
+// write(' ')
+// ChangeHighlightColor(128, 128, 0)
+// write_signed_int(correctVal)
+// ChangeHighlightColor(0, 128, 128)
+
+// // t5: Add floats 3000 + -7000 = -4000
+// SignedInt AVal = {s:0, val:3000};
+// SignedInt BVal = {s:1, val:7000};
+// correctVal = {s:0, val:(AVal.val - BVal.val)};
+// ChangeHighlightColor(0, 128, 128)
+// write('t')
+// write('5')
+// write(' ')
+// Float16 inValueA = IntToFloat(AVal);
+// write_signed_int(FloatToInt(inValueA))
+// Float16 inValueB = IntToFloat(BVal);
+// write('+')
+// write_signed_int(FloatToInt(inValueB))
+// val = FloatToInt(AddFloats(inValueA, inValueB))
+// if(WithinRange(correctVal, val, 10) == false)
+//     ChangeHighlightColor(230, 0, 0)
+// else
+//     ChangeHighlightColor(0, 230, 0)
+// write('=')
+// write_signed_int(val)
+// write(' ')
+// ChangeHighlightColor(128, 128, 0)
+// write_signed_int(correctVal)
+// ChangeHighlightColor(0, 128, 128)
 // newline()
 
-// t3: Add floats 150 + 500 = 650
-SignedInt AVal = {s:0, val:150};
-SignedInt BVal = {s:0, val:500};
-correctVal = {s:0, val:(AVal.val+BVal.val)};
-ChangeHighlightColor(0, 128, 128)
-write('t')
-write('3')
-write(' ')
-Float16 inValueA = IntToFloat(AVal);
-write_signed_int(FloatToInt(inValueA))
-Float16 inValueB = IntToFloat(BVal);
-write('+')
-write_signed_int(FloatToInt(inValueB))
-val = FloatToInt(AddFloats(inValueA, inValueB))
-if(WithinRange(correctVal, val, 10) == false)
-    ChangeHighlightColor(230, 0, 0)
-else
-    ChangeHighlightColor(0, 230, 0)
-write('=')
-write_signed_int(val)
-write(' ')
-ChangeHighlightColor(128, 128, 0)
-write_signed_int(correctVal)
-ChangeHighlightColor(0, 128, 128)
-
-// t4: Add floats 700 + 140 = 840
-SignedInt AVal = {s:0, val:700};
-SignedInt BVal = {s:0, val:140};
-correctVal = {s:0, val:(AVal.val + BVal.val)};
-ChangeHighlightColor(0, 128, 128)
-write('t')
-write('4')
-write(' ')
-Float16 inValueA = IntToFloat(AVal);
-write_signed_int(FloatToInt(inValueA))
-Float16 inValueB = IntToFloat(BVal);
-write('+')
-write_signed_int(FloatToInt(inValueB))
-val = FloatToInt(AddFloats(inValueA, inValueB))
-if(WithinRange(correctVal, val, 10) == false)
-    ChangeHighlightColor(230, 0, 0)
-else
-    ChangeHighlightColor(0, 230, 0)
-write('=')
-write_signed_int(val)
-write(' ')
-ChangeHighlightColor(128, 128, 0)
-write_signed_int(correctVal)
-ChangeHighlightColor(0, 128, 128)
-
-// t5: Add floats 3000 + -7000 = -4000
-SignedInt AVal = {s:0, val:3000};
-SignedInt BVal = {s:1, val:7000};
-correctVal = {s:0, val:(AVal.val - BVal.val)};
-ChangeHighlightColor(0, 128, 128)
-write('t')
-write('5')
-write(' ')
-Float16 inValueA = IntToFloat(AVal);
-write_signed_int(FloatToInt(inValueA))
-Float16 inValueB = IntToFloat(BVal);
-write('+')
-write_signed_int(FloatToInt(inValueB))
-val = FloatToInt(AddFloats(inValueA, inValueB))
-if(WithinRange(correctVal, val, 10) == false)
-    ChangeHighlightColor(230, 0, 0)
-else
-    ChangeHighlightColor(0, 230, 0)
-write('=')
-write_signed_int(val)
-write(' ')
-ChangeHighlightColor(128, 128, 0)
-write_signed_int(correctVal)
-ChangeHighlightColor(0, 128, 128)
-newline()
-
-// t6: Multiply floats 50 * 4 = 200
-SignedInt AVal = {s:0, val:50};
-SignedInt BVal = {s:0, val:4};
-correctVal = {s:0, val:(AVal.val*BVal.val)};
-write('t')
-write('6')
-write(' ')
-Float16 inValueA = IntToFloat(AVal);
-Float16 inValueB = IntToFloat(BVal);
-val = FloatToInt(MultFloats(inValueA, inValueB))
-if(WithinRange(correctVal, val, 10) == false)
-    ChangeHighlightColor(230, 0, 0)
-else
-    ChangeHighlightColor(0, 230, 0)
-write_signed_int(val)
-write(' ')
-ChangeHighlightColor(128, 128, 0)
-write_signed_int(correctVal)
-ChangeHighlightColor(0, 128, 128)
-newline()
-
-// t7: Multiply floats 17 * 0.5 = 8.5
-SignedInt AVal = {s:0, val:17};
-correctVal = {s:0, val:(AVal.val/2)};
-write('t')
-write('7')
-write(' ')
-Float16 inValueA = IntToFloat(AVal);
-Float16 inValueB = { sign : 0, exponent : 0b01110, fraction : 0 };
-val = FloatToInt(MultFloats(inValueA, inValueB))
-if(WithinRange(correctVal, val, 10) == false)
-    ChangeHighlightColor(230, 0, 0)
-else
-    ChangeHighlightColor(0, 230, 0)
-write_signed_int(val)
-write(' ')
-ChangeHighlightColor(128, 128, 0)
-write_signed_int(correctVal)
-ChangeHighlightColor(0, 128, 128)
-newline()
-
-// t8: Subtract floats 140 - 37 = 107
-SignedInt AVal = {s:0, val:140};
-SignedInt BVal = {s:0, val:37};
-correctVal = {s:0, val:(AVal.val-BVal.val)};
-write('t')
-write('8')
-write(' ')
-Float16 inValueA = IntToFloat(AVal);
-Float16 inValueB = IntToFloat(BVal);
-val = FloatToInt(SubFloats(inValueA, inValueB))
-if(WithinRange(correctVal, val, 10) == false)
-    ChangeHighlightColor(230, 0, 0)
-else
-    ChangeHighlightColor(0, 230, 0)
-write_signed_int(val)
-write(' ')
-ChangeHighlightColor(128, 128, 0)
-write_signed_int(correctVal)
-ChangeHighlightColor(0, 128, 128)
-newline()
-// write_binary(val)
+// // t6: Multiply floats 50 * 4 = 200
+// SignedInt AVal = {s:0, val:50};
+// SignedInt BVal = {s:0, val:4};
+// correctVal = {s:0, val:(AVal.val*BVal.val)};
+// write('t')
+// write('6')
+// write(' ')
+// Float16 inValueA = IntToFloat(AVal);
+// Float16 inValueB = IntToFloat(BVal);
+// val = FloatToInt(MultFloats(inValueA, inValueB))
+// if(WithinRange(correctVal, val, 10) == false)
+//     ChangeHighlightColor(230, 0, 0)
+// else
+//     ChangeHighlightColor(0, 230, 0)
+// write_signed_int(val)
+// write(' ')
+// ChangeHighlightColor(128, 128, 0)
+// write_signed_int(correctVal)
+// ChangeHighlightColor(0, 128, 128)
 // newline()
 
-// t9: Divide floats 70 / 24 = 80
-SignedInt AVal = {s:0, val:70};
-// SignedInt BVal = {s:0, val:3};
-correctVal = {s:0, val:116};
-write('t')
-write('9')
-write(' ')
-Float16 inValueA = IntToFloat(AVal);
-Float16 inValueB = {sign:0, fraction:0b0011001100, exponent:0b01110};
-val = FloatToInt(DivFloats(inValueA, inValueB))
-if(WithinRange(correctVal, val, 10) == false)
-    ChangeHighlightColor(230, 0, 0)
-else
-    ChangeHighlightColor(0, 230, 0)
-write_signed_int(val)
-write(' ')
-ChangeHighlightColor(128, 128, 0)
-write_signed_int(correctVal)
-ChangeHighlightColor(0, 128, 128)
-newline()
+// // t7: Multiply floats 17 * 0.5 = 8.5
+// SignedInt AVal = {s:0, val:17};
+// correctVal = {s:0, val:(AVal.val/2)};
+// write('t')
+// write('7')
+// write(' ')
+// Float16 inValueA = IntToFloat(AVal);
+// Float16 inValueB = { sign : 0, exponent : 0b01110, fraction : 0 };
+// val = FloatToInt(MultFloats(inValueA, inValueB))
+// if(WithinRange(correctVal, val, 10) == false)
+//     ChangeHighlightColor(230, 0, 0)
+// else
+//     ChangeHighlightColor(0, 230, 0)
+// write_signed_int(val)
+// write(' ')
+// ChangeHighlightColor(128, 128, 0)
+// write_signed_int(correctVal)
+// ChangeHighlightColor(0, 128, 128)
+// newline()
+
+// // t8: Subtract floats 140 - 37 = 107
+// SignedInt AVal = {s:0, val:140};
+// SignedInt BVal = {s:0, val:37};
+// correctVal = {s:0, val:(AVal.val-BVal.val)};
+// write('t')
+// write('8')
+// write(' ')
+// Float16 inValueA = IntToFloat(AVal);
+// Float16 inValueB = IntToFloat(BVal);
+// val = FloatToInt(SubFloats(inValueA, inValueB))
+// if(WithinRange(correctVal, val, 10) == false)
+//     ChangeHighlightColor(230, 0, 0)
+// else
+//     ChangeHighlightColor(0, 230, 0)
+// write_signed_int(val)
+// write(' ')
+// ChangeHighlightColor(128, 128, 0)
+// write_signed_int(correctVal)
+// ChangeHighlightColor(0, 128, 128)
+// newline()
+// // write_binary(val)
+// // newline()
+
+// // t9: Divide floats 70 / 24 = 80
+// SignedInt AVal = {s:0, val:70};
+// // SignedInt BVal = {s:0, val:3};
+// correctVal = {s:0, val:116};
+// write('t')
+// write('9')
+// write(' ')
+// Float16 inValueA = IntToFloat(AVal);
+// Float16 inValueB = {sign:0, fraction:0b0011001100, exponent:0b01110};
+// val = FloatToInt(DivFloats(inValueA, inValueB))
+// if(WithinRange(correctVal, val, 10) == false)
+//     ChangeHighlightColor(230, 0, 0)
+// else
+//     ChangeHighlightColor(0, 230, 0)
+// write_signed_int(val)
+// write(' ')
+// ChangeHighlightColor(128, 128, 0)
+// write_signed_int(correctVal)
+// ChangeHighlightColor(0, 128, 128)
+// newline()
 
 
-// tx: Divide floats 10 / 2 = 5
-SignedInt AVal = {s:0, val:10};
-SignedInt BVal = {s:0, val:2};
-correctVal = {s:0, val:(AVal.val/BVal.val)};
-write('t')
-write('x')
-write(' ')
-Float16 inValueA = IntToFloat(AVal);
-Float16 inValueB = IntToFloat(BVal);
-val = FloatToInt(DivFloats(inValueA, inValueB))
-if(WithinRange(correctVal, val, 10) == false)
-    ChangeHighlightColor(230, 0, 0)
-else
-    ChangeHighlightColor(0, 230, 0)
-write_signed_int(val)
-write(' ')
-ChangeHighlightColor(128, 128, 0)
-write_signed_int(correctVal)
-ChangeHighlightColor(0, 128, 128)
-newline()
+// // tx: Divide floats 10 / 2 = 5
+// SignedInt AVal = {s:0, val:10};
+// SignedInt BVal = {s:0, val:2};
+// correctVal = {s:0, val:(AVal.val/BVal.val)};
+// write('t')
+// write('x')
+// write(' ')
+// Float16 inValueA = IntToFloat(AVal);
+// Float16 inValueB = IntToFloat(BVal);
+// val = FloatToInt(DivFloats(inValueA, inValueB))
+// if(WithinRange(correctVal, val, 10) == false)
+//     ChangeHighlightColor(230, 0, 0)
+// else
+//     ChangeHighlightColor(0, 230, 0)
+// write_signed_int(val)
+// write(' ')
+// ChangeHighlightColor(128, 128, 0)
+// write_signed_int(correctVal)
+// ChangeHighlightColor(0, 128, 128)
+// newline()
 
 // // t5: Float to int 1.7
 // write('t')
@@ -1056,9 +1277,9 @@ newline()
 //    cout << DecimalToBinaryString(val) << " : " << val << endl;
 //    cout<<endl;
 
-while (true) {
+// while (true) {
     
-}
+// }
 
 
 
