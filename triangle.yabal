@@ -1,5 +1,5 @@
 
-import "float.yabal"
+// import "float.yabal"
 
 var floats = create_pointer<Float16>(0x0, 1);
 var signedInts = create_pointer<SignedInt>(0x1111, 1);
@@ -9,7 +9,7 @@ var screen = create_pointer(53871, 1)
 var expansionPorts = create_pointer(53500, 1)
 
 var chars = create_pointer(53546, 1)
-var offset = 0
+// var offset = 0
 
 const Float16 FLOAT_ZERO = { sign : 0, exponent : 0, fraction : 0 };
 const Float16 ONE = { sign : 0, exponent : 0b01111, fraction : 0 };
@@ -490,82 +490,105 @@ void DrawLine(Float16 x1, Float16 y1, Float16 x2, Float16 y2, int color)
 }
 
 // https://gist.github.com/nowke/965fed0d5191bf373f1262be584207bb
-void draw_line(int x1, int y1, int x2, int y2) {
-	SignedInt dx = 0
-	SignedInt dy = 0
-	int i = 0
-	SignedInt e = 0
-	
-	SignedInt incx = 0
-	SignedInt incy = 0
-	SignedInt inc1 = 0
-	SignedInt inc2 = 0
-	
-	SignedInt x = 0
-	SignedInt y = 0
+void draw_line(int x1, int y1, int x2, int y2, int color) {
+	SignedInt TWO = {s:0, val:2};
 
-	dx = SubToSignedInt(x2-x1)
-	dy = SubToSignedInt(y2-y1)
+	SignedInt dx = {s:0, val:0};
+	SignedInt dy = {s:0, val:0};
+	// int i = 0
+	SignedInt e = {s:0, val:0};
+	
+	SignedInt incx = {s:0, val:1};
+	SignedInt incy = {s:0, val:1};
+	SignedInt inc1 = {s:0, val:0};
+	SignedInt inc2 = {s:0, val:0};
+	
+	SignedInt x = {s:0, val:x1};
+	SignedInt y = {s:0, val:y1};
+
+	// write_signed_int(x2)
+	// write(',')
+	// write_signed_int(x1)
+	// write(' ')
+	dx = SubSignedInts(x2,x)
+	dy = SubSignedInts(y2,y)
 
 	if (dx.s == 1) // If dx < 0
 		dx.s = 0
 	if (dy.s == 1)  // If dy < 0
 		dy.s = 0
-	incx = 1
+
 	if (x2 < x1)
-		incx.s = 1;
-	incy = 1;
+		incx.s = 1
+
 	if (y2 < y1)
-		incy.s = 1;
-	x = x1
-	y = y1
+		incy.s = 1
+
+	// write_signed_int(dx)
+	// write(',')
+	// write_signed_int(dy)
+		
+	SetPixel(x1, y1, get_color(255, 0, 0))
+	SetPixel(x2, y2, get_color(0, 255, 0))
 	if (CompareSignedInts(dx, dy, '>')) {
-		SetPixel(x, y, 0b111111111111111)
+		SetPixel(x, y, color)
 		e = SubSignedInts(dy, dx)
-		e = MultSignedInts(e, 2)
+		e = MultSignedInts(e, TWO)
 		inc1 = SubSignedInts(dy, dx)
-		inc1 = MultSignedInts(inc1, 2)
-		inc2 = MultSignedInts(dy, 2)
-		for (i=0; i<dx; i++) {
+		inc1 = MultSignedInts(inc1, TWO)
+		inc2 = MultSignedInts(dy, TWO)
+		var maxval = dx.val
+		for (var i=0; i<maxval; i++) {
 			if (e.s == 0 || (e.s == 1 && e.val == 0)) { // if  e >= 0
 				// y += incy
 				y = AddSignedInts(y, incy)
 				// e += inc1
 				e = AddSignedInts(e, inc1)
+				// newline()
+				// write_signed_int(y)
 			}
-			else
+			else{
 				// e += inc2
 				e = AddSignedInts(e, inc2)
+			}
 			// x += incx
 			x = AddSignedInts(x, incx)
-			SetPixel(x, y, 0b111111111111111)
+			SetPixel(x, y, color)
 		}
 
 	} else {
-		SetPixel(x, y, 0b111111111111111)
+		SetPixel(x, y, color)
 		// e = 2*dx-dy
-		e = SubSignedInts(dx, dy)
-		e = MultSignedInts(e, 2)
+		e = MultSignedInts(dx, TWO)
+		e = SubSignedInts(e, dy)
 		// inc1 = 2*(dx-dy)
 		inc1 = SubSignedInts(dx, dy)
-		inc1 = MultSignedInts(inc1, 2)
+		inc1 = MultSignedInts(inc1, TWO)
 		// inc2 = 2*dx
-		inc2 = MultSignedInts(dx, 2)
-		for (i=0; i<dy; i++) {
+		inc2 = MultSignedInts(dx, TWO)
+		var maxval = dy.val
+		for (var i = 0; i < maxval; i++) {
 			if (e.s == 0 || (e.s == 1 && e.val == 0)) { // if  e >= 0
 				// x += incx
 				x = AddSignedInts(x, incx)
 				// e += inc1
 				e = AddSignedInts(e, inc1)
+				// newline()
+				// write_signed_int(x)
 			}
-			else
+			else{
 				// e += inc2
 				e = AddSignedInts(e, inc2)
+			}
 			// y += incy
 			y = AddSignedInts(y, incy)
-			SetPixel(x, y, 0b111111111111111)
+			int xval = x.val
+			int yval = y.val
+			SetPixel(xval, yval, color)
 		}
 	}
+	// SetPixel(x1, y1, get_color(255, 0, 0))
+	// SetPixel(x2, y2, get_color(0, 255, 0))
 }
 
 
@@ -609,25 +632,37 @@ void draw_line(int x1, int y1, int x2, int y2) {
 //    return (A >= sum-(10)&&A <= sum+(10));
 // }
 
-while (true) {
-    // MouseInput input = expansionPorts[1];
-    // var offset = input.y * 108 + input.x;
 
-    // var xpos = input.x
-    // var ypos = input.y
-    DrawLine(10, 25, 70, 50, 0b1111111111111111)
+int colorCount = 0
+var colors = create_pointer(30000, 0)
+colors[0] = get_color(255, 0, 0)
+colors[1] = get_color(255, 255, 0)
+colors[2] = get_color(0, 255, 255)
+colors[3] = get_color(0, 255, 0)
+colors[4] = get_color(255, 0, 255)
+colors[5] = get_color(0, 0, 255)
+while (true) {
+    MouseInput input = expansionPorts[1];
+    var offset = input.y * 108 + input.x;
+
+    int xpos = input.x
+    int ypos = input.y
+    draw_line(54, 54, xpos, ypos, colors[colorCount])
+	colorCount += 1
     // if (input.left == 1) {
     //     screen[offset] = get_color(255, 255, 255);
     // }
-    break
+    // break
+	if(colorCount >= 6)
+		colorCount = 0
 }
 
-// struct MouseInput {
-//     int y : 7;
-//     int x : 7;
-//     int left : 1;
-//     int right : 1;
-// };
+struct MouseInput {
+    int y : 7;
+    int x : 7;
+    int left : 1;
+    int right : 1;
+};
 
 // var chars = create_pointer(53546, 1)
 // var offset = 0
@@ -687,9 +722,1380 @@ while (true) {
 //     }
 // }
 
+// newline()
+// SignedInt a = {s:0, val:70};
+// SignedInt b = {s:1, val:10};
+// var outint = AddSignedInts(a, b)
+// write_signed_int(a)
+// write('+')
+// write_signed_int(b)
+// write('=')
+// write_signed_int(outint)
+
+
 while (true){
 
 }
+
+
+
+//////////////////////////////////////////
+//  This is all float and writing code: //
+//////////////////////////////////////////
+
+
+// var floats = create_pointer<Float16>(0x0, 1);
+// var signedInts = create_pointer<SignedInt>(0x1111, 1);
+// var screen = create_pointer(53871, 1)
+// var charMem = create_pointer(53546, 1)
+int offset = 0
+
+var highlightColor = 0
+var highlightOppositeColor = 0b1111111111111111
+
+
+Float16 PI = { sign : 0, exponent : 0b10000, fraction : 0b1001001000 };
+Float16 ONE = { sign : 0, exponent : 0b01111, fraction : 0 };
+
+inline int get_color(int r, int g, int b) {
+    return (r / 8 << 10) + (g / 8 << 5) + (b / 8);
+}
+
+int ClampInt(int x, int min, int max){
+    if(x<min)
+        return min
+    else if(x>max)
+        return max
+
+    return x
+}
+
+// Function for drawing a single pixel to the screen
+void SetPixel(int x, int y, int color){
+    var screenOffset = (ClampInt(y, 0, 108) * 108) + ClampInt(x, 0, 108)
+    screen[screenOffset] = color
+}
+
+void ChangeHighlightColor(int r, int g, int b){
+    highlightColor = get_color(r, g, b)
+    highlightOppositeColor = get_color(256-r, 256-g, 256-b)
+}
+
+void write(int c) {
+    chars[offset] = c
+
+    // Draw highlight behind character
+    var pixOffsetY = (offset/18)*6
+    var pixOffsetX = ((offset*6)%108)
+    for (var x = 0; x < 6; x++) {
+        for (var y = 0; y < 6; y++) {
+            var pixel = highlightColor
+            SetPixel(pixOffsetX+x, pixOffsetY+y, pixel)
+        }
+    }
+    
+    // Increment location offset by 1
+    offset++
+}
+
+// Get the absolute value of a float value
+Float16 fabs(Float16 f){
+    Float16 outFloat = {sign:0, exponent:0, fraction:0};
+    outFloat.exponent = f.exponent
+    outFloat.fraction = f.fraction
+    return outFloat
+}
+
+SignedInt IntToSignedInt(int x){
+    SignedInt o = {s:0, val:x};
+    return o
+}
+
+// void writeStr(int s) {
+//     var size = sizeof(s)
+//     for (var i = 0; i < size; i++) {
+//         write(s[i])
+//     }
+// }
+
+void newline(){
+    offset = offset / 18 * 18 + 18
+}
+
+void write_int(int value) {
+    var reverser = create_pointer(65530, 0)
+    var i = 0
+    for (var o = 0; o < 5; o++){
+        reverser[o] = 0
+    }
+    while (value > 0) {
+        var char = (value % 10) switch {
+            1 => '1',
+            2 => '2',
+            3 => '3',
+            4 => '4',
+            5 => '5',
+            6 => '6',
+            7 => '7',
+            8 => '8',
+            9 => '9',
+            _ => '0'
+        }
+
+        reverser[i] = char
+        value = value / 10
+        i += 1
+    }
+    bool atFirst = false
+    for (var o = 0; o < 5; o++){
+        // If the first non-zero number has finally been found, start writing number
+        if(reverser[4-o] != 0)
+            atFirst = true
+        // Otherwise it is just a trailing zero, so skip
+        else if(atFirst==false)
+            continue
+        write(reverser[4-o])
+    }
+}
+
+void write_binary(int value) {
+    var reverser = create_pointer(65519, 0)
+    var i = 0
+    for (var i = 0; i < 16; i++){
+        reverser[i] = 0
+    }
+    while (value > 0) {
+        var char = (value & 1) switch {
+            1 => '1',
+            _ => '0'
+        }
+
+        reverser[15-i] = char
+        value = value >> 1
+        i += 1
+    }
+    for (var i = 0; i < 16; i++){
+        write(reverser[i])
+    }
+}
+
+void write_float(Float16 f) {
+    write('e')
+    write(':')
+    var exp = f.exponent
+    write_binary(f.exponent)
+    write('f')
+    write(':')
+    var frac = f.fraction
+    write_binary(f.fraction)
+}
+
+void write_signed_int(SignedInt i) {
+    if(i.s == true) // If negative, print `-`
+        write('-')
+    int v = i.val
+    write_int(v)
+}
+
+int TruncateTrailingZeros(int x){
+    var o = x
+    for (var i = 0; i < 16; i++){
+        // If the last digit is 1, then stop shifting
+        if((o & 1) == 1)
+            break
+        // Otherwise shift again
+        o = o >> 1
+    }
+    return o
+}
+
+// void write_float(Float16 value) {
+//     if (value.sign == 1) {
+//         write('-')
+//     }
+
+//     write_int(value.exponent)
+//     write('.')
+//     write_int(value.fraction)
+// }
+
+// Quadratic approximation of the sin function
+Float16 sin(Float16 x){
+    Float16 piSquared = MultFloats(PI, PI)
+    Float16 four = IntToFloat(4)
+    return MultFloats((DivFloats(MultFloats(four,x), piSquared)),SubFloats(PI,x))
+}
+
+// Returns true if values a and b are within +-range of eachother
+bool WithinRange(SignedInt aI, SignedInt bI, int range){
+    var a = aI.val
+    var b = bI.val
+    if(a > b){
+        if((a-b)<=range){
+            // write_int(a-b)
+            return true
+        }
+        else{
+            return false
+        }
+    }
+    else if(a < b){
+        if((b-a)<=range){
+            // write_int(b-a)
+            return true
+        }
+        else{
+            return false
+        }
+    }
+    return true
+}
+
+int Delta(int a, int b){
+    if(a > b)
+        return a - b
+    else if(a < b)
+        return b - a
+    
+    return 0
+}
+
+// Temporary bitwise not ~ operator function, since currently that operator
+// is broken and only returns 0 unless used like this:
+int NOT(int x){
+    return ~x&0b1111111111111111
+}
+
+// Convert integer to it's negative value in twos complement
+int Negative(int x){
+    return NOT(x) + 1
+}
+
+inline int XOR(int a, int b){
+    return (a|b)&(NOT(a&b))
+}
+
+
+int get_shift_amnt(int man, int exp){
+    return 10-exp
+}
+
+// string DecimalToBinaryString(int a)
+// {
+//     uint b = (uint)a
+//     string binary = ""
+//     uint mask = 0x80000000u
+//     while (mask > 0)
+//     {
+//         binary += ((b & mask) == 0) ? '0' : '1'
+//         mask >>= 1
+//     }
+//     return binary
+// }
+
+// Returns the integer base raised to the power integer exponent
+int pow(int base, SignedInt exponent){
+    var calculated = base
+    // If the exponent is negative, we divide each time instead of multiply
+    if(exponent.s == 1){
+        for (var i = 1; i < exponent.val; i++){
+            calculated = calculated / base
+        }
+    }
+    // Otherwise it is normal multiplication exponent
+    else {
+        for (var i = 1; i < exponent.val; i++){
+            calculated = calculated * base
+        }
+    }
+    return calculated
+}
+
+// Adjust a float so that the 11th bit in the mantissa is 1, the whole number
+Float16 normalizeFloat(int fraction, int exponent){
+    var frac = fraction
+    var exp = exponent
+    // If the 11th digit is already the whole number 1
+    if((frac & 0b1111100000000000) == 0 && (frac & 0b10000000000) == 0b10000000000){
+        exp += 1
+    }
+    else{
+        // If leftmost digit is further than mantissa max of 10, then shift right
+        for (var j = 0; j < 10; j++){
+            // If the left has no 1s, then stop shifting
+            if((frac & 0b1111100000000000) == 0)
+                break
+            // Otherwise shift again
+            frac = frac >> 1
+            exp += 1
+        }
+        // Shift left until 11th digit is 1
+        for (var i = 0; i < 12; i++){
+            // If the left digit is 1, then stop shifting
+            if((frac & 0b10000000000) == 0b10000000000)
+                break
+            // Otherwise shift again
+            frac = frac << 1
+            exp -= 1
+        }
+    }
+    frac = frac&0b1111111111
+    Float16 outFloat = { sign : 0, exponent : exp, fraction : frac };
+    return outFloat
+}
+
+int deNormalizeFraction(int f, int exp){
+    bool sn = (10-exp>60000)
+    var vl = 10-exp
+    // SignedInt powNum = { s : 0, val : 0 };
+    if (sn){
+        vl = 65535-(10-exp)
+        // powNum.s = 1
+    }
+    // powNum.val = vl
+
+
+    // return (f * pow(2, powNum))
+    // If negative
+    if(sn == 1){
+        return f<<vl
+    }
+    // Otherwise shift normal way
+    else{
+        return f>>vl
+    }
+}
+
+SignedInt AddSignedInts(SignedInt a, SignedInt b){
+    SignedInt outInt = {s: 0, val:0};
+
+    // If the signs are the same, just add and return that same sign
+    if(a.s == b.s){
+        outInt.s = a.s
+        outInt.val = (a.val+b.val)
+    }
+    // Else if the signs are different and a is negative while b is positive, subtract a from b (b-a)
+    else if(a.s == 1){
+        // If the value of A is bigger than the value of B, then that means subtracting will make B negative
+        if(a.val > b.val){
+            outInt.s = 1
+            outInt.val = a.val-b.val
+        }
+        else{
+            outInt.val = b.val-a.val
+        }
+
+        // outInt.val = Delta(a.val,b.val)
+    }
+    // Else if the signs are different and b is negative while a is positive, subtract b from a (a-b)
+    else if(b.s == 1){
+        // If the value of B is bigger than the value of A, then that means subtracting will make A negative
+        if(b.val > a.val){
+            outInt.s = 1
+            outInt.val = b.val-a.val
+        }
+        else{
+            outInt.val = a.val-b.val
+        }
+
+        // outInt.val = Delta(b.val,a.val)
+    }
+
+    return outInt
+}
+
+
+// SignedInt a = {s:1, val:13};
+// SignedInt b = {s:1, val:14};
+// var outint = MultSignedInts(a, b)
+// write_signed_int(a)
+// write('*')
+// write_signed_int(b)
+// write('=')
+// write_signed_int(outint)
+
+// SignedInt a = {s:1, val:13};
+// SignedInt b = {s:1, val:14};
+// var comp = '>'
+// var outint = CompareSignedInts(a, b, comp)
+// write_signed_int(a)
+// write('>')
+// write_signed_int(b)
+// write('=')
+// if(outint){
+//     write('t')
+//     write('r')
+//     write('u')
+//     write('e')
+// }
+// else{
+//     write('f')
+//     write('a')
+//     write('l')
+//     write('s')
+//     write('e')
+// }
+
+
+SignedInt SubSignedInts(SignedInt a, SignedInt b){
+    // Invert b's sign bit
+    SignedInt bInt = b
+    bInt.s = !bInt.s
+
+    SignedInt outInt = AddSignedInts(a, bInt);
+
+    return outInt
+}
+
+SignedInt MultSignedInts(SignedInt a, SignedInt b){
+    // Determine final sign, if they are different it is 1, if they are both 0 it is 0, and if they are both 1 it is also 0
+    var finalSign = 0
+    if(a.s != b.s)
+        finalSign = 1
+
+    var finalVal = a.val*b.val
+    SignedInt outInt = {s:finalSign, val:finalVal};
+
+    return outInt
+}
+
+// Subtract two ints, and return a signed int to allow for negative numbers
+SignedInt SubToSignedInt(int a, int b){
+	var aval = a
+	var bval = b
+    // Convert each to a signed int
+    SignedInt aInt = {s:0, val:aval};
+    SignedInt bInt = {s:0, val:bval}; // Invert b's sign
+
+	SignedInt outInt = {s:0, val:0};
+    outInt = AddSignedInts(aInt, bInt);
+
+    return outInt
+}
+
+SignedInt Signed(int a){
+    SignedInt outInt = {s: 0, val:a};
+    return outInt
+}
+
+SignedInt NegativeSigned(int a){
+    SignedInt outInt = {s: 1, val:a};
+    return outInt
+}
+
+// Return the integer rounded approximation of a float
+int FloatToUnsignedInt(Float16 fl){
+    var tmpF = fl.fraction + 0b10000000000
+
+    var tmpE = fl.exponent - 15
+
+    var ouval = deNormalizeFraction(tmpF, tmpE) // Int version
+
+    return ouval
+}
+
+// Return the signed integer rounded approximation of a float
+SignedInt FloatToInt(Float16 fl){
+    var tmpF = fl.fraction + 0b10000000000
+    // tmpF = TruncateTrailingZeros(tmpF)
+
+    var tmpE = fl.exponent - 15
+
+    var si = fl.sign
+
+    // int out = tmpF >> get_shift_amnt(tmpF, tmpE)
+
+    var ouval = deNormalizeFraction(tmpF, tmpE) // Int version
+
+    SignedInt out = { s:si, val:ouval }; // Add correct sign
+
+    return out
+}
+
+bool CompareSignedInts(SignedInt a, SignedInt b, int comp){
+    int compresult = 0 // This stores the result of the comparison, 0 is for equal, 1 is if a > b, and 2 is if a < b
+
+    // If a is negative and b is not it is only less than
+    if(a.s > b.s){
+        compresult = 2
+    }
+    // If b is negative and a is not it is only greater than
+    else if(a.s < b.s){
+        compresult = 1
+    }
+    // If the signs are both negative, check each absolute value
+    //   (since we are negative, a greater magnitude means a lower number)
+    else if(a.s == 1){
+        // If the values are the same
+        if(a.val == b.val){
+            compresult = 0
+        }
+        // If a is greater than b
+        else if(a.val > b.val){
+            compresult = 2
+        }
+        // If b is greater than a
+        else if(a.val < b.val){
+            compresult = 1
+        }
+    }
+    // If the signs are both positive, check each absolute value
+    else if(a.s == 0){
+        // If the values are the same
+        if(a.val == b.val){
+            compresult = 0
+        }
+        // If a is greater than b
+        else if(a.val > b.val){
+            compresult = 1
+        }
+        // If b is greater than a
+        else if(a.val < b.val){
+            compresult = 2
+        }
+    }
+    
+
+    // Now that the actual comparision is done, return a true or false based upon what we are looking for in `comp`
+    if(comp == '='){ // Equal
+        if(compresult == 0)
+            return true
+    }
+    else if(comp == '>'){ // Greater
+        if(compresult == 1)
+            return true
+    }
+    else if(comp == '<'){ // Less
+        if(compresult == 2)
+            return true
+    }
+
+    return false
+}
+
+bool CompareFloats(Float16 a, Float16 b, int comp){
+    int compresult = 0 // This stores the result of the comparison, 0 is for equal, 1 is if a > b, and 2 is if a < b
+
+    // If a is negative and b is not it is only less than
+    if(a.sign > b.sign){
+        compresult = 2
+    }
+    // If b is negative and a is not it is only greater than
+    else if(a.sign < b.sign){
+        compresult = 1
+    }
+    // If the signs are both negative, check each absolute value
+    //   (since we are negative, a greater magnitude means a lower number)
+    else if(a.sign == 1){
+        // If the exponents are the same, compare mantisssas
+        if(a.exponent == b.exponent){
+            // If they are the same, then these values are equal
+            if(a.fraction == b.fraction){
+                compresult = 0
+            }
+            // Else if a mantissa is greater than b
+            else if(a.fraction > b.fraction){
+                compresult = 2 // A greater mantissa means a lower negative number
+            }
+            // Else if b mantissa is greater than a
+            else if(b.fraction > a.fraction){
+                compresult = 1
+            }
+        }
+        // If a is greater than b
+        else if(a.exponent > b.exponent){
+            compresult = 2
+        }
+        // If b is greater than a
+        else if(a.exponent < b.exponent){
+            compresult = 1
+        }
+    }
+    // If the signs are both positive, check each absolute value
+    else if(a.sign == 0){
+        // If the exponents are the same, compare mantisssas
+        if(a.exponent == b.exponent){
+            // If they are the same, then these values are equal
+            if(a.fraction == b.fraction){
+                compresult = 0
+            }
+            // Else if a mantissa is greater than b
+            else if(a.fraction > b.fraction){
+                compresult = 1
+            }
+            // Else if b mantissa is greater than a
+            else if(b.fraction > a.fraction){
+                compresult = 2
+            }
+        }
+        // If a is greater than b
+        else if(a.exponent > b.exponent){
+            compresult = 1
+        }
+        // If b is greater than a
+        else if(a.exponent < b.exponent){
+            compresult = 2
+        }
+    }
+    
+
+    // Now that the actual comparision is done, return a true or false based upon what we are looking for in `comp`
+    if(comp == '='){ // Equal
+        if(compresult == 0)
+            return true
+    }
+    else if(comp == '>'){ // Greater
+        if(compresult == 1)
+            return true
+    }
+    else if(comp == '<'){ // Less
+        if(compresult == 2)
+            return true
+    }
+
+    return false
+}
+
+// Return the integer rounded approximation of a float
+Float16 IntToFloat(SignedInt x){
+    // Find the exponent, by shifting left until the largest digit is reached
+    var count = 1
+    var tmp = x.val
+    var mask = 1
+    for (var i = 0; i < 16; i++){
+        // If the first digit is 1, then stop shifting because we have the count
+        if((tmp & 0b1000000000000000) == 0b1000000000000000)
+            break
+        // Otherwise shift again
+        tmp = tmp << 1
+        count += 1
+    }
+    // Get exponent from count, then add offset of 15 for float format
+    var exp = (15-count)+15
+    
+    var mant = x.val
+    // If the mantissa is >= 10 bits long already, only use first 10
+    if(mant > 0b11111111111){
+        mant = mant >> ((16-count)-11)
+    }
+    else if(mant < 0b10000000000){
+        mant = mant << (11-(16-count))
+    }
+
+    Float16 outFloat = normalizeFloat(mant, exp);
+    outFloat.sign = x.s
+
+    return outFloat
+}
+
+Float16 AddFloats(Float16 floatA, Float16 floatB){
+    Float16 outFloat = { sign : 0, exponent : 0, fraction : 0 };
+    // If the exponents are different, then we need to make the float with the smaller exponent the same as the larger one
+    if(floatA.exponent > floatB.exponent){
+        var tmpMB = ((floatB.fraction+0b10000000000)>>(floatA.exponent-floatB.exponent))
+        var tmpMA = floatA.fraction+0b10000000000
+
+        bool finalSign = false
+        if(floatB.sign == true){
+            tmpMB = Negative(tmpMB)
+            // Determine the final sign, it is 1 if B is > A
+            if(floatB.exponent > floatA.exponent)
+                finalSign = true
+            // If they have the same exponent, check mantissas as well
+            else if((floatB.exponent == floatA.exponent) && (floatB.fraction > floatA.fraction))
+                finalSign = true
+        }
+        if(floatA.sign == true){
+            tmpMA = Negative(tmpMA)
+            // Determine the final sign, it is 1 if A is > B
+            if(floatA.exponent > floatB.exponent)
+                finalSign = true
+            // If they have the same exponent, check mantissas as well
+            else if((floatA.exponent == floatB.exponent) && (floatA.fraction > floatB.fraction))
+                finalSign = true
+        }
+        
+        int tmpM = tmpMA+tmpMB
+        int exp = floatA.exponent
+        outFloat = { sign : finalSign, exponent : exp, fraction : tmpM };
+        if ((tmpM & 0b10000000000) != 0b10000000000) // If the 11th bit is 0, then normalize
+            outFloat = normalizeFloat(tmpM, exp)
+    }
+    // 150+500
+    else if(floatA.exponent < floatB.exponent){
+        int tmpMB = floatB.fraction+0b10000000000
+        int tmpMA = ((floatA.fraction+0b10000000000)>>(floatB.exponent-floatA.exponent))
+        
+        bool finalSign = false
+        if(floatB.sign == true){
+            tmpMB = Negative(tmpMB)
+            // Determine the final sign, it is 1 if B is > A
+            if(floatB.exponent > floatA.exponent)
+                finalSign = true
+            // If they have the same exponent, check mantissas as well
+            else if((floatB.exponent == floatA.exponent) && (floatB.fraction > floatA.fraction))
+                finalSign = true
+        }
+        if(floatA.sign == true){
+            tmpMA = Negative(tmpMA)
+            // Determine the final sign, it is 1 if A is > B
+            if(floatA.exponent > floatB.exponent)
+                finalSign = true
+            // If they have the same exponent, check mantissas as well
+            else if((floatA.exponent == floatB.exponent) && (floatA.fraction > floatB.fraction))
+                finalSign = true
+        }
+        
+        int tmpM = tmpMA+tmpMB
+        
+        int exp = floatB.exponent
+        outFloat = { sign : finalSign, exponent : exp, fraction : tmpM };
+        if ((tmpM & 0b10000000000) != 0b10000000000) // If the 11th bit is 0, then normalize
+            outFloat = normalizeFloat(tmpM, floatB.exponent)
+    }
+    // Else the exponents are the same, so no need to change them
+    else {
+        int tmpMB = (floatB.fraction+0b10000000000)>>1
+        int tmpMA = (floatA.fraction+0b10000000000)>>1
+        
+        bool finalSign = false
+        if(floatB.sign == true){
+            tmpMB = Negative(tmpMB)
+            // Determine the final sign, it is 1 if B is > A
+            if(floatB.exponent > floatA.exponent)
+                finalSign = true
+            // If they have the same exponent, check mantissas as well
+            else if((floatB.exponent == floatA.exponent) && (floatB.fraction > floatA.fraction))
+                finalSign = true
+        }
+        if(floatA.sign == true){
+            tmpMA = Negative(tmpMA)
+            // Determine the final sign, it is 1 if A is > B
+            if(floatA.exponent > floatB.exponent)
+                finalSign = true
+            // If they have the same exponent, check mantissas as well
+            else if((floatA.exponent == floatB.exponent) && (floatA.fraction > floatB.fraction))
+                finalSign = true
+        }
+        
+        int tmpM = tmpMA+tmpMB
+        
+        int exp = floatB.exponent+1
+        outFloat = { sign : finalSign, exponent : exp, fraction : tmpM };
+        if ((tmpM & 0b10000000000) != 0b10000000000) // If the 11th bit is 0, then normalize
+            outFloat = normalizeFloat(tmpM, floatB.exponent)
+    }
+
+    return outFloat
+}
+
+Float16 SubFloats(Float16 floatA, Float16 floatB){
+    Float16 fb = floatB
+    fb.sign = !fb.sign
+    return AddFloats(floatA, fb)
+}
+
+
+Float16 MultFloats(Float16 floatA, Float16 floatB){
+    int tmpMA = floatA.fraction+0b10000000000
+    int tmpMB = floatB.fraction+0b10000000000
+
+    int snA = floatA.sign
+    int snB = floatB.sign
+
+    // Determine final sign, if they are different it is 1, if they are both 0 it is 0, and if they are both 1 it is also 0
+    var finalSign = 0
+    if(snA != snB)
+        finalSign = 1
+
+    // Get the lowest bit that is 1 in either A or B
+    var count = 0 // count is for the lowest index there is a 1
+    for (var i = 0; i < 16; i++){
+        // If the lowest bit in A or B is 1, stop the loop
+        if(((tmpMA & 1) == 1) || ((tmpMB & 1) == 1))
+            break
+        else{
+            // Shift right
+            tmpMA = tmpMA >> 1
+            tmpMB = tmpMB >> 1
+            count += 1
+        }
+    }
+    
+    int tmpM = tmpMA*tmpMB
+    int exp = floatA.exponent+floatB.exponent-15+count-4
+    
+    Float16 outFloat = { sign : finalSign, exponent : exp, fraction : tmpM };
+    if ((tmpM & 0b10000000000) != 0b10000000000) // If the 11th bit is 0, then normalize
+        outFloat = normalizeFloat(tmpM, exp)
+
+    return outFloat
+}
+
+// Credit to njuffa (https://cs.stackexchange.com/users/51535/njuffa),
+// "Simple algorithm for IEEE-754 division on 8-bit CPU?"",
+// URL (version: 2019-02-28): https://cs.stackexchange.com/q/104961
+Float16 DivFloats (Float16 a, Float16 b)
+{
+    int r = 0
+    int x = 0
+    int y = 0
+    int sign = 0
+
+    int expo_x = 0
+    int expo_y = 0
+
+    int i = 0
+    int odd = 0
+    int rnd = 0
+    int sticky = 0
+
+    Float16 outVal = {sign:0, exponent:0, fraction:0};
+
+    /* extract biased exponents and sign bits */
+    expo_x = a.exponent
+    expo_y = b.exponent
+    sign = XOR(a.sign, b.sign)
+
+    var processNow = false
+
+    for (var jj = 0; jj < 2; jj++){
+        if (((expo_x >= 1) && (expo_x <= 0b11110) &&
+            (expo_y >= 1) && (expo_y <= 1)) || processNow) { /* fast path */
+    // divide:
+            /* add significand leading 1 int */
+            x = a.fraction + 0b10000000000
+            y = b.fraction + 0b10000000000
+            /* compute exponent of result */
+            outVal.exponent = expo_x - expo_y + 15
+            /* dividend may not be smaller than divisor: normalize */
+            if (x < y) {
+                x = x << 1
+                outVal.exponent -= 1
+            }
+            /* generate quotient one bit at at time */
+            r = 0
+            for (i = 0; i < 12; i++) {
+                r = r << 1
+                if (x >= y) {
+                    x = x - y
+                    r = r | 1
+                }
+                x = x << 1
+            }
+            /* OR remainder bits into sticky bit */
+            sticky = (x != 0)
+            if ((outVal.exponent >= 1) && 
+                (outVal.exponent <= 0b11110)) { /* normal, may overflow to infinity*/
+                /* extract round and lsb bits */
+                rnd = (r & 1)
+                odd = (r & 2) != 0
+                /* remove round bit from quotient and round to-nearest-even */
+                r = (r >> 1) + (rnd & (sticky | odd))
+                /* set significand */
+                outVal.fraction = r - 0b10000000000
+            } else if (outVal.exponent > 0b11110) { // overflow: infinity
+                outVal.exponent = 0b011111
+            } else { /* underflow: result is zero, subnormal, or smallest normal */
+                int shift = (1 - outVal.exponent)
+                /* clamp shift count */
+                if (shift > 12) shift = 12
+                /* OR shifted-off bits of significand into sticky bit */
+                sticky = sticky | ((r & NOT(NOT(0) << shift)) != 0)
+                /* denormalize significand */
+                r = r >> shift
+                /* extract round and lsb bits */
+                rnd = (r & 1)
+                odd = (r & 2) != 0
+                /* remove round bit from quotient and round to-nearest-even */
+                // r = (r >> 1) + (rnd & (sticky | odd));
+                outVal.fraction = (r >> 1) + (rnd & (sticky | odd))
+            }
+            // /* combine sign bit with combo of exponent and significand */
+            // r = r | sign;
+            outVal.sign = sign
+        } else { /* slow path */
+            // /* take absolute value of arguments */
+            // x = a & NOT(SIGN_MASK);
+            // y = b & NOT(SIGN_MASK);
+            /* if dividend is a NaN, convert that NaN into a QNaN and return it */
+            if ((a.exponent == 0b11111) && (a.fraction > 0)){
+                outVal.sign = a.sign
+                outVal.fraction = a.fraction | 0b1000000000
+                outVal.exponent = a.exponent
+                return outVal
+            }
+            /* if divisor is a NaN, convert that NaN into a QNaN and return it */
+            if ((b.exponent == 0b11111) &&(b.fraction > 0)){
+                outVal.sign = b.sign
+                outVal.fraction = b.fraction | 0b1000000000
+                outVal.exponent = b.exponent
+                return outVal
+            }
+            /* dividend and divisor are both zero or infinity: invalid operation */
+            if (((a.exponent == 0 && a.fraction == 0) && (b.exponent == 0 && b.fraction == 0)) || 
+                ((a.exponent == 0b11111) && (b.exponent == 0b11111)))
+            {
+                outVal.sign = 1
+                outVal.fraction = 0b1000000000
+                outVal.exponent = 0b11111
+                return outVal
+            }
+            /* 0/y or x/INF -> 0 */
+            if ((a.exponent == 0 && a.fraction == 0) || (a.exponent == 0b11111))
+            {
+                outVal.sign = sign
+                return outVal
+            }
+            /* x/0 or INF/y -> INF */
+            if ((b.exponent == 0 && b.fraction == 0) || (a.exponent == 0b11111))
+            {
+                outVal.sign = sign
+                outVal.fraction = 0
+                outVal.exponent = 0b11111
+                return outVal
+            }
+            /* if dividend is a subnormal, normalize it */
+            if (expo_x == 0) {
+                expo_x += 1
+                int afrac = a.fraction
+                for (var afs = 0; afs < 16; afs++){
+                    if((afrac & 0b10000000000)==0b10000000000)
+                        break
+                    afrac = afrac << 1
+                    expo_x -= 1
+                }
+                a.fraction = afrac
+            }
+            /* if divisor is a subnormal, normalize it */
+            if (expo_y == 0) {
+                expo_y += 1
+                int bfrac = b.fraction
+                for (var bs = 0; bs < 16; bs++){
+                    if((bfrac & 0b10000000000)==0b10000000000)
+                        break
+                    bfrac = bfrac << 1
+                    expo_y -= 1
+                }
+                b.fraction = bfrac
+            }
+            /* now that dividend and divisor are normalized, do the division */
+            // goto divide
+            processNow = true
+        }
+    }
+    
+    return outVal
+}
+
+
+// /////////////////////////
+// // These are the tests //
+// /////////////////////////
+
+// ChangeHighlightColor(0, 0, 200)
+// write('f')
+// write('l')
+// write('o')
+// write('a')
+// write('t')
+// write(' ')
+// write('t')
+// write('e')
+// write('s')
+// write('t')
+// write('s')
+// write(':')
+// newline()
+
+// // // herethisis:
+// // var valu = 0b1000000001
+// // newline()
+// // write_binary(valu)
+// // valu = valu^0b1100000001
+// // newline()
+// // write_binary(valu)
+// // // goto herethisis
+
+
+// // Float16 f16 = { sign : 1, exponent : 5, fraction : 10 };
+// // write_int(f16.exponent)
+// SignedInt correctVal = {s:0, val:0};
+// SignedInt val = {s:0, val:0};
+// // write_signed_int(RetSame(val))
+
+// // t1: Float to int 1022
+// correctVal = {s:0, val:1022};
+// ChangeHighlightColor(0, 128, 128)
+// write('t')
+// write('1')
+// write(' ')
+// Float16 inValue = IntToFloat(correctVal);
+// val = FloatToInt(inValue)
+// // newline()
+// // write_float(inValue)
+// if(WithinRange(correctVal, val, 10) == false)
+//     ChangeHighlightColor(230, 0, 0)
+// else
+//     ChangeHighlightColor(0, 230, 0)
+// write_signed_int(val)
+// write(' ')
+// ChangeHighlightColor(128, 128, 0)
+// write_signed_int(correctVal)
+// ChangeHighlightColor(0, 128, 128)
+// newline()
+
+// // t2: Float to int 2751
+// correctVal = {s:0, val:2751};
+// ChangeHighlightColor(0, 128, 128)
+// write('t')
+// write('2')
+// write(' ')
+// Float16 inValue = IntToFloat(correctVal);
+// val = FloatToInt(inValue)
+// // newline()
+// // write_float(inValue)
+// if(WithinRange(correctVal, val, 10) == false)
+//     ChangeHighlightColor(230, 0, 0)
+// else
+//     ChangeHighlightColor(0, 230, 0)
+// write_signed_int(val)
+// write(' ')
+// ChangeHighlightColor(128, 128, 0)
+// write_signed_int(correctVal)
+// ChangeHighlightColor(0, 128, 128)
+// newline()
+// // write_binary(val) // Binary should be: 0000000010100000
+
+// // // t2: Add floats 160 + 160 = 320
+// // correctVal = 320
+// // ChangeHighlightColor(0, 128, 128)
+// // write('t')
+// // write('2')
+// // write(' ')
+// // Float16 t2a = { sign : 0, exponent : 0b10110, fraction : 0b0100000000 };
+// // Float16 t2b = { sign : 0, exponent : 0b10110, fraction : 0b0100000000 };
+// // val = AddFloats(t2a, t2b)
+// // if(WithinRange(correctVal, val, 10) == false)
+// //     ChangeHighlightColor(230, 0, 0)
+// // else
+// //     ChangeHighlightColor(0, 230, 0)
+// // write_int(val)
+// // write(' ')
+// // ChangeHighlightColor(128, 128, 0)
+// // write_int(correctVal)
+// // ChangeHighlightColor(0, 128, 128)
+// // newline()
+// // newline()
+
+// // t3: Add floats 150 + 500 = 650
+// SignedInt AVal = {s:0, val:150};
+// SignedInt BVal = {s:0, val:500};
+// correctVal = {s:0, val:(AVal.val+BVal.val)};
+// ChangeHighlightColor(0, 128, 128)
+// write('t')
+// write('3')
+// write(' ')
+// Float16 inValueA = IntToFloat(AVal);
+// write_signed_int(FloatToInt(inValueA))
+// Float16 inValueB = IntToFloat(BVal);
+// write('+')
+// write_signed_int(FloatToInt(inValueB))
+// val = FloatToInt(AddFloats(inValueA, inValueB))
+// if(WithinRange(correctVal, val, 10) == false)
+//     ChangeHighlightColor(230, 0, 0)
+// else
+//     ChangeHighlightColor(0, 230, 0)
+// write('=')
+// write_signed_int(val)
+// write(' ')
+// ChangeHighlightColor(128, 128, 0)
+// write_signed_int(correctVal)
+// ChangeHighlightColor(0, 128, 128)
+
+// // t4: Add floats 700 + 140 = 840
+// SignedInt AVal = {s:0, val:700};
+// SignedInt BVal = {s:0, val:140};
+// correctVal = {s:0, val:(AVal.val + BVal.val)};
+// ChangeHighlightColor(0, 128, 128)
+// write('t')
+// write('4')
+// write(' ')
+// Float16 inValueA = IntToFloat(AVal);
+// write_signed_int(FloatToInt(inValueA))
+// Float16 inValueB = IntToFloat(BVal);
+// write('+')
+// write_signed_int(FloatToInt(inValueB))
+// val = FloatToInt(AddFloats(inValueA, inValueB))
+// if(WithinRange(correctVal, val, 10) == false)
+//     ChangeHighlightColor(230, 0, 0)
+// else
+//     ChangeHighlightColor(0, 230, 0)
+// write('=')
+// write_signed_int(val)
+// write(' ')
+// ChangeHighlightColor(128, 128, 0)
+// write_signed_int(correctVal)
+// ChangeHighlightColor(0, 128, 128)
+
+// // t5: Add floats 3000 + -7000 = -4000
+// SignedInt AVal = {s:0, val:3000};
+// SignedInt BVal = {s:1, val:7000};
+// correctVal = {s:0, val:(AVal.val - BVal.val)};
+// ChangeHighlightColor(0, 128, 128)
+// write('t')
+// write('5')
+// write(' ')
+// Float16 inValueA = IntToFloat(AVal);
+// write_signed_int(FloatToInt(inValueA))
+// Float16 inValueB = IntToFloat(BVal);
+// write('+')
+// write_signed_int(FloatToInt(inValueB))
+// val = FloatToInt(AddFloats(inValueA, inValueB))
+// if(WithinRange(correctVal, val, 10) == false)
+//     ChangeHighlightColor(230, 0, 0)
+// else
+//     ChangeHighlightColor(0, 230, 0)
+// write('=')
+// write_signed_int(val)
+// write(' ')
+// ChangeHighlightColor(128, 128, 0)
+// write_signed_int(correctVal)
+// ChangeHighlightColor(0, 128, 128)
+// newline()
+
+// // t6: Multiply floats 50 * 4 = 200
+// SignedInt AVal = {s:0, val:50};
+// SignedInt BVal = {s:0, val:4};
+// correctVal = {s:0, val:(AVal.val*BVal.val)};
+// write('t')
+// write('6')
+// write(' ')
+// Float16 inValueA = IntToFloat(AVal);
+// Float16 inValueB = IntToFloat(BVal);
+// val = FloatToInt(MultFloats(inValueA, inValueB))
+// if(WithinRange(correctVal, val, 10) == false)
+//     ChangeHighlightColor(230, 0, 0)
+// else
+//     ChangeHighlightColor(0, 230, 0)
+// write_signed_int(val)
+// write(' ')
+// ChangeHighlightColor(128, 128, 0)
+// write_signed_int(correctVal)
+// ChangeHighlightColor(0, 128, 128)
+// newline()
+
+// // t7: Multiply floats 17 * 0.5 = 8.5
+// SignedInt AVal = {s:0, val:17};
+// correctVal = {s:0, val:(AVal.val/2)};
+// write('t')
+// write('7')
+// write(' ')
+// Float16 inValueA = IntToFloat(AVal);
+// Float16 inValueB = { sign : 0, exponent : 0b01110, fraction : 0 };
+// val = FloatToInt(MultFloats(inValueA, inValueB))
+// if(WithinRange(correctVal, val, 10) == false)
+//     ChangeHighlightColor(230, 0, 0)
+// else
+//     ChangeHighlightColor(0, 230, 0)
+// write_signed_int(val)
+// write(' ')
+// ChangeHighlightColor(128, 128, 0)
+// write_signed_int(correctVal)
+// ChangeHighlightColor(0, 128, 128)
+// newline()
+
+// // t8: Subtract floats 140 - 37 = 107
+// SignedInt AVal = {s:0, val:140};
+// SignedInt BVal = {s:0, val:37};
+// correctVal = {s:0, val:(AVal.val-BVal.val)};
+// write('t')
+// write('8')
+// write(' ')
+// Float16 inValueA = IntToFloat(AVal);
+// Float16 inValueB = IntToFloat(BVal);
+// val = FloatToInt(SubFloats(inValueA, inValueB))
+// if(WithinRange(correctVal, val, 10) == false)
+//     ChangeHighlightColor(230, 0, 0)
+// else
+//     ChangeHighlightColor(0, 230, 0)
+// write_signed_int(val)
+// write(' ')
+// ChangeHighlightColor(128, 128, 0)
+// write_signed_int(correctVal)
+// ChangeHighlightColor(0, 128, 128)
+// newline()
+// // write_binary(val)
+// // newline()
+
+// // t9: Divide floats 70 / 24 = 80
+// SignedInt AVal = {s:0, val:70};
+// // SignedInt BVal = {s:0, val:3};
+// correctVal = {s:0, val:116};
+// write('t')
+// write('9')
+// write(' ')
+// Float16 inValueA = IntToFloat(AVal);
+// Float16 inValueB = {sign:0, fraction:0b0011001100, exponent:0b01110};
+// val = FloatToInt(DivFloats(inValueA, inValueB))
+// if(WithinRange(correctVal, val, 10) == false)
+//     ChangeHighlightColor(230, 0, 0)
+// else
+//     ChangeHighlightColor(0, 230, 0)
+// write_signed_int(val)
+// write(' ')
+// ChangeHighlightColor(128, 128, 0)
+// write_signed_int(correctVal)
+// ChangeHighlightColor(0, 128, 128)
+// newline()
+
+
+// // tx: Divide floats 10 / 2 = 5
+// SignedInt AVal = {s:0, val:10};
+// SignedInt BVal = {s:0, val:2};
+// correctVal = {s:0, val:(AVal.val/BVal.val)};
+// write('t')
+// write('x')
+// write(' ')
+// Float16 inValueA = IntToFloat(AVal);
+// Float16 inValueB = IntToFloat(BVal);
+// val = FloatToInt(DivFloats(inValueA, inValueB))
+// if(WithinRange(correctVal, val, 10) == false)
+//     ChangeHighlightColor(230, 0, 0)
+// else
+//     ChangeHighlightColor(0, 230, 0)
+// write_signed_int(val)
+// write(' ')
+// ChangeHighlightColor(128, 128, 0)
+// write_signed_int(correctVal)
+// ChangeHighlightColor(0, 128, 128)
+// newline()
+
+// // t5: Float to int 1.7
+// write('t')
+// write('5')
+// write(' ')
+// Float16 t5 = { sign : 0, exponent : 0b01111, fraction : 0b1011001100 };
+// val = FloatToInt(t5)
+// write_int(val)
+// newline()
+// newline()
+
+// // t6: Int to Float to int 0 through 10000
+// write('t')
+// write('6')
+// write(' ')
+// // Iterate through all values 0 through 10000, and count the number of incorrect
+// var numWrong = 0
+// var startWrong = 0
+// var endWrong = 0
+// for (var i = 0; i < 10000; i++){
+//     correctVal = i
+//     Float16 t6 = IntToFloat(correctVal);
+//     // t6 = normalizeFloat(t6.fraction, t6.exponent)
+//     // Float16 t6 = { sign : 0, exponent : 0b10100, fraction : 0b0010000000 };
+//     val = FloatToInt(t6)
+//     if(WithinRange(correctVal, val, 10) == false){
+//         numWrong += 1
+//         if(startWrong==0)
+//             startWrong = i
+
+//         endWrong = i
+//         // write_int(i)
+//         // break
+//     }
+// }
+// write(' ')
+// write('w')
+// write('r')
+// write('o')
+// write('n')
+// write('g')
+// write(':')
+// write(' ')
+// ChangeHighlightColor(128, 0, 128)
+// if(numWrong > 0)
+//     write_int(numWrong)
+// else{
+//     ChangeHighlightColor(0, 230, 0)
+//     write('n')
+//     write('o')
+//     write('n')
+//     write('e')
+// }
+// newline()
+// ChangeHighlightColor(0, 128, 128)
+// write('s')
+// write('t')
+// write('a')
+// write(':')
+// write(' ')
+// write_int(startWrong)
+// newline()
+// write('e')
+// write('n')
+// write('d')
+// write(':')
+// write(' ')
+// write_int(endWrong)
+// newline()
+
+
+//cout << DecimalToBinaryString(val) << " : " << val << endl
+
+//    cout << "Float To Int: 13.78" <<endl;
+//    val = FloatToInt(0, 0b10010, 0b1011100011);
+//    cout << DecimalToBinaryString(val) << " : " << val << endl;
+//    cout<<endl;
+
+//    cout << "Float To Int: 2100" <<endl;
+//    val = FloatToInt(0, 0b11010, 0b0000011010);
+//    cout << DecimalToBinaryString(val) << " : " << val << endl;
+//    cout<<endl;
+
+//    cout << "Float To Int: 3.141" <<endl;
+//    val = FloatToInt(0, 0b10000, 0b1001001000);
+//    cout << DecimalToBinaryString(val) << " : " << val << endl;
+//    cout<<endl;
+
+//    cout << "Add floats: 3.141 + 20 = 23.141" <<endl;
+//    val = AddFloats(0, 0b10000, 0b1001001000, 0, 0b10011, 0b0100000000);
+//    cout << DecimalToBinaryString(val) << " : " << val << endl;
+//    cout<<endl;
+
+//    cout << "Add floats: 281 + 425.5 = 706.5" <<endl;
+//    val = AddFloats(0, 0b10111, 0b0001100100, 0, 0b10111, 0b1010100110);
+//    cout << DecimalToBinaryString(val) << " : " << val << endl;
+//    cout<<endl;
+
+//    cout << "Sub floats: 800 - 425.5 = 374.5" <<endl;
+//    val = SubFloats(0, 0b11000, 0b1001000000, 0, 0b10111, 0b1010100110);
+//    cout << DecimalToBinaryString(val) << " : " << val << endl;
+//    cout<<endl;
+
+//    cout << "Mult floats: 15 * 3.5 = 52.5" <<endl;
+//    val = MultFloats(0, 0b10010, 0b1110000000, 0, 0b10000, 0b1100000000);
+//    cout << DecimalToBinaryString(val) << " : " << val << endl;
+//    cout<<endl;
+
+//    cout << "Mult floats: 300 * 3.5 = 1050" <<endl;
+//    val = MultFloats(0, 0b10111, 0b0010110000, 0, 0b10000, 0b1100000000);
+//    cout << DecimalToBinaryString(val) << " : " << val << endl;
+//    cout<<endl;
+
+//    cout << "Mult floats: 300 * 0.5 = 150" <<endl;
+//    val = MultFloats(0, 0b10111, 0b0010110000, 0, 0b01110, 0b0000000000);
+//    cout << DecimalToBinaryString(val) << " : " << val << endl;
+//    cout<<endl;
+
+//    cout << "Mult floats: 0.5 * 0.5 = 0.25" <<endl;
+//    val = MultFloats(0, 0b01110, 0b0000000000, 0, 0b01110, 0b0000000000);
+//    cout << DecimalToBinaryString(val) << " : " << val << endl;
+//    cout<<endl;
+
+// while (true) {
+    
+// }
 
 
 struct Float16 {
@@ -699,6 +2105,6 @@ struct Float16 {
 }
 
 struct SignedInt {
-    bool s : 1
     int val : 15
+    bool s : 1
 }

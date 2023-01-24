@@ -2,11 +2,11 @@
 var floats = create_pointer<Float16>(0x0, 1);
 var signedInts = create_pointer<SignedInt>(0x1111, 1);
 var screen = create_pointer(53871, 1)
-var chars = create_pointer(53546, 1)
-var offset = 0
+var charMem = create_pointer(53546, 1)
+int offset = 0
 
 var highlightColor = 0
-var highlightOppositeColor = 255
+var highlightOppositeColor = 0b1111111111111111
 
 
 Float16 PI = { sign : 0, exponent : 0b10000, fraction : 0b1001001000 };
@@ -37,7 +37,7 @@ void ChangeHighlightColor(int r, int g, int b){
 }
 
 void write(int c) {
-    chars[offset] = c
+    charMem[offset] = c
 
     // Draw highlight behind character
     var pixOffsetY = (offset/18)*6
@@ -322,30 +322,83 @@ int deNormalizeFraction(int f, int exp){
 }
 
 SignedInt AddSignedInts(SignedInt a, SignedInt b){
-    SignedInt outInt = {s: 0, val:0};
+    SignedInt outInt = {s: 0, val:2};
 
     // If the signs are the same, just add and return that same sign
     if(a.s == b.s){
         outInt.s = a.s
-        outInt.val = a.val+b.val
+        outInt.val = (a.val+b.val)
     }
     // Else if the signs are different and a is negative while b is positive, subtract a from b (b-a)
-    else if(a.s == 1 && b.s == 0){
+    else if(a.s == 1){
         // If the value of A is bigger than the value of B, then that means subtracting will make B negative
-        if(a.val > b.val)
+        if(a.val > b.val){
             outInt.s = 1
-        outInt.val = b.val-a.val
+            outInt.val = a.val-b.val
+        }
+        else{
+            outInt.val = b.val-a.val
+        }
+
+        // outInt.val = Delta(a.val,b.val)
     }
     // Else if the signs are different and b is negative while a is positive, subtract b from a (a-b)
-    else if(b.s == 1 && a.s == 0){
+    else if(b.s == 1){
         // If the value of B is bigger than the value of A, then that means subtracting will make A negative
-        if(b.val > a.val)
+        if(b.val > a.val){
             outInt.s = 1
-        outInt.val = a.val-b.val
+            outInt.val = b.val-a.val
+        }
+        else{
+            outInt.val = a.val-b.val
+        }
+
+        // outInt.val = Delta(b.val,a.val)
     }
 
     return outInt
 }
+
+// SignedInt a = {s:0, val:13};
+// SignedInt b = {s:0, val:14};
+// var outint = SubSignedInts(a, b)
+// write_signed_int(a)
+// write('-')
+// write_signed_int(b)
+// write('=')
+// write_signed_int(outint)
+
+// SignedInt a = {s:1, val:13};
+// SignedInt b = {s:1, val:14};
+// var outint = MultSignedInts(a, b)
+// write_signed_int(a)
+// write('*')
+// write_signed_int(b)
+// write('=')
+// write_signed_int(outint)
+
+// SignedInt a = {s:1, val:13};
+// SignedInt b = {s:1, val:14};
+// var comp = '>'
+// var outint = CompareSignedInts(a, b, comp)
+// write_signed_int(a)
+// write('>')
+// write_signed_int(b)
+// write('=')
+// if(outint){
+//     write('t')
+//     write('r')
+//     write('u')
+//     write('e')
+// }
+// else{
+//     write('f')
+//     write('a')
+//     write('l')
+//     write('s')
+//     write('e')
+// }
+
 
 SignedInt SubSignedInts(SignedInt a, SignedInt b){
     // Invert b's sign bit
@@ -363,7 +416,8 @@ SignedInt MultSignedInts(SignedInt a, SignedInt b){
     if(a.s != b.s)
         finalSign = 1
 
-    SignedInt outInt = {s:finalSign, val:(a.val*b.val)};
+    var finalVal = a.val*b.val
+    SignedInt outInt = {s:finalSign, val:finalVal};
 
     return outInt
 }
@@ -1304,8 +1358,6 @@ Float16 DivFloats (Float16 a, Float16 b)
 // }
 
 
-
-
 struct Float16 {
     int sign : 1
     int exponent : 5
@@ -1313,6 +1365,6 @@ struct Float16 {
 }
 
 struct SignedInt {
-    bool s : 1
     int val : 15
+    bool s : 1
 }
