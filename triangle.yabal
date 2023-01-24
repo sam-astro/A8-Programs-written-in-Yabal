@@ -489,6 +489,86 @@ void DrawLine(Float16 x1, Float16 y1, Float16 x2, Float16 y2, int color)
 	}
 }
 
+// https://gist.github.com/nowke/965fed0d5191bf373f1262be584207bb
+void draw_line(int x1, int y1, int x2, int y2) {
+	SignedInt dx = 0
+	SignedInt dy = 0
+	int i = 0
+	SignedInt e = 0
+	
+	SignedInt incx = 0
+	SignedInt incy = 0
+	SignedInt inc1 = 0
+	SignedInt inc2 = 0
+	
+	SignedInt x = 0
+	SignedInt y = 0
+
+	dx = SubToSignedInt(x2-x1)
+	dy = SubToSignedInt(y2-y1)
+
+	if (dx.s == 1) // If dx < 0
+		dx.s = 0
+	if (dy.s == 1)  // If dy < 0
+		dy.s = 0
+	incx = 1
+	if (x2 < x1)
+		incx.s = 1;
+	incy = 1;
+	if (y2 < y1)
+		incy.s = 1;
+	x = x1
+	y = y1
+	if (CompareSignedInts(dx, dy, '>')) {
+		SetPixel(x, y, 0b111111111111111)
+		e = SubSignedInts(dy, dx)
+		e = MultSignedInts(e, 2)
+		inc1 = SubSignedInts(dy, dx)
+		inc1 = MultSignedInts(inc1, 2)
+		inc2 = MultSignedInts(dy, 2)
+		for (i=0; i<dx; i++) {
+			if (e.s == 0 || (e.s == 1 && e.val == 0)) { // if  e >= 0
+				// y += incy
+				y = AddSignedInts(y, incy)
+				// e += inc1
+				e = AddSignedInts(e, inc1)
+			}
+			else
+				// e += inc2
+				e = AddSignedInts(e, inc2)
+			// x += incx
+			x = AddSignedInts(x, incx)
+			SetPixel(x, y, 0b111111111111111)
+		}
+
+	} else {
+		SetPixel(x, y, 0b111111111111111)
+		// e = 2*dx-dy
+		e = SubSignedInts(dx, dy)
+		e = MultSignedInts(e, 2)
+		// inc1 = 2*(dx-dy)
+		inc1 = SubSignedInts(dx, dy)
+		inc1 = MultSignedInts(inc1, 2)
+		// inc2 = 2*dx
+		inc2 = MultSignedInts(dx, 2)
+		for (i=0; i<dy; i++) {
+			if (e.s == 0 || (e.s == 1 && e.val == 0)) { // if  e >= 0
+				// x += incx
+				x = AddSignedInts(x, incx)
+				// e += inc1
+				e = AddSignedInts(e, inc1)
+			}
+			else
+				// e += inc2
+				e = AddSignedInts(e, inc2)
+			// y += incy
+			y = AddSignedInts(y, incy)
+			SetPixel(x, y, 0b111111111111111)
+		}
+	}
+}
+
+
 // bool ptInTriangle(int px, int py, int p0x, int p0y, int p1x, int p1y, int p2x, int p2y)
 // {
 //     var dX = px-p2x
