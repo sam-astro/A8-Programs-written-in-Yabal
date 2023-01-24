@@ -357,6 +357,28 @@ SignedInt SubSignedInts(SignedInt a, SignedInt b){
     return outInt
 }
 
+SignedInt MultSignedInts(SignedInt a, SignedInt b){
+    // Determine final sign, if they are different it is 1, if they are both 0 it is 0, and if they are both 1 it is also 0
+    var finalSign = 0
+    if(a.s != b.s)
+        finalSign = 1
+
+    SignedInt outInt = {s:finalSign, val:(a.val*b.val)};
+
+    return outInt
+}
+
+// Subtract two ints, and return a signed int to allow for negative numbers
+SignedInt SubToSignedInt(int a, int b){
+    // Convert each to a signed int
+    SignedInt aInt = {s:0, val:a};
+    SignedInt bInt = {s:1, val:b}; // Invert b's sign
+
+    SignedInt outInt = AddSignedInts(aInt, bInt);
+
+    return outInt
+}
+
 SignedInt Signed(int a){
     SignedInt outInt = {s: 0, val:a};
     return outInt
