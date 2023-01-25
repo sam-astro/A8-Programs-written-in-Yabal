@@ -318,7 +318,10 @@ var highlightOppositeColor = 0b1111111111111111
 
 
 Float16 PI = { sign : 0, exponent : 0b10000, fraction : 0b1001001000 };
+Float16 HALFPI = 0x3E48
+Float16 PISQ = 0x48EE
 Float16 ONE = { sign : 0, exponent : 0b01111, fraction : 0 };
+Float16 HALF = 0x3800
 
 inline int get_color(int r, int g, int b) {
     return (r / 8 << 10) + (g / 8 << 5) + (b / 8);
@@ -331,6 +334,30 @@ int ClampInt(int x, int min, int max){
         return max
 
     return x
+}
+
+// Quadratic approximation of the sine function
+Float16 qSin(Float16 x)
+{
+    Float16 t = MultFloats(x,HALFPI)
+    t = SubFloats(t, IntToFloat(FloatToInt(t))) // Subtract the rounded version to get quick mod
+    //if(CompareFloats(t, HALF, '<'))
+    //    return (-16.0*pow(t, 2.0))+(8.0*t);
+    //else
+    //    return (16.0*pow(t, 2.0))-(16.0*t)-(8.0*t) + 8.0;
+    return t
+}
+
+// Quadratic approximation of the cosine function
+float qcosFunc(float x)
+{
+    return qsinFunc(x+(pifloat*1.5));
+}
+
+// Quadratic approximation of the tangent function
+float qtanFunc(float x)
+{
+    return qsinFunc(x)/qcosFunc(x);
 }
 
 // Function for drawing a single pixel to the screen
