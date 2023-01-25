@@ -120,6 +120,24 @@ void DrawWireTriangle(int x0, int y0,int x1, int y1,int x2, int y2, int color){
 	draw_line(x0, y0, x2, y2, color)
 }
 
+void DrawFilledCircle(int xCenter, int yCenter, int radius){
+	int radiusSquared = radius*radius
+
+	for(int y=yCenter-radius; y<=yCenter+radius; y++)
+	    for(int x=xCenter-radius; x<=xCenter+radius; x++)
+		if((x*x)+(y*y) < radiusSquared + radius) // Calculate distance between point and center of circle. If lessthan or equal to radius, color pixel.
+		    SetPixel(xCenter+x, yCenter+y)
+}
+
+void DrawWireCircle(int xCenter, int yCenter, int radius){
+	int radiusSquared = radius*radius
+
+	for(int y=yCenter-radius; y<=yCenter+radius; y++)
+	    for(int x=xCenter-radius; x<=xCenter+radius; x++)
+		if(((x*x)+(y*y) > radiusSquared - radius) && ((x*x)+(y*y) < radiusSquared + radius)) // Calculate distance between point and center of circle. If equal to radius, color pixel.
+		    SetPixel(xCenter+x, yCenter+y)
+}
+
 
 // bool ptInTriangle(int px, int py, int p0x, int p0y, int p1x, int p1y, int p2x, int p2y)
 // {
@@ -158,7 +176,7 @@ bool isInside(int x, int y, int x1, int y1, int x2, int y2, int x3, int y3)
     
    /* Check if sum of A1, A2 and A3 is same as A */
    var sum = A1 + A2 + A3
-   return (A >= sum-(10)&&A <= sum+(10));
+   return ((A >= sum-10)&&(A <= sum+10))
 }
 
 var lfsr = 0b1011101011101000;
@@ -537,6 +555,18 @@ int get_shift_amnt(int man, int exp){
 //     }
 //     return binary
 // }
+
+// Kindof inefficient square root method
+int sqrt(int x){
+	int counter=1
+	int sqroot=1
+	while(sqroot <= x) 
+	{
+		counter += 1
+		sqroot = counter*counter
+	}
+	return counter - 1
+}
 
 // Returns the integer base raised to the power integer exponent
 int pow(int base, SignedInt exponent){
