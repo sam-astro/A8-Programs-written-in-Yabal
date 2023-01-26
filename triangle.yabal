@@ -120,22 +120,54 @@ void DrawWireTriangle(int x0, int y0,int x1, int y1,int x2, int y2, int color){
 	draw_line(x0, y0, x2, y2, color)
 }
 
-void DrawFilledCircle(int xCenter, int yCenter, int radius){
-	int radiusSquared = radius*radius
+void DrawFilledCircle(int xCenter, int yCenter, int radius, int color){
+	int radiusSquared = pow(radius, 2)
 
-	for(int y=yCenter-radius; y<=yCenter+radius; y++)
-	    for(int x=xCenter-radius; x<=xCenter+radius; x++)
-		if((x*x)+(y*y) < radiusSquared + radius) // Calculate distance between point and center of circle. If lessthan or equal to radius, color pixel.
-		    SetPixel(xCenter+x, yCenter+y)
+    // int startY = yCenter-radius
+    int maxY = yCenter+radius+1
+    // int startX = xCenter-radius
+    int maxX = xCenter+radius+1
+
+    SignedInt x = SubToSignedInt(xCenter,radius)
+    SignedInt y = SubToSignedInt(yCenter,radius)
+    write_signed_int(x)
+    write(',')
+    write_signed_int(y)
+    newline()
+
+    while(CompareSignedInts(y, maxY, '<')){
+        while(CompareSignedInts(x, maxX, '<')){
+            var twoCX = SignedToTwosComp(x)
+            var twoCY = SignedToTwosComp(y)
+            var xVal = x.val*x.val
+            var yVal = y.val*y.val
+            if(xVal+yVal < radiusSquared + radius){ // Calculate distance between point and center of circle. If lessthan or equal to radius, color pixel.
+                SetPixel(AddSignedInts(xCenter,x), AddSignedInts(yCenter,y), color)
+                write('s')
+            }
+            // SetPixel(twoCX, twoCY, color)
+
+            // write('d')
+            x = AddSignedInts(x, 1)
+        }
+        y = AddSignedInts(y, 1)
+    }
+
+	// for(int y=startY; y<=maxY; y++){
+	//     for(int x=startX; x<=maxX; x++){
+    //         if(((x*x)+(y*y)) < radiusSquared + radius) // Calculate distance between point and center of circle. If lessthan or equal to radius, color pixel.
+    //             SetPixel(xCenter+x-radius, yCenter+y-radius, color)
+    //     }
+    // }
 }
 
-void DrawWireCircle(int xCenter, int yCenter, int radius){
+void DrawWireCircle(int xCenter, int yCenter, int radius, int color){
 	int radiusSquared = radius*radius
 
 	for(int y=yCenter-radius; y<=yCenter+radius; y++)
 	    for(int x=xCenter-radius; x<=xCenter+radius; x++)
 		if(((x*x)+(y*y) > radiusSquared - radius) && ((x*x)+(y*y) < radiusSquared + radius)) // Calculate distance between point and center of circle. If equal to radius, color pixel.
-		    SetPixel(xCenter+x, yCenter+y)
+		    SetPixel(xCenter+x, yCenter+y, color)
 }
 
 
@@ -209,15 +241,13 @@ int rand(int bits)
 while (true) {
 	rand(7)
 	rand(7)
-    int x0 = ClampInt(rand(7), 0, 107)
-    int y0 = ClampInt(rand(7), 0, 107)
-    int x1 = ClampInt(rand(7), 0, 107)
-    int y1 = ClampInt(rand(7), 0, 107)
-    int x2 = ClampInt(rand(7), 0, 107)
-    int y2 = ClampInt(rand(7), 0, 107)
+    int x0 = ClampInt(rand(7), 25, 85)
+    int y0 = ClampInt(rand(7), 25, 85)
+    int r = ClampInt(rand(4), 5, 54)
 	var color = rand(15)
-    DrawWireTriangle(x0, y0, x1, y1, x2, y2, color)
-	// break
+    // DrawWireTriangle(x0, y0, x1, y1, x2, y2, color)
+    DrawFilledCircle(54, 54, 20, color)
+	break
 }
 
 // struct MouseInput {
@@ -348,17 +378,17 @@ Float16 qSin(Float16 x)
     return t
 }
 
-// Quadratic approximation of the cosine function
-float qcosFunc(float x)
-{
-    return qsinFunc(x+(pifloat*1.5));
-}
+// // Quadratic approximation of the cosine function
+// Float16 qcosFunc(Float16 x)
+// {
+//     return qSin(x+(pifloat*1.5));
+// }
 
-// Quadratic approximation of the tangent function
-float qtanFunc(float x)
-{
-    return qsinFunc(x)/qcosFunc(x);
-}
+// // Quadratic approximation of the tangent function
+// Float16 qtanFunc(Float16 x)
+// {
+//     return qSin(x)/qcosFunc(x);
+// }
 
 // Function for drawing a single pixel to the screen
 void SetPixel(int x, int y, int color){
@@ -399,6 +429,14 @@ Float16 fabs(Float16 f){
 SignedInt IntToSignedInt(int x){
     SignedInt o = {s:0, val:x};
     return o
+}
+
+int SignedToTwosComp(SignedInt x){
+    int out = x.val
+    if(x.s){
+        out = Negative(out)
+    }
+    return out
 }
 
 // void writeStr(int s) {
@@ -767,7 +805,7 @@ SignedInt SubToSignedInt(int a, int b){
 	var bval = b
     // Convert each to a signed int
     SignedInt aInt = {s:0, val:aval};
-    SignedInt bInt = {s:0, val:bval}; // Invert b's sign
+    SignedInt bInt = {s:1, val:bval}; // Invert b's sign
 
 	SignedInt outInt = {s:0, val:0};
     outInt = AddSignedInts(aInt, bInt);
