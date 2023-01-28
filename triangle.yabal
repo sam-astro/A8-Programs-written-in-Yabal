@@ -9,7 +9,11 @@ var screen = create_pointer(53871, 1)
 var expansionPorts = create_pointer(53500, 1)
 
 var chars = create_pointer(53546, 1)
-// var offset = 0
+
+int offset = 0
+
+var highlightColor = 0
+var highlightOppositeColor = 0b1111111111111111
 
 const Float16 FLOAT_ZERO = { sign : 0, exponent : 0, fraction : 0 };
 const Float16 ONE = { sign : 0, exponent : 0b01111, fraction : 0 };
@@ -121,35 +125,30 @@ void DrawWireTriangle(int x0, int y0,int x1, int y1,int x2, int y2, int color){
 }
 
 void DrawFilledCircle(int xCenter, int yCenter, int radius, int color){
-	int radiusSquared = pow(radius, 2)
+	int radiusSquared = radius*radius
 
-    // int startY = yCenter-radius
-    int maxY = yCenter+radius+1
-    // int startX = xCenter-radius
-    int maxX = xCenter+radius+1
+    SignedInt xOrig = NegativeSigned(radius)
+    SignedInt x = xOrig
+    SignedInt y = NegativeSigned(radius)
 
-    SignedInt x = SubToSignedInt(xCenter,radius)
-    SignedInt y = SubToSignedInt(yCenter,radius)
-    write_signed_int(x)
-    write(',')
-    write_signed_int(y)
-    newline()
-
-    while(CompareSignedInts(y, maxY, '<')){
-        while(CompareSignedInts(x, maxX, '<')){
-            var twoCX = SignedToTwosComp(x)
-            var twoCY = SignedToTwosComp(y)
-            var xVal = x.val*x.val
-            var yVal = y.val*y.val
-            if(xVal+yVal < radiusSquared + radius){ // Calculate distance between point and center of circle. If lessthan or equal to radius, color pixel.
-                SetPixel(AddSignedInts(xCenter,x), AddSignedInts(yCenter,y), color)
-                write('s')
+    while(CompareSignedInts(y, radius+1, '<')){
+        while(CompareSignedInts(x, radius+1, '<')){
+            var newX = xCenter+SignedToTwosComp(x)
+            var newY = yCenter+SignedToTwosComp(y)
+            // Make sure pixel is inside screen, otherwise don't render it.
+            if(newX>60000||newX>107||newY>60000||newY>107){
+                x = AddSignedInts(x, 1)
+                continue
             }
-            // SetPixel(twoCX, twoCY, color)
 
-            // write('d')
+            if(AddSignedInts(x*x,y*y) <= radiusSquared+radius){ // Calculate distance between point and center of circle. If lessthan or equal to radius, color pixel.
+                SetPixel(newX, newY, color)
+            }
+
+            // write('x')
             x = AddSignedInts(x, 1)
         }
+        x = xOrig
         y = AddSignedInts(y, 1)
     }
 
@@ -164,10 +163,38 @@ void DrawFilledCircle(int xCenter, int yCenter, int radius, int color){
 void DrawWireCircle(int xCenter, int yCenter, int radius, int color){
 	int radiusSquared = radius*radius
 
-	for(int y=yCenter-radius; y<=yCenter+radius; y++)
-	    for(int x=xCenter-radius; x<=xCenter+radius; x++)
-		if(((x*x)+(y*y) > radiusSquared - radius) && ((x*x)+(y*y) < radiusSquared + radius)) // Calculate distance between point and center of circle. If equal to radius, color pixel.
-		    SetPixel(xCenter+x, yCenter+y, color)
+    SignedInt xOrig = NegativeSigned(radius)
+    SignedInt x = xOrig
+    SignedInt y = NegativeSigned(radius)
+
+    while(CompareSignedInts(y, radius+1, '<')){
+        while(CompareSignedInts(x, radius+1, '<')){
+            var newX = xCenter+SignedToTwosComp(x)
+            var newY = yCenter+SignedToTwosComp(y)
+            // Make sure pixel is inside screen, otherwise don't render it.
+            if(newX>60000||newX>107||newY>60000||newY>107){
+                x = AddSignedInts(x, 1)
+                continue
+            }
+
+            SignedInt tot = AddSignedInts(x*x,y*y)
+            if(tot >= radiusSquared-radius && tot <= radiusSquared+radius){ // Calculate distance between point and center of circle. If lessthan or equal to radius, color pixel.
+                SetPixel(newX, newY, color)
+            }
+
+            // write('x')
+            x = AddSignedInts(x, 1)
+        }
+        x = xOrig
+        y = AddSignedInts(y, 1)
+    }
+
+	// for(int y=startY; y<=maxY; y++){
+	//     for(int x=startX; x<=maxX; x++){
+    //         if(((x*x)+(y*y)) < radiusSquared + radius) // Calculate distance between point and center of circle. If lessthan or equal to radius, color pixel.
+    //             SetPixel(xCenter+x-radius, yCenter+y-radius, color)
+    //     }
+    // }
 }
 
 
@@ -241,13 +268,22 @@ int rand(int bits)
 while (true) {
 	rand(7)
 	rand(7)
-    int x0 = ClampInt(rand(7), 25, 85)
-    int y0 = ClampInt(rand(7), 25, 85)
-    int r = ClampInt(rand(4), 5, 54)
+    int r = ClampInt(rand(4), 5, 70)
+    int x0 = ClampInt(rand(7), 0, 108)
+    int y0 = ClampInt(rand(7), 0, 108)
+    int x1 = ClampInt(rand(7), 0, 108)
+    int y1 = ClampInt(rand(7), 0, 108)
+    int x2 = ClampInt(rand(7), 0, 108)
+    int y2 = ClampInt(rand(7), 0, 108)
+    var choice = rand(2)
 	var color = rand(15)
-    // DrawWireTriangle(x0, y0, x1, y1, x2, y2, color)
-    DrawFilledCircle(54, 54, 20, color)
-	break
+    if(choice == 0)
+        DrawWireCircle(x0, y0, r, color)
+    else if(choice == 1)
+        DrawWireTriangle(x0, y0, x1, y1, x2, y2, color)
+    else
+        DrawFilledCircle(x0, y0, r, color)
+	// break
 }
 
 // struct MouseInput {
@@ -341,10 +377,6 @@ while (true){
 // var signedInts = create_pointer<SignedInt>(0x1111, 1);
 // var screen = create_pointer(53871, 1)
 // var charMem = create_pointer(53546, 1)
-int offset = 0
-
-var highlightColor = 0
-var highlightOppositeColor = 0b1111111111111111
 
 
 Float16 PI = { sign : 0, exponent : 0b10000, fraction : 0b1001001000 };
@@ -634,8 +666,11 @@ int sqrt(int x){
 }
 
 // Returns the integer base raised to the power integer exponent
-int pow(int base, SignedInt exponent){
+int pow(SignedInt base, SignedInt exponent){
     var calculated = base
+    var finalSign = 0
+    if(base.s)
+        finalSign = !(exponent.val%2==0)
     // If the exponent is negative, we divide each time instead of multiply
     if(exponent.s == 1){
         for (var i = 1; i < exponent.val; i++){
@@ -648,7 +683,7 @@ int pow(int base, SignedInt exponent){
             calculated = calculated * base
         }
     }
-    return calculated
+    return calculated|(finalSign<<15)
 }
 
 // Adjust a float so that the 11th bit in the mantissa is 1, the whole number
