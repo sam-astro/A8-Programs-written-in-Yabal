@@ -26,12 +26,12 @@ void draw_line(int x1, int y1, int x2, int y2, int color) {
 	SignedInt dy = {s:0, val:0};
 	// int i = 0
 	SignedInt e = {s:0, val:0};
-	
+
 	SignedInt incx = {s:0, val:1};
 	SignedInt incy = {s:0, val:1};
 	SignedInt inc1 = {s:0, val:0};
 	SignedInt inc2 = {s:0, val:0};
-	
+
 	SignedInt x = {s:0, val:x1};
 	SignedInt y = {s:0, val:y1};
 
@@ -56,7 +56,7 @@ void draw_line(int x1, int y1, int x2, int y2, int color) {
 	// write_signed_int(dx)
 	// write(',')
 	// write_signed_int(dy)
-		
+
 	if (CompareSignedInts(dx, dy, '>')) {
 		SetPixel(x, y, color)
 		e = SubSignedInts(dy, dx)
@@ -80,6 +80,8 @@ void draw_line(int x1, int y1, int x2, int y2, int color) {
 			}
 			// x += incx
 			x = AddSignedInts(x, incx)
+            if(x>60000||x>107||y>60000||y>107) // Don't draw pixels out of range
+                continue
 			SetPixel(x, y, color)
 		}
 
@@ -111,6 +113,8 @@ void draw_line(int x1, int y1, int x2, int y2, int color) {
 			y = AddSignedInts(y, incy)
 			int xval = x.val
 			int yval = y.val
+            if(xval>60000||xval>107||yval>60000||yval>107) // Don't draw pixels out of range
+                continue
 			SetPixel(xval, yval, color)
 		}
 	}
@@ -122,6 +126,69 @@ void DrawWireTriangle(int x0, int y0,int x1, int y1,int x2, int y2, int color){
 	draw_line(x0, y0, x1, y1, color)
 	draw_line(x1, y1, x2, y2, color)
 	draw_line(x0, y0, x2, y2, color)
+}
+
+// Not good method, change in future
+void DrawFilledTriangle(int x0, int y0,int x1, int y1,int x2, int y2, int color){
+    DrawWireTriangle(x0, y0, x1, y1, x2, y2, ~color)
+    // Get center of triangle
+    int centroidX = (x0+x1+x2)/3
+    int centroidY = (y0+y1+y2)/3
+    // Draw center pixel
+    SetPixel(centroidX, centroidY, color)
+    SetPixel((centroidX+x0)/2, (centroidY+y0)/2, color)
+    SetPixel((centroidX+x1)/2, (centroidY+y1)/2, color)
+    SetPixel((centroidX+x2)/2, (centroidY+y2)/2, color)
+    // SetPixel(centroidX, centroidY, color)
+
+    int found = 11
+    while(found > 10){
+        found = 0
+        for(var y=1; y<107; y++){
+            for(var x=1; x<107; x++){
+                if(GetPixel(x, y) == color){ // If current center pixel is the draw color, check neighbors
+                    if(GetPixel(x-1, y) != ~color && GetPixel(x-1, y) != color){
+                        SetPixel(x-1, y, color)
+                        found += 1
+                    }
+                    if(GetPixel(x, y-1) != ~color && GetPixel(x, y-1) != color){
+                        SetPixel(x, y-1, color)
+                        found += 1
+                    }
+                    if(GetPixel(x+1, y) != ~color && GetPixel(x+1, y) != color){
+                        SetPixel(x+1, y, color)
+                        found += 1
+                    }
+                    if(GetPixel(x, y+1) != ~color && GetPixel(x, y+1) != color){
+                        SetPixel(x, y+1, color)
+                        found += 1
+                    }
+                }
+            }
+        }
+        for(var y=106; y>0; y--){
+            for(var x=106; x>0; x--){
+                if(GetPixel(x, y) == color){ // If current center pixel is the draw color, check neighbors
+                    if(GetPixel(x-1, y) != ~color && GetPixel(x-1, y) != color){
+                        SetPixel(x-1, y, color)
+                        found += 1
+                    }
+                    if(GetPixel(x, y-1) != ~color && GetPixel(x, y-1) != color){
+                        SetPixel(x, y-1, color)
+                        found += 1
+                    }
+                    if(GetPixel(x+1, y) != ~color && GetPixel(x+1, y) != color){
+                        SetPixel(x+1, y, color)
+                        found += 1
+                    }
+                    if(GetPixel(x, y+1) != ~color && GetPixel(x, y+1) != color){
+                        SetPixel(x, y+1, color)
+                        found += 1
+                    }
+                }
+            }
+        }
+    }
 }
 
 void DrawFilledCircle(int xCenter, int yCenter, int radius, int color){
@@ -152,12 +219,6 @@ void DrawFilledCircle(int xCenter, int yCenter, int radius, int color){
         y = AddSignedInts(y, 1)
     }
 
-	// for(int y=startY; y<=maxY; y++){
-	//     for(int x=startX; x<=maxX; x++){
-    //         if(((x*x)+(y*y)) < radiusSquared + radius) // Calculate distance between point and center of circle. If lessthan or equal to radius, color pixel.
-    //             SetPixel(xCenter+x-radius, yCenter+y-radius, color)
-    //     }
-    // }
 }
 
 void DrawWireCircle(int xCenter, int yCenter, int radius, int color){
@@ -189,12 +250,7 @@ void DrawWireCircle(int xCenter, int yCenter, int radius, int color){
         y = AddSignedInts(y, 1)
     }
 
-	// for(int y=startY; y<=maxY; y++){
-	//     for(int x=startX; x<=maxX; x++){
-    //         if(((x*x)+(y*y)) < radiusSquared + radius) // Calculate distance between point and center of circle. If lessthan or equal to radius, color pixel.
-    //             SetPixel(xCenter+x-radius, yCenter+y-radius, color)
-    //     }
-    // }
+
 }
 
 
@@ -216,26 +272,44 @@ void DrawWireCircle(int xCenter, int yCenter, int radius, int color){
    (x2, y2) and (x3, y3) */
 int area(int x1, int y1, int x2, int y2, int x3, int y3)
 {
-   return (x1*(Delta(y2,y3)) + x2*(Delta(y3,y1))+ x3*(Delta(y1,y2)))/2
+//    return (x1*SubToSignedInt(y2,y3) + x2*SubToSignedInt(y3,y1)+ x3*SubToSignedInt(y1,y2))/2
+    SignedInt y2y3Dif = SubToSignedInt(y2, y3)
+    SignedInt y3y1Dif = SubToSignedInt(y3, y1)
+    SignedInt y1y2Dif = SubToSignedInt(y1, y2)
+    write_signed_int(SubToSignedInt(x1, y3))
+    write(',')
+    // write_signed_int(y2)
+    // write(',')
+    // write_signed_int(y1y2Dif)
+    // write(',')
+    //return Math.abs((x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) / 2.0)
+    var outvar = ((AddSignedInts(AddSignedInts(MultSignedInts(x1, SubToSignedInt(y2, y3)), MultSignedInts(x2, SubToSignedInt(y3, y1))), MultSignedInts(x3, SubToSignedInt(y1, y2))))&0b111111111111111)/2
+    // write('o')
+    // write(':')
+    write_int(outvar)
+    return outvar
 }
 
 bool isInside(int x, int y, int x1, int y1, int x2, int y2, int x3, int y3)
-{  
+{
+//    write('o')
    /* Calculate area of triangle ABC */
-   int A = area(x1, y1, x2, y2, x3, y3)
-  
-   /* Calculate area of triangle PBC */ 
-   int A1 = area(x, y, x2, y2, x3, y3)
-  
-   /* Calculate area of triangle PAC */ 
-   int A2 = area(x1, y1, x, y, x3, y3)
-  
-   /* Calculate area of triangle PAB */  
-   int A3 = area(x1, y1, x2, y2, x, y)
-    
+   var A = area(x1, y1, x2, y2, x3, y3)
+//    write_int(y1)
+
+   /* Calculate area of triangle PBC */
+   var A1 = area(x, y, x2, y2, x3, y3)
+
+   /* Calculate area of triangle PAC */
+   var A2 = area(x1, y1, x, y, x3, y3)
+
+   /* Calculate area of triangle PAB */
+   var A3 = area(x1, y1, x2, y2, x, y)
+
    /* Check if sum of A1, A2 and A3 is same as A */
    var sum = A1 + A2 + A3
-   return ((A >= sum-10)&&(A <= sum+10))
+   write_int(sum)
+   return ((A >= sum-100)&&(A <= sum+100))
 }
 
 var lfsr = 0b1011101011101000;
@@ -269,20 +343,22 @@ while (true) {
 	rand(7)
 	rand(7)
     int r = ClampInt(rand(4), 5, 70)
-    int x0 = ClampInt(rand(7), 0, 108)
-    int y0 = ClampInt(rand(7), 0, 108)
-    int x1 = ClampInt(rand(7), 0, 108)
-    int y1 = ClampInt(rand(7), 0, 108)
-    int x2 = ClampInt(rand(7), 0, 108)
-    int y2 = ClampInt(rand(7), 0, 108)
+    int x0 = ClampInt(rand(7), 0, 107)
+    int y0 = ClampInt(rand(7), 0, 107)
+    int x1 = ClampInt(rand(7), 0, 107)
+    int y1 = ClampInt(rand(7), 0, 107)
+    int x2 = ClampInt(rand(7), 0, 107)
+    int y2 = ClampInt(rand(7), 0, 107)
     var choice = rand(2)
 	var color = rand(15)
     if(choice == 0)
         DrawWireCircle(x0, y0, r, color)
     else if(choice == 1)
         DrawWireTriangle(x0, y0, x1, y1, x2, y2, color)
-    else
+    else if(choice == 2)
         DrawFilledCircle(x0, y0, r, color)
+    // else if(choice == 3)
+    //     DrawFilledTriangle(x0, y0, x1, y1, x2, y2, color)
 	// break
 }
 
@@ -428,6 +504,12 @@ void SetPixel(int x, int y, int color){
     screen[screenOffset] = color
 }
 
+// Function for getting a single pixel color from video memory
+int GetPixel(int x, int y){
+    var screenOffset = (ClampInt(y, 0, 107) * 108) + ClampInt(x, 0, 107)
+    return screen[screenOffset]
+}
+
 void ChangeHighlightColor(int r, int g, int b){
     highlightColor = get_color(r, g, b)
     highlightOppositeColor = get_color(256-r, 256-g, 256-b)
@@ -445,7 +527,7 @@ void write(int c) {
             SetPixel(pixOffsetX+x, pixOffsetY+y, pixel)
         }
     }
-    
+
     // Increment location offset by 1
     offset++
 }
@@ -616,7 +698,7 @@ int Delta(int a, int b){
         return a - b
     else if(a < b)
         return b - a
-    
+
     return 0
 }
 
@@ -657,7 +739,7 @@ int get_shift_amnt(int man, int exp){
 int sqrt(int x){
 	int counter=1
 	int sqroot=1
-	while(sqroot <= x) 
+	while(sqroot <= x)
 	{
 		counter += 1
 		sqroot = counter*counter
@@ -929,7 +1011,7 @@ bool CompareSignedInts(SignedInt a, SignedInt b, int comp){
             compresult = 2
         }
     }
-    
+
 
     // Now that the actual comparision is done, return a true or false based upon what we are looking for in `comp`
     if(comp == '='){ // Equal
@@ -1012,7 +1094,7 @@ bool CompareFloats(Float16 a, Float16 b, int comp){
             compresult = 2
         }
     }
-    
+
 
     // Now that the actual comparision is done, return a true or false based upon what we are looking for in `comp`
     if(comp == '='){ // Equal
@@ -1047,7 +1129,7 @@ Float16 IntToFloat(SignedInt x){
     }
     // Get exponent from count, then add offset of 15 for float format
     var exp = (15-count)+15
-    
+
     var mant = x.val
     // If the mantissa is >= 10 bits long already, only use first 10
     if(mant > 0b11111111111){
@@ -1089,7 +1171,7 @@ Float16 AddFloats(Float16 floatA, Float16 floatB){
             else if((floatA.exponent == floatB.exponent) && (floatA.fraction > floatB.fraction))
                 finalSign = true
         }
-        
+
         int tmpM = tmpMA+tmpMB
         int exp = floatA.exponent
         outFloat = { sign : finalSign, exponent : exp, fraction : tmpM };
@@ -1100,7 +1182,7 @@ Float16 AddFloats(Float16 floatA, Float16 floatB){
     else if(floatA.exponent < floatB.exponent){
         int tmpMB = floatB.fraction+0b10000000000
         int tmpMA = ((floatA.fraction+0b10000000000)>>(floatB.exponent-floatA.exponent))
-        
+
         bool finalSign = false
         if(floatB.sign == true){
             tmpMB = Negative(tmpMB)
@@ -1120,9 +1202,9 @@ Float16 AddFloats(Float16 floatA, Float16 floatB){
             else if((floatA.exponent == floatB.exponent) && (floatA.fraction > floatB.fraction))
                 finalSign = true
         }
-        
+
         int tmpM = tmpMA+tmpMB
-        
+
         int exp = floatB.exponent
         outFloat = { sign : finalSign, exponent : exp, fraction : tmpM };
         if ((tmpM & 0b10000000000) != 0b10000000000) // If the 11th bit is 0, then normalize
@@ -1132,7 +1214,7 @@ Float16 AddFloats(Float16 floatA, Float16 floatB){
     else {
         int tmpMB = (floatB.fraction+0b10000000000)>>1
         int tmpMA = (floatA.fraction+0b10000000000)>>1
-        
+
         bool finalSign = false
         if(floatB.sign == true){
             tmpMB = Negative(tmpMB)
@@ -1152,9 +1234,9 @@ Float16 AddFloats(Float16 floatA, Float16 floatB){
             else if((floatA.exponent == floatB.exponent) && (floatA.fraction > floatB.fraction))
                 finalSign = true
         }
-        
+
         int tmpM = tmpMA+tmpMB
-        
+
         int exp = floatB.exponent+1
         outFloat = { sign : finalSign, exponent : exp, fraction : tmpM };
         if ((tmpM & 0b10000000000) != 0b10000000000) // If the 11th bit is 0, then normalize
@@ -1196,10 +1278,10 @@ Float16 MultFloats(Float16 floatA, Float16 floatB){
             count += 1
         }
     }
-    
+
     int tmpM = tmpMA*tmpMB
     int exp = floatA.exponent+floatB.exponent-15+count-4
-    
+
     Float16 outFloat = { sign : finalSign, exponent : exp, fraction : tmpM };
     if ((tmpM & 0b10000000000) != 0b10000000000) // If the 11th bit is 0, then normalize
         outFloat = normalizeFloat(tmpM, exp)
@@ -1260,7 +1342,7 @@ Float16 DivFloats (Float16 a, Float16 b)
             }
             /* OR remainder bits into sticky bit */
             sticky = (x != 0)
-            if ((outVal.exponent >= 1) && 
+            if ((outVal.exponent >= 1) &&
                 (outVal.exponent <= 0b11110)) { /* normal, may overflow to infinity*/
                 /* extract round and lsb bits */
                 rnd = (r & 1)
@@ -1308,7 +1390,7 @@ Float16 DivFloats (Float16 a, Float16 b)
                 return outVal
             }
             /* dividend and divisor are both zero or infinity: invalid operation */
-            if (((a.exponent == 0 && a.fraction == 0) && (b.exponent == 0 && b.fraction == 0)) || 
+            if (((a.exponent == 0 && a.fraction == 0) && (b.exponent == 0 && b.fraction == 0)) ||
                 ((a.exponent == 0b11111) && (b.exponent == 0b11111)))
             {
                 outVal.sign = 1
@@ -1359,7 +1441,7 @@ Float16 DivFloats (Float16 a, Float16 b)
             processNow = true
         }
     }
-    
+
     return outVal
 }
 
@@ -1769,7 +1851,7 @@ Float16 DivFloats (Float16 a, Float16 b)
 //    cout<<endl;
 
 // while (true) {
-    
+
 // }
 
 
