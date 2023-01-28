@@ -198,10 +198,14 @@ void DrawFilledCircle(int xCenter, int yCenter, int radius, int color){
     SignedInt x = xOrig
     SignedInt y = NegativeSigned(radius)
 
-    while(CompareSignedInts(y, radius+1, '<')){
-        while(CompareSignedInts(x, radius+1, '<')){
-            var newX = xCenter+SignedToTwosComp(x)
-            var newY = yCenter+SignedToTwosComp(y)
+    var rad1 = radius+1
+    var newX = 0
+    var newY = 0
+
+    while(y.s == 1 || y.val< rad1){
+        while(x.s == 1 || x.val< rad1){
+            newX = xCenter+SignedToTwosComp(x)
+            newY = yCenter+SignedToTwosComp(y)
             // Make sure pixel is inside screen, otherwise don't render it.
             if(newX>60000||newX>107||newY>60000||newY>107){
                 x = AddSignedInts(x, 1)
@@ -226,12 +230,16 @@ void DrawWireCircle(int xCenter, int yCenter, int radius, int color){
 
     SignedInt xOrig = NegativeSigned(radius)
     SignedInt x = xOrig
-    SignedInt y = NegativeSigned(radius)
+    SignedInt y = xOrig
 
-    while(CompareSignedInts(y, radius+1, '<')){
-        while(CompareSignedInts(x, radius+1, '<')){
-            var newX = xCenter+SignedToTwosComp(x)
-            var newY = yCenter+SignedToTwosComp(y)
+    var rad1 = radius+1
+    var newX = 0
+    var newY = 0
+
+    while(y.s == 1 || y.val< rad1){
+        while(x.s == 1 || x.val< rad1){
+            newX = xCenter+SignedToTwosComp(x)
+            newY = yCenter+SignedToTwosComp(y)
             // Make sure pixel is inside screen, otherwise don't render it.
             if(newX>60000||newX>107||newY>60000||newY>107){
                 x = AddSignedInts(x, 1)
