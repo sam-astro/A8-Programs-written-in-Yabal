@@ -1,0 +1,25 @@
+
+var screen = create_pointer(53871, 1)
+
+void SetPixel(int x, int y, int color){
+    var screenOffset = (ClampInt(y, 0, 107) * 108) + ClampInt(x, 0, 107)
+    screen[screenOffset] = color
+}
+
+int ClampInt(int x, int min, int max){
+    if(x<min)
+        return min
+    else if(x>max)
+        return max
+
+    return x
+}
+
+for (var x = 0; x < 108; x++) {
+    for (var y = 0; y < 108; y++) {
+        SetPixel(x, y, (x)|(y<<10))
+        asm{
+            vbuf
+        }
+    }
+}

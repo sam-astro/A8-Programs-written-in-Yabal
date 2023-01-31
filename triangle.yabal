@@ -207,7 +207,7 @@ void DrawFilledCircle(int xCenter, int yCenter, int radius, int color){
             newX = xCenter+SignedToTwosComp(x)
             newY = yCenter+SignedToTwosComp(y)
             // Make sure pixel is inside screen, otherwise don't render it.
-            if(newX>60000||newX>107||newY>60000||newY>107){
+            if(newX>107||newY>107){
                 x = AddSignedInts(x, 1)
                 continue
             }
@@ -241,7 +241,7 @@ void DrawWireCircle(int xCenter, int yCenter, int radius, int color){
             newX = xCenter+SignedToTwosComp(x)
             newY = yCenter+SignedToTwosComp(y)
             // Make sure pixel is inside screen, otherwise don't render it.
-            if(newX>60000||newX>107||newY>60000||newY>107){
+            if(newX>107||newY>107){
                 x = AddSignedInts(x, 1)
                 continue
             }
@@ -348,8 +348,8 @@ int rand(int bits)
 }
 
 while (true) {
-	rand(7)
-	rand(7)
+	// rand(7)
+	// rand(7)
     int r = ClampInt(rand(4), 5, 70)
     int x0 = ClampInt(rand(7), 0, 107)
     int y0 = ClampInt(rand(7), 0, 107)
@@ -357,17 +357,26 @@ while (true) {
     int y1 = ClampInt(rand(7), 0, 107)
     int x2 = ClampInt(rand(7), 0, 107)
     int y2 = ClampInt(rand(7), 0, 107)
-    var choice = rand(2)
+    // var choice = rand(2)
 	var color = rand(15)
-    if(choice == 0)
-        DrawWireCircle(x0, y0, r, color)
-    else if(choice == 1)
-        DrawWireTriangle(x0, y0, x1, y1, x2, y2, color)
-    else if(choice == 2)
-        DrawFilledCircle(x0, y0, r, color)
+    // if(choice == 0)
+    //     DrawWireCircle(x0, y0, r, color)
+    // else if(choice == 1)
+         DrawWireTriangle(x0, y0, x1, y1, x2, y2, color)
+    // else if(choice == 2)
+        // DrawFilledCircle(x0, y0, r, color)
     // else if(choice == 3)
-    //     DrawFilledTriangle(x0, y0, x1, y1, x2, y2, color)
+        //DrawFilledTriangle(x0, y0, x1, y1, x2, y2, color)
 	// break
+    // asm{
+    //     vbuf
+    // }
+    asm{
+        add
+        add
+        add
+        add
+    }
 }
 
 // struct MouseInput {
@@ -420,12 +429,8 @@ while (true) {
 
 // for (var x = 0; x < 108; x++) {
 //     for (var y = 0; y < 108; y++) {
-//         var screenOffset = (y * 108) + x
-//         var pixel = 0
-//         if(isInside(x, y, 3, 100, 54, 5, 100, 100)){
-//             pixel = 65535
-//         }
-//         screen[screenOffset] = pixel
+//         var r = rand(5)
+//         SetPixel(x, y, (r<<5)|(r<<10)|r)
 //         // // Delay
 //         // for (var l = 0; l < 90 * 1; l++){
 //         //     for (var o = 0; o < 1; o++){

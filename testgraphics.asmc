@@ -1,0 +1,280 @@
+JMP
+HERE 170 , Program
+, reference [2:0]
+HERE 0 , size: 2, variables: screen@2:4
+HERE 0
+, reference [4:0]
+HERE 0 , size: 1, variables: x@18:9
+, reference [5:0]
+HERE 0 , size: 1, variables: y@19:13
+, reference [6:0]
+HERE 0 , size: 1, variables: 
+, reference [7:0]
+HERE 0 , size: 1, variables: x@4:18, x@9:17
+, reference [8:0]
+HERE 0 , size: 1, variables: y@4:25, min@9:24
+, reference [9:0]
+HERE 0 , size: 1, variables: color@4:32, max@9:33
+, reference [10:0]
+HERE 0 , size: 1, variables: screenOffset@5:8
+, reference [11:0]
+HERE 0 , size: 1, variables: 
+, label SetPixel
+LDW
+HERE 21 , L1
+SWPC
+LDW
+HERE 31 , L0
+STA 102 , Yabal:temp
+BIN 102 , Yabal:temp
+JMP
+HERE 103 , __call
+, label L1
+AIN 8 , [Stack:1], load value
+STA 7 , [Stack:0], store value
+LDIA 0 , load small integer
+STLGE
+HERE 8 , [Stack:1]
+LDIA 107 , load small integer
+STLGE
+HERE 9 , [Stack:2]
+JMP
+HERE 69 , ClampInt
+, label L0
+AIN 100 , Yabal:return_value
+LDIB 108 , load small integer
+MULT
+STA 11 , [Stack:4]
+LDW
+HERE 44 , L3
+SWPC
+LDW
+HERE 54 , L2
+STA 102 , Yabal:temp
+BIN 102 , Yabal:temp
+JMP
+HERE 103 , __call
+, label L3
+AIN 7 , [Stack:0], load value
+STA 7 , [Stack:0], store value
+LDIA 0 , load small integer
+STLGE
+HERE 8 , [Stack:1]
+LDIA 107 , load small integer
+STLGE
+HERE 9 , [Stack:2]
+JMP
+HERE 69 , ClampInt
+, label L2
+AIN 100 , Yabal:return_value
+BIN 11 , [Stack:4]
+SWP
+ADD
+STLGE
+HERE 10 , [Stack:3]
+AIN 2 , [Global:0]
+BIN 10 , [Stack:3]
+ADD , load address
+BIN 9 , [Stack:2], set value in B
+BNK 1
+STAOUT
+BNK 0
+, label SetPixel
+JMP
+HERE 131 , __return
+, label ClampInt
+AIN 7 , [Stack:0]
+BIN 8 , [Stack:1]
+SUB , operator <
+JMPZ
+HERE 83 , L1
+JMPC
+HERE 83 , L1
+JMP
+HERE 78 , L0
+, label L0
+AIN 8 , [Stack:1]
+JMP
+HERE 98 , ClampInt
+JMP
+HERE 95 , L2
+, label L1
+AIN 7 , [Stack:0]
+BIN 9 , [Stack:2]
+SUB , operator >
+JMPZ
+HERE 95 , L4
+JMPC
+HERE 92 , L3
+JMP
+HERE 95 , L4
+, label L3
+AIN 9 , [Stack:2]
+JMP
+HERE 98 , ClampInt
+, label L4
+, label L2
+AIN 7 , [Stack:0]
+JMP
+HERE 98 , ClampInt
+, label ClampInt
+JMP
+HERE 131 , __return
+, reference [100:0]
+HERE 0 , return value
+, reference [101:0]
+HERE 61213 , stack pointer
+, reference [102:0]
+HERE 0 , temporary pointer
+, label __call
+AIN 101 , Yabal:stack_pointer
+STAOUT
+LDIB 1
+ADD
+BIN 7 , [Stack:0]
+STAOUT
+LDIB 1
+ADD
+BIN 8 , [Stack:1]
+STAOUT
+LDIB 1
+ADD
+BIN 9 , [Stack:2]
+STAOUT
+LDIB 1
+ADD
+BIN 10 , [Stack:3]
+STAOUT
+LDIB 1
+ADD
+BIN 11 , [Stack:4]
+STAOUT
+AIN 101 , Yabal:stack_pointer
+LDIB 6
+ADD
+STA 101 , Yabal:stack_pointer
+SWPC
+JREG
+, label __return
+STA 100 , Yabal:return_value
+AIN 101 , Yabal:stack_pointer
+LDIB 6
+SUB
+STA 101 , Yabal:stack_pointer
+STA 102 , Yabal:temp
+AIN 102 , Yabal:temp
+LDIB 1
+ADD
+STA 102 , Yabal:temp
+LDAIN
+STA 7 , [Stack:0]
+AIN 102 , Yabal:temp
+LDIB 1
+ADD
+STA 102 , Yabal:temp
+LDAIN
+STA 8 , [Stack:1]
+AIN 102 , Yabal:temp
+LDIB 1
+ADD
+STA 102 , Yabal:temp
+LDAIN
+STA 9 , [Stack:2]
+AIN 102 , Yabal:temp
+LDIB 1
+ADD
+STA 102 , Yabal:temp
+LDAIN
+STA 10 , [Stack:3]
+AIN 102 , Yabal:temp
+LDIB 1
+ADD
+STA 102 , Yabal:temp
+LDAIN
+STA 11 , [Stack:4]
+AIN 101 , Yabal:stack_pointer
+LDAIN
+JREG
+, label Program
+LDW
+HERE 53871 , load large integer
+STA 2 , [Global:0]
+LDIA 1
+STA 3 , [Global:0]+1
+LDIA 0 , load small integer
+STLGE
+HERE 4 , [Global:1]
+JMP
+HERE 184 , L3
+, label L0
+AIN 4 , [Global:1]
+LDIB 1
+ADD , increment value
+STA 4 , [Global:1]
+, label L3
+AIN 4 , [Global:1]
+LDIB 108 , load small integer
+SUB , operator <
+JMPZ
+HERE 242 , L2
+JMPC
+HERE 242 , L2
+JMP
+HERE 193 , L1
+, label L1
+LDIA 0 , load small integer
+STLGE
+HERE 5 , [Global:2]
+JMP
+HERE 202 , L7
+, label L4
+AIN 5 , [Global:2]
+LDIB 1
+ADD , increment value
+STA 5 , [Global:2]
+, label L7
+AIN 5 , [Global:2]
+LDIB 108 , load small integer
+SUB , operator <
+JMPZ
+HERE 240 , L6
+JMPC
+HERE 240 , L6
+JMP
+HERE 211 , L5
+, label L5
+LDW
+HERE 220 , L9
+SWPC
+LDW
+HERE 236 , L8
+STA 102 , Yabal:temp
+BIN 102 , Yabal:temp
+JMP
+HERE 103 , __call
+, label L9
+AIN 4 , [Global:1], load value
+STA 7 , [Stack:0], store value
+AIN 5 , [Global:2], load value
+STA 8 , [Stack:1], store value
+AIN 4 , [Global:1]
+STA 6 , [Temp:0]
+AIN 5 , [Global:2]
+LDIB 10 , load small integer
+BSL
+BIN 6 , [Temp:0]
+SWP
+OR
+STLGE
+HERE 9 , [Stack:2]
+JMP
+HERE 12 , SetPixel
+, label L8
+AIN 100 , Yabal:return_value
+VBUF
+JMP
+HERE 198 , L4, jump to next iteration
+, label L6
+JMP
+HERE 180 , L0, jump to next iteration
+, label L2
