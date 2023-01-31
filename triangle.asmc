@@ -1,5 +1,5 @@
 JMP
-HERE 7072 , Program
+HERE 10411 , Program
 , reference [2:0]
 HERE 0 , size: 2, variables: floats@4:4
 HERE 0
@@ -216,6 +216,12 @@ HERE 0 , size: 1, variables:
 , reference [111:0]
 HERE 0 , size: 2, variables: reverser@581:8, reverser@617:8
 HERE 0
+, reference [113:0]
+HERE 0 , return value
+, reference [114:0]
+HERE 60925 , stack pointer
+, reference [115:0]
+HERE 0 , temporary pointer
 , label draw_line
 AIN 94 , [Stack:5]
 LDWB
@@ -388,43 +394,43 @@ BIN 27 , [Temp:1]
 OR
 STA 103 , [Stack:14]
 LDW
-HERE 292 , L9
+HERE 295 , L9
 SWPC
 LDW
-HERE 298 , L8
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 301 , L8
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L9
 AIN 91 , [Stack:2], load value
 STA 89 , [Stack:0], store value
 AIN 102 , [Stack:13], load value
 STA 90 , [Stack:1], store value
 JMP
-HERE 2961 , SubSignedInts
+HERE 5742 , SubSignedInts
 , label L8
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 95 , [Stack:6]
 LDW
-HERE 310 , L11
+HERE 313 , L11
 SWPC
 LDW
-HERE 316 , L10
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 319 , L10
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L11
 AIN 92 , [Stack:3], load value
 STA 89 , [Stack:0], store value
 AIN 103 , [Stack:14], load value
 STA 90 , [Stack:1], store value
 JMP
-HERE 2961 , SubSignedInts
+HERE 5742 , SubSignedInts
 , label L10
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 96 , [Stack:7]
 LDIA 95 , [Stack:6]
@@ -438,9 +444,9 @@ AND
 LDIB 1 , load small integer
 SUB , operator ==
 JMPZ
-HERE 333 , L12
+HERE 336 , L12
 JMP
-HERE 344 , L13
+HERE 347 , L13
 , label L12
 LDIA 95 , [Stack:6]
 LDAIN
@@ -465,9 +471,9 @@ AND
 LDIB 1 , load small integer
 SUB , operator ==
 JMPZ
-HERE 358 , L14
+HERE 361 , L14
 JMP
-HERE 369 , L15
+HERE 372 , L15
 , label L14
 LDIA 96 , [Stack:7]
 LDAIN
@@ -485,11 +491,11 @@ AIN 91 , [Stack:2]
 BIN 89 , [Stack:0]
 SUB , operator <
 JMPZ
-HERE 389 , L17
+HERE 392 , L17
 JMPC
-HERE 389 , L17
+HERE 392 , L17
 JMP
-HERE 378 , L16
+HERE 381 , L16
 , label L16
 LDIA 98 , [Stack:9]
 LDAIN
@@ -507,11 +513,11 @@ AIN 92 , [Stack:3]
 BIN 90 , [Stack:1]
 SUB , operator <
 JMPZ
-HERE 409 , L19
+HERE 412 , L19
 JMPC
-HERE 409 , L19
+HERE 412 , L19
 JMP
-HERE 398 , L18
+HERE 401 , L18
 , label L18
 LDIA 99 , [Stack:10]
 LDAIN
@@ -526,14 +532,14 @@ LDIA 99 , [Stack:10]
 STAOUT
 , label L19
 LDW
-HERE 418 , L24
+HERE 421 , L24
 SWPC
 LDW
-HERE 427 , L23
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 430 , L23
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L24
 AIN 95 , [Stack:6], load value
 STA 89 , [Stack:0], store value
@@ -543,25 +549,25 @@ LDIA 10 , load character '>'
 STLGE
 HERE 91 , [Stack:2]
 JMP
-HERE 3286 , CompareSignedInts
+HERE 6141 , CompareSignedInts
 , label L23
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 LDIB 0
 SUB
 JMPZ
-HERE 832 , L21
+HERE 835 , L21
 JMP
-HERE 434 , L20
+HERE 437 , L20
 , label L20
 LDW
-HERE 443 , L26
+HERE 446 , L26
 SWPC
 LDW
-HERE 451 , L25
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 454 , L25
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L26
 AIN 102 , [Stack:13], load value
 STA 89 , [Stack:0], store value
@@ -570,107 +576,107 @@ STA 90 , [Stack:1], store value
 AIN 93 , [Stack:4], load value
 STA 91 , [Stack:2], store value
 JMP
-HERE 1714 , SetPixel
+HERE 3741 , SetPixel
 , label L25
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 LDW
-HERE 461 , L28
+HERE 464 , L28
 SWPC
 LDW
-HERE 467 , L27
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 470 , L27
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L28
 AIN 96 , [Stack:7], load value
 STA 89 , [Stack:0], store value
 AIN 95 , [Stack:6], load value
 STA 90 , [Stack:1], store value
 JMP
-HERE 2961 , SubSignedInts
+HERE 5742 , SubSignedInts
 , label L27
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 97 , [Stack:8]
 LDW
-HERE 479 , L30
+HERE 482 , L30
 SWPC
 LDW
-HERE 485 , L29
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 488 , L29
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L30
 AIN 97 , [Stack:8], load value
 STA 89 , [Stack:0], store value
 AIN 94 , [Stack:5], load value
 STA 90 , [Stack:1], store value
 JMP
-HERE 3015 , MultSignedInts
+HERE 5796 , MultSignedInts
 , label L29
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 97 , [Stack:8]
 LDW
-HERE 497 , L32
+HERE 500 , L32
 SWPC
 LDW
-HERE 503 , L31
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 506 , L31
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L32
 AIN 96 , [Stack:7], load value
 STA 89 , [Stack:0], store value
 AIN 95 , [Stack:6], load value
 STA 90 , [Stack:1], store value
 JMP
-HERE 2961 , SubSignedInts
+HERE 5742 , SubSignedInts
 , label L31
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 100 , [Stack:11]
 LDW
-HERE 515 , L34
+HERE 518 , L34
 SWPC
 LDW
-HERE 521 , L33
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 524 , L33
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L34
 AIN 100 , [Stack:11], load value
 STA 89 , [Stack:0], store value
 AIN 94 , [Stack:5], load value
 STA 90 , [Stack:1], store value
 JMP
-HERE 3015 , MultSignedInts
+HERE 5796 , MultSignedInts
 , label L33
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 100 , [Stack:11]
 LDW
-HERE 533 , L36
+HERE 536 , L36
 SWPC
 LDW
-HERE 539 , L35
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 542 , L35
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L36
 AIN 96 , [Stack:7], load value
 STA 89 , [Stack:0], store value
 AIN 94 , [Stack:5], load value
 STA 90 , [Stack:1], store value
 JMP
-HERE 3015 , MultSignedInts
+HERE 5796 , MultSignedInts
 , label L35
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 101 , [Stack:12]
 LDIA 95 , [Stack:6]
@@ -684,7 +690,7 @@ LDIA 0 , load small integer
 STLGE
 HERE 105 , [Stack:16]
 JMP
-HERE 558 , L3
+HERE 561 , L3
 , label L0
 AIN 105 , [Stack:16]
 LDIB 1
@@ -695,11 +701,11 @@ AIN 105 , [Stack:16]
 BIN 104 , [Stack:15]
 SUB , operator <
 JMPZ
-HERE 830 , L2
+HERE 833 , L2
 JMPC
-HERE 830 , L2
+HERE 833 , L2
 JMP
-HERE 567 , L1
+HERE 570 , L1
 , label L1
 LDIA 97 , [Stack:8]
 LDAIN
@@ -712,20 +718,20 @@ AND
 LDIB 0 , load small integer
 SUB , operator ==
 JMPZ
-HERE 584 , L41
+HERE 587 , L41
 JMP
-HERE 581 , L40
+HERE 584 , L40
 , label L40
 LDIA 0
 JMP
-HERE 585 , L42
+HERE 588 , L42
 , label L41
 LDIA 1
 , label L42
 LDIB 1
 SUB
 JMPZ
-HERE 642 , L37
+HERE 645 , L37
 LDIA 97 , [Stack:8]
 LDAIN
 LDWB
@@ -737,20 +743,20 @@ AND
 LDIB 1 , load small integer
 SUB , operator ==
 JMPZ
-HERE 606 , L47
+HERE 609 , L47
 JMP
-HERE 603 , L46
+HERE 606 , L46
 , label L46
 LDIA 0
 JMP
-HERE 607 , L48
+HERE 610 , L48
 , label L47
 LDIA 1
 , label L48
 LDIB 0
 SUB
 JMPZ
-HERE 632 , L43
+HERE 635 , L43
 LDIA 97 , [Stack:8]
 LDAIN
 LDWB
@@ -759,118 +765,118 @@ AND
 LDIB 0 , load small integer
 SUB , operator ==
 JMPZ
-HERE 625 , L50
+HERE 628 , L50
 JMP
-HERE 622 , L49
+HERE 625 , L49
 , label L49
 LDIA 0
 JMP
-HERE 626 , L51
+HERE 629 , L51
 , label L50
 LDIA 1
 , label L51
 LDIB 0
 SUB
 JMPZ
-HERE 632 , L43
+HERE 635 , L43
 JMP
-HERE 635 , L44
+HERE 638 , L44
 , label L43
 LDIA 0
 JMP
-HERE 636 , L45
+HERE 639 , L45
 , label L44
 LDIA 1
 , label L45
 LDIB 1
 SUB
 JMPZ
-HERE 642 , L37
+HERE 645 , L37
 JMP
-HERE 680 , L38
+HERE 683 , L38
 , label L37
 LDW
-HERE 651 , L53
+HERE 654 , L53
 SWPC
 LDW
-HERE 657 , L52
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 660 , L52
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L53
 AIN 103 , [Stack:14], load value
 STA 89 , [Stack:0], store value
 AIN 99 , [Stack:10], load value
 STA 90 , [Stack:1], store value
 JMP
-HERE 2649 , AddSignedInts
+HERE 5430 , AddSignedInts
 , label L52
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 103 , [Stack:14]
 LDW
-HERE 669 , L55
+HERE 672 , L55
 SWPC
 LDW
-HERE 675 , L54
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 678 , L54
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L55
 AIN 97 , [Stack:8], load value
 STA 89 , [Stack:0], store value
 AIN 100 , [Stack:11], load value
 STA 90 , [Stack:1], store value
 JMP
-HERE 2649 , AddSignedInts
+HERE 5430 , AddSignedInts
 , label L54
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 97 , [Stack:8]
 JMP
-HERE 698 , L39
+HERE 701 , L39
 , label L38
 LDW
-HERE 689 , L57
+HERE 692 , L57
 SWPC
 LDW
-HERE 695 , L56
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 698 , L56
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L57
 AIN 97 , [Stack:8], load value
 STA 89 , [Stack:0], store value
 AIN 101 , [Stack:12], load value
 STA 90 , [Stack:1], store value
 JMP
-HERE 2649 , AddSignedInts
+HERE 5430 , AddSignedInts
 , label L56
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 97 , [Stack:8]
 , label L39
 LDW
-HERE 707 , L59
+HERE 710 , L59
 SWPC
 LDW
-HERE 713 , L58
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 716 , L58
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L59
 AIN 102 , [Stack:13], load value
 STA 89 , [Stack:0], store value
 AIN 98 , [Stack:9], load value
 STA 90 , [Stack:1], store value
 JMP
-HERE 2649 , AddSignedInts
+HERE 5430 , AddSignedInts
 , label L58
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 102 , [Stack:13]
 AIN 102 , [Stack:13]
@@ -878,124 +884,124 @@ LDWB
 HERE 60000 , load large integer
 SUB , operator >
 JMPZ
-HERE 726 , L68
+HERE 729 , L68
 JMPC
-HERE 729 , L69
+HERE 732 , L69
 JMP
-HERE 726 , L68
+HERE 729 , L68
 , label L68
 LDIA 0
 JMP
-HERE 730 , L70
+HERE 733 , L70
 , label L69
 LDIA 1
 , label L70
 LDIB 1
 SUB
 JMPZ
-HERE 756 , L66
+HERE 759 , L66
 AIN 102 , [Stack:13]
 LDIB 107 , load small integer
 SUB , operator >
 JMPZ
-HERE 743 , L71
+HERE 746 , L71
 JMPC
-HERE 746 , L72
+HERE 749 , L72
 JMP
-HERE 743 , L71
+HERE 746 , L71
 , label L71
 LDIA 0
 JMP
-HERE 747 , L73
+HERE 750 , L73
 , label L72
 LDIA 1
 , label L73
 LDIB 1
 SUB
 JMPZ
-HERE 756 , L66
+HERE 759 , L66
 JMP
-HERE 753 , L65
+HERE 756 , L65
 , label L65
 LDIA 0
 JMP
-HERE 757 , L67
+HERE 760 , L67
 , label L66
 LDIA 1
 , label L67
 LDIB 1
 SUB
 JMPZ
-HERE 784 , L63
+HERE 787 , L63
 AIN 103 , [Stack:14]
 LDWB
 HERE 60000 , load large integer
 SUB , operator >
 JMPZ
-HERE 771 , L74
+HERE 774 , L74
 JMPC
-HERE 774 , L75
+HERE 777 , L75
 JMP
-HERE 771 , L74
+HERE 774 , L74
 , label L74
 LDIA 0
 JMP
-HERE 775 , L76
+HERE 778 , L76
 , label L75
 LDIA 1
 , label L76
 LDIB 1
 SUB
 JMPZ
-HERE 784 , L63
+HERE 787 , L63
 JMP
-HERE 781 , L62
+HERE 784 , L62
 , label L62
 LDIA 0
 JMP
-HERE 785 , L64
+HERE 788 , L64
 , label L63
 LDIA 1
 , label L64
 LDIB 1
 SUB
 JMPZ
-HERE 808 , L60
+HERE 811 , L60
 AIN 103 , [Stack:14]
 LDIB 107 , load small integer
 SUB , operator >
 JMPZ
-HERE 798 , L77
+HERE 801 , L77
 JMPC
-HERE 801 , L78
+HERE 804 , L78
 JMP
-HERE 798 , L77
+HERE 801 , L77
 , label L77
 LDIA 0
 JMP
-HERE 802 , L79
+HERE 805 , L79
 , label L78
 LDIA 1
 , label L79
 LDIB 1
 SUB
 JMPZ
-HERE 808 , L60
+HERE 811 , L60
 JMP
-HERE 810 , L61
+HERE 813 , L61
 , label L60
 JMP
-HERE 554 , L0
+HERE 557 , L0
 , label L61
 LDW
-HERE 819 , L81
+HERE 822 , L81
 SWPC
 LDW
-HERE 827 , L80
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 830 , L80
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L81
 AIN 102 , [Stack:13], load value
 STA 89 , [Stack:0], store value
@@ -1004,24 +1010,24 @@ STA 90 , [Stack:1], store value
 AIN 93 , [Stack:4], load value
 STA 91 , [Stack:2], store value
 JMP
-HERE 1714 , SetPixel
+HERE 3741 , SetPixel
 , label L80
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 JMP
-HERE 554 , L0, jump to next iteration
+HERE 557 , L0, jump to next iteration
 , label L2
 JMP
-HERE 1242 , L22
+HERE 1245 , L22
 , label L21
 LDW
-HERE 841 , L83
+HERE 844 , L83
 SWPC
 LDW
-HERE 849 , L82
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 852 , L82
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L83
 AIN 102 , [Stack:13], load value
 STA 89 , [Stack:0], store value
@@ -1030,107 +1036,107 @@ STA 90 , [Stack:1], store value
 AIN 93 , [Stack:4], load value
 STA 91 , [Stack:2], store value
 JMP
-HERE 1714 , SetPixel
+HERE 3741 , SetPixel
 , label L82
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 LDW
-HERE 859 , L85
+HERE 862 , L85
 SWPC
 LDW
-HERE 865 , L84
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 868 , L84
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L85
 AIN 95 , [Stack:6], load value
 STA 89 , [Stack:0], store value
 AIN 94 , [Stack:5], load value
 STA 90 , [Stack:1], store value
 JMP
-HERE 3015 , MultSignedInts
+HERE 5796 , MultSignedInts
 , label L84
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 97 , [Stack:8]
 LDW
-HERE 877 , L87
+HERE 880 , L87
 SWPC
 LDW
-HERE 883 , L86
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 886 , L86
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L87
 AIN 97 , [Stack:8], load value
 STA 89 , [Stack:0], store value
 AIN 96 , [Stack:7], load value
 STA 90 , [Stack:1], store value
 JMP
-HERE 2961 , SubSignedInts
+HERE 5742 , SubSignedInts
 , label L86
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 97 , [Stack:8]
 LDW
-HERE 895 , L89
+HERE 898 , L89
 SWPC
 LDW
-HERE 901 , L88
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 904 , L88
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L89
 AIN 95 , [Stack:6], load value
 STA 89 , [Stack:0], store value
 AIN 96 , [Stack:7], load value
 STA 90 , [Stack:1], store value
 JMP
-HERE 2961 , SubSignedInts
+HERE 5742 , SubSignedInts
 , label L88
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 100 , [Stack:11]
 LDW
-HERE 913 , L91
+HERE 916 , L91
 SWPC
 LDW
-HERE 919 , L90
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 922 , L90
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L91
 AIN 100 , [Stack:11], load value
 STA 89 , [Stack:0], store value
 AIN 94 , [Stack:5], load value
 STA 90 , [Stack:1], store value
 JMP
-HERE 3015 , MultSignedInts
+HERE 5796 , MultSignedInts
 , label L90
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 100 , [Stack:11]
 LDW
-HERE 931 , L93
+HERE 934 , L93
 SWPC
 LDW
-HERE 937 , L92
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 940 , L92
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L93
 AIN 95 , [Stack:6], load value
 STA 89 , [Stack:0], store value
 AIN 94 , [Stack:5], load value
 STA 90 , [Stack:1], store value
 JMP
-HERE 3015 , MultSignedInts
+HERE 5796 , MultSignedInts
 , label L92
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 101 , [Stack:12]
 LDIA 96 , [Stack:7]
@@ -1144,7 +1150,7 @@ LDIA 0 , load small integer
 STLGE
 HERE 106 , [Stack:17]
 JMP
-HERE 956 , L7
+HERE 959 , L7
 , label L4
 AIN 106 , [Stack:17]
 LDIB 1
@@ -1155,11 +1161,11 @@ AIN 106 , [Stack:17]
 BIN 105 , [Stack:16]
 SUB , operator <
 JMPZ
-HERE 1242 , L6
+HERE 1245 , L6
 JMPC
-HERE 1242 , L6
+HERE 1245 , L6
 JMP
-HERE 965 , L5
+HERE 968 , L5
 , label L5
 LDIA 97 , [Stack:8]
 LDAIN
@@ -1172,20 +1178,20 @@ AND
 LDIB 0 , load small integer
 SUB , operator ==
 JMPZ
-HERE 982 , L98
+HERE 985 , L98
 JMP
-HERE 979 , L97
+HERE 982 , L97
 , label L97
 LDIA 0
 JMP
-HERE 983 , L99
+HERE 986 , L99
 , label L98
 LDIA 1
 , label L99
 LDIB 1
 SUB
 JMPZ
-HERE 1040 , L94
+HERE 1043 , L94
 LDIA 97 , [Stack:8]
 LDAIN
 LDWB
@@ -1197,20 +1203,20 @@ AND
 LDIB 1 , load small integer
 SUB , operator ==
 JMPZ
-HERE 1004 , L104
+HERE 1007 , L104
 JMP
-HERE 1001 , L103
+HERE 1004 , L103
 , label L103
 LDIA 0
 JMP
-HERE 1005 , L105
+HERE 1008 , L105
 , label L104
 LDIA 1
 , label L105
 LDIB 0
 SUB
 JMPZ
-HERE 1030 , L100
+HERE 1033 , L100
 LDIA 97 , [Stack:8]
 LDAIN
 LDWB
@@ -1219,118 +1225,118 @@ AND
 LDIB 0 , load small integer
 SUB , operator ==
 JMPZ
-HERE 1023 , L107
+HERE 1026 , L107
 JMP
-HERE 1020 , L106
+HERE 1023 , L106
 , label L106
 LDIA 0
 JMP
-HERE 1024 , L108
+HERE 1027 , L108
 , label L107
 LDIA 1
 , label L108
 LDIB 0
 SUB
 JMPZ
-HERE 1030 , L100
+HERE 1033 , L100
 JMP
-HERE 1033 , L101
+HERE 1036 , L101
 , label L100
 LDIA 0
 JMP
-HERE 1034 , L102
+HERE 1037 , L102
 , label L101
 LDIA 1
 , label L102
 LDIB 1
 SUB
 JMPZ
-HERE 1040 , L94
+HERE 1043 , L94
 JMP
-HERE 1078 , L95
+HERE 1081 , L95
 , label L94
 LDW
-HERE 1049 , L110
+HERE 1052 , L110
 SWPC
 LDW
-HERE 1055 , L109
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 1058 , L109
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L110
 AIN 102 , [Stack:13], load value
 STA 89 , [Stack:0], store value
 AIN 98 , [Stack:9], load value
 STA 90 , [Stack:1], store value
 JMP
-HERE 2649 , AddSignedInts
+HERE 5430 , AddSignedInts
 , label L109
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 102 , [Stack:13]
 LDW
-HERE 1067 , L112
+HERE 1070 , L112
 SWPC
 LDW
-HERE 1073 , L111
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 1076 , L111
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L112
 AIN 97 , [Stack:8], load value
 STA 89 , [Stack:0], store value
 AIN 100 , [Stack:11], load value
 STA 90 , [Stack:1], store value
 JMP
-HERE 2649 , AddSignedInts
+HERE 5430 , AddSignedInts
 , label L111
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 97 , [Stack:8]
 JMP
-HERE 1096 , L96
+HERE 1099 , L96
 , label L95
 LDW
-HERE 1087 , L114
+HERE 1090 , L114
 SWPC
 LDW
-HERE 1093 , L113
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 1096 , L113
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L114
 AIN 97 , [Stack:8], load value
 STA 89 , [Stack:0], store value
 AIN 101 , [Stack:12], load value
 STA 90 , [Stack:1], store value
 JMP
-HERE 2649 , AddSignedInts
+HERE 5430 , AddSignedInts
 , label L113
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 97 , [Stack:8]
 , label L96
 LDW
-HERE 1105 , L116
+HERE 1108 , L116
 SWPC
 LDW
-HERE 1111 , L115
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 1114 , L115
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L116
 AIN 103 , [Stack:14], load value
 STA 89 , [Stack:0], store value
 AIN 99 , [Stack:10], load value
 STA 90 , [Stack:1], store value
 JMP
-HERE 2649 , AddSignedInts
+HERE 5430 , AddSignedInts
 , label L115
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 103 , [Stack:14]
 LDIA 102 , [Stack:13]
@@ -1352,124 +1358,124 @@ LDWB
 HERE 60000 , load large integer
 SUB , operator >
 JMPZ
-HERE 1138 , L125
+HERE 1141 , L125
 JMPC
-HERE 1141 , L126
+HERE 1144 , L126
 JMP
-HERE 1138 , L125
+HERE 1141 , L125
 , label L125
 LDIA 0
 JMP
-HERE 1142 , L127
+HERE 1145 , L127
 , label L126
 LDIA 1
 , label L127
 LDIB 1
 SUB
 JMPZ
-HERE 1168 , L123
+HERE 1171 , L123
 AIN 107 , [Stack:18]
 LDIB 107 , load small integer
 SUB , operator >
 JMPZ
-HERE 1155 , L128
+HERE 1158 , L128
 JMPC
-HERE 1158 , L129
+HERE 1161 , L129
 JMP
-HERE 1155 , L128
+HERE 1158 , L128
 , label L128
 LDIA 0
 JMP
-HERE 1159 , L130
+HERE 1162 , L130
 , label L129
 LDIA 1
 , label L130
 LDIB 1
 SUB
 JMPZ
-HERE 1168 , L123
+HERE 1171 , L123
 JMP
-HERE 1165 , L122
+HERE 1168 , L122
 , label L122
 LDIA 0
 JMP
-HERE 1169 , L124
+HERE 1172 , L124
 , label L123
 LDIA 1
 , label L124
 LDIB 1
 SUB
 JMPZ
-HERE 1196 , L120
+HERE 1199 , L120
 AIN 108 , [Stack:19]
 LDWB
 HERE 60000 , load large integer
 SUB , operator >
 JMPZ
-HERE 1183 , L131
+HERE 1186 , L131
 JMPC
-HERE 1186 , L132
+HERE 1189 , L132
 JMP
-HERE 1183 , L131
+HERE 1186 , L131
 , label L131
 LDIA 0
 JMP
-HERE 1187 , L133
+HERE 1190 , L133
 , label L132
 LDIA 1
 , label L133
 LDIB 1
 SUB
 JMPZ
-HERE 1196 , L120
+HERE 1199 , L120
 JMP
-HERE 1193 , L119
+HERE 1196 , L119
 , label L119
 LDIA 0
 JMP
-HERE 1197 , L121
+HERE 1200 , L121
 , label L120
 LDIA 1
 , label L121
 LDIB 1
 SUB
 JMPZ
-HERE 1220 , L117
+HERE 1223 , L117
 AIN 108 , [Stack:19]
 LDIB 107 , load small integer
 SUB , operator >
 JMPZ
-HERE 1210 , L134
+HERE 1213 , L134
 JMPC
-HERE 1213 , L135
+HERE 1216 , L135
 JMP
-HERE 1210 , L134
+HERE 1213 , L134
 , label L134
 LDIA 0
 JMP
-HERE 1214 , L136
+HERE 1217 , L136
 , label L135
 LDIA 1
 , label L136
 LDIB 1
 SUB
 JMPZ
-HERE 1220 , L117
+HERE 1223 , L117
 JMP
-HERE 1222 , L118
+HERE 1225 , L118
 , label L117
 JMP
-HERE 952 , L4
+HERE 955 , L4
 , label L118
 LDW
-HERE 1231 , L138
+HERE 1234 , L138
 SWPC
 LDW
-HERE 1239 , L137
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 1242 , L137
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L138
 AIN 107 , [Stack:18], load value
 STA 89 , [Stack:0], store value
@@ -1478,26 +1484,26 @@ STA 90 , [Stack:1], store value
 AIN 93 , [Stack:4], load value
 STA 91 , [Stack:2], store value
 JMP
-HERE 1714 , SetPixel
+HERE 3741 , SetPixel
 , label L137
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 JMP
-HERE 952 , L4, jump to next iteration
+HERE 955 , L4, jump to next iteration
 , label L6
 , label L22
 , label draw_line
 JMP
-HERE 6925 , __return
+HERE 10264 , __return
 , label DrawWireTriangle
 LDW
-HERE 1253 , L1
+HERE 1256 , L1
 SWPC
 LDW
-HERE 1265 , L0
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 1268 , L0
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L1
 AIN 89 , [Stack:0], load value
 STA 89 , [Stack:0], store value
@@ -1510,18 +1516,18 @@ STA 92 , [Stack:3], store value
 AIN 95 , [Stack:6], load value
 STA 93 , [Stack:4], store value
 JMP
-HERE 113 , draw_line
+HERE 116 , draw_line
 , label L0
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 LDW
-HERE 1275 , L3
+HERE 1278 , L3
 SWPC
 LDW
-HERE 1287 , L2
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 1290 , L2
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L3
 AIN 91 , [Stack:2], load value
 STA 89 , [Stack:0], store value
@@ -1534,18 +1540,18 @@ STA 92 , [Stack:3], store value
 AIN 95 , [Stack:6], load value
 STA 93 , [Stack:4], store value
 JMP
-HERE 113 , draw_line
+HERE 116 , draw_line
 , label L2
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 LDW
-HERE 1297 , L5
+HERE 1300 , L5
 SWPC
 LDW
-HERE 1309 , L4
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 1312 , L4
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L5
 AIN 89 , [Stack:0], load value
 STA 89 , [Stack:0], store value
@@ -1558,268 +1564,2291 @@ STA 92 , [Stack:3], store value
 AIN 95 , [Stack:6], load value
 STA 93 , [Stack:4], store value
 JMP
-HERE 113 , draw_line
+HERE 116 , draw_line
 , label L4
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 , label DrawWireTriangle
 JMP
-HERE 6925 , __return
-, label area
+HERE 10264 , __return
+, label DrawFilledTriangle
 LDW
-HERE 1321 , L1
+HERE 1324 , L20
 SWPC
 LDW
-HERE 1327 , L0
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 1342 , L19
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
-, label L1
-AIN 92 , [Stack:3], load value
+HERE 10164 , __call
+, label L20
+AIN 89 , [Stack:0], load value
 STA 89 , [Stack:0], store value
-AIN 94 , [Stack:5], load value
+AIN 90 , [Stack:1], load value
 STA 90 , [Stack:1], store value
-JMP
-HERE 3093 , SubToSignedInt
-, label L0
-AIN 6822 , Yabal:return_value
+AIN 91 , [Stack:2], load value
+STA 91 , [Stack:2], store value
+AIN 92 , [Stack:3], load value
+STA 92 , [Stack:3], store value
+AIN 93 , [Stack:4], load value
+STA 93 , [Stack:4], store value
+AIN 94 , [Stack:5], load value
+STA 94 , [Stack:5], store value
+AIN 95 , [Stack:6]
+NOT
 STLGE
 HERE 95 , [Stack:6]
-LDW
-HERE 1339 , L3
-SWPC
-LDW
-HERE 1345 , L2
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
 JMP
-HERE 6825 , __call
-, label L3
-AIN 94 , [Stack:5], load value
-STA 89 , [Stack:0], store value
-AIN 90 , [Stack:1], load value
-STA 90 , [Stack:1], store value
-JMP
-HERE 3093 , SubToSignedInt
-, label L2
-AIN 6822 , Yabal:return_value
+HERE 1247 , DrawWireTriangle
+, label L19
+AIN 113 , Yabal:return_value
+AIN 89 , [Stack:0]
+BIN 91 , [Stack:2]
+ADD
+BIN 93 , [Stack:4]
+ADD
+LDIB 3 , load small integer
+DIV
 STLGE
 HERE 96 , [Stack:7]
-LDW
-HERE 1357 , L5
-SWPC
-LDW
-HERE 1363 , L4
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
-JMP
-HERE 6825 , __call
-, label L5
-AIN 90 , [Stack:1], load value
-STA 89 , [Stack:0], store value
-AIN 92 , [Stack:3], load value
-STA 90 , [Stack:1], store value
-JMP
-HERE 3093 , SubToSignedInt
-, label L4
-AIN 6822 , Yabal:return_value
+AIN 90 , [Stack:1]
+BIN 92 , [Stack:3]
+ADD
+BIN 94 , [Stack:5]
+ADD
+LDIB 3 , load small integer
+DIV
 STLGE
 HERE 97 , [Stack:8]
 LDW
-HERE 1375 , L7
+HERE 1370 , L22
 SWPC
 LDW
-HERE 1395 , L6
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 1378 , L21
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
+, label L22
+AIN 96 , [Stack:7], load value
+STA 89 , [Stack:0], store value
+AIN 97 , [Stack:8], load value
+STA 90 , [Stack:1], store value
+AIN 95 , [Stack:6], load value
+STA 91 , [Stack:2], store value
+JMP
+HERE 3741 , SetPixel
+, label L21
+AIN 113 , Yabal:return_value
+LDW
+HERE 1388 , L24
+SWPC
+LDW
+HERE 1406 , L23
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L24
+AIN 96 , [Stack:7]
+BIN 89 , [Stack:0]
+ADD
+LDIB 2 , load small integer
+DIV
+STLGE
+HERE 89 , [Stack:0]
+AIN 97 , [Stack:8]
+BIN 90 , [Stack:1]
+ADD
+LDIB 2 , load small integer
+DIV
+STLGE
+HERE 90 , [Stack:1]
+AIN 95 , [Stack:6], load value
+STA 91 , [Stack:2], store value
+JMP
+HERE 3741 , SetPixel
+, label L23
+AIN 113 , Yabal:return_value
+LDW
+HERE 1416 , L26
+SWPC
+LDW
+HERE 1434 , L25
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L26
+AIN 96 , [Stack:7]
+BIN 91 , [Stack:2]
+ADD
+LDIB 2 , load small integer
+DIV
+STLGE
+HERE 89 , [Stack:0]
+AIN 97 , [Stack:8]
+BIN 92 , [Stack:3]
+ADD
+LDIB 2 , load small integer
+DIV
+STLGE
+HERE 90 , [Stack:1]
+AIN 95 , [Stack:6], load value
+STA 91 , [Stack:2], store value
+JMP
+HERE 3741 , SetPixel
+, label L25
+AIN 113 , Yabal:return_value
+LDW
+HERE 1444 , L28
+SWPC
+LDW
+HERE 1462 , L27
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L28
+AIN 96 , [Stack:7]
+BIN 93 , [Stack:4]
+ADD
+LDIB 2 , load small integer
+DIV
+STLGE
+HERE 89 , [Stack:0]
+AIN 97 , [Stack:8]
+BIN 94 , [Stack:5]
+ADD
+LDIB 2 , load small integer
+DIV
+STLGE
+HERE 90 , [Stack:1]
+AIN 95 , [Stack:6], load value
+STA 91 , [Stack:2], store value
+JMP
+HERE 3741 , SetPixel
+, label L27
+AIN 113 , Yabal:return_value
+LDIA 11 , load small integer
+STLGE
+HERE 98 , [Stack:9]
+, label L0
+AIN 98 , [Stack:9]
+LDIB 10 , load small integer
+SUB , operator >
+JMPZ
+HERE 2388 , L2
+JMPC
+HERE 1475 , L1
+JMP
+HERE 2388 , L2
+, label L1
+LDIA 0 , load small integer
+STLGE
+HERE 98 , [Stack:9]
+LDIA 1 , load small integer
+STLGE
+HERE 99 , [Stack:10]
+JMP
+HERE 1487 , L6
+, label L3
+AIN 99 , [Stack:10]
+LDIB 1
+ADD , increment value
+STA 99 , [Stack:10]
+, label L6
+AIN 99 , [Stack:10]
+LDIB 107 , load small integer
+SUB , operator <
+JMPZ
+HERE 1932 , L5
+JMPC
+HERE 1932 , L5
+JMP
+HERE 1496 , L4
+, label L4
+LDIA 1 , load small integer
+STLGE
+HERE 100 , [Stack:11]
+JMP
+HERE 1505 , L10
+, label L7
+AIN 100 , [Stack:11]
+LDIB 1
+ADD , increment value
+STA 100 , [Stack:11]
+, label L10
+AIN 100 , [Stack:11]
+LDIB 107 , load small integer
+SUB , operator <
+JMPZ
+HERE 1930 , L9
+JMPC
+HERE 1930 , L9
+JMP
+HERE 1514 , L8
+, label L8
+LDW
+HERE 1523 , L32
+SWPC
+LDW
+HERE 1529 , L31
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L32
+AIN 100 , [Stack:11], load value
+STA 89 , [Stack:0], store value
+AIN 99 , [Stack:10], load value
+STA 90 , [Stack:1], store value
+JMP
+HERE 3798 , GetPixel
+, label L31
+AIN 113 , Yabal:return_value
+BIN 95 , [Stack:6]
+SUB , operator ==
+JMPZ
+HERE 1536 , L29
+JMP
+HERE 1928 , L30
+, label L29
+LDW
+HERE 1545 , L39
+SWPC
+LDW
+HERE 1554 , L38
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L39
+AIN 100 , [Stack:11]
+LDIB 1 , load small integer
+SUB
+STLGE
+HERE 89 , [Stack:0]
+AIN 99 , [Stack:10], load value
+STA 90 , [Stack:1], store value
+JMP
+HERE 3798 , GetPixel
+, label L38
+AIN 113 , Yabal:return_value
+STA 101 , [Stack:12]
+AIN 95 , [Stack:6]
+NOT
+BIN 101 , [Stack:12]
+SWP
+SUB , operator !=
+JMPZ
+HERE 1565 , L35
+JMP
+HERE 1568 , L36
+, label L35
+LDIA 0
+JMP
+HERE 1569 , L37
+, label L36
+LDIA 1
+, label L37
+LDIB 0
+SUB
+JMPZ
+HERE 1634 , L34
+LDW
+HERE 1582 , L44
+SWPC
+LDW
+HERE 1591 , L43
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L44
+AIN 100 , [Stack:11]
+LDIB 1 , load small integer
+SUB
+STLGE
+HERE 89 , [Stack:0]
+AIN 99 , [Stack:10], load value
+STA 90 , [Stack:1], store value
+JMP
+HERE 3798 , GetPixel
+, label L43
+AIN 113 , Yabal:return_value
+BIN 95 , [Stack:6]
+SUB , operator !=
+JMPZ
+HERE 1598 , L40
+JMP
+HERE 1601 , L41
+, label L40
+LDIA 0
+JMP
+HERE 1602 , L42
+, label L41
+LDIA 1
+, label L42
+LDIB 0
+SUB
+JMPZ
+HERE 1634 , L34
+JMP
+HERE 1608 , L33
+, label L33
+LDW
+HERE 1617 , L46
+SWPC
+LDW
+HERE 1628 , L45
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L46
+AIN 100 , [Stack:11]
+LDIB 1 , load small integer
+SUB
+STLGE
+HERE 89 , [Stack:0]
+AIN 99 , [Stack:10], load value
+STA 90 , [Stack:1], store value
+AIN 95 , [Stack:6], load value
+STA 91 , [Stack:2], store value
+JMP
+HERE 3741 , SetPixel
+, label L45
+AIN 113 , Yabal:return_value
+AIN 98 , [Stack:9]
+LDIB 1 , load small integer
+ADD
+STLGE
+HERE 98 , [Stack:9]
+, label L34
+LDW
+HERE 1643 , L53
+SWPC
+LDW
+HERE 1652 , L52
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L53
+AIN 100 , [Stack:11], load value
+STA 89 , [Stack:0], store value
+AIN 99 , [Stack:10]
+LDIB 1 , load small integer
+SUB
+STLGE
+HERE 90 , [Stack:1]
+JMP
+HERE 3798 , GetPixel
+, label L52
+AIN 113 , Yabal:return_value
+STA 101 , [Stack:12]
+AIN 95 , [Stack:6]
+NOT
+BIN 101 , [Stack:12]
+SWP
+SUB , operator !=
+JMPZ
+HERE 1663 , L49
+JMP
+HERE 1666 , L50
+, label L49
+LDIA 0
+JMP
+HERE 1667 , L51
+, label L50
+LDIA 1
+, label L51
+LDIB 0
+SUB
+JMPZ
+HERE 1732 , L48
+LDW
+HERE 1680 , L58
+SWPC
+LDW
+HERE 1689 , L57
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L58
+AIN 100 , [Stack:11], load value
+STA 89 , [Stack:0], store value
+AIN 99 , [Stack:10]
+LDIB 1 , load small integer
+SUB
+STLGE
+HERE 90 , [Stack:1]
+JMP
+HERE 3798 , GetPixel
+, label L57
+AIN 113 , Yabal:return_value
+BIN 95 , [Stack:6]
+SUB , operator !=
+JMPZ
+HERE 1696 , L54
+JMP
+HERE 1699 , L55
+, label L54
+LDIA 0
+JMP
+HERE 1700 , L56
+, label L55
+LDIA 1
+, label L56
+LDIB 0
+SUB
+JMPZ
+HERE 1732 , L48
+JMP
+HERE 1706 , L47
+, label L47
+LDW
+HERE 1715 , L60
+SWPC
+LDW
+HERE 1726 , L59
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L60
+AIN 100 , [Stack:11], load value
+STA 89 , [Stack:0], store value
+AIN 99 , [Stack:10]
+LDIB 1 , load small integer
+SUB
+STLGE
+HERE 90 , [Stack:1]
+AIN 95 , [Stack:6], load value
+STA 91 , [Stack:2], store value
+JMP
+HERE 3741 , SetPixel
+, label L59
+AIN 113 , Yabal:return_value
+AIN 98 , [Stack:9]
+LDIB 1 , load small integer
+ADD
+STLGE
+HERE 98 , [Stack:9]
+, label L48
+LDW
+HERE 1741 , L67
+SWPC
+LDW
+HERE 1750 , L66
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L67
+AIN 100 , [Stack:11]
+LDIB 1 , load small integer
+ADD
+STLGE
+HERE 89 , [Stack:0]
+AIN 99 , [Stack:10], load value
+STA 90 , [Stack:1], store value
+JMP
+HERE 3798 , GetPixel
+, label L66
+AIN 113 , Yabal:return_value
+STA 101 , [Stack:12]
+AIN 95 , [Stack:6]
+NOT
+BIN 101 , [Stack:12]
+SWP
+SUB , operator !=
+JMPZ
+HERE 1761 , L63
+JMP
+HERE 1764 , L64
+, label L63
+LDIA 0
+JMP
+HERE 1765 , L65
+, label L64
+LDIA 1
+, label L65
+LDIB 0
+SUB
+JMPZ
+HERE 1830 , L62
+LDW
+HERE 1778 , L72
+SWPC
+LDW
+HERE 1787 , L71
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L72
+AIN 100 , [Stack:11]
+LDIB 1 , load small integer
+ADD
+STLGE
+HERE 89 , [Stack:0]
+AIN 99 , [Stack:10], load value
+STA 90 , [Stack:1], store value
+JMP
+HERE 3798 , GetPixel
+, label L71
+AIN 113 , Yabal:return_value
+BIN 95 , [Stack:6]
+SUB , operator !=
+JMPZ
+HERE 1794 , L68
+JMP
+HERE 1797 , L69
+, label L68
+LDIA 0
+JMP
+HERE 1798 , L70
+, label L69
+LDIA 1
+, label L70
+LDIB 0
+SUB
+JMPZ
+HERE 1830 , L62
+JMP
+HERE 1804 , L61
+, label L61
+LDW
+HERE 1813 , L74
+SWPC
+LDW
+HERE 1824 , L73
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L74
+AIN 100 , [Stack:11]
+LDIB 1 , load small integer
+ADD
+STLGE
+HERE 89 , [Stack:0]
+AIN 99 , [Stack:10], load value
+STA 90 , [Stack:1], store value
+AIN 95 , [Stack:6], load value
+STA 91 , [Stack:2], store value
+JMP
+HERE 3741 , SetPixel
+, label L73
+AIN 113 , Yabal:return_value
+AIN 98 , [Stack:9]
+LDIB 1 , load small integer
+ADD
+STLGE
+HERE 98 , [Stack:9]
+, label L62
+LDW
+HERE 1839 , L81
+SWPC
+LDW
+HERE 1848 , L80
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L81
+AIN 100 , [Stack:11], load value
+STA 89 , [Stack:0], store value
+AIN 99 , [Stack:10]
+LDIB 1 , load small integer
+ADD
+STLGE
+HERE 90 , [Stack:1]
+JMP
+HERE 3798 , GetPixel
+, label L80
+AIN 113 , Yabal:return_value
+STA 101 , [Stack:12]
+AIN 95 , [Stack:6]
+NOT
+BIN 101 , [Stack:12]
+SWP
+SUB , operator !=
+JMPZ
+HERE 1859 , L77
+JMP
+HERE 1862 , L78
+, label L77
+LDIA 0
+JMP
+HERE 1863 , L79
+, label L78
+LDIA 1
+, label L79
+LDIB 0
+SUB
+JMPZ
+HERE 1928 , L76
+LDW
+HERE 1876 , L86
+SWPC
+LDW
+HERE 1885 , L85
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L86
+AIN 100 , [Stack:11], load value
+STA 89 , [Stack:0], store value
+AIN 99 , [Stack:10]
+LDIB 1 , load small integer
+ADD
+STLGE
+HERE 90 , [Stack:1]
+JMP
+HERE 3798 , GetPixel
+, label L85
+AIN 113 , Yabal:return_value
+BIN 95 , [Stack:6]
+SUB , operator !=
+JMPZ
+HERE 1892 , L82
+JMP
+HERE 1895 , L83
+, label L82
+LDIA 0
+JMP
+HERE 1896 , L84
+, label L83
+LDIA 1
+, label L84
+LDIB 0
+SUB
+JMPZ
+HERE 1928 , L76
+JMP
+HERE 1902 , L75
+, label L75
+LDW
+HERE 1911 , L88
+SWPC
+LDW
+HERE 1922 , L87
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L88
+AIN 100 , [Stack:11], load value
+STA 89 , [Stack:0], store value
+AIN 99 , [Stack:10]
+LDIB 1 , load small integer
+ADD
+STLGE
+HERE 90 , [Stack:1]
+AIN 95 , [Stack:6], load value
+STA 91 , [Stack:2], store value
+JMP
+HERE 3741 , SetPixel
+, label L87
+AIN 113 , Yabal:return_value
+AIN 98 , [Stack:9]
+LDIB 1 , load small integer
+ADD
+STLGE
+HERE 98 , [Stack:9]
+, label L76
+, label L30
+JMP
+HERE 1501 , L7, jump to next iteration
+, label L9
+JMP
+HERE 1483 , L3, jump to next iteration
+, label L5
+LDIA 106 , load small integer
+STLGE
+HERE 99 , [Stack:10]
+JMP
+HERE 1941 , L14
+, label L11
+AIN 99 , [Stack:10]
+LDIB 1
+SUB , decrement value
+STA 99 , [Stack:10]
+, label L14
+AIN 99 , [Stack:10]
+LDIB 0 , load small integer
+SUB , operator >
+JMPZ
+HERE 2386 , L13
+JMPC
+HERE 1950 , L12
+JMP
+HERE 2386 , L13
+, label L12
+LDIA 106 , load small integer
+STLGE
+HERE 100 , [Stack:11]
+JMP
+HERE 1959 , L18
+, label L15
+AIN 100 , [Stack:11]
+LDIB 1
+SUB , decrement value
+STA 100 , [Stack:11]
+, label L18
+AIN 100 , [Stack:11]
+LDIB 0 , load small integer
+SUB , operator >
+JMPZ
+HERE 2384 , L17
+JMPC
+HERE 1968 , L16
+JMP
+HERE 2384 , L17
+, label L16
+LDW
+HERE 1977 , L92
+SWPC
+LDW
+HERE 1983 , L91
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L92
+AIN 100 , [Stack:11], load value
+STA 89 , [Stack:0], store value
+AIN 99 , [Stack:10], load value
+STA 90 , [Stack:1], store value
+JMP
+HERE 3798 , GetPixel
+, label L91
+AIN 113 , Yabal:return_value
+BIN 95 , [Stack:6]
+SUB , operator ==
+JMPZ
+HERE 1990 , L89
+JMP
+HERE 2382 , L90
+, label L89
+LDW
+HERE 1999 , L99
+SWPC
+LDW
+HERE 2008 , L98
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L99
+AIN 100 , [Stack:11]
+LDIB 1 , load small integer
+SUB
+STLGE
+HERE 89 , [Stack:0]
+AIN 99 , [Stack:10], load value
+STA 90 , [Stack:1], store value
+JMP
+HERE 3798 , GetPixel
+, label L98
+AIN 113 , Yabal:return_value
+STA 101 , [Stack:12]
+AIN 95 , [Stack:6]
+NOT
+BIN 101 , [Stack:12]
+SWP
+SUB , operator !=
+JMPZ
+HERE 2019 , L95
+JMP
+HERE 2022 , L96
+, label L95
+LDIA 0
+JMP
+HERE 2023 , L97
+, label L96
+LDIA 1
+, label L97
+LDIB 0
+SUB
+JMPZ
+HERE 2088 , L94
+LDW
+HERE 2036 , L104
+SWPC
+LDW
+HERE 2045 , L103
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L104
+AIN 100 , [Stack:11]
+LDIB 1 , load small integer
+SUB
+STLGE
+HERE 89 , [Stack:0]
+AIN 99 , [Stack:10], load value
+STA 90 , [Stack:1], store value
+JMP
+HERE 3798 , GetPixel
+, label L103
+AIN 113 , Yabal:return_value
+BIN 95 , [Stack:6]
+SUB , operator !=
+JMPZ
+HERE 2052 , L100
+JMP
+HERE 2055 , L101
+, label L100
+LDIA 0
+JMP
+HERE 2056 , L102
+, label L101
+LDIA 1
+, label L102
+LDIB 0
+SUB
+JMPZ
+HERE 2088 , L94
+JMP
+HERE 2062 , L93
+, label L93
+LDW
+HERE 2071 , L106
+SWPC
+LDW
+HERE 2082 , L105
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L106
+AIN 100 , [Stack:11]
+LDIB 1 , load small integer
+SUB
+STLGE
+HERE 89 , [Stack:0]
+AIN 99 , [Stack:10], load value
+STA 90 , [Stack:1], store value
+AIN 95 , [Stack:6], load value
+STA 91 , [Stack:2], store value
+JMP
+HERE 3741 , SetPixel
+, label L105
+AIN 113 , Yabal:return_value
+AIN 98 , [Stack:9]
+LDIB 1 , load small integer
+ADD
+STLGE
+HERE 98 , [Stack:9]
+, label L94
+LDW
+HERE 2097 , L113
+SWPC
+LDW
+HERE 2106 , L112
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L113
+AIN 100 , [Stack:11], load value
+STA 89 , [Stack:0], store value
+AIN 99 , [Stack:10]
+LDIB 1 , load small integer
+SUB
+STLGE
+HERE 90 , [Stack:1]
+JMP
+HERE 3798 , GetPixel
+, label L112
+AIN 113 , Yabal:return_value
+STA 101 , [Stack:12]
+AIN 95 , [Stack:6]
+NOT
+BIN 101 , [Stack:12]
+SWP
+SUB , operator !=
+JMPZ
+HERE 2117 , L109
+JMP
+HERE 2120 , L110
+, label L109
+LDIA 0
+JMP
+HERE 2121 , L111
+, label L110
+LDIA 1
+, label L111
+LDIB 0
+SUB
+JMPZ
+HERE 2186 , L108
+LDW
+HERE 2134 , L118
+SWPC
+LDW
+HERE 2143 , L117
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L118
+AIN 100 , [Stack:11], load value
+STA 89 , [Stack:0], store value
+AIN 99 , [Stack:10]
+LDIB 1 , load small integer
+SUB
+STLGE
+HERE 90 , [Stack:1]
+JMP
+HERE 3798 , GetPixel
+, label L117
+AIN 113 , Yabal:return_value
+BIN 95 , [Stack:6]
+SUB , operator !=
+JMPZ
+HERE 2150 , L114
+JMP
+HERE 2153 , L115
+, label L114
+LDIA 0
+JMP
+HERE 2154 , L116
+, label L115
+LDIA 1
+, label L116
+LDIB 0
+SUB
+JMPZ
+HERE 2186 , L108
+JMP
+HERE 2160 , L107
+, label L107
+LDW
+HERE 2169 , L120
+SWPC
+LDW
+HERE 2180 , L119
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L120
+AIN 100 , [Stack:11], load value
+STA 89 , [Stack:0], store value
+AIN 99 , [Stack:10]
+LDIB 1 , load small integer
+SUB
+STLGE
+HERE 90 , [Stack:1]
+AIN 95 , [Stack:6], load value
+STA 91 , [Stack:2], store value
+JMP
+HERE 3741 , SetPixel
+, label L119
+AIN 113 , Yabal:return_value
+AIN 98 , [Stack:9]
+LDIB 1 , load small integer
+ADD
+STLGE
+HERE 98 , [Stack:9]
+, label L108
+LDW
+HERE 2195 , L127
+SWPC
+LDW
+HERE 2204 , L126
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L127
+AIN 100 , [Stack:11]
+LDIB 1 , load small integer
+ADD
+STLGE
+HERE 89 , [Stack:0]
+AIN 99 , [Stack:10], load value
+STA 90 , [Stack:1], store value
+JMP
+HERE 3798 , GetPixel
+, label L126
+AIN 113 , Yabal:return_value
+STA 101 , [Stack:12]
+AIN 95 , [Stack:6]
+NOT
+BIN 101 , [Stack:12]
+SWP
+SUB , operator !=
+JMPZ
+HERE 2215 , L123
+JMP
+HERE 2218 , L124
+, label L123
+LDIA 0
+JMP
+HERE 2219 , L125
+, label L124
+LDIA 1
+, label L125
+LDIB 0
+SUB
+JMPZ
+HERE 2284 , L122
+LDW
+HERE 2232 , L132
+SWPC
+LDW
+HERE 2241 , L131
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L132
+AIN 100 , [Stack:11]
+LDIB 1 , load small integer
+ADD
+STLGE
+HERE 89 , [Stack:0]
+AIN 99 , [Stack:10], load value
+STA 90 , [Stack:1], store value
+JMP
+HERE 3798 , GetPixel
+, label L131
+AIN 113 , Yabal:return_value
+BIN 95 , [Stack:6]
+SUB , operator !=
+JMPZ
+HERE 2248 , L128
+JMP
+HERE 2251 , L129
+, label L128
+LDIA 0
+JMP
+HERE 2252 , L130
+, label L129
+LDIA 1
+, label L130
+LDIB 0
+SUB
+JMPZ
+HERE 2284 , L122
+JMP
+HERE 2258 , L121
+, label L121
+LDW
+HERE 2267 , L134
+SWPC
+LDW
+HERE 2278 , L133
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L134
+AIN 100 , [Stack:11]
+LDIB 1 , load small integer
+ADD
+STLGE
+HERE 89 , [Stack:0]
+AIN 99 , [Stack:10], load value
+STA 90 , [Stack:1], store value
+AIN 95 , [Stack:6], load value
+STA 91 , [Stack:2], store value
+JMP
+HERE 3741 , SetPixel
+, label L133
+AIN 113 , Yabal:return_value
+AIN 98 , [Stack:9]
+LDIB 1 , load small integer
+ADD
+STLGE
+HERE 98 , [Stack:9]
+, label L122
+LDW
+HERE 2293 , L141
+SWPC
+LDW
+HERE 2302 , L140
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L141
+AIN 100 , [Stack:11], load value
+STA 89 , [Stack:0], store value
+AIN 99 , [Stack:10]
+LDIB 1 , load small integer
+ADD
+STLGE
+HERE 90 , [Stack:1]
+JMP
+HERE 3798 , GetPixel
+, label L140
+AIN 113 , Yabal:return_value
+STA 101 , [Stack:12]
+AIN 95 , [Stack:6]
+NOT
+BIN 101 , [Stack:12]
+SWP
+SUB , operator !=
+JMPZ
+HERE 2313 , L137
+JMP
+HERE 2316 , L138
+, label L137
+LDIA 0
+JMP
+HERE 2317 , L139
+, label L138
+LDIA 1
+, label L139
+LDIB 0
+SUB
+JMPZ
+HERE 2382 , L136
+LDW
+HERE 2330 , L146
+SWPC
+LDW
+HERE 2339 , L145
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L146
+AIN 100 , [Stack:11], load value
+STA 89 , [Stack:0], store value
+AIN 99 , [Stack:10]
+LDIB 1 , load small integer
+ADD
+STLGE
+HERE 90 , [Stack:1]
+JMP
+HERE 3798 , GetPixel
+, label L145
+AIN 113 , Yabal:return_value
+BIN 95 , [Stack:6]
+SUB , operator !=
+JMPZ
+HERE 2346 , L142
+JMP
+HERE 2349 , L143
+, label L142
+LDIA 0
+JMP
+HERE 2350 , L144
+, label L143
+LDIA 1
+, label L144
+LDIB 0
+SUB
+JMPZ
+HERE 2382 , L136
+JMP
+HERE 2356 , L135
+, label L135
+LDW
+HERE 2365 , L148
+SWPC
+LDW
+HERE 2376 , L147
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L148
+AIN 100 , [Stack:11], load value
+STA 89 , [Stack:0], store value
+AIN 99 , [Stack:10]
+LDIB 1 , load small integer
+ADD
+STLGE
+HERE 90 , [Stack:1]
+AIN 95 , [Stack:6], load value
+STA 91 , [Stack:2], store value
+JMP
+HERE 3741 , SetPixel
+, label L147
+AIN 113 , Yabal:return_value
+AIN 98 , [Stack:9]
+LDIB 1 , load small integer
+ADD
+STLGE
+HERE 98 , [Stack:9]
+, label L136
+, label L90
+JMP
+HERE 1955 , L15, jump to next iteration
+, label L17
+JMP
+HERE 1937 , L11, jump to next iteration
+, label L13
+JMP
+HERE 1466 , L0
+, label L2
+, label DrawFilledTriangle
+JMP
+HERE 10264 , __return
+, label DrawFilledCircle
+AIN 91 , [Stack:2]
+BIN 91 , [Stack:2]
+MULT
+STLGE
+HERE 93 , [Stack:4]
+LDW
+HERE 2404 , L7
+SWPC
+LDW
+HERE 2408 , L6
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L7
+AIN 91 , [Stack:2], load value
+STA 89 , [Stack:0], store value
+JMP
+HERE 5985 , NegativeSigned
+, label L6
+AIN 113 , Yabal:return_value
+STLGE
+HERE 94 , [Stack:5]
+AIN 94 , [Stack:5], load value
+STA 95 , [Stack:6], store value
+LDW
+HERE 2422 , L9
+SWPC
+LDW
+HERE 2426 , L8
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L9
+AIN 91 , [Stack:2], load value
+STA 89 , [Stack:0], store value
+JMP
+HERE 5985 , NegativeSigned
+, label L8
+AIN 113 , Yabal:return_value
+STLGE
+HERE 96 , [Stack:7]
+AIN 91 , [Stack:2]
+LDIB 1 , load small integer
+ADD
+STLGE
+HERE 97 , [Stack:8]
+LDIA 0 , load small integer
+STLGE
+HERE 98 , [Stack:9]
+LDIA 0 , load small integer
+STLGE
+HERE 99 , [Stack:10]
+, label L0
+LDIA 96 , [Stack:7]
+LDAIN
+LDWB
+HERE 15
+BSR
+LDWB
+HERE 1
+AND
+LDIB 1 , load small integer
+SUB , operator ==
+JMPZ
+HERE 2457 , L11
+JMP
+HERE 2454 , L10
+, label L10
+LDIA 0
+JMP
+HERE 2458 , L12
+, label L11
+LDIA 1
+, label L12
+LDIB 1
+SUB
+JMPZ
+HERE 2485 , L1
+LDIA 96 , [Stack:7]
+LDAIN
+LDWB
+HERE 32767
+AND
+BIN 97 , [Stack:8]
+SUB , operator <
+JMPZ
+HERE 2475 , L13
+JMPC
+HERE 2475 , L13
+JMP
+HERE 2478 , L14
+, label L13
+LDIA 0
+JMP
+HERE 2479 , L15
+, label L14
+LDIA 1
+, label L15
+LDIB 1
+SUB
+JMPZ
+HERE 2485 , L1
+JMP
+HERE 2726 , L2
+, label L1
+, label L3
+LDIA 95 , [Stack:6]
+LDAIN
+LDWB
+HERE 15
+BSR
+LDWB
+HERE 1
+AND
+LDIB 1 , load small integer
+SUB , operator ==
+JMPZ
+HERE 2502 , L17
+JMP
+HERE 2499 , L16
+, label L16
+LDIA 0
+JMP
+HERE 2503 , L18
+, label L17
+LDIA 1
+, label L18
+LDIB 1
+SUB
+JMPZ
+HERE 2530 , L4
+LDIA 95 , [Stack:6]
+LDAIN
+LDWB
+HERE 32767
+AND
+BIN 97 , [Stack:8]
+SUB , operator <
+JMPZ
+HERE 2520 , L19
+JMPC
+HERE 2520 , L19
+JMP
+HERE 2523 , L20
+, label L19
+LDIA 0
+JMP
+HERE 2524 , L21
+, label L20
+LDIA 1
+, label L21
+LDIB 1
+SUB
+JMPZ
+HERE 2530 , L4
+JMP
+HERE 2703 , L5
+, label L4
+AIN 89 , [Stack:0]
+STA 100 , [Stack:11]
+LDW
+HERE 2541 , L23
+SWPC
+LDW
+HERE 2545 , L22
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L23
+AIN 95 , [Stack:6], load value
+STA 89 , [Stack:0], store value
+JMP
+HERE 4130 , SignedToTwosComp
+, label L22
+AIN 113 , Yabal:return_value
+BIN 100 , [Stack:11]
+SWP
+ADD
+STLGE
+HERE 98 , [Stack:9]
+AIN 90 , [Stack:1]
+STA 100 , [Stack:11]
+LDW
+HERE 2562 , L25
+SWPC
+LDW
+HERE 2566 , L24
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L25
+AIN 96 , [Stack:7], load value
+STA 89 , [Stack:0], store value
+JMP
+HERE 4130 , SignedToTwosComp
+, label L24
+AIN 113 , Yabal:return_value
+BIN 100 , [Stack:11]
+SWP
+ADD
+STLGE
+HERE 99 , [Stack:10]
+AIN 98 , [Stack:9]
+LDIB 107 , load small integer
+SUB , operator >
+JMPZ
+HERE 2581 , L28
+JMPC
+HERE 2584 , L29
+JMP
+HERE 2581 , L28
+, label L28
+LDIA 0
+JMP
+HERE 2585 , L30
+, label L29
+LDIA 1
+, label L30
+LDIB 1
+SUB
+JMPZ
+HERE 2608 , L26
+AIN 99 , [Stack:10]
+LDIB 107 , load small integer
+SUB , operator >
+JMPZ
+HERE 2598 , L31
+JMPC
+HERE 2601 , L32
+JMP
+HERE 2598 , L31
+, label L31
+LDIA 0
+JMP
+HERE 2602 , L33
+, label L32
+LDIA 1
+, label L33
+LDIB 1
+SUB
+JMPZ
+HERE 2608 , L26
+JMP
+HERE 2629 , L27
+, label L26
+LDW
+HERE 2617 , L35
+SWPC
+LDW
+HERE 2624 , L34
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L35
+AIN 95 , [Stack:6], load value
+STA 89 , [Stack:0], store value
+LDIA 1 , load small integer
+STLGE
+HERE 90 , [Stack:1]
+JMP
+HERE 5430 , AddSignedInts
+, label L34
+AIN 113 , Yabal:return_value
+STLGE
+HERE 95 , [Stack:6]
+JMP
+HERE 2485 , L3
+, label L27
+LDW
+HERE 2638 , L39
+SWPC
+LDW
+HERE 2650 , L38
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L39
+AIN 95 , [Stack:6]
+BIN 95 , [Stack:6]
+MULT
+STLGE
+HERE 89 , [Stack:0]
+AIN 96 , [Stack:7]
+BIN 96 , [Stack:7]
+MULT
+STLGE
+HERE 90 , [Stack:1]
+JMP
+HERE 5430 , AddSignedInts
+, label L38
+AIN 113 , Yabal:return_value
+STA 100 , [Stack:11]
+AIN 93 , [Stack:4]
+BIN 91 , [Stack:2]
+ADD
+BIN 100 , [Stack:11]
+SWP
+SUB , operator <=
+JMPZ
+HERE 2664 , L36
+JMPC
+HERE 2682 , L37
+JMP
+HERE 2664 , L36
+, label L36
+LDW
+HERE 2673 , L41
+SWPC
+LDW
+HERE 2681 , L40
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L41
+AIN 98 , [Stack:9], load value
+STA 89 , [Stack:0], store value
+AIN 99 , [Stack:10], load value
+STA 90 , [Stack:1], store value
+AIN 92 , [Stack:3], load value
+STA 91 , [Stack:2], store value
+JMP
+HERE 3741 , SetPixel
+, label L40
+AIN 113 , Yabal:return_value
+, label L37
+LDW
+HERE 2691 , L43
+SWPC
+LDW
+HERE 2698 , L42
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L43
+AIN 95 , [Stack:6], load value
+STA 89 , [Stack:0], store value
+LDIA 1 , load small integer
+STLGE
+HERE 90 , [Stack:1]
+JMP
+HERE 5430 , AddSignedInts
+, label L42
+AIN 113 , Yabal:return_value
+STLGE
+HERE 95 , [Stack:6]
+JMP
+HERE 2485 , L3
+, label L5
+AIN 94 , [Stack:5], load value
+STA 95 , [Stack:6], store value
+LDW
+HERE 2714 , L45
+SWPC
+LDW
+HERE 2721 , L44
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L45
+AIN 96 , [Stack:7], load value
+STA 89 , [Stack:0], store value
+LDIA 1 , load small integer
+STLGE
+HERE 90 , [Stack:1]
+JMP
+HERE 5430 , AddSignedInts
+, label L44
+AIN 113 , Yabal:return_value
+STLGE
+HERE 96 , [Stack:7]
+JMP
+HERE 2440 , L0
+, label L2
+, label DrawFilledCircle
+JMP
+HERE 10264 , __return
+, label DrawWireCircle
+AIN 91 , [Stack:2]
+BIN 91 , [Stack:2]
+MULT
+STLGE
+HERE 93 , [Stack:4]
+LDW
+HERE 2742 , L7
+SWPC
+LDW
+HERE 2746 , L6
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L7
+AIN 91 , [Stack:2], load value
+STA 89 , [Stack:0], store value
+JMP
+HERE 5985 , NegativeSigned
+, label L6
+AIN 113 , Yabal:return_value
+STLGE
+HERE 94 , [Stack:5]
+AIN 94 , [Stack:5], load value
+STA 95 , [Stack:6], store value
+AIN 94 , [Stack:5], load value
+STA 96 , [Stack:7], store value
+AIN 91 , [Stack:2]
+LDIB 1 , load small integer
+ADD
+STLGE
+HERE 97 , [Stack:8]
+LDIA 0 , load small integer
+STLGE
+HERE 98 , [Stack:9]
+LDIA 0 , load small integer
+STLGE
+HERE 99 , [Stack:10]
+, label L0
+LDIA 96 , [Stack:7]
+LDAIN
+LDWB
+HERE 15
+BSR
+LDWB
+HERE 1
+AND
+LDIB 1 , load small integer
+SUB , operator ==
+JMPZ
+HERE 2781 , L9
+JMP
+HERE 2778 , L8
+, label L8
+LDIA 0
+JMP
+HERE 2782 , L10
+, label L9
+LDIA 1
+, label L10
+LDIB 1
+SUB
+JMPZ
+HERE 2809 , L1
+LDIA 96 , [Stack:7]
+LDAIN
+LDWB
+HERE 32767
+AND
+BIN 97 , [Stack:8]
+SUB , operator <
+JMPZ
+HERE 2799 , L11
+JMPC
+HERE 2799 , L11
+JMP
+HERE 2802 , L12
+, label L11
+LDIA 0
+JMP
+HERE 2803 , L13
+, label L12
+LDIA 1
+, label L13
+LDIB 1
+SUB
+JMPZ
+HERE 2809 , L1
+JMP
+HERE 3085 , L2
+, label L1
+, label L3
+LDIA 95 , [Stack:6]
+LDAIN
+LDWB
+HERE 15
+BSR
+LDWB
+HERE 1
+AND
+LDIB 1 , load small integer
+SUB , operator ==
+JMPZ
+HERE 2826 , L15
+JMP
+HERE 2823 , L14
+, label L14
+LDIA 0
+JMP
+HERE 2827 , L16
+, label L15
+LDIA 1
+, label L16
+LDIB 1
+SUB
+JMPZ
+HERE 2854 , L4
+LDIA 95 , [Stack:6]
+LDAIN
+LDWB
+HERE 32767
+AND
+BIN 97 , [Stack:8]
+SUB , operator <
+JMPZ
+HERE 2844 , L17
+JMPC
+HERE 2844 , L17
+JMP
+HERE 2847 , L18
+, label L17
+LDIA 0
+JMP
+HERE 2848 , L19
+, label L18
+LDIA 1
+, label L19
+LDIB 1
+SUB
+JMPZ
+HERE 2854 , L4
+JMP
+HERE 3062 , L5
+, label L4
+AIN 89 , [Stack:0]
+STA 101 , [Stack:12]
+LDW
+HERE 2865 , L21
+SWPC
+LDW
+HERE 2869 , L20
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L21
+AIN 95 , [Stack:6], load value
+STA 89 , [Stack:0], store value
+JMP
+HERE 4130 , SignedToTwosComp
+, label L20
+AIN 113 , Yabal:return_value
+BIN 101 , [Stack:12]
+SWP
+ADD
+STLGE
+HERE 98 , [Stack:9]
+AIN 90 , [Stack:1]
+STA 101 , [Stack:12]
+LDW
+HERE 2886 , L23
+SWPC
+LDW
+HERE 2890 , L22
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L23
+AIN 96 , [Stack:7], load value
+STA 89 , [Stack:0], store value
+JMP
+HERE 4130 , SignedToTwosComp
+, label L22
+AIN 113 , Yabal:return_value
+BIN 101 , [Stack:12]
+SWP
+ADD
+STLGE
+HERE 99 , [Stack:10]
+AIN 98 , [Stack:9]
+LDIB 107 , load small integer
+SUB , operator >
+JMPZ
+HERE 2905 , L26
+JMPC
+HERE 2908 , L27
+JMP
+HERE 2905 , L26
+, label L26
+LDIA 0
+JMP
+HERE 2909 , L28
+, label L27
+LDIA 1
+, label L28
+LDIB 1
+SUB
+JMPZ
+HERE 2932 , L24
+AIN 99 , [Stack:10]
+LDIB 107 , load small integer
+SUB , operator >
+JMPZ
+HERE 2922 , L29
+JMPC
+HERE 2925 , L30
+JMP
+HERE 2922 , L29
+, label L29
+LDIA 0
+JMP
+HERE 2926 , L31
+, label L30
+LDIA 1
+, label L31
+LDIB 1
+SUB
+JMPZ
+HERE 2932 , L24
+JMP
+HERE 2953 , L25
+, label L24
+LDW
+HERE 2941 , L33
+SWPC
+LDW
+HERE 2948 , L32
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L33
+AIN 95 , [Stack:6], load value
+STA 89 , [Stack:0], store value
+LDIA 1 , load small integer
+STLGE
+HERE 90 , [Stack:1]
+JMP
+HERE 5430 , AddSignedInts
+, label L32
+AIN 113 , Yabal:return_value
+STLGE
+HERE 95 , [Stack:6]
+JMP
+HERE 2809 , L3
+, label L25
+LDW
+HERE 2962 , L35
+SWPC
+LDW
+HERE 2974 , L34
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L35
+AIN 95 , [Stack:6]
+BIN 95 , [Stack:6]
+MULT
+STLGE
+HERE 89 , [Stack:0]
+AIN 96 , [Stack:7]
+BIN 96 , [Stack:7]
+MULT
+STLGE
+HERE 90 , [Stack:1]
+JMP
+HERE 5430 , AddSignedInts
+, label L34
+AIN 113 , Yabal:return_value
+STLGE
+HERE 100 , [Stack:11]
+AIN 100 , [Stack:11]
+STA 101 , [Stack:12]
+AIN 93 , [Stack:4]
+BIN 91 , [Stack:2]
+SUB
+BIN 101 , [Stack:12]
+SWP
+SUB , operator >=
+JMPZ
+HERE 2994 , L39
+JMPC
+HERE 2994 , L39
+JMP
+HERE 2991 , L38
+, label L38
+LDIA 0
+JMP
+HERE 2995 , L40
+, label L39
+LDIA 1
+, label L40
+LDIB 0
+SUB
+JMPZ
+HERE 3041 , L37
+AIN 100 , [Stack:11]
+STA 101 , [Stack:12]
+AIN 93 , [Stack:4]
+BIN 91 , [Stack:2]
+ADD
+BIN 101 , [Stack:12]
+SWP
+SUB , operator <=
+JMPZ
+HERE 3016 , L42
+JMPC
+HERE 3013 , L41
+JMP
+HERE 3016 , L42
+, label L41
+LDIA 0
+JMP
+HERE 3017 , L43
+, label L42
+LDIA 1
+, label L43
+LDIB 0
+SUB
+JMPZ
+HERE 3041 , L37
+JMP
+HERE 3023 , L36
+, label L36
+LDW
+HERE 3032 , L45
+SWPC
+LDW
+HERE 3040 , L44
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L45
+AIN 98 , [Stack:9], load value
+STA 89 , [Stack:0], store value
+AIN 99 , [Stack:10], load value
+STA 90 , [Stack:1], store value
+AIN 92 , [Stack:3], load value
+STA 91 , [Stack:2], store value
+JMP
+HERE 3741 , SetPixel
+, label L44
+AIN 113 , Yabal:return_value
+, label L37
+LDW
+HERE 3050 , L47
+SWPC
+LDW
+HERE 3057 , L46
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L47
+AIN 95 , [Stack:6], load value
+STA 89 , [Stack:0], store value
+LDIA 1 , load small integer
+STLGE
+HERE 90 , [Stack:1]
+JMP
+HERE 5430 , AddSignedInts
+, label L46
+AIN 113 , Yabal:return_value
+STLGE
+HERE 95 , [Stack:6]
+JMP
+HERE 2809 , L3
+, label L5
+AIN 94 , [Stack:5], load value
+STA 95 , [Stack:6], store value
+LDW
+HERE 3073 , L49
+SWPC
+LDW
+HERE 3080 , L48
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L49
+AIN 96 , [Stack:7], load value
+STA 89 , [Stack:0], store value
+LDIA 1 , load small integer
+STLGE
+HERE 90 , [Stack:1]
+JMP
+HERE 5430 , AddSignedInts
+, label L48
+AIN 113 , Yabal:return_value
+STLGE
+HERE 96 , [Stack:7]
+JMP
+HERE 2764 , L0
+, label L2
+, label DrawWireCircle
+JMP
+HERE 10264 , __return
+, label area
+LDW
+HERE 3096 , L1
+SWPC
+LDW
+HERE 3102 , L0
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L1
+AIN 92 , [Stack:3], load value
+STA 89 , [Stack:0], store value
+AIN 94 , [Stack:5], load value
+STA 90 , [Stack:1], store value
+JMP
+HERE 5874 , SubToSignedInt
+, label L0
+AIN 113 , Yabal:return_value
+STLGE
+HERE 95 , [Stack:6]
+LDW
+HERE 3114 , L3
+SWPC
+LDW
+HERE 3120 , L2
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L3
+AIN 94 , [Stack:5], load value
+STA 89 , [Stack:0], store value
+AIN 90 , [Stack:1], load value
+STA 90 , [Stack:1], store value
+JMP
+HERE 5874 , SubToSignedInt
+, label L2
+AIN 113 , Yabal:return_value
+STLGE
+HERE 96 , [Stack:7]
+LDW
+HERE 3132 , L5
+SWPC
+LDW
+HERE 3138 , L4
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L5
+AIN 90 , [Stack:1], load value
+STA 89 , [Stack:0], store value
+AIN 92 , [Stack:3], load value
+STA 90 , [Stack:1], store value
+JMP
+HERE 5874 , SubToSignedInt
+, label L4
+AIN 113 , Yabal:return_value
+STLGE
+HERE 97 , [Stack:8]
+LDW
+HERE 3150 , L7
+SWPC
+LDW
+HERE 3170 , L6
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
 , label L7
 LDW
-HERE 1384 , L9
+HERE 3159 , L9
 SWPC
 LDW
-HERE 1390 , L8
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 3165 , L8
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L9
 AIN 89 , [Stack:0], load value
 STA 89 , [Stack:0], store value
 AIN 94 , [Stack:5], load value
 STA 90 , [Stack:1], store value
 JMP
-HERE 3093 , SubToSignedInt
+HERE 5874 , SubToSignedInt
 , label L8
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 89 , [Stack:0]
 JMP
-HERE 2325 , write_signed_int
+HERE 4665 , write_signed_int
 , label L6
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 LDW
-HERE 1405 , L11
+HERE 3180 , L11
 SWPC
 LDW
-HERE 1410 , L10
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 3185 , L10
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L11
 LDIA 55 , load character ','
 STLGE
 HERE 89 , [Stack:0]
 JMP
-HERE 1829 , write
+HERE 3929 , write
 , label L10
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 LDW
-HERE 1420 , L13
+HERE 3195 , L13
 SWPC
 LDW
-HERE 1538 , L12
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 3313 , L12
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L13
 LDW
-HERE 1429 , L15
+HERE 3204 , L15
 SWPC
 LDW
-HERE 1499 , L14
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 3274 , L14
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L15
 LDW
-HERE 1438 , L17
+HERE 3213 , L17
 SWPC
 LDW
-HERE 1460 , L16
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 3235 , L16
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L17
 AIN 89 , [Stack:0], load value
 STA 89 , [Stack:0], store value
 LDW
-HERE 1449 , L19
+HERE 3224 , L19
 SWPC
 LDW
-HERE 1455 , L18
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 3230 , L18
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L19
 AIN 92 , [Stack:3], load value
 STA 89 , [Stack:0], store value
 AIN 94 , [Stack:5], load value
 STA 90 , [Stack:1], store value
 JMP
-HERE 3093 , SubToSignedInt
+HERE 5874 , SubToSignedInt
 , label L18
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 90 , [Stack:1]
 JMP
-HERE 3015 , MultSignedInts
+HERE 5796 , MultSignedInts
 , label L16
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 89 , [Stack:0]
 LDW
-HERE 1472 , L21
+HERE 3247 , L21
 SWPC
 LDW
-HERE 1494 , L20
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 3269 , L20
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L21
 AIN 91 , [Stack:2], load value
 STA 89 , [Stack:0], store value
 LDW
-HERE 1483 , L23
+HERE 3258 , L23
 SWPC
 LDW
-HERE 1489 , L22
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 3264 , L22
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L23
 AIN 94 , [Stack:5], load value
 STA 89 , [Stack:0], store value
 AIN 90 , [Stack:1], load value
 STA 90 , [Stack:1], store value
 JMP
-HERE 3093 , SubToSignedInt
+HERE 5874 , SubToSignedInt
 , label L22
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 90 , [Stack:1]
 JMP
-HERE 3015 , MultSignedInts
+HERE 5796 , MultSignedInts
 , label L20
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 90 , [Stack:1]
 JMP
-HERE 2649 , AddSignedInts
+HERE 5430 , AddSignedInts
 , label L14
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 89 , [Stack:0]
 LDW
-HERE 1511 , L25
+HERE 3286 , L25
 SWPC
 LDW
-HERE 1533 , L24
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 3308 , L24
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L25
 AIN 93 , [Stack:4], load value
 STA 89 , [Stack:0], store value
 LDW
-HERE 1522 , L27
+HERE 3297 , L27
 SWPC
 LDW
-HERE 1528 , L26
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 3303 , L26
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L27
 AIN 90 , [Stack:1], load value
 STA 89 , [Stack:0], store value
 AIN 92 , [Stack:3], load value
 STA 90 , [Stack:1], store value
 JMP
-HERE 3093 , SubToSignedInt
+HERE 5874 , SubToSignedInt
 , label L26
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 90 , [Stack:1]
 JMP
-HERE 3015 , MultSignedInts
+HERE 5796 , MultSignedInts
 , label L24
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 90 , [Stack:1]
 JMP
-HERE 2649 , AddSignedInts
+HERE 5430 , AddSignedInts
 , label L12
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 LDWB
 HERE 32767 , load large integer
 AND
@@ -1828,27 +3857,227 @@ DIV
 STLGE
 HERE 98 , [Stack:9]
 LDW
-HERE 1555 , L29
+HERE 3330 , L29
 SWPC
 LDW
-HERE 1559 , L28
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 3334 , L28
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L29
 AIN 98 , [Stack:9], load value
 STA 89 , [Stack:0], store value
 JMP
-HERE 1969 , write_int
+HERE 4183 , write_int
 , label L28
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 AIN 98 , [Stack:9]
 JMP
-HERE 1563 , area
+HERE 3338 , area
 , label area
 JMP
-HERE 6925 , __return
+HERE 10264 , __return
+, label isInside
+LDW
+HERE 3349 , L1
+SWPC
+LDW
+HERE 3363 , L0
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L1
+AIN 91 , [Stack:2], load value
+STA 89 , [Stack:0], store value
+AIN 92 , [Stack:3], load value
+STA 90 , [Stack:1], store value
+AIN 93 , [Stack:4], load value
+STA 91 , [Stack:2], store value
+AIN 94 , [Stack:5], load value
+STA 92 , [Stack:3], store value
+AIN 95 , [Stack:6], load value
+STA 93 , [Stack:4], store value
+AIN 96 , [Stack:7], load value
+STA 94 , [Stack:5], store value
+JMP
+HERE 3087 , area
+, label L0
+AIN 113 , Yabal:return_value
+STLGE
+HERE 97 , [Stack:8]
+LDW
+HERE 3375 , L3
+SWPC
+LDW
+HERE 3389 , L2
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L3
+AIN 89 , [Stack:0], load value
+STA 89 , [Stack:0], store value
+AIN 90 , [Stack:1], load value
+STA 90 , [Stack:1], store value
+AIN 93 , [Stack:4], load value
+STA 91 , [Stack:2], store value
+AIN 94 , [Stack:5], load value
+STA 92 , [Stack:3], store value
+AIN 95 , [Stack:6], load value
+STA 93 , [Stack:4], store value
+AIN 96 , [Stack:7], load value
+STA 94 , [Stack:5], store value
+JMP
+HERE 3087 , area
+, label L2
+AIN 113 , Yabal:return_value
+STLGE
+HERE 98 , [Stack:9]
+LDW
+HERE 3401 , L5
+SWPC
+LDW
+HERE 3415 , L4
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L5
+AIN 91 , [Stack:2], load value
+STA 89 , [Stack:0], store value
+AIN 92 , [Stack:3], load value
+STA 90 , [Stack:1], store value
+AIN 89 , [Stack:0], load value
+STA 91 , [Stack:2], store value
+AIN 90 , [Stack:1], load value
+STA 92 , [Stack:3], store value
+AIN 95 , [Stack:6], load value
+STA 93 , [Stack:4], store value
+AIN 96 , [Stack:7], load value
+STA 94 , [Stack:5], store value
+JMP
+HERE 3087 , area
+, label L4
+AIN 113 , Yabal:return_value
+STLGE
+HERE 99 , [Stack:10]
+LDW
+HERE 3427 , L7
+SWPC
+LDW
+HERE 3441 , L6
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L7
+AIN 91 , [Stack:2], load value
+STA 89 , [Stack:0], store value
+AIN 92 , [Stack:3], load value
+STA 90 , [Stack:1], store value
+AIN 93 , [Stack:4], load value
+STA 91 , [Stack:2], store value
+AIN 94 , [Stack:5], load value
+STA 92 , [Stack:3], store value
+AIN 89 , [Stack:0], load value
+STA 93 , [Stack:4], store value
+AIN 90 , [Stack:1], load value
+STA 94 , [Stack:5], store value
+JMP
+HERE 3087 , area
+, label L6
+AIN 113 , Yabal:return_value
+STLGE
+HERE 100 , [Stack:11]
+AIN 98 , [Stack:9]
+BIN 99 , [Stack:10]
+ADD
+BIN 100 , [Stack:11]
+ADD
+STLGE
+HERE 101 , [Stack:12]
+LDW
+HERE 3460 , L9
+SWPC
+LDW
+HERE 3464 , L8
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L9
+AIN 101 , [Stack:12], load value
+STA 89 , [Stack:0], store value
+JMP
+HERE 4183 , write_int
+, label L8
+AIN 113 , Yabal:return_value
+AIN 97 , [Stack:8]
+STA 102 , [Stack:13]
+AIN 101 , [Stack:12]
+LDIB 100 , load small integer
+SUB
+BIN 102 , [Stack:13]
+SWP
+SUB , operator >=
+JMPZ
+HERE 3482 , L14
+JMPC
+HERE 3482 , L14
+JMP
+HERE 3479 , L13
+, label L13
+LDIA 0
+JMP
+HERE 3483 , L15
+, label L14
+LDIA 1
+, label L15
+LDIB 0
+SUB
+JMPZ
+HERE 3511 , L10
+AIN 97 , [Stack:8]
+STA 102 , [Stack:13]
+AIN 101 , [Stack:12]
+LDIB 100 , load small integer
+ADD
+BIN 102 , [Stack:13]
+SWP
+SUB , operator <=
+JMPZ
+HERE 3504 , L17
+JMPC
+HERE 3501 , L16
+JMP
+HERE 3504 , L17
+, label L16
+LDIA 0
+JMP
+HERE 3505 , L18
+, label L17
+LDIA 1
+, label L18
+LDIB 0
+SUB
+JMPZ
+HERE 3511 , L10
+JMP
+HERE 3514 , L11
+, label L10
+LDIA 0
+JMP
+HERE 3515 , L12
+, label L11
+LDIA 1
+, label L12
+JMP
+HERE 3517 , isInside
+, label isInside
+JMP
+HERE 10264 , __return
 , label lfsr
 LDIA 0 , load small integer
 STLGE
@@ -1916,10 +4145,10 @@ STLGE
 HERE 17 , [Global:10]
 AIN 89 , [Stack:0]
 JMP
-HERE 1632 , lfsr
+HERE 3586 , lfsr
 , label lfsr
 JMP
-HERE 6925 , __return
+HERE 10264 , __return
 , label rand
 LDIA 0 , load small integer
 STLGE
@@ -1932,11 +4161,11 @@ AIN 91 , [Stack:2]
 BIN 89 , [Stack:0]
 SUB , operator <
 JMPZ
-HERE 1678 , L2
+HERE 3632 , L2
 JMPC
-HERE 1678 , L2
+HERE 3632 , L2
 JMP
-HERE 1649 , L1
+HERE 3603 , L1
 , label L1
 AIN 90 , [Stack:1]
 LDIB 1 , load small integer
@@ -1946,16 +4175,16 @@ HERE 90 , [Stack:1]
 AIN 90 , [Stack:1]
 STA 92 , [Stack:3]
 LDW
-HERE 1565 , lfsr
+HERE 3519 , lfsr
 SWPC
 LDW
-HERE 1665 , L3
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 3619 , L3
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L3
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 BIN 92 , [Stack:3]
 SWP
 OR
@@ -1967,62 +4196,146 @@ ADD
 STLGE
 HERE 91 , [Stack:2]
 JMP
-HERE 1640 , L0
+HERE 3594 , L0
 , label L2
 AIN 90 , [Stack:1]
 JMP
-HERE 1681 , rand
+HERE 3635 , rand
 , label rand
 JMP
-HERE 6925 , __return
+HERE 10264 , __return
+, label get_color
+JMP
+HERE 10264 , __return
 , label ClampInt
 AIN 89 , [Stack:0]
 BIN 90 , [Stack:1]
 SUB , operator <
 JMPZ
-HERE 1697 , L1
+HERE 3653 , L1
 JMPC
-HERE 1697 , L1
+HERE 3653 , L1
 JMP
-HERE 1692 , L0
+HERE 3648 , L0
 , label L0
 AIN 90 , [Stack:1]
 JMP
-HERE 1712 , ClampInt
+HERE 3668 , ClampInt
 JMP
-HERE 1709 , L2
+HERE 3665 , L2
 , label L1
 AIN 89 , [Stack:0]
 BIN 91 , [Stack:2]
 SUB , operator >
 JMPZ
-HERE 1709 , L4
+HERE 3665 , L4
 JMPC
-HERE 1706 , L3
+HERE 3662 , L3
 JMP
-HERE 1709 , L4
+HERE 3665 , L4
 , label L3
 AIN 91 , [Stack:2]
 JMP
-HERE 1712 , ClampInt
+HERE 3668 , ClampInt
 , label L4
 , label L2
 AIN 89 , [Stack:0]
 JMP
-HERE 1712 , ClampInt
+HERE 3668 , ClampInt
 , label ClampInt
 JMP
-HERE 6925 , __return
-, label SetPixel
+HERE 10264 , __return
+, label qSin
 LDW
-HERE 1723 , L1
+HERE 3679 , L1
 SWPC
 LDW
-HERE 1733 , L0
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 3687 , L0
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
+, label L1
+AIN 89 , [Stack:0], load value
+STA 89 , [Stack:0], store value
+LDW
+HERE 15944 , load large integer
+STLGE
+HERE 90 , [Stack:1]
+JMP
+HERE 8403 , MultFloats
+, label L0
+AIN 113 , Yabal:return_value
+STLGE
+HERE 90 , [Stack:1]
+LDW
+HERE 3699 , L3
+SWPC
+LDW
+HERE 3733 , L2
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L3
+AIN 90 , [Stack:1], load value
+STA 89 , [Stack:0], store value
+LDW
+HERE 3710 , L5
+SWPC
+LDW
+HERE 3728 , L4
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L5
+LDW
+HERE 3719 , L7
+SWPC
+LDW
+HERE 3723 , L6
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L7
+AIN 90 , [Stack:1], load value
+STA 89 , [Stack:0], store value
+JMP
+HERE 6059 , FloatToInt
+, label L6
+AIN 113 , Yabal:return_value
+STLGE
+HERE 89 , [Stack:0]
+JMP
+HERE 6925 , IntToFloat
+, label L4
+AIN 113 , Yabal:return_value
+STLGE
+HERE 90 , [Stack:1]
+JMP
+HERE 8357 , SubFloats
+, label L2
+AIN 113 , Yabal:return_value
+STLGE
+HERE 90 , [Stack:1]
+AIN 90 , [Stack:1]
+JMP
+HERE 3739 , qSin
+, label qSin
+JMP
+HERE 10264 , __return
+, label SetPixel
+LDW
+HERE 3750 , L1
+SWPC
+LDW
+HERE 3760 , L0
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
 , label L1
 AIN 90 , [Stack:1], load value
 STA 89 , [Stack:0], store value
@@ -2033,21 +4346,21 @@ LDIA 107 , load small integer
 STLGE
 HERE 91 , [Stack:2]
 JMP
-HERE 1683 , ClampInt
+HERE 3639 , ClampInt
 , label L0
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 LDIB 108 , load small integer
 MULT
 STA 93 , [Stack:4]
 LDW
-HERE 1746 , L3
+HERE 3773 , L3
 SWPC
 LDW
-HERE 1756 , L2
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 3783 , L2
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L3
 AIN 89 , [Stack:0], load value
 STA 89 , [Stack:0], store value
@@ -2058,9 +4371,9 @@ LDIA 107 , load small integer
 STLGE
 HERE 91 , [Stack:2]
 JMP
-HERE 1683 , ClampInt
+HERE 3639 , ClampInt
 , label L2
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 BIN 93 , [Stack:4]
 SWP
 ADD
@@ -2075,17 +4388,17 @@ STAOUT
 BNK 0
 , label SetPixel
 JMP
-HERE 6925 , __return
+HERE 10264 , __return
 , label GetPixel
 LDW
-HERE 1780 , L1
+HERE 3807 , L1
 SWPC
 LDW
-HERE 1790 , L0
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 3817 , L0
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L1
 AIN 90 , [Stack:1], load value
 STA 89 , [Stack:0], store value
@@ -2096,21 +4409,21 @@ LDIA 107 , load small integer
 STLGE
 HERE 91 , [Stack:2]
 JMP
-HERE 1683 , ClampInt
+HERE 3639 , ClampInt
 , label L0
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 LDIB 108 , load small integer
 MULT
 STA 92 , [Stack:3]
 LDW
-HERE 1803 , L3
+HERE 3830 , L3
 SWPC
 LDW
-HERE 1813 , L2
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 3840 , L2
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L3
 AIN 89 , [Stack:0], load value
 STA 89 , [Stack:0], store value
@@ -2121,9 +4434,9 @@ LDIA 107 , load small integer
 STLGE
 HERE 91 , [Stack:2]
 JMP
-HERE 1683 , ClampInt
+HERE 3639 , ClampInt
 , label L2
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 BIN 92 , [Stack:3]
 SWP
 ADD
@@ -2136,10 +4449,87 @@ BNK 1
 LDAIN
 BNK 0
 JMP
-HERE 1827 , GetPixel
+HERE 3854 , GetPixel
 , label GetPixel
 JMP
-HERE 6925 , __return
+HERE 10264 , __return
+, label ChangeHighlightColor
+AIN 89 , [Stack:0], load value
+STA 92 , [Stack:3], store value
+AIN 90 , [Stack:1], load value
+STA 93 , [Stack:4], store value
+AIN 91 , [Stack:2], load value
+STA 94 , [Stack:5], store value
+AIN 92 , [Stack:3]
+LDIB 8 , load small integer
+DIV
+LDIB 10 , load small integer
+BSL
+STA 96 , [Stack:7]
+AIN 93 , [Stack:4]
+LDIB 8 , load small integer
+DIV
+LDIB 5 , load small integer
+BSL
+BIN 96 , [Stack:7]
+SWP
+ADD
+STA 95 , [Stack:6]
+AIN 94 , [Stack:5]
+LDIB 8 , load small integer
+DIV
+BIN 95 , [Stack:6]
+SWP
+ADD
+JMP
+HERE 3885 , L0
+, label L0
+STLGE
+HERE 13 , [Global:6]
+LDIA 256 , load small integer
+BIN 89 , [Stack:0]
+SUB
+STLGE
+HERE 92 , [Stack:3]
+LDIA 256 , load small integer
+BIN 90 , [Stack:1]
+SUB
+STLGE
+HERE 93 , [Stack:4]
+LDIA 256 , load small integer
+BIN 91 , [Stack:2]
+SUB
+STLGE
+HERE 94 , [Stack:5]
+AIN 92 , [Stack:3]
+LDIB 8 , load small integer
+DIV
+LDIB 10 , load small integer
+BSL
+STA 96 , [Stack:7]
+AIN 93 , [Stack:4]
+LDIB 8 , load small integer
+DIV
+LDIB 5 , load small integer
+BSL
+BIN 96 , [Stack:7]
+SWP
+ADD
+STA 95 , [Stack:6]
+AIN 94 , [Stack:5]
+LDIB 8 , load small integer
+DIV
+BIN 95 , [Stack:6]
+SWP
+ADD
+JMP
+HERE 3925 , L1
+, label L1
+STLGE
+HERE 14 , [Global:7]
+, label ChangeHighlightColor
+JMP
+HERE 10264 , __return
 , label write
 AIN 10 , [Global:4]
 BIN 12 , [Global:5]
@@ -2171,7 +4561,7 @@ LDIA 0 , load small integer
 STLGE
 HERE 92 , [Stack:3]
 JMP
-HERE 1864 , L3
+HERE 3964 , L3
 , label L0
 AIN 92 , [Stack:3]
 LDIB 1
@@ -2182,17 +4572,17 @@ AIN 92 , [Stack:3]
 LDIB 6 , load small integer
 SUB , operator <
 JMPZ
-HERE 1921 , L2
+HERE 4021 , L2
 JMPC
-HERE 1921 , L2
+HERE 4021 , L2
 JMP
-HERE 1873 , L1
+HERE 3973 , L1
 , label L1
 LDIA 0 , load small integer
 STLGE
 HERE 93 , [Stack:4]
 JMP
-HERE 1882 , L7
+HERE 3982 , L7
 , label L4
 AIN 93 , [Stack:4]
 LDIB 1
@@ -2203,23 +4593,23 @@ AIN 93 , [Stack:4]
 LDIB 6 , load small integer
 SUB , operator <
 JMPZ
-HERE 1919 , L6
+HERE 4019 , L6
 JMPC
-HERE 1919 , L6
+HERE 4019 , L6
 JMP
-HERE 1891 , L5
+HERE 3991 , L5
 , label L5
 AIN 13 , [Global:6], load value
 STA 94 , [Stack:5], store value
 LDW
-HERE 1902 , L9
+HERE 4002 , L9
 SWPC
 LDW
-HERE 1916 , L8
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 4016 , L8
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L9
 AIN 91 , [Stack:2]
 BIN 92 , [Stack:3]
@@ -2234,14 +4624,14 @@ HERE 90 , [Stack:1]
 AIN 94 , [Stack:5], load value
 STA 91 , [Stack:2], store value
 JMP
-HERE 1714 , SetPixel
+HERE 3741 , SetPixel
 , label L8
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 JMP
-HERE 1878 , L4, jump to next iteration
+HERE 3978 , L4, jump to next iteration
 , label L6
 JMP
-HERE 1860 , L0, jump to next iteration
+HERE 3960 , L0, jump to next iteration
 , label L2
 AIN 12 , [Global:5]
 LDIB 1
@@ -2249,7 +4639,114 @@ ADD , increment value
 STA 12 , [Global:5]
 , label write
 JMP
-HERE 6925 , __return
+HERE 10264 , __return
+, label fabs
+AIN 90 , [Stack:1]
+LDWB
+HERE 65534
+AND
+LDWB
+HERE 0
+OR
+STA 90 , [Stack:1]
+AIN 90 , [Stack:1]
+LDWB
+HERE 65473
+AND
+LDWB
+HERE 0
+OR
+STA 90 , [Stack:1]
+AIN 90 , [Stack:1]
+LDWB
+HERE 63
+AND
+LDWB
+HERE 0
+OR
+STA 90 , [Stack:1]
+LDIA 89 , [Stack:0]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+LDIB 31
+AND
+LDIB 1
+BSL
+STA 38 , [Temp:12]
+LDIA 90 , [Stack:1]
+LDAIN
+SWP
+LDW
+HERE 65473
+AND
+BIN 38 , [Temp:12]
+OR
+SWP
+LDIA 90 , [Stack:1]
+STAOUT
+LDIA 89 , [Stack:0]
+LDAIN
+LDWB
+HERE 6
+BSR
+LDWB
+HERE 1023
+AND
+LDIB 1023
+AND
+LDIB 6
+BSL
+STA 39 , [Temp:13]
+LDIA 90 , [Stack:1]
+LDAIN
+SWP
+LDW
+HERE 63
+AND
+BIN 39 , [Temp:13]
+OR
+SWP
+LDIA 90 , [Stack:1]
+STAOUT
+AIN 90 , [Stack:1]
+JMP
+HERE 4102 , fabs
+, label fabs
+JMP
+HERE 10264 , __return
+, label IntToSignedInt
+AIN 90 , [Stack:1]
+LDWB
+HERE 32767
+AND
+LDWB
+HERE 0
+OR
+STA 90 , [Stack:1]
+AIN 89 , [Stack:0]
+LDWB
+HERE 32767
+AND
+STA 40 , [Temp:14]
+AIN 90 , [Stack:1]
+SWP
+LDW
+HERE 32768
+AND
+BIN 40 , [Temp:14]
+OR
+STA 90 , [Stack:1]
+AIN 90 , [Stack:1]
+JMP
+HERE 4128 , IntToSignedInt
+, label IntToSignedInt
+JMP
+HERE 10264 , __return
 , label SignedToTwosComp
 LDIA 89 , [Stack:0]
 LDAIN
@@ -2269,35 +4766,48 @@ AND
 LDIB 0
 SUB
 JMPZ
-HERE 1964 , L1
+HERE 4167 , L1
 JMP
-HERE 1948 , L0
+HERE 4151 , L0
 , label L0
 LDW
-HERE 1957 , L3
+HERE 4160 , L3
 SWPC
 LDW
-HERE 1961 , L2
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 4164 , L2
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L3
 AIN 90 , [Stack:1], load value
 STA 89 , [Stack:0], store value
 JMP
-HERE 2386 , Negative
+HERE 4984 , Negative
 , label L2
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 90 , [Stack:1]
 , label L1
 AIN 90 , [Stack:1]
 JMP
-HERE 1967 , SignedToTwosComp
+HERE 4170 , SignedToTwosComp
 , label SignedToTwosComp
 JMP
-HERE 6925 , __return
+HERE 10264 , __return
+, label newline
+AIN 12 , [Global:5]
+LDIB 18 , load small integer
+DIV
+LDIB 18 , load small integer
+MULT
+LDIB 18 , load small integer
+ADD
+STLGE
+HERE 12 , [Global:5]
+, label newline
+JMP
+HERE 10264 , __return
 , label write_int
 LDW
 HERE 65530 , load large integer
@@ -2311,7 +4821,7 @@ LDIA 0 , load small integer
 STLGE
 HERE 91 , [Stack:2]
 JMP
-HERE 1986 , L3
+HERE 4200 , L3
 , label L0
 AIN 91 , [Stack:2]
 LDIB 1
@@ -2322,11 +4832,11 @@ AIN 91 , [Stack:2]
 LDIB 5 , load small integer
 SUB , operator <
 JMPZ
-HERE 2002 , L2
+HERE 4216 , L2
 JMPC
-HERE 2002 , L2
+HERE 4216 , L2
 JMP
-HERE 1995 , L1
+HERE 4209 , L1
 , label L1
 AIN 111 , [Stack:20]
 BIN 91 , [Stack:2]
@@ -2334,18 +4844,18 @@ ADD , load address
 LDIB 0 , set value in B
 STAOUT
 JMP
-HERE 1982 , L0, jump to next iteration
+HERE 4196 , L0, jump to next iteration
 , label L2
 , label L4
 AIN 89 , [Stack:0]
 LDIB 0 , load small integer
 SUB , operator >
 JMPZ
-HERE 2130 , L6
+HERE 4344 , L6
 JMPC
-HERE 2011 , L5
+HERE 4225 , L5
 JMP
-HERE 2130 , L6
+HERE 4344 , L6
 , label L5
 AIN 89 , [Stack:0]
 LDIB 10 , load small integer
@@ -2360,109 +4870,109 @@ LDIA 1 , load small integer
 BIN 41 , [Temp:15]
 SUB
 JMPZ
-HERE 2027 , L12
+HERE 4241 , L12
 JMP
-HERE 2030 , L13
+HERE 4244 , L13
 , label L12
 LDIA 40 , load character '1'
 JMP
-HERE 2111 , L11
+HERE 4325 , L11
 , label L13
 LDIA 2 , load small integer
 BIN 41 , [Temp:15]
 SUB
 JMPZ
-HERE 2037 , L14
+HERE 4251 , L14
 JMP
-HERE 2040 , L15
+HERE 4254 , L15
 , label L14
 LDIA 41 , load character '2'
 JMP
-HERE 2111 , L11
+HERE 4325 , L11
 , label L15
 LDIA 3 , load small integer
 BIN 41 , [Temp:15]
 SUB
 JMPZ
-HERE 2047 , L16
+HERE 4261 , L16
 JMP
-HERE 2050 , L17
+HERE 4264 , L17
 , label L16
 LDIA 42 , load character '3'
 JMP
-HERE 2111 , L11
+HERE 4325 , L11
 , label L17
 LDIA 4 , load small integer
 BIN 41 , [Temp:15]
 SUB
 JMPZ
-HERE 2057 , L18
+HERE 4271 , L18
 JMP
-HERE 2060 , L19
+HERE 4274 , L19
 , label L18
 LDIA 43 , load character '4'
 JMP
-HERE 2111 , L11
+HERE 4325 , L11
 , label L19
 LDIA 5 , load small integer
 BIN 41 , [Temp:15]
 SUB
 JMPZ
-HERE 2067 , L20
+HERE 4281 , L20
 JMP
-HERE 2070 , L21
+HERE 4284 , L21
 , label L20
 LDIA 44 , load character '5'
 JMP
-HERE 2111 , L11
+HERE 4325 , L11
 , label L21
 LDIA 6 , load small integer
 BIN 41 , [Temp:15]
 SUB
 JMPZ
-HERE 2077 , L22
+HERE 4291 , L22
 JMP
-HERE 2080 , L23
+HERE 4294 , L23
 , label L22
 LDIA 45 , load character '6'
 JMP
-HERE 2111 , L11
+HERE 4325 , L11
 , label L23
 LDIA 7 , load small integer
 BIN 41 , [Temp:15]
 SUB
 JMPZ
-HERE 2087 , L24
+HERE 4301 , L24
 JMP
-HERE 2090 , L25
+HERE 4304 , L25
 , label L24
 LDIA 46 , load character '7'
 JMP
-HERE 2111 , L11
+HERE 4325 , L11
 , label L25
 LDIA 8 , load small integer
 BIN 41 , [Temp:15]
 SUB
 JMPZ
-HERE 2097 , L26
+HERE 4311 , L26
 JMP
-HERE 2100 , L27
+HERE 4314 , L27
 , label L26
 LDIA 47 , load character '8'
 JMP
-HERE 2111 , L11
+HERE 4325 , L11
 , label L27
 LDIA 9 , load small integer
 BIN 41 , [Temp:15]
 SUB
 JMPZ
-HERE 2107 , L28
+HERE 4321 , L28
 JMP
-HERE 2110 , L29
+HERE 4324 , L29
 , label L28
 LDIA 48 , load character '9'
 JMP
-HERE 2111 , L11
+HERE 4325 , L11
 , label L29
 LDIA 39 , load character '0'
 , label L11
@@ -2484,7 +4994,7 @@ ADD
 STLGE
 HERE 90 , [Stack:1]
 JMP
-HERE 2002 , L4
+HERE 4216 , L4
 , label L6
 LDIA 0 , load boolean false
 STLGE
@@ -2493,7 +5003,7 @@ LDIA 0 , load small integer
 STLGE
 HERE 92 , [Stack:3]
 JMP
-HERE 2142 , L10
+HERE 4356 , L10
 , label L7
 AIN 92 , [Stack:3]
 LDIB 1
@@ -2504,11 +5014,11 @@ AIN 92 , [Stack:3]
 LDIB 5 , load small integer
 SUB , operator <
 JMPZ
-HERE 2203 , L9
+HERE 4417 , L9
 JMPC
-HERE 2203 , L9
+HERE 4417 , L9
 JMP
-HERE 2151 , L8
+HERE 4365 , L8
 , label L8
 AIN 111 , [Stack:20]
 STA 93 , [Stack:4]
@@ -2521,37 +5031,37 @@ LDAIN
 LDIB 0 , load small integer
 SUB , operator !=
 JMPZ
-HERE 2170 , L31
+HERE 4384 , L31
 JMP
-HERE 2165 , L30
+HERE 4379 , L30
 , label L30
 LDIA 1 , load boolean true
 STLGE
 HERE 91 , [Stack:2]
 JMP
-HERE 2179 , L32
+HERE 4393 , L32
 , label L31
 AIN 91 , [Stack:2]
 LDIB 0 , load boolean false
 SUB , operator ==
 JMPZ
-HERE 2177 , L33
+HERE 4391 , L33
 JMP
-HERE 2179 , L34
+HERE 4393 , L34
 , label L33
 JMP
-HERE 2138 , L7
+HERE 4352 , L7
 , label L34
 , label L32
 LDW
-HERE 2188 , L36
+HERE 4402 , L36
 SWPC
 LDW
-HERE 2200 , L35
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 4414 , L35
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L36
 AIN 111 , [Stack:20]
 STA 93 , [Stack:4]
@@ -2564,15 +5074,15 @@ LDAIN
 STLGE
 HERE 89 , [Stack:0]
 JMP
-HERE 1829 , write
+HERE 3929 , write
 , label L35
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 JMP
-HERE 2138 , L7, jump to next iteration
+HERE 4352 , L7, jump to next iteration
 , label L9
 , label write_int
 JMP
-HERE 6925 , __return
+HERE 10264 , __return
 , label write_binary
 LDW
 HERE 65519 , load large integer
@@ -2586,7 +5096,7 @@ LDIA 0 , load small integer
 STLGE
 HERE 91 , [Stack:2]
 JMP
-HERE 2222 , L3
+HERE 4436 , L3
 , label L0
 AIN 91 , [Stack:2]
 LDIB 1
@@ -2597,11 +5107,11 @@ AIN 91 , [Stack:2]
 LDIB 16 , load small integer
 SUB , operator <
 JMPZ
-HERE 2238 , L2
+HERE 4452 , L2
 JMPC
-HERE 2238 , L2
+HERE 4452 , L2
 JMP
-HERE 2231 , L1
+HERE 4445 , L1
 , label L1
 AIN 111 , [Stack:20]
 BIN 91 , [Stack:2]
@@ -2609,18 +5119,18 @@ ADD , load address
 LDIB 0 , set value in B
 STAOUT
 JMP
-HERE 2218 , L0, jump to next iteration
+HERE 4432 , L0, jump to next iteration
 , label L2
 , label L4
 AIN 89 , [Stack:0]
 LDIB 0 , load small integer
 SUB , operator >
 JMPZ
-HERE 2285 , L6
+HERE 4499 , L6
 JMPC
-HERE 2247 , L5
+HERE 4461 , L5
 JMP
-HERE 2285 , L6
+HERE 4499 , L6
 , label L5
 AIN 89 , [Stack:0]
 LDIB 1 , load small integer
@@ -2630,13 +5140,13 @@ LDIA 1 , load small integer
 BIN 92 , [Stack:3]
 SUB
 JMPZ
-HERE 2258 , L12
+HERE 4472 , L12
 JMP
-HERE 2261 , L13
+HERE 4475 , L13
 , label L12
 LDIA 40 , load character '1'
 JMP
-HERE 2262 , L11
+HERE 4476 , L11
 , label L13
 LDIA 39 , load character '0'
 , label L11
@@ -2662,13 +5172,13 @@ ADD
 STLGE
 HERE 90 , [Stack:1]
 JMP
-HERE 2238 , L4
+HERE 4452 , L4
 , label L6
 LDIA 0 , load small integer
 STLGE
 HERE 91 , [Stack:2]
 JMP
-HERE 2294 , L10
+HERE 4508 , L10
 , label L7
 AIN 91 , [Stack:2]
 LDIB 1
@@ -2679,21 +5189,21 @@ AIN 91 , [Stack:2]
 LDIB 16 , load small integer
 SUB , operator <
 JMPZ
-HERE 2323 , L9
+HERE 4537 , L9
 JMPC
-HERE 2323 , L9
+HERE 4537 , L9
 JMP
-HERE 2303 , L8
+HERE 4517 , L8
 , label L8
 LDW
-HERE 2312 , L15
+HERE 4526 , L15
 SWPC
 LDW
-HERE 2320 , L14
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 4534 , L14
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L15
 AIN 111 , [Stack:20]
 BIN 91 , [Stack:2]
@@ -2702,15 +5212,155 @@ LDAIN
 STLGE
 HERE 89 , [Stack:0]
 JMP
-HERE 1829 , write
+HERE 3929 , write
 , label L14
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 JMP
-HERE 2290 , L7, jump to next iteration
+HERE 4504 , L7, jump to next iteration
 , label L9
 , label write_binary
 JMP
-HERE 6925 , __return
+HERE 10264 , __return
+, label write_float
+LDW
+HERE 4548 , L1
+SWPC
+LDW
+HERE 4553 , L0
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L1
+LDIA 17 , load character 'e'
+STLGE
+HERE 89 , [Stack:0]
+JMP
+HERE 3929 , write
+, label L0
+AIN 113 , Yabal:return_value
+LDW
+HERE 4563 , L3
+SWPC
+LDW
+HERE 4568 , L2
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L3
+LDIA 56 , load character ':'
+STLGE
+HERE 89 , [Stack:0]
+JMP
+HERE 3929 , write
+, label L2
+AIN 113 , Yabal:return_value
+LDIA 89 , [Stack:0]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+STLGE
+HERE 90 , [Stack:1]
+LDW
+HERE 4588 , L5
+SWPC
+LDW
+HERE 4600 , L4
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L5
+LDIA 89 , [Stack:0]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+STLGE
+HERE 89 , [Stack:0]
+JMP
+HERE 4419 , write_binary
+, label L4
+AIN 113 , Yabal:return_value
+LDW
+HERE 4610 , L7
+SWPC
+LDW
+HERE 4615 , L6
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L7
+LDIA 18 , load character 'f'
+STLGE
+HERE 89 , [Stack:0]
+JMP
+HERE 3929 , write
+, label L6
+AIN 113 , Yabal:return_value
+LDW
+HERE 4625 , L9
+SWPC
+LDW
+HERE 4630 , L8
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L9
+LDIA 56 , load character ':'
+STLGE
+HERE 89 , [Stack:0]
+JMP
+HERE 3929 , write
+, label L8
+AIN 113 , Yabal:return_value
+LDIA 89 , [Stack:0]
+LDAIN
+LDWB
+HERE 6
+BSR
+LDWB
+HERE 1023
+AND
+STLGE
+HERE 91 , [Stack:2]
+LDW
+HERE 4650 , L11
+SWPC
+LDW
+HERE 4662 , L10
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L11
+LDIA 89 , [Stack:0]
+LDAIN
+LDWB
+HERE 6
+BSR
+LDWB
+HERE 1023
+AND
+STLGE
+HERE 89 , [Stack:0]
+JMP
+HERE 4419 , write_binary
+, label L10
+AIN 113 , Yabal:return_value
+, label write_float
+JMP
+HERE 10264 , __return
 , label write_signed_int
 LDIA 89 , [Stack:0]
 LDAIN
@@ -2723,27 +5373,27 @@ AND
 LDIB 1 , load boolean true
 SUB , operator ==
 JMPZ
-HERE 2339 , L0
+HERE 4679 , L0
 JMP
-HERE 2354 , L1
+HERE 4694 , L1
 , label L0
 LDW
-HERE 2348 , L3
+HERE 4688 , L3
 SWPC
 LDW
-HERE 2353 , L2
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 4693 , L2
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L3
 LDIA 4 , load character '-'
 STLGE
 HERE 89 , [Stack:0]
 JMP
-HERE 1829 , write
+HERE 3929 , write
 , label L2
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 , label L1
 LDIA 89 , [Stack:0]
 LDAIN
@@ -2753,24 +5403,324 @@ AND
 STLGE
 HERE 90 , [Stack:1]
 LDW
-HERE 2370 , L5
+HERE 4710 , L5
 SWPC
 LDW
-HERE 2374 , L4
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 4714 , L4
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L5
 AIN 90 , [Stack:1], load value
 STA 89 , [Stack:0], store value
 JMP
-HERE 1969 , write_int
+HERE 4183 , write_int
 , label L4
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 , label write_signed_int
 JMP
-HERE 6925 , __return
+HERE 10264 , __return
+, label TruncateTrailingZeros
+AIN 89 , [Stack:0], load value
+STA 90 , [Stack:1], store value
+LDIA 0 , load small integer
+STLGE
+HERE 91 , [Stack:2]
+JMP
+HERE 4728 , L3
+, label L0
+AIN 91 , [Stack:2]
+LDIB 1
+ADD , increment value
+STA 91 , [Stack:2]
+, label L3
+AIN 91 , [Stack:2]
+LDIB 16 , load small integer
+SUB , operator <
+JMPZ
+HERE 4755 , L2
+JMPC
+HERE 4755 , L2
+JMP
+HERE 4737 , L1
+, label L1
+AIN 90 , [Stack:1]
+LDIB 1 , load small integer
+AND
+LDIB 1 , load small integer
+SUB , operator ==
+JMPZ
+HERE 4746 , L4
+JMP
+HERE 4748 , L5
+, label L4
+JMP
+HERE 4755 , L2
+, label L5
+AIN 90 , [Stack:1]
+LDIB 1 , load small integer
+BSR
+STLGE
+HERE 90 , [Stack:1]
+JMP
+HERE 4724 , L0, jump to next iteration
+, label L2
+AIN 90 , [Stack:1]
+JMP
+HERE 4758 , TruncateTrailingZeros
+, label TruncateTrailingZeros
+JMP
+HERE 10264 , __return
+, label sin
+LDW
+HERE 4769 , L1
+SWPC
+LDW
+HERE 4775 , L0
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L1
+AIN 18 , [Global:11], load value
+STA 89 , [Stack:0], store value
+AIN 18 , [Global:11], load value
+STA 90 , [Stack:1], store value
+JMP
+HERE 8403 , MultFloats
+, label L0
+AIN 113 , Yabal:return_value
+STLGE
+HERE 90 , [Stack:1]
+LDW
+HERE 4787 , L3
+SWPC
+LDW
+HERE 4792 , L2
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L3
+LDIA 4 , load small integer
+STLGE
+HERE 89 , [Stack:0]
+JMP
+HERE 6925 , IntToFloat
+, label L2
+AIN 113 , Yabal:return_value
+STLGE
+HERE 91 , [Stack:2]
+LDW
+HERE 4804 , L5
+SWPC
+LDW
+HERE 4858 , L4
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L5
+LDW
+HERE 4813 , L7
+SWPC
+LDW
+HERE 4835 , L6
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L7
+LDW
+HERE 4822 , L9
+SWPC
+LDW
+HERE 4828 , L8
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L9
+AIN 91 , [Stack:2], load value
+STA 89 , [Stack:0], store value
+AIN 89 , [Stack:0], load value
+STA 90 , [Stack:1], store value
+JMP
+HERE 8403 , MultFloats
+, label L8
+AIN 113 , Yabal:return_value
+STLGE
+HERE 89 , [Stack:0]
+AIN 90 , [Stack:1], load value
+STA 90 , [Stack:1], store value
+JMP
+HERE 8641 , DivFloats
+, label L6
+AIN 113 , Yabal:return_value
+STLGE
+HERE 89 , [Stack:0]
+LDW
+HERE 4847 , L11
+SWPC
+LDW
+HERE 4853 , L10
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L11
+AIN 18 , [Global:11], load value
+STA 89 , [Stack:0], store value
+AIN 89 , [Stack:0], load value
+STA 90 , [Stack:1], store value
+JMP
+HERE 8357 , SubFloats
+, label L10
+AIN 113 , Yabal:return_value
+STLGE
+HERE 90 , [Stack:1]
+JMP
+HERE 8403 , MultFloats
+, label L4
+AIN 113 , Yabal:return_value
+JMP
+HERE 4861 , sin
+, label sin
+JMP
+HERE 10264 , __return
+, label WithinRange
+LDIA 89 , [Stack:0]
+LDAIN
+LDWB
+HERE 32767
+AND
+STLGE
+HERE 92 , [Stack:3]
+LDIA 90 , [Stack:1]
+LDAIN
+LDWB
+HERE 32767
+AND
+STLGE
+HERE 93 , [Stack:4]
+AIN 92 , [Stack:3]
+BIN 93 , [Stack:4]
+SUB , operator >
+JMPZ
+HERE 4907 , L1
+JMPC
+HERE 4886 , L0
+JMP
+HERE 4907 , L1
+, label L0
+AIN 92 , [Stack:3]
+BIN 93 , [Stack:4]
+SUB
+BIN 91 , [Stack:2]
+SUB , operator <=
+JMPZ
+HERE 4897 , L3
+JMPC
+HERE 4902 , L4
+JMP
+HERE 4897 , L3
+, label L3
+LDIA 1 , load boolean true
+JMP
+HERE 4938 , WithinRange
+JMP
+HERE 4905 , L5
+, label L4
+LDIA 0 , load boolean false
+JMP
+HERE 4938 , WithinRange
+, label L5
+JMP
+HERE 4935 , L2
+, label L1
+AIN 92 , [Stack:3]
+BIN 93 , [Stack:4]
+SUB , operator <
+JMPZ
+HERE 4935 , L7
+JMPC
+HERE 4935 , L7
+JMP
+HERE 4916 , L6
+, label L6
+AIN 93 , [Stack:4]
+BIN 92 , [Stack:3]
+SUB
+BIN 91 , [Stack:2]
+SUB , operator <=
+JMPZ
+HERE 4927 , L8
+JMPC
+HERE 4932 , L9
+JMP
+HERE 4927 , L8
+, label L8
+LDIA 1 , load boolean true
+JMP
+HERE 4938 , WithinRange
+JMP
+HERE 4935 , L10
+, label L9
+LDIA 0 , load boolean false
+JMP
+HERE 4938 , WithinRange
+, label L10
+, label L7
+, label L2
+LDIA 1 , load boolean true
+JMP
+HERE 4938 , WithinRange
+, label WithinRange
+JMP
+HERE 10264 , __return
+, label Delta
+AIN 89 , [Stack:0]
+BIN 90 , [Stack:1]
+SUB , operator >
+JMPZ
+HERE 4956 , L1
+JMPC
+HERE 4949 , L0
+JMP
+HERE 4956 , L1
+, label L0
+AIN 89 , [Stack:0]
+BIN 90 , [Stack:1]
+SUB
+JMP
+HERE 4973 , Delta
+JMP
+HERE 4970 , L2
+, label L1
+AIN 89 , [Stack:0]
+BIN 90 , [Stack:1]
+SUB , operator <
+JMPZ
+HERE 4970 , L4
+JMPC
+HERE 4970 , L4
+JMP
+HERE 4965 , L3
+, label L3
+AIN 90 , [Stack:1]
+BIN 89 , [Stack:0]
+SUB
+JMP
+HERE 4973 , Delta
+, label L4
+, label L2
+LDIA 0 , load small integer
+JMP
+HERE 4973 , Delta
+, label Delta
+JMP
+HERE 10264 , __return
 , label NOT
 AIN 89 , [Stack:0]
 NOT
@@ -2778,34 +5728,244 @@ LDWB
 HERE 65535 , load large integer
 AND
 JMP
-HERE 2384 , NOT
+HERE 4982 , NOT
 , label NOT
 JMP
-HERE 6925 , __return
+HERE 10264 , __return
 , label Negative
 LDW
-HERE 2395 , L1
+HERE 4993 , L1
 SWPC
 LDW
-HERE 2399 , L0
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 4997 , L0
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L1
 AIN 89 , [Stack:0], load value
 STA 89 , [Stack:0], store value
 JMP
-HERE 2377 , NOT
+HERE 4975 , NOT
 , label L0
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 LDIB 1 , load small integer
 ADD
 JMP
-HERE 2404 , Negative
+HERE 5002 , Negative
 , label Negative
 JMP
-HERE 6925 , __return
+HERE 10264 , __return
+, label XOR
+JMP
+HERE 10264 , __return
+, label get_shift_amnt
+LDIA 10 , load small integer
+BIN 90 , [Stack:1]
+SUB
+JMP
+HERE 5011 , get_shift_amnt
+, label get_shift_amnt
+JMP
+HERE 10264 , __return
+, label sqrt
+LDIA 1 , load small integer
+STLGE
+HERE 90 , [Stack:1]
+LDIA 1 , load small integer
+STLGE
+HERE 91 , [Stack:2]
+, label L0
+AIN 91 , [Stack:2]
+BIN 89 , [Stack:0]
+SUB , operator <=
+JMPZ
+HERE 5028 , L1
+JMPC
+HERE 5040 , L2
+JMP
+HERE 5028 , L1
+, label L1
+AIN 90 , [Stack:1]
+LDIB 1 , load small integer
+ADD
+STLGE
+HERE 90 , [Stack:1]
+AIN 90 , [Stack:1]
+BIN 90 , [Stack:1]
+MULT
+STLGE
+HERE 91 , [Stack:2]
+JMP
+HERE 5019 , L0
+, label L2
+AIN 90 , [Stack:1]
+LDIB 1 , load small integer
+SUB
+JMP
+HERE 5045 , sqrt
+, label sqrt
+JMP
+HERE 10264 , __return
+, label pow
+AIN 89 , [Stack:0], load value
+STA 91 , [Stack:2], store value
+LDIA 0 , load small integer
+STLGE
+HERE 92 , [Stack:3]
+LDIA 89 , [Stack:0]
+LDAIN
+LDWB
+HERE 15
+BSR
+LDWB
+HERE 1
+AND
+LDIB 0
+SUB
+JMPZ
+HERE 5095 , L9
+JMP
+HERE 5066 , L8
+, label L8
+LDIA 90 , [Stack:1]
+LDAIN
+LDWB
+HERE 32767
+AND
+LDIB 2 , load small integer
+STA 42 , [Temp:16]
+DIV
+MULT
+BIN 42 , [Temp:16]
+SWP
+SUB
+LDIB 0 , load small integer
+SUB , operator ==
+JMPZ
+HERE 5087 , L11
+JMP
+HERE 5084 , L10
+, label L10
+LDIA 0
+JMP
+HERE 5088 , L12
+, label L11
+LDIA 1
+, label L12
+LDIB 1
+SUB
+JMPZ
+HERE 5093 , L13
+LDIA 1
+, label L13
+STLGE
+HERE 92 , [Stack:3]
+, label L9
+LDIA 90 , [Stack:1]
+LDAIN
+LDWB
+HERE 15
+BSR
+LDWB
+HERE 1
+AND
+LDIB 1 , load small integer
+SUB , operator ==
+JMPZ
+HERE 5109 , L14
+JMP
+HERE 5143 , L15
+, label L14
+LDIA 1 , load small integer
+STLGE
+HERE 93 , [Stack:4]
+JMP
+HERE 5118 , L3
+, label L0
+AIN 93 , [Stack:4]
+LDIB 1
+ADD , increment value
+STA 93 , [Stack:4]
+, label L3
+AIN 93 , [Stack:4]
+STA 94 , [Stack:5]
+LDIA 90 , [Stack:1]
+LDAIN
+LDWB
+HERE 32767
+AND
+BIN 94 , [Stack:5]
+SWP
+SUB , operator <
+JMPZ
+HERE 5141 , L2
+JMPC
+HERE 5141 , L2
+JMP
+HERE 5134 , L1
+, label L1
+AIN 91 , [Stack:2]
+BIN 89 , [Stack:0]
+DIV
+STLGE
+HERE 91 , [Stack:2]
+JMP
+HERE 5114 , L0, jump to next iteration
+, label L2
+JMP
+HERE 5175 , L16
+, label L15
+LDIA 1 , load small integer
+STLGE
+HERE 93 , [Stack:4]
+JMP
+HERE 5152 , L7
+, label L4
+AIN 93 , [Stack:4]
+LDIB 1
+ADD , increment value
+STA 93 , [Stack:4]
+, label L7
+AIN 93 , [Stack:4]
+STA 94 , [Stack:5]
+LDIA 90 , [Stack:1]
+LDAIN
+LDWB
+HERE 32767
+AND
+BIN 94 , [Stack:5]
+SWP
+SUB , operator <
+JMPZ
+HERE 5175 , L6
+JMPC
+HERE 5175 , L6
+JMP
+HERE 5168 , L5
+, label L5
+AIN 91 , [Stack:2]
+BIN 89 , [Stack:0]
+MULT
+STLGE
+HERE 91 , [Stack:2]
+JMP
+HERE 5148 , L4, jump to next iteration
+, label L6
+, label L16
+AIN 91 , [Stack:2]
+STA 93 , [Stack:4]
+AIN 92 , [Stack:3]
+LDIB 15 , load small integer
+BSL
+BIN 93 , [Stack:4]
+SWP
+OR
+JMP
+HERE 5185 , pow
+, label pow
+JMP
+HERE 10264 , __return
 , label normalizeFloat
 AIN 89 , [Stack:0], load value
 STA 91 , [Stack:2], store value
@@ -2818,20 +5978,20 @@ AND
 LDIB 0 , load small integer
 SUB , operator ==
 JMPZ
-HERE 2423 , L12
+HERE 5204 , L12
 JMP
-HERE 2420 , L11
+HERE 5201 , L11
 , label L11
 LDIA 0
 JMP
-HERE 2424 , L13
+HERE 5205 , L13
 , label L12
 LDIA 1
 , label L13
 LDIB 0
 SUB
 JMPZ
-HERE 2456 , L9
+HERE 5237 , L9
 AIN 91 , [Stack:2]
 LDWB
 HERE 1024 , load large integer
@@ -2840,22 +6000,22 @@ LDWB
 HERE 1024 , load large integer
 SUB , operator ==
 JMPZ
-HERE 2442 , L15
+HERE 5223 , L15
 JMP
-HERE 2439 , L14
+HERE 5220 , L14
 , label L14
 LDIA 0
 JMP
-HERE 2443 , L16
+HERE 5224 , L16
 , label L15
 LDIA 1
 , label L16
 LDIB 0
 SUB
 JMPZ
-HERE 2456 , L9
+HERE 5237 , L9
 JMP
-HERE 2449 , L8
+HERE 5230 , L8
 , label L8
 AIN 92 , [Stack:3]
 LDIB 1 , load small integer
@@ -2863,13 +6023,13 @@ ADD
 STLGE
 HERE 92 , [Stack:3]
 JMP
-HERE 2541 , L10
+HERE 5322 , L10
 , label L9
 LDIA 0 , load small integer
 STLGE
 HERE 93 , [Stack:4]
 JMP
-HERE 2465 , L3
+HERE 5246 , L3
 , label L0
 AIN 93 , [Stack:4]
 LDIB 1
@@ -2880,11 +6040,11 @@ AIN 93 , [Stack:4]
 LDIB 10 , load small integer
 SUB , operator <
 JMPZ
-HERE 2498 , L2
+HERE 5279 , L2
 JMPC
-HERE 2498 , L2
+HERE 5279 , L2
 JMP
-HERE 2474 , L1
+HERE 5255 , L1
 , label L1
 AIN 91 , [Stack:2]
 LDWB
@@ -2893,12 +6053,12 @@ AND
 LDIB 0 , load small integer
 SUB , operator ==
 JMPZ
-HERE 2484 , L17
+HERE 5265 , L17
 JMP
-HERE 2486 , L18
+HERE 5267 , L18
 , label L17
 JMP
-HERE 2498 , L2
+HERE 5279 , L2
 , label L18
 AIN 91 , [Stack:2]
 LDIB 1 , load small integer
@@ -2911,13 +6071,13 @@ ADD
 STLGE
 HERE 92 , [Stack:3]
 JMP
-HERE 2461 , L0, jump to next iteration
+HERE 5242 , L0, jump to next iteration
 , label L2
 LDIA 0 , load small integer
 STLGE
 HERE 93 , [Stack:4]
 JMP
-HERE 2507 , L7
+HERE 5288 , L7
 , label L4
 AIN 93 , [Stack:4]
 LDIB 1
@@ -2928,11 +6088,11 @@ AIN 93 , [Stack:4]
 LDIB 12 , load small integer
 SUB , operator <
 JMPZ
-HERE 2541 , L6
+HERE 5322 , L6
 JMPC
-HERE 2541 , L6
+HERE 5322 , L6
 JMP
-HERE 2516 , L5
+HERE 5297 , L5
 , label L5
 AIN 91 , [Stack:2]
 LDWB
@@ -2942,12 +6102,12 @@ LDWB
 HERE 1024 , load large integer
 SUB , operator ==
 JMPZ
-HERE 2527 , L19
+HERE 5308 , L19
 JMP
-HERE 2529 , L20
+HERE 5310 , L20
 , label L19
 JMP
-HERE 2541 , L6
+HERE 5322 , L6
 , label L20
 AIN 91 , [Stack:2]
 LDIB 1 , load small integer
@@ -2960,7 +6120,7 @@ SUB
 STLGE
 HERE 92 , [Stack:3]
 JMP
-HERE 2503 , L4, jump to next iteration
+HERE 5284 , L4, jump to next iteration
 , label L6
 , label L10
 AIN 91 , [Stack:2]
@@ -3006,10 +6166,10 @@ OR
 STA 93 , [Stack:4]
 AIN 93 , [Stack:4]
 JMP
-HERE 2585 , normalizeFloat
+HERE 5366 , normalizeFloat
 , label normalizeFloat
 JMP
-HERE 6925 , __return
+HERE 10264 , __return
 , label deNormalizeFraction
 LDIA 10 , load small integer
 BIN 90 , [Stack:1]
@@ -3018,15 +6178,15 @@ LDWB
 HERE 60000 , load large integer
 SUB , operator >
 JMPZ
-HERE 2599 , L0
+HERE 5380 , L0
 JMPC
-HERE 2602 , L1
+HERE 5383 , L1
 JMP
-HERE 2599 , L0
+HERE 5380 , L0
 , label L0
 LDIA 0
 JMP
-HERE 2603 , L2
+HERE 5384 , L2
 , label L1
 LDIA 1
 , label L2
@@ -3041,9 +6201,9 @@ AIN 91 , [Stack:2]
 LDIB 0
 SUB
 JMPZ
-HERE 2628 , L4
+HERE 5409 , L4
 JMP
-HERE 2617 , L3
+HERE 5398 , L3
 , label L3
 LDW
 HERE 65535 , load large integer
@@ -3061,27 +6221,27 @@ AIN 91 , [Stack:2]
 LDIB 1 , load small integer
 SUB , operator ==
 JMPZ
-HERE 2635 , L5
+HERE 5416 , L5
 JMP
-HERE 2642 , L6
+HERE 5423 , L6
 , label L5
 AIN 89 , [Stack:0]
 BIN 92 , [Stack:3]
 BSL
 JMP
-HERE 2647 , deNormalizeFraction
+HERE 5428 , deNormalizeFraction
 JMP
-HERE 2647 , L7
+HERE 5428 , L7
 , label L6
 AIN 89 , [Stack:0]
 BIN 92 , [Stack:3]
 BSR
 JMP
-HERE 2647 , deNormalizeFraction
+HERE 5428 , deNormalizeFraction
 , label L7
 , label deNormalizeFraction
 JMP
-HERE 6925 , __return
+HERE 10264 , __return
 , label AddSignedInts
 AIN 91 , [Stack:2]
 LDWB
@@ -3120,9 +6280,9 @@ BIN 92 , [Stack:3]
 SWP
 SUB , operator ==
 JMPZ
-HERE 2689 , L0
+HERE 5470 , L0
 JMP
-HERE 2744 , L1
+HERE 5525 , L1
 , label L0
 LDIA 89 , [Stack:0]
 LDAIN
@@ -3178,7 +6338,7 @@ SWP
 LDIA 91 , [Stack:2]
 STAOUT
 JMP
-HERE 2956 , L2
+HERE 5737 , L2
 , label L1
 LDIA 90 , [Stack:1]
 LDAIN
@@ -3191,9 +6351,9 @@ AND
 LDIB 1 , load small integer
 SUB , operator ==
 JMPZ
-HERE 2758 , L3
+HERE 5539 , L3
 JMP
-HERE 2851 , L4
+HERE 5632 , L4
 , label L3
 LDIA 90 , [Stack:1]
 LDAIN
@@ -3210,11 +6370,11 @@ BIN 93 , [Stack:4]
 SWP
 SUB , operator >
 JMPZ
-HERE 2820 , L7
+HERE 5601 , L7
 JMPC
-HERE 2778 , L6
+HERE 5559 , L6
 JMP
-HERE 2820 , L7
+HERE 5601 , L7
 , label L6
 LDIA 91 , [Stack:2]
 LDAIN
@@ -3257,7 +6417,7 @@ SWP
 LDIA 91 , [Stack:2]
 STAOUT
 JMP
-HERE 2849 , L8
+HERE 5630 , L8
 , label L7
 LDIA 89 , [Stack:0]
 LDAIN
@@ -3290,7 +6450,7 @@ LDIA 91 , [Stack:2]
 STAOUT
 , label L8
 JMP
-HERE 2956 , L5
+HERE 5737 , L5
 , label L4
 LDIA 89 , [Stack:0]
 LDAIN
@@ -3303,9 +6463,9 @@ AND
 LDIB 1 , load small integer
 SUB , operator ==
 JMPZ
-HERE 2865 , L9
+HERE 5646 , L9
 JMP
-HERE 2956 , L10
+HERE 5737 , L10
 , label L9
 LDIA 89 , [Stack:0]
 LDAIN
@@ -3322,11 +6482,11 @@ BIN 93 , [Stack:4]
 SWP
 SUB , operator >
 JMPZ
-HERE 2927 , L12
+HERE 5708 , L12
 JMPC
-HERE 2885 , L11
+HERE 5666 , L11
 JMP
-HERE 2927 , L12
+HERE 5708 , L12
 , label L11
 LDIA 91 , [Stack:2]
 LDAIN
@@ -3369,7 +6529,7 @@ SWP
 LDIA 91 , [Stack:2]
 STAOUT
 JMP
-HERE 2956 , L13
+HERE 5737 , L13
 , label L12
 LDIA 90 , [Stack:1]
 LDAIN
@@ -3406,10 +6566,10 @@ STAOUT
 , label L2
 AIN 91 , [Stack:2]
 JMP
-HERE 2959 , AddSignedInts
+HERE 5740 , AddSignedInts
 , label AddSignedInts
 JMP
-HERE 6925 , __return
+HERE 10264 , __return
 , label SubSignedInts
 AIN 90 , [Stack:1], load value
 STA 91 , [Stack:2], store value
@@ -3424,7 +6584,7 @@ AND
 LDIB 1
 SUB
 JMPZ
-HERE 2976 , L0
+HERE 5757 , L0
 LDIA 1
 , label L0
 LDIB 1
@@ -3444,31 +6604,31 @@ SWP
 LDIA 91 , [Stack:2]
 STAOUT
 LDW
-HERE 3001 , L2
+HERE 5782 , L2
 SWPC
 LDW
-HERE 3007 , L1
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 5788 , L1
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L2
 AIN 89 , [Stack:0], load value
 STA 89 , [Stack:0], store value
 AIN 91 , [Stack:2], load value
 STA 90 , [Stack:1], store value
 JMP
-HERE 2649 , AddSignedInts
+HERE 5430 , AddSignedInts
 , label L1
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 92 , [Stack:3]
 AIN 92 , [Stack:3]
 JMP
-HERE 3013 , SubSignedInts
+HERE 5794 , SubSignedInts
 , label SubSignedInts
 JMP
-HERE 6925 , __return
+HERE 10264 , __return
 , label MultSignedInts
 LDIA 0 , load small integer
 STLGE
@@ -3494,9 +6654,9 @@ BIN 94 , [Stack:5]
 SWP
 SUB , operator !=
 JMPZ
-HERE 3045 , L1
+HERE 5826 , L1
 JMP
-HERE 3042 , L0
+HERE 5823 , L0
 , label L0
 LDIA 1 , load small integer
 STLGE
@@ -3547,10 +6707,10 @@ OR
 STA 93 , [Stack:4]
 AIN 93 , [Stack:4]
 JMP
-HERE 3091 , MultSignedInts
+HERE 5872 , MultSignedInts
 , label MultSignedInts
 JMP
-HERE 6925 , __return
+HERE 10264 , __return
 , label SubToSignedInt
 AIN 89 , [Stack:0], load value
 STA 91 , [Stack:2], store value
@@ -3615,31 +6775,59 @@ HERE 0
 OR
 STA 95 , [Stack:6]
 LDW
-HERE 3164 , L1
+HERE 5945 , L1
 SWPC
 LDW
-HERE 3170 , L0
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 5951 , L0
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L1
 AIN 93 , [Stack:4], load value
 STA 89 , [Stack:0], store value
 AIN 94 , [Stack:5], load value
 STA 90 , [Stack:1], store value
 JMP
-HERE 2649 , AddSignedInts
+HERE 5430 , AddSignedInts
 , label L0
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 95 , [Stack:6]
 AIN 95 , [Stack:6]
 JMP
-HERE 3176 , SubToSignedInt
+HERE 5957 , SubToSignedInt
 , label SubToSignedInt
 JMP
-HERE 6925 , __return
+HERE 10264 , __return
+, label Signed
+AIN 90 , [Stack:1]
+LDWB
+HERE 32767
+AND
+LDWB
+HERE 0
+OR
+STA 90 , [Stack:1]
+AIN 89 , [Stack:0]
+LDWB
+HERE 32767
+AND
+STA 56 , [Temp:30]
+AIN 90 , [Stack:1]
+SWP
+LDW
+HERE 32768
+AND
+BIN 56 , [Temp:30]
+OR
+STA 90 , [Stack:1]
+AIN 90 , [Stack:1]
+JMP
+HERE 5983 , Signed
+, label Signed
+JMP
+HERE 10264 , __return
 , label NegativeSigned
 AIN 90 , [Stack:1]
 LDWB
@@ -3664,10 +6852,62 @@ OR
 STA 90 , [Stack:1]
 AIN 90 , [Stack:1]
 JMP
-HERE 3202 , NegativeSigned
+HERE 6009 , NegativeSigned
 , label NegativeSigned
 JMP
-HERE 6925 , __return
+HERE 10264 , __return
+, label FloatToUnsignedInt
+LDIA 89 , [Stack:0]
+LDAIN
+LDWB
+HERE 6
+BSR
+LDWB
+HERE 1023
+AND
+LDWB
+HERE 1024 , load large integer
+ADD
+STLGE
+HERE 90 , [Stack:1]
+LDIA 89 , [Stack:0]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+LDIB 15 , load small integer
+SUB
+STLGE
+HERE 91 , [Stack:2]
+LDW
+HERE 6045 , L1
+SWPC
+LDW
+HERE 6051 , L0
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
+JMP
+HERE 10164 , __call
+, label L1
+AIN 90 , [Stack:1], load value
+STA 89 , [Stack:0], store value
+AIN 91 , [Stack:2], load value
+STA 90 , [Stack:1], store value
+JMP
+HERE 5368 , deNormalizeFraction
+, label L0
+AIN 113 , Yabal:return_value
+STLGE
+HERE 92 , [Stack:3]
+AIN 92 , [Stack:3]
+JMP
+HERE 6057 , FloatToUnsignedInt
+, label FloatToUnsignedInt
+JMP
+HERE 10264 , __return
 , label FloatToInt
 LDIA 89 , [Stack:0]
 LDAIN
@@ -3702,23 +6942,23 @@ AND
 STLGE
 HERE 92 , [Stack:3]
 LDW
-HERE 3245 , L1
+HERE 6100 , L1
 SWPC
 LDW
-HERE 3251 , L0
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 6106 , L0
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L1
 AIN 90 , [Stack:1], load value
 STA 89 , [Stack:0], store value
 AIN 91 , [Stack:2], load value
 STA 90 , [Stack:1], store value
 JMP
-HERE 2587 , deNormalizeFraction
+HERE 5368 , deNormalizeFraction
 , label L0
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 93 , [Stack:4]
 AIN 92 , [Stack:3]
@@ -3750,10 +6990,10 @@ OR
 STA 94 , [Stack:5]
 AIN 94 , [Stack:5]
 JMP
-HERE 3284 , FloatToInt
+HERE 6139 , FloatToInt
 , label FloatToInt
 JMP
-HERE 6925 , __return
+HERE 10264 , __return
 , label CompareSignedInts
 LDIA 0 , load small integer
 STLGE
@@ -3779,17 +7019,17 @@ BIN 93 , [Stack:4]
 SWP
 SUB , operator >
 JMPZ
-HERE 3320 , L1
+HERE 6175 , L1
 JMPC
-HERE 3315 , L0
+HERE 6170 , L0
 JMP
-HERE 3320 , L1
+HERE 6175 , L1
 , label L0
 LDIA 2 , load small integer
 STLGE
 HERE 92 , [Stack:3]
 JMP
-HERE 3523 , L2
+HERE 6378 , L2
 , label L1
 LDIA 89 , [Stack:0]
 LDAIN
@@ -3802,9 +7042,9 @@ AND
 LDIB 0 , load small integer
 SUB , operator ==
 JMPZ
-HERE 3334 , L3
+HERE 6189 , L3
 JMP
-HERE 3407 , L4
+HERE 6262 , L4
 , label L3
 LDIA 89 , [Stack:0]
 LDAIN
@@ -3821,15 +7061,15 @@ BIN 94 , [Stack:5]
 SWP
 SUB , operator ==
 JMPZ
-HERE 3352 , L6
+HERE 6207 , L6
 JMP
-HERE 3357 , L7
+HERE 6212 , L7
 , label L6
 LDIA 0 , load small integer
 STLGE
 HERE 92 , [Stack:3]
 JMP
-HERE 3405 , L8
+HERE 6260 , L8
 , label L7
 LDIA 89 , [Stack:0]
 LDAIN
@@ -3846,17 +7086,17 @@ BIN 94 , [Stack:5]
 SWP
 SUB , operator <
 JMPZ
-HERE 3382 , L10
+HERE 6237 , L10
 JMPC
-HERE 3382 , L10
+HERE 6237 , L10
 JMP
-HERE 3377 , L9
+HERE 6232 , L9
 , label L9
 LDIA 2 , load small integer
 STLGE
 HERE 92 , [Stack:3]
 JMP
-HERE 3405 , L11
+HERE 6260 , L11
 , label L10
 LDIA 89 , [Stack:0]
 LDAIN
@@ -3873,11 +7113,11 @@ BIN 94 , [Stack:5]
 SWP
 SUB , operator >
 JMPZ
-HERE 3405 , L13
+HERE 6260 , L13
 JMPC
-HERE 3402 , L12
+HERE 6257 , L12
 JMP
-HERE 3405 , L13
+HERE 6260 , L13
 , label L12
 LDIA 1 , load small integer
 STLGE
@@ -3886,7 +7126,7 @@ HERE 92 , [Stack:3]
 , label L11
 , label L8
 JMP
-HERE 3523 , L5
+HERE 6378 , L5
 , label L4
 LDIA 89 , [Stack:0]
 LDAIN
@@ -3899,9 +7139,9 @@ AND
 LDIB 1 , load small integer
 SUB , operator ==
 JMPZ
-HERE 3421 , L14
+HERE 6276 , L14
 JMP
-HERE 3494 , L15
+HERE 6349 , L15
 , label L14
 LDIA 89 , [Stack:0]
 LDAIN
@@ -3918,15 +7158,15 @@ BIN 94 , [Stack:5]
 SWP
 SUB , operator ==
 JMPZ
-HERE 3439 , L17
+HERE 6294 , L17
 JMP
-HERE 3444 , L18
+HERE 6299 , L18
 , label L17
 LDIA 0 , load small integer
 STLGE
 HERE 92 , [Stack:3]
 JMP
-HERE 3492 , L19
+HERE 6347 , L19
 , label L18
 LDIA 89 , [Stack:0]
 LDAIN
@@ -3943,17 +7183,17 @@ BIN 94 , [Stack:5]
 SWP
 SUB , operator <
 JMPZ
-HERE 3469 , L21
+HERE 6324 , L21
 JMPC
-HERE 3469 , L21
+HERE 6324 , L21
 JMP
-HERE 3464 , L20
+HERE 6319 , L20
 , label L20
 LDIA 1 , load small integer
 STLGE
 HERE 92 , [Stack:3]
 JMP
-HERE 3492 , L22
+HERE 6347 , L22
 , label L21
 LDIA 89 , [Stack:0]
 LDAIN
@@ -3970,11 +7210,11 @@ BIN 94 , [Stack:5]
 SWP
 SUB , operator >
 JMPZ
-HERE 3492 , L24
+HERE 6347 , L24
 JMPC
-HERE 3489 , L23
+HERE 6344 , L23
 JMP
-HERE 3492 , L24
+HERE 6347 , L24
 , label L23
 LDIA 2 , load small integer
 STLGE
@@ -3983,7 +7223,7 @@ HERE 92 , [Stack:3]
 , label L22
 , label L19
 JMP
-HERE 3523 , L16
+HERE 6378 , L16
 , label L15
 LDIA 89 , [Stack:0]
 LDAIN
@@ -4006,11 +7246,11 @@ BIN 93 , [Stack:4]
 SWP
 SUB , operator <
 JMPZ
-HERE 3523 , L26
+HERE 6378 , L26
 JMPC
-HERE 3523 , L26
+HERE 6378 , L26
 JMP
-HERE 3520 , L25
+HERE 6375 , L25
 , label L25
 LDIA 1 , load small integer
 STLGE
@@ -4023,77 +7263,623 @@ AIN 91 , [Stack:2]
 LDIB 68 , load character '='
 SUB , operator ==
 JMPZ
-HERE 3530 , L27
+HERE 6385 , L27
 JMP
-HERE 3542 , L28
+HERE 6397 , L28
 , label L27
 AIN 92 , [Stack:3]
 LDIB 0 , load small integer
 SUB , operator ==
 JMPZ
-HERE 3537 , L30
+HERE 6392 , L30
 JMP
-HERE 3540 , L31
+HERE 6395 , L31
 , label L30
 LDIA 1 , load boolean true
 JMP
-HERE 3581 , CompareSignedInts
+HERE 6436 , CompareSignedInts
 , label L31
 JMP
-HERE 3578 , L29
+HERE 6433 , L29
 , label L28
 AIN 91 , [Stack:2]
 LDIB 9 , load character '<'
 SUB , operator ==
 JMPZ
-HERE 3549 , L32
+HERE 6404 , L32
 JMP
-HERE 3561 , L33
+HERE 6416 , L33
 , label L32
 AIN 92 , [Stack:3]
 LDIB 2 , load small integer
 SUB , operator ==
 JMPZ
-HERE 3556 , L35
+HERE 6411 , L35
 JMP
-HERE 3559 , L36
+HERE 6414 , L36
 , label L35
 LDIA 1 , load boolean true
 JMP
-HERE 3581 , CompareSignedInts
+HERE 6436 , CompareSignedInts
 , label L36
 JMP
-HERE 3578 , L34
+HERE 6433 , L34
 , label L33
 AIN 91 , [Stack:2]
 LDIB 10 , load character '>'
 SUB , operator ==
 JMPZ
-HERE 3568 , L37
+HERE 6423 , L37
 JMP
-HERE 3578 , L38
+HERE 6433 , L38
 , label L37
 AIN 92 , [Stack:3]
 LDIB 1 , load small integer
 SUB , operator ==
 JMPZ
-HERE 3575 , L39
+HERE 6430 , L39
 JMP
-HERE 3578 , L40
+HERE 6433 , L40
 , label L39
 LDIA 1 , load boolean true
 JMP
-HERE 3581 , CompareSignedInts
+HERE 6436 , CompareSignedInts
 , label L40
 , label L38
 , label L34
 , label L29
 LDIA 0 , load boolean false
 JMP
-HERE 3581 , CompareSignedInts
+HERE 6436 , CompareSignedInts
 , label CompareSignedInts
 JMP
-HERE 6925 , __return
+HERE 10264 , __return
+, label CompareFloats
+LDIA 0 , load small integer
+STLGE
+HERE 92 , [Stack:3]
+LDIA 89 , [Stack:0]
+LDAIN
+LDWB
+HERE 1
+AND
+STA 93 , [Stack:4]
+LDIA 90 , [Stack:1]
+LDAIN
+LDWB
+HERE 1
+AND
+BIN 93 , [Stack:4]
+SWP
+SUB , operator >
+JMPZ
+HERE 6466 , L1
+JMPC
+HERE 6461 , L0
+JMP
+HERE 6466 , L1
+, label L0
+LDIA 2 , load small integer
+STLGE
+HERE 92 , [Stack:3]
+JMP
+HERE 6865 , L2
+, label L1
+LDIA 89 , [Stack:0]
+LDAIN
+LDWB
+HERE 1
+AND
+LDIB 0 , load small integer
+SUB , operator ==
+JMPZ
+HERE 6477 , L3
+JMP
+HERE 6654 , L4
+, label L3
+LDIA 89 , [Stack:0]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+STA 94 , [Stack:5]
+LDIA 90 , [Stack:1]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+BIN 94 , [Stack:5]
+SWP
+SUB , operator ==
+JMPZ
+HERE 6501 , L6
+JMP
+HERE 6592 , L7
+, label L6
+LDIA 89 , [Stack:0]
+LDAIN
+LDWB
+HERE 6
+BSR
+LDWB
+HERE 1023
+AND
+STA 95 , [Stack:6]
+LDIA 90 , [Stack:1]
+LDAIN
+LDWB
+HERE 6
+BSR
+LDWB
+HERE 1023
+AND
+BIN 95 , [Stack:6]
+SWP
+SUB , operator ==
+JMPZ
+HERE 6525 , L9
+JMP
+HERE 6530 , L10
+, label L9
+LDIA 0 , load small integer
+STLGE
+HERE 92 , [Stack:3]
+JMP
+HERE 6590 , L11
+, label L10
+LDIA 90 , [Stack:1]
+LDAIN
+LDWB
+HERE 6
+BSR
+LDWB
+HERE 1023
+AND
+STA 95 , [Stack:6]
+LDIA 89 , [Stack:0]
+LDAIN
+LDWB
+HERE 6
+BSR
+LDWB
+HERE 1023
+AND
+BIN 95 , [Stack:6]
+SWP
+SUB , operator >
+JMPZ
+HERE 6561 , L13
+JMPC
+HERE 6556 , L12
+JMP
+HERE 6561 , L13
+, label L12
+LDIA 2 , load small integer
+STLGE
+HERE 92 , [Stack:3]
+JMP
+HERE 6590 , L14
+, label L13
+LDIA 89 , [Stack:0]
+LDAIN
+LDWB
+HERE 6
+BSR
+LDWB
+HERE 1023
+AND
+STA 95 , [Stack:6]
+LDIA 90 , [Stack:1]
+LDAIN
+LDWB
+HERE 6
+BSR
+LDWB
+HERE 1023
+AND
+BIN 95 , [Stack:6]
+SWP
+SUB , operator >
+JMPZ
+HERE 6590 , L16
+JMPC
+HERE 6587 , L15
+JMP
+HERE 6590 , L16
+, label L15
+LDIA 1 , load small integer
+STLGE
+HERE 92 , [Stack:3]
+, label L16
+, label L14
+, label L11
+JMP
+HERE 6652 , L8
+, label L7
+LDIA 89 , [Stack:0]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+STA 94 , [Stack:5]
+LDIA 90 , [Stack:1]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+BIN 94 , [Stack:5]
+SWP
+SUB , operator <
+JMPZ
+HERE 6623 , L18
+JMPC
+HERE 6623 , L18
+JMP
+HERE 6618 , L17
+, label L17
+LDIA 2 , load small integer
+STLGE
+HERE 92 , [Stack:3]
+JMP
+HERE 6652 , L19
+, label L18
+LDIA 89 , [Stack:0]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+STA 94 , [Stack:5]
+LDIA 90 , [Stack:1]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+BIN 94 , [Stack:5]
+SWP
+SUB , operator >
+JMPZ
+HERE 6652 , L21
+JMPC
+HERE 6649 , L20
+JMP
+HERE 6652 , L21
+, label L20
+LDIA 1 , load small integer
+STLGE
+HERE 92 , [Stack:3]
+, label L21
+, label L19
+, label L8
+JMP
+HERE 6865 , L5
+, label L4
+LDIA 89 , [Stack:0]
+LDAIN
+LDWB
+HERE 1
+AND
+LDIB 1 , load small integer
+SUB , operator ==
+JMPZ
+HERE 6665 , L22
+JMP
+HERE 6842 , L23
+, label L22
+LDIA 89 , [Stack:0]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+STA 94 , [Stack:5]
+LDIA 90 , [Stack:1]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+BIN 94 , [Stack:5]
+SWP
+SUB , operator ==
+JMPZ
+HERE 6689 , L25
+JMP
+HERE 6780 , L26
+, label L25
+LDIA 89 , [Stack:0]
+LDAIN
+LDWB
+HERE 6
+BSR
+LDWB
+HERE 1023
+AND
+STA 95 , [Stack:6]
+LDIA 90 , [Stack:1]
+LDAIN
+LDWB
+HERE 6
+BSR
+LDWB
+HERE 1023
+AND
+BIN 95 , [Stack:6]
+SWP
+SUB , operator ==
+JMPZ
+HERE 6713 , L28
+JMP
+HERE 6718 , L29
+, label L28
+LDIA 0 , load small integer
+STLGE
+HERE 92 , [Stack:3]
+JMP
+HERE 6778 , L30
+, label L29
+LDIA 90 , [Stack:1]
+LDAIN
+LDWB
+HERE 6
+BSR
+LDWB
+HERE 1023
+AND
+STA 95 , [Stack:6]
+LDIA 89 , [Stack:0]
+LDAIN
+LDWB
+HERE 6
+BSR
+LDWB
+HERE 1023
+AND
+BIN 95 , [Stack:6]
+SWP
+SUB , operator >
+JMPZ
+HERE 6749 , L32
+JMPC
+HERE 6744 , L31
+JMP
+HERE 6749 , L32
+, label L31
+LDIA 1 , load small integer
+STLGE
+HERE 92 , [Stack:3]
+JMP
+HERE 6778 , L33
+, label L32
+LDIA 89 , [Stack:0]
+LDAIN
+LDWB
+HERE 6
+BSR
+LDWB
+HERE 1023
+AND
+STA 95 , [Stack:6]
+LDIA 90 , [Stack:1]
+LDAIN
+LDWB
+HERE 6
+BSR
+LDWB
+HERE 1023
+AND
+BIN 95 , [Stack:6]
+SWP
+SUB , operator >
+JMPZ
+HERE 6778 , L35
+JMPC
+HERE 6775 , L34
+JMP
+HERE 6778 , L35
+, label L34
+LDIA 2 , load small integer
+STLGE
+HERE 92 , [Stack:3]
+, label L35
+, label L33
+, label L30
+JMP
+HERE 6840 , L27
+, label L26
+LDIA 89 , [Stack:0]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+STA 94 , [Stack:5]
+LDIA 90 , [Stack:1]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+BIN 94 , [Stack:5]
+SWP
+SUB , operator <
+JMPZ
+HERE 6811 , L37
+JMPC
+HERE 6811 , L37
+JMP
+HERE 6806 , L36
+, label L36
+LDIA 1 , load small integer
+STLGE
+HERE 92 , [Stack:3]
+JMP
+HERE 6840 , L38
+, label L37
+LDIA 89 , [Stack:0]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+STA 94 , [Stack:5]
+LDIA 90 , [Stack:1]
+LDAIN
+LDWB
+HERE 1
+BSR
+LDWB
+HERE 31
+AND
+BIN 94 , [Stack:5]
+SWP
+SUB , operator >
+JMPZ
+HERE 6840 , L40
+JMPC
+HERE 6837 , L39
+JMP
+HERE 6840 , L40
+, label L39
+LDIA 2 , load small integer
+STLGE
+HERE 92 , [Stack:3]
+, label L40
+, label L38
+, label L27
+JMP
+HERE 6865 , L24
+, label L23
+LDIA 89 , [Stack:0]
+LDAIN
+LDWB
+HERE 1
+AND
+STA 93 , [Stack:4]
+LDIA 90 , [Stack:1]
+LDAIN
+LDWB
+HERE 1
+AND
+BIN 93 , [Stack:4]
+SWP
+SUB , operator <
+JMPZ
+HERE 6865 , L42
+JMPC
+HERE 6865 , L42
+JMP
+HERE 6862 , L41
+, label L41
+LDIA 1 , load small integer
+STLGE
+HERE 92 , [Stack:3]
+, label L42
+, label L24
+, label L5
+, label L2
+AIN 91 , [Stack:2]
+LDIB 68 , load character '='
+SUB , operator ==
+JMPZ
+HERE 6872 , L43
+JMP
+HERE 6884 , L44
+, label L43
+AIN 92 , [Stack:3]
+LDIB 0 , load small integer
+SUB , operator ==
+JMPZ
+HERE 6879 , L46
+JMP
+HERE 6882 , L47
+, label L46
+LDIA 1 , load boolean true
+JMP
+HERE 6923 , CompareFloats
+, label L47
+JMP
+HERE 6920 , L45
+, label L44
+AIN 91 , [Stack:2]
+LDIB 9 , load character '<'
+SUB , operator ==
+JMPZ
+HERE 6891 , L48
+JMP
+HERE 6903 , L49
+, label L48
+AIN 92 , [Stack:3]
+LDIB 2 , load small integer
+SUB , operator ==
+JMPZ
+HERE 6898 , L51
+JMP
+HERE 6901 , L52
+, label L51
+LDIA 1 , load boolean true
+JMP
+HERE 6923 , CompareFloats
+, label L52
+JMP
+HERE 6920 , L50
+, label L49
+AIN 91 , [Stack:2]
+LDIB 10 , load character '>'
+SUB , operator ==
+JMPZ
+HERE 6910 , L53
+JMP
+HERE 6920 , L54
+, label L53
+AIN 92 , [Stack:3]
+LDIB 1 , load small integer
+SUB , operator ==
+JMPZ
+HERE 6917 , L55
+JMP
+HERE 6920 , L56
+, label L55
+LDIA 1 , load boolean true
+JMP
+HERE 6923 , CompareFloats
+, label L56
+, label L54
+, label L50
+, label L45
+LDIA 0 , load boolean false
+JMP
+HERE 6923 , CompareFloats
+, label CompareFloats
+JMP
+HERE 10264 , __return
 , label IntToFloat
 LDIA 1 , load small integer
 STLGE
@@ -4112,7 +7898,7 @@ LDIA 0 , load small integer
 STLGE
 HERE 93 , [Stack:4]
 JMP
-HERE 3605 , L3
+HERE 6947 , L3
 , label L0
 AIN 93 , [Stack:4]
 LDIB 1
@@ -4123,11 +7909,11 @@ AIN 93 , [Stack:4]
 LDIB 16 , load small integer
 SUB , operator <
 JMPZ
-HERE 3639 , L2
+HERE 6981 , L2
 JMPC
-HERE 3639 , L2
+HERE 6981 , L2
 JMP
-HERE 3614 , L1
+HERE 6956 , L1
 , label L1
 AIN 91 , [Stack:2]
 LDWB
@@ -4137,12 +7923,12 @@ LDWB
 HERE 32768 , load large integer
 SUB , operator ==
 JMPZ
-HERE 3625 , L4
+HERE 6967 , L4
 JMP
-HERE 3627 , L5
+HERE 6969 , L5
 , label L4
 JMP
-HERE 3639 , L2
+HERE 6981 , L2
 , label L5
 AIN 91 , [Stack:2]
 LDIB 1 , load small integer
@@ -4155,7 +7941,7 @@ ADD
 STLGE
 HERE 90 , [Stack:1]
 JMP
-HERE 3601 , L0, jump to next iteration
+HERE 6943 , L0, jump to next iteration
 , label L2
 LDIA 15 , load small integer
 BIN 90 , [Stack:1]
@@ -4176,11 +7962,11 @@ LDWB
 HERE 2047 , load large integer
 SUB , operator >
 JMPZ
-HERE 3677 , L7
+HERE 7019 , L7
 JMPC
-HERE 3663 , L6
+HERE 7005 , L6
 JMP
-HERE 3677 , L7
+HERE 7019 , L7
 , label L6
 AIN 94 , [Stack:5]
 STA 96 , [Stack:7]
@@ -4195,18 +7981,18 @@ BSR
 STLGE
 HERE 94 , [Stack:5]
 JMP
-HERE 3702 , L8
+HERE 7044 , L8
 , label L7
 AIN 94 , [Stack:5]
 LDWB
 HERE 1024 , load large integer
 SUB , operator <
 JMPZ
-HERE 3702 , L10
+HERE 7044 , L10
 JMPC
-HERE 3702 , L10
+HERE 7044 , L10
 JMP
-HERE 3687 , L9
+HERE 7029 , L9
 , label L9
 AIN 94 , [Stack:5]
 STA 96 , [Stack:7]
@@ -4226,23 +8012,23 @@ HERE 94 , [Stack:5]
 , label L10
 , label L8
 LDW
-HERE 3711 , L12
+HERE 7053 , L12
 SWPC
 LDW
-HERE 3717 , L11
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 7059 , L11
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L12
 AIN 94 , [Stack:5], load value
 STA 89 , [Stack:0], store value
 AIN 93 , [Stack:4], load value
 STA 90 , [Stack:1], store value
 JMP
-HERE 2406 , normalizeFloat
+HERE 5187 , normalizeFloat
 , label L11
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 95 , [Stack:6]
 LDIA 89 , [Stack:0]
@@ -4269,10 +8055,10 @@ LDIA 95 , [Stack:6]
 STAOUT
 AIN 95 , [Stack:6]
 JMP
-HERE 3745 , IntToFloat
+HERE 7087 , IntToFloat
 , label IntToFloat
 JMP
-HERE 6925 , __return
+HERE 10264 , __return
 , label AddFloats
 AIN 91 , [Stack:2]
 LDWB
@@ -4319,11 +8105,11 @@ BIN 107 , [Stack:18]
 SWP
 SUB , operator >
 JMPZ
-HERE 4194 , L1
+HERE 7536 , L1
 JMPC
-HERE 3797 , L0
+HERE 7139 , L0
 JMP
-HERE 4194 , L1
+HERE 7536 , L1
 , label L0
 LDIA 90 , [Stack:1]
 LDAIN
@@ -4386,26 +8172,26 @@ AND
 LDIB 1 , load boolean true
 SUB , operator ==
 JMPZ
-HERE 3861 , L3
+HERE 7203 , L3
 JMP
-HERE 3979 , L4
+HERE 7321 , L4
 , label L3
 LDW
-HERE 3870 , L6
+HERE 7212 , L6
 SWPC
 LDW
-HERE 3874 , L5
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 7216 , L5
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L6
 AIN 92 , [Stack:3], load value
 STA 89 , [Stack:0], store value
 JMP
-HERE 2386 , Negative
+HERE 4984 , Negative
 , label L5
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 92 , [Stack:3]
 LDIA 90 , [Stack:1]
@@ -4429,17 +8215,17 @@ BIN 110 , [Stack:22]
 SWP
 SUB , operator >
 JMPZ
-HERE 3908 , L8
+HERE 7250 , L8
 JMPC
-HERE 3903 , L7
+HERE 7245 , L7
 JMP
-HERE 3908 , L8
+HERE 7250 , L8
 , label L7
 LDIA 1 , load boolean true
 STLGE
 HERE 94 , [Stack:5]
 JMP
-HERE 3979 , L9
+HERE 7321 , L9
 , label L8
 LDIA 90 , [Stack:1]
 LDAIN
@@ -4462,20 +8248,20 @@ BIN 110 , [Stack:22]
 SWP
 SUB , operator ==
 JMPZ
-HERE 3935 , L13
+HERE 7277 , L13
 JMP
-HERE 3932 , L12
+HERE 7274 , L12
 , label L12
 LDIA 0
 JMP
-HERE 3936 , L14
+HERE 7278 , L14
 , label L13
 LDIA 1
 , label L14
 LDIB 0
 SUB
 JMPZ
-HERE 3979 , L11
+HERE 7321 , L11
 LDIA 90 , [Stack:1]
 LDAIN
 LDWB
@@ -4497,24 +8283,24 @@ BIN 110 , [Stack:22]
 SWP
 SUB , operator >
 JMPZ
-HERE 3966 , L15
+HERE 7308 , L15
 JMPC
-HERE 3969 , L16
+HERE 7311 , L16
 JMP
-HERE 3966 , L15
+HERE 7308 , L15
 , label L15
 LDIA 0
 JMP
-HERE 3970 , L17
+HERE 7312 , L17
 , label L16
 LDIA 1
 , label L17
 LDIB 0
 SUB
 JMPZ
-HERE 3979 , L11
+HERE 7321 , L11
 JMP
-HERE 3976 , L10
+HERE 7318 , L10
 , label L10
 LDIA 1 , load boolean true
 STLGE
@@ -4530,26 +8316,26 @@ AND
 LDIB 1 , load boolean true
 SUB , operator ==
 JMPZ
-HERE 3990 , L18
+HERE 7332 , L18
 JMP
-HERE 4108 , L19
+HERE 7450 , L19
 , label L18
 LDW
-HERE 3999 , L21
+HERE 7341 , L21
 SWPC
 LDW
-HERE 4003 , L20
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 7345 , L20
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L21
 AIN 93 , [Stack:4], load value
 STA 89 , [Stack:0], store value
 JMP
-HERE 2386 , Negative
+HERE 4984 , Negative
 , label L20
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 93 , [Stack:4]
 LDIA 89 , [Stack:0]
@@ -4573,17 +8359,17 @@ BIN 110 , [Stack:22]
 SWP
 SUB , operator >
 JMPZ
-HERE 4037 , L23
+HERE 7379 , L23
 JMPC
-HERE 4032 , L22
+HERE 7374 , L22
 JMP
-HERE 4037 , L23
+HERE 7379 , L23
 , label L22
 LDIA 1 , load boolean true
 STLGE
 HERE 94 , [Stack:5]
 JMP
-HERE 4108 , L24
+HERE 7450 , L24
 , label L23
 LDIA 89 , [Stack:0]
 LDAIN
@@ -4606,20 +8392,20 @@ BIN 110 , [Stack:22]
 SWP
 SUB , operator ==
 JMPZ
-HERE 4064 , L28
+HERE 7406 , L28
 JMP
-HERE 4061 , L27
+HERE 7403 , L27
 , label L27
 LDIA 0
 JMP
-HERE 4065 , L29
+HERE 7407 , L29
 , label L28
 LDIA 1
 , label L29
 LDIB 0
 SUB
 JMPZ
-HERE 4108 , L26
+HERE 7450 , L26
 LDIA 89 , [Stack:0]
 LDAIN
 LDWB
@@ -4641,24 +8427,24 @@ BIN 110 , [Stack:22]
 SWP
 SUB , operator >
 JMPZ
-HERE 4095 , L30
+HERE 7437 , L30
 JMPC
-HERE 4098 , L31
+HERE 7440 , L31
 JMP
-HERE 4095 , L30
+HERE 7437 , L30
 , label L30
 LDIA 0
 JMP
-HERE 4099 , L32
+HERE 7441 , L32
 , label L31
 LDIA 1
 , label L32
 LDIB 0
 SUB
 JMPZ
-HERE 4108 , L26
+HERE 7450 , L26
 JMP
-HERE 4105 , L25
+HERE 7447 , L25
 , label L25
 LDIA 1 , load boolean true
 STLGE
@@ -4729,33 +8515,33 @@ LDWB
 HERE 1024 , load large integer
 SUB , operator !=
 JMPZ
-HERE 4192 , L34
+HERE 7534 , L34
 JMP
-HERE 4174 , L33
+HERE 7516 , L33
 , label L33
 LDW
-HERE 4183 , L36
+HERE 7525 , L36
 SWPC
 LDW
-HERE 4189 , L35
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 7531 , L35
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L36
 AIN 95 , [Stack:6], load value
 STA 89 , [Stack:0], store value
 AIN 96 , [Stack:7], load value
 STA 90 , [Stack:1], store value
 JMP
-HERE 2406 , normalizeFloat
+HERE 5187 , normalizeFloat
 , label L35
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 91 , [Stack:2]
 , label L34
 JMP
-HERE 5010 , L2
+HERE 8352 , L2
 , label L1
 LDIA 89 , [Stack:0]
 LDAIN
@@ -4778,11 +8564,11 @@ BIN 107 , [Stack:18]
 SWP
 SUB , operator <
 JMPZ
-HERE 4625 , L38
+HERE 7967 , L38
 JMPC
-HERE 4625 , L38
+HERE 7967 , L38
 JMP
-HERE 4220 , L37
+HERE 7562 , L37
 , label L37
 LDIA 90 , [Stack:1]
 LDAIN
@@ -4845,26 +8631,26 @@ AND
 LDIB 1 , load boolean true
 SUB , operator ==
 JMPZ
-HERE 4284 , L40
+HERE 7626 , L40
 JMP
-HERE 4402 , L41
+HERE 7744 , L41
 , label L40
 LDW
-HERE 4293 , L43
+HERE 7635 , L43
 SWPC
 LDW
-HERE 4297 , L42
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 7639 , L42
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L43
 AIN 97 , [Stack:8], load value
 STA 89 , [Stack:0], store value
 JMP
-HERE 2386 , Negative
+HERE 4984 , Negative
 , label L42
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 97 , [Stack:8]
 LDIA 90 , [Stack:1]
@@ -4888,17 +8674,17 @@ BIN 110 , [Stack:22]
 SWP
 SUB , operator >
 JMPZ
-HERE 4331 , L45
+HERE 7673 , L45
 JMPC
-HERE 4326 , L44
+HERE 7668 , L44
 JMP
-HERE 4331 , L45
+HERE 7673 , L45
 , label L44
 LDIA 1 , load boolean true
 STLGE
 HERE 99 , [Stack:10]
 JMP
-HERE 4402 , L46
+HERE 7744 , L46
 , label L45
 LDIA 90 , [Stack:1]
 LDAIN
@@ -4921,20 +8707,20 @@ BIN 110 , [Stack:22]
 SWP
 SUB , operator ==
 JMPZ
-HERE 4358 , L50
+HERE 7700 , L50
 JMP
-HERE 4355 , L49
+HERE 7697 , L49
 , label L49
 LDIA 0
 JMP
-HERE 4359 , L51
+HERE 7701 , L51
 , label L50
 LDIA 1
 , label L51
 LDIB 0
 SUB
 JMPZ
-HERE 4402 , L48
+HERE 7744 , L48
 LDIA 90 , [Stack:1]
 LDAIN
 LDWB
@@ -4956,24 +8742,24 @@ BIN 110 , [Stack:22]
 SWP
 SUB , operator >
 JMPZ
-HERE 4389 , L52
+HERE 7731 , L52
 JMPC
-HERE 4392 , L53
+HERE 7734 , L53
 JMP
-HERE 4389 , L52
+HERE 7731 , L52
 , label L52
 LDIA 0
 JMP
-HERE 4393 , L54
+HERE 7735 , L54
 , label L53
 LDIA 1
 , label L54
 LDIB 0
 SUB
 JMPZ
-HERE 4402 , L48
+HERE 7744 , L48
 JMP
-HERE 4399 , L47
+HERE 7741 , L47
 , label L47
 LDIA 1 , load boolean true
 STLGE
@@ -4989,26 +8775,26 @@ AND
 LDIB 1 , load boolean true
 SUB , operator ==
 JMPZ
-HERE 4413 , L55
+HERE 7755 , L55
 JMP
-HERE 4531 , L56
+HERE 7873 , L56
 , label L55
 LDW
-HERE 4422 , L58
+HERE 7764 , L58
 SWPC
 LDW
-HERE 4426 , L57
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 7768 , L57
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L58
 AIN 98 , [Stack:9], load value
 STA 89 , [Stack:0], store value
 JMP
-HERE 2386 , Negative
+HERE 4984 , Negative
 , label L57
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 98 , [Stack:9]
 LDIA 89 , [Stack:0]
@@ -5032,17 +8818,17 @@ BIN 110 , [Stack:22]
 SWP
 SUB , operator >
 JMPZ
-HERE 4460 , L60
+HERE 7802 , L60
 JMPC
-HERE 4455 , L59
+HERE 7797 , L59
 JMP
-HERE 4460 , L60
+HERE 7802 , L60
 , label L59
 LDIA 1 , load boolean true
 STLGE
 HERE 99 , [Stack:10]
 JMP
-HERE 4531 , L61
+HERE 7873 , L61
 , label L60
 LDIA 89 , [Stack:0]
 LDAIN
@@ -5065,20 +8851,20 @@ BIN 110 , [Stack:22]
 SWP
 SUB , operator ==
 JMPZ
-HERE 4487 , L65
+HERE 7829 , L65
 JMP
-HERE 4484 , L64
+HERE 7826 , L64
 , label L64
 LDIA 0
 JMP
-HERE 4488 , L66
+HERE 7830 , L66
 , label L65
 LDIA 1
 , label L66
 LDIB 0
 SUB
 JMPZ
-HERE 4531 , L63
+HERE 7873 , L63
 LDIA 89 , [Stack:0]
 LDAIN
 LDWB
@@ -5100,24 +8886,24 @@ BIN 110 , [Stack:22]
 SWP
 SUB , operator >
 JMPZ
-HERE 4518 , L67
+HERE 7860 , L67
 JMPC
-HERE 4521 , L68
+HERE 7863 , L68
 JMP
-HERE 4518 , L67
+HERE 7860 , L67
 , label L67
 LDIA 0
 JMP
-HERE 4522 , L69
+HERE 7864 , L69
 , label L68
 LDIA 1
 , label L69
 LDIB 0
 SUB
 JMPZ
-HERE 4531 , L63
+HERE 7873 , L63
 JMP
-HERE 4528 , L62
+HERE 7870 , L62
 , label L62
 LDIA 1 , load boolean true
 STLGE
@@ -5188,19 +8974,19 @@ LDWB
 HERE 1024 , load large integer
 SUB , operator !=
 JMPZ
-HERE 4623 , L71
+HERE 7965 , L71
 JMP
-HERE 4597 , L70
+HERE 7939 , L70
 , label L70
 LDW
-HERE 4606 , L73
+HERE 7948 , L73
 SWPC
 LDW
-HERE 4620 , L72
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 7962 , L72
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L73
 AIN 100 , [Stack:11], load value
 STA 89 , [Stack:0], store value
@@ -5215,14 +9001,14 @@ AND
 STLGE
 HERE 90 , [Stack:1]
 JMP
-HERE 2406 , normalizeFloat
+HERE 5187 , normalizeFloat
 , label L72
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 91 , [Stack:2]
 , label L71
 JMP
-HERE 5010 , L39
+HERE 8352 , L39
 , label L38
 LDIA 90 , [Stack:1]
 LDAIN
@@ -5265,26 +9051,26 @@ AND
 LDIB 1 , load boolean true
 SUB , operator ==
 JMPZ
-HERE 4669 , L74
+HERE 8011 , L74
 JMP
-HERE 4787 , L75
+HERE 8129 , L75
 , label L74
 LDW
-HERE 4678 , L77
+HERE 8020 , L77
 SWPC
 LDW
-HERE 4682 , L76
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 8024 , L76
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L77
 AIN 102 , [Stack:13], load value
 STA 89 , [Stack:0], store value
 JMP
-HERE 2386 , Negative
+HERE 4984 , Negative
 , label L76
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 102 , [Stack:13]
 LDIA 90 , [Stack:1]
@@ -5308,17 +9094,17 @@ BIN 108 , [Stack:19]
 SWP
 SUB , operator >
 JMPZ
-HERE 4716 , L79
+HERE 8058 , L79
 JMPC
-HERE 4711 , L78
+HERE 8053 , L78
 JMP
-HERE 4716 , L79
+HERE 8058 , L79
 , label L78
 LDIA 1 , load boolean true
 STLGE
 HERE 104 , [Stack:15]
 JMP
-HERE 4787 , L80
+HERE 8129 , L80
 , label L79
 LDIA 90 , [Stack:1]
 LDAIN
@@ -5341,20 +9127,20 @@ BIN 108 , [Stack:19]
 SWP
 SUB , operator ==
 JMPZ
-HERE 4743 , L84
+HERE 8085 , L84
 JMP
-HERE 4740 , L83
+HERE 8082 , L83
 , label L83
 LDIA 0
 JMP
-HERE 4744 , L85
+HERE 8086 , L85
 , label L84
 LDIA 1
 , label L85
 LDIB 0
 SUB
 JMPZ
-HERE 4787 , L82
+HERE 8129 , L82
 LDIA 90 , [Stack:1]
 LDAIN
 LDWB
@@ -5376,24 +9162,24 @@ BIN 108 , [Stack:19]
 SWP
 SUB , operator >
 JMPZ
-HERE 4774 , L86
+HERE 8116 , L86
 JMPC
-HERE 4777 , L87
+HERE 8119 , L87
 JMP
-HERE 4774 , L86
+HERE 8116 , L86
 , label L86
 LDIA 0
 JMP
-HERE 4778 , L88
+HERE 8120 , L88
 , label L87
 LDIA 1
 , label L88
 LDIB 0
 SUB
 JMPZ
-HERE 4787 , L82
+HERE 8129 , L82
 JMP
-HERE 4784 , L81
+HERE 8126 , L81
 , label L81
 LDIA 1 , load boolean true
 STLGE
@@ -5409,26 +9195,26 @@ AND
 LDIB 1 , load boolean true
 SUB , operator ==
 JMPZ
-HERE 4798 , L89
+HERE 8140 , L89
 JMP
-HERE 4916 , L90
+HERE 8258 , L90
 , label L89
 LDW
-HERE 4807 , L92
+HERE 8149 , L92
 SWPC
 LDW
-HERE 4811 , L91
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 8153 , L91
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L92
 AIN 103 , [Stack:14], load value
 STA 89 , [Stack:0], store value
 JMP
-HERE 2386 , Negative
+HERE 4984 , Negative
 , label L91
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 103 , [Stack:14]
 LDIA 89 , [Stack:0]
@@ -5452,17 +9238,17 @@ BIN 108 , [Stack:19]
 SWP
 SUB , operator >
 JMPZ
-HERE 4845 , L94
+HERE 8187 , L94
 JMPC
-HERE 4840 , L93
+HERE 8182 , L93
 JMP
-HERE 4845 , L94
+HERE 8187 , L94
 , label L93
 LDIA 1 , load boolean true
 STLGE
 HERE 104 , [Stack:15]
 JMP
-HERE 4916 , L95
+HERE 8258 , L95
 , label L94
 LDIA 89 , [Stack:0]
 LDAIN
@@ -5485,20 +9271,20 @@ BIN 108 , [Stack:19]
 SWP
 SUB , operator ==
 JMPZ
-HERE 4872 , L99
+HERE 8214 , L99
 JMP
-HERE 4869 , L98
+HERE 8211 , L98
 , label L98
 LDIA 0
 JMP
-HERE 4873 , L100
+HERE 8215 , L100
 , label L99
 LDIA 1
 , label L100
 LDIB 0
 SUB
 JMPZ
-HERE 4916 , L97
+HERE 8258 , L97
 LDIA 89 , [Stack:0]
 LDAIN
 LDWB
@@ -5520,24 +9306,24 @@ BIN 108 , [Stack:19]
 SWP
 SUB , operator >
 JMPZ
-HERE 4903 , L101
+HERE 8245 , L101
 JMPC
-HERE 4906 , L102
+HERE 8248 , L102
 JMP
-HERE 4903 , L101
+HERE 8245 , L101
 , label L101
 LDIA 0
 JMP
-HERE 4907 , L103
+HERE 8249 , L103
 , label L102
 LDIA 1
 , label L103
 LDIB 0
 SUB
 JMPZ
-HERE 4916 , L97
+HERE 8258 , L97
 JMP
-HERE 4913 , L96
+HERE 8255 , L96
 , label L96
 LDIA 1 , load boolean true
 STLGE
@@ -5610,19 +9396,19 @@ LDWB
 HERE 1024 , load large integer
 SUB , operator !=
 JMPZ
-HERE 5010 , L105
+HERE 8352 , L105
 JMP
-HERE 4984 , L104
+HERE 8326 , L104
 , label L104
 LDW
-HERE 4993 , L107
+HERE 8335 , L107
 SWPC
 LDW
-HERE 5007 , L106
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 8349 , L106
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L107
 AIN 105 , [Stack:16], load value
 STA 89 , [Stack:0], store value
@@ -5637,9 +9423,9 @@ AND
 STLGE
 HERE 90 , [Stack:1]
 JMP
-HERE 2406 , normalizeFloat
+HERE 5187 , normalizeFloat
 , label L106
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 91 , [Stack:2]
 , label L105
@@ -5647,10 +9433,10 @@ HERE 91 , [Stack:2]
 , label L2
 AIN 91 , [Stack:2]
 JMP
-HERE 5013 , AddFloats
+HERE 8355 , AddFloats
 , label AddFloats
 JMP
-HERE 6925 , __return
+HERE 10264 , __return
 , label SubFloats
 AIN 90 , [Stack:1], load value
 STA 91 , [Stack:2], store value
@@ -5662,7 +9448,7 @@ AND
 LDIB 1
 SUB
 JMPZ
-HERE 5027 , L0
+HERE 8369 , L0
 LDIA 1
 , label L0
 LDIB 1
@@ -5680,28 +9466,28 @@ SWP
 LDIA 91 , [Stack:2]
 STAOUT
 LDW
-HERE 5050 , L2
+HERE 8392 , L2
 SWPC
 LDW
-HERE 5056 , L1
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 8398 , L1
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L2
 AIN 89 , [Stack:0], load value
 STA 89 , [Stack:0], store value
 AIN 91 , [Stack:2], load value
 STA 90 , [Stack:1], store value
 JMP
-HERE 3747 , AddFloats
+HERE 7089 , AddFloats
 , label L1
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 JMP
-HERE 5059 , SubFloats
+HERE 8401 , SubFloats
 , label SubFloats
 JMP
-HERE 6925 , __return
+HERE 10264 , __return
 , label MultFloats
 LDIA 89 , [Stack:0]
 LDAIN
@@ -5750,9 +9536,9 @@ AIN 93 , [Stack:4]
 BIN 94 , [Stack:5]
 SUB , operator !=
 JMPZ
-HERE 5114 , L5
+HERE 8456 , L5
 JMP
-HERE 5111 , L4
+HERE 8453 , L4
 , label L4
 LDIA 1 , load small integer
 STLGE
@@ -5765,7 +9551,7 @@ LDIA 0 , load small integer
 STLGE
 HERE 97 , [Stack:8]
 JMP
-HERE 5126 , L3
+HERE 8468 , L3
 , label L0
 AIN 97 , [Stack:8]
 LDIB 1
@@ -5776,11 +9562,11 @@ AIN 97 , [Stack:8]
 LDIB 16 , load small integer
 SUB , operator <
 JMPZ
-HERE 5192 , L2
+HERE 8534 , L2
 JMPC
-HERE 5192 , L2
+HERE 8534 , L2
 JMP
-HERE 5135 , L1
+HERE 8477 , L1
 , label L1
 AIN 91 , [Stack:2]
 LDIB 1 , load small integer
@@ -5788,47 +9574,47 @@ AND
 LDIB 1 , load small integer
 SUB , operator ==
 JMPZ
-HERE 5147 , L10
+HERE 8489 , L10
 JMP
-HERE 5144 , L9
+HERE 8486 , L9
 , label L9
 LDIA 0
 JMP
-HERE 5148 , L11
+HERE 8490 , L11
 , label L10
 LDIA 1
 , label L11
 LDIB 1
 SUB
 JMPZ
-HERE 5171 , L6
+HERE 8513 , L6
 AIN 92 , [Stack:3]
 LDIB 1 , load small integer
 AND
 LDIB 1 , load small integer
 SUB , operator ==
 JMPZ
-HERE 5164 , L13
+HERE 8506 , L13
 JMP
-HERE 5161 , L12
+HERE 8503 , L12
 , label L12
 LDIA 0
 JMP
-HERE 5165 , L14
+HERE 8507 , L14
 , label L13
 LDIA 1
 , label L14
 LDIB 1
 SUB
 JMPZ
-HERE 5171 , L6
+HERE 8513 , L6
 JMP
-HERE 5175 , L7
+HERE 8517 , L7
 , label L6
 JMP
-HERE 5192 , L2
+HERE 8534 , L2
 JMP
-HERE 5190 , L8
+HERE 8532 , L8
 , label L7
 AIN 91 , [Stack:2]
 LDIB 1 , load small integer
@@ -5847,7 +9633,7 @@ STLGE
 HERE 96 , [Stack:7]
 , label L8
 JMP
-HERE 5122 , L0, jump to next iteration
+HERE 8464 , L0, jump to next iteration
 , label L2
 AIN 91 , [Stack:2]
 BIN 92 , [Stack:3]
@@ -5930,37 +9716,37 @@ LDWB
 HERE 1024 , load large integer
 SUB , operator !=
 JMPZ
-HERE 5294 , L16
+HERE 8636 , L16
 JMP
-HERE 5276 , L15
+HERE 8618 , L15
 , label L15
 LDW
-HERE 5285 , L18
+HERE 8627 , L18
 SWPC
 LDW
-HERE 5291 , L17
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 8633 , L17
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L18
 AIN 97 , [Stack:8], load value
 STA 89 , [Stack:0], store value
 AIN 98 , [Stack:9], load value
 STA 90 , [Stack:1], store value
 JMP
-HERE 2406 , normalizeFloat
+HERE 5187 , normalizeFloat
 , label L17
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 99 , [Stack:10]
 , label L16
 AIN 99 , [Stack:10]
 JMP
-HERE 5297 , MultFloats
+HERE 8639 , MultFloats
 , label MultFloats
 JMP
-HERE 6925 , __return
+HERE 10264 , __return
 , label DivFloats
 LDIA 0 , load small integer
 STLGE
@@ -6055,14 +9841,14 @@ BIN 103 , [Stack:14]
 OR
 STA 104 , [Stack:15]
 LDW
-HERE 5400 , L18
+HERE 8742 , L18
 SWPC
 LDW
-HERE 5407 , L17
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 8749 , L17
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L18
 AIN 102 , [Stack:13]
 BIN 103 , [Stack:14]
@@ -6070,14 +9856,14 @@ AND
 STLGE
 HERE 89 , [Stack:0]
 JMP
-HERE 2377 , NOT
+HERE 4975 , NOT
 , label L17
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 BIN 104 , [Stack:15]
 SWP
 AND
 JMP
-HERE 5413 , L0
+HERE 8755 , L0
 , label L0
 STLGE
 HERE 94 , [Stack:5]
@@ -6088,7 +9874,7 @@ LDIA 0 , load small integer
 STLGE
 HERE 103 , [Stack:14]
 JMP
-HERE 5427 , L4
+HERE 8769 , L4
 , label L1
 AIN 103 , [Stack:14]
 LDIB 1
@@ -6099,138 +9885,138 @@ AIN 103 , [Stack:14]
 LDIB 2 , load small integer
 SUB , operator <
 JMPZ
-HERE 6817 , L3
+HERE 10159 , L3
 JMPC
-HERE 6817 , L3
+HERE 10159 , L3
 JMP
-HERE 5436 , L2
+HERE 8778 , L2
 , label L2
 AIN 95 , [Stack:6]
 LDIB 1 , load small integer
 SUB , operator >=
 JMPZ
-HERE 5448 , L32
+HERE 8790 , L32
 JMPC
-HERE 5448 , L32
+HERE 8790 , L32
 JMP
-HERE 5445 , L31
+HERE 8787 , L31
 , label L31
 LDIA 0
 JMP
-HERE 5449 , L33
+HERE 8791 , L33
 , label L32
 LDIA 1
 , label L33
 LDIB 0
 SUB
 JMPZ
-HERE 5472 , L28
+HERE 8814 , L28
 AIN 95 , [Stack:6]
 LDIB 30 , load small integer
 SUB , operator <=
 JMPZ
-HERE 5465 , L35
+HERE 8807 , L35
 JMPC
-HERE 5462 , L34
+HERE 8804 , L34
 JMP
-HERE 5465 , L35
+HERE 8807 , L35
 , label L34
 LDIA 0
 JMP
-HERE 5466 , L36
+HERE 8808 , L36
 , label L35
 LDIA 1
 , label L36
 LDIB 0
 SUB
 JMPZ
-HERE 5472 , L28
+HERE 8814 , L28
 JMP
-HERE 5475 , L29
+HERE 8817 , L29
 , label L28
 LDIA 0
 JMP
-HERE 5476 , L30
+HERE 8818 , L30
 , label L29
 LDIA 1
 , label L30
 LDIB 0
 SUB
 JMPZ
-HERE 5499 , L25
+HERE 8841 , L25
 AIN 96 , [Stack:7]
 LDIB 1 , load small integer
 SUB , operator >=
 JMPZ
-HERE 5492 , L38
+HERE 8834 , L38
 JMPC
-HERE 5492 , L38
+HERE 8834 , L38
 JMP
-HERE 5489 , L37
+HERE 8831 , L37
 , label L37
 LDIA 0
 JMP
-HERE 5493 , L39
+HERE 8835 , L39
 , label L38
 LDIA 1
 , label L39
 LDIB 0
 SUB
 JMPZ
-HERE 5499 , L25
+HERE 8841 , L25
 JMP
-HERE 5502 , L26
+HERE 8844 , L26
 , label L25
 LDIA 0
 JMP
-HERE 5503 , L27
+HERE 8845 , L27
 , label L26
 LDIA 1
 , label L27
 LDIB 0
 SUB
 JMPZ
-HERE 5526 , L22
+HERE 8868 , L22
 AIN 96 , [Stack:7]
 LDIB 1 , load small integer
 SUB , operator <=
 JMPZ
-HERE 5519 , L41
+HERE 8861 , L41
 JMPC
-HERE 5516 , L40
+HERE 8858 , L40
 JMP
-HERE 5519 , L41
+HERE 8861 , L41
 , label L40
 LDIA 0
 JMP
-HERE 5520 , L42
+HERE 8862 , L42
 , label L41
 LDIA 1
 , label L42
 LDIB 0
 SUB
 JMPZ
-HERE 5526 , L22
+HERE 8868 , L22
 JMP
-HERE 5529 , L23
+HERE 8871 , L23
 , label L22
 LDIA 0
 JMP
-HERE 5530 , L24
+HERE 8872 , L24
 , label L23
 LDIA 1
 , label L24
 LDIB 1
 SUB
 JMPZ
-HERE 5541 , L19
+HERE 8883 , L19
 AIN 102 , [Stack:13]
 LDIB 1
 SUB
 JMPZ
-HERE 5541 , L19
+HERE 8883 , L19
 JMP
-HERE 5984 , L20
+HERE 9326 , L20
 , label L19
 LDIA 89 , [Stack:0]
 LDAIN
@@ -6283,11 +10069,11 @@ AIN 92 , [Stack:3]
 BIN 93 , [Stack:4]
 SUB , operator <
 JMPZ
-HERE 5628 , L44
+HERE 8970 , L44
 JMPC
-HERE 5628 , L44
+HERE 8970 , L44
 JMP
-HERE 5597 , L43
+HERE 8939 , L43
 , label L43
 AIN 92 , [Stack:3]
 LDIB 1 , load small integer
@@ -6328,7 +10114,7 @@ LDIA 0 , load small integer
 STLGE
 HERE 97 , [Stack:8]
 JMP
-HERE 5640 , L8
+HERE 8982 , L8
 , label L5
 AIN 97 , [Stack:8]
 LDIB 1
@@ -6339,11 +10125,11 @@ AIN 97 , [Stack:8]
 LDIB 12 , load small integer
 SUB , operator <
 JMPZ
-HERE 5680 , L7
+HERE 9022 , L7
 JMPC
-HERE 5680 , L7
+HERE 9022 , L7
 JMP
-HERE 5649 , L6
+HERE 8991 , L6
 , label L6
 AIN 91 , [Stack:2]
 LDIB 1 , load small integer
@@ -6354,11 +10140,11 @@ AIN 92 , [Stack:3]
 BIN 93 , [Stack:4]
 SUB , operator >=
 JMPZ
-HERE 5663 , L45
+HERE 9005 , L45
 JMPC
-HERE 5663 , L45
+HERE 9005 , L45
 JMP
-HERE 5673 , L46
+HERE 9015 , L46
 , label L45
 AIN 92 , [Stack:3]
 BIN 93 , [Stack:4]
@@ -6377,19 +10163,19 @@ BSL
 STLGE
 HERE 92 , [Stack:3]
 JMP
-HERE 5636 , L5, jump to next iteration
+HERE 8978 , L5, jump to next iteration
 , label L7
 AIN 92 , [Stack:3]
 LDIB 0 , load small integer
 SUB , operator !=
 JMPZ
-HERE 5687 , L47
+HERE 9029 , L47
 JMP
-HERE 5690 , L48
+HERE 9032 , L48
 , label L47
 LDIA 0
 JMP
-HERE 5691 , L49
+HERE 9033 , L49
 , label L48
 LDIA 1
 , label L49
@@ -6406,22 +10192,22 @@ AND
 LDIB 1 , load small integer
 SUB , operator >=
 JMPZ
-HERE 5712 , L54
+HERE 9054 , L54
 JMPC
-HERE 5712 , L54
+HERE 9054 , L54
 JMP
-HERE 5709 , L53
+HERE 9051 , L53
 , label L53
 LDIA 0
 JMP
-HERE 5713 , L55
+HERE 9055 , L55
 , label L54
 LDIA 1
 , label L55
 LDIB 0
 SUB
 JMPZ
-HERE 5802 , L51
+HERE 9144 , L51
 LDIA 101 , [Stack:12]
 LDAIN
 LDWB
@@ -6433,24 +10219,24 @@ AND
 LDIB 30 , load small integer
 SUB , operator <=
 JMPZ
-HERE 5736 , L57
+HERE 9078 , L57
 JMPC
-HERE 5733 , L56
+HERE 9075 , L56
 JMP
-HERE 5736 , L57
+HERE 9078 , L57
 , label L56
 LDIA 0
 JMP
-HERE 5737 , L58
+HERE 9079 , L58
 , label L57
 LDIA 1
 , label L58
 LDIB 0
 SUB
 JMPZ
-HERE 5802 , L51
+HERE 9144 , L51
 JMP
-HERE 5743 , L50
+HERE 9085 , L50
 , label L50
 AIN 91 , [Stack:2]
 LDIB 1 , load small integer
@@ -6463,13 +10249,13 @@ AND
 LDIB 0 , load small integer
 SUB , operator !=
 JMPZ
-HERE 5757 , L59
+HERE 9099 , L59
 JMP
-HERE 5760 , L60
+HERE 9102 , L60
 , label L59
 LDIA 0
 JMP
-HERE 5761 , L61
+HERE 9103 , L61
 , label L60
 LDIA 1
 , label L61
@@ -6513,7 +10299,7 @@ SWP
 LDIA 101 , [Stack:12]
 STAOUT
 JMP
-HERE 5967 , L52
+HERE 9309 , L52
 , label L51
 LDIA 101 , [Stack:12]
 LDAIN
@@ -6526,11 +10312,11 @@ AND
 LDIB 30 , load small integer
 SUB , operator >
 JMPZ
-HERE 5831 , L63
+HERE 9173 , L63
 JMPC
-HERE 5818 , L62
+HERE 9160 , L62
 JMP
-HERE 5831 , L63
+HERE 9173 , L63
 , label L62
 LDIA 101 , [Stack:12]
 LDAIN
@@ -6544,7 +10330,7 @@ SWP
 LDIA 101 , [Stack:12]
 STAOUT
 JMP
-HERE 5967 , L64
+HERE 9309 , L64
 , label L63
 LDIA 1 , load small integer
 STA 107 , [Stack:18]
@@ -6565,11 +10351,11 @@ AIN 104 , [Stack:15]
 LDIB 12 , load small integer
 SUB , operator >
 JMPZ
-HERE 5858 , L66
+HERE 9200 , L66
 JMPC
-HERE 5855 , L65
+HERE 9197 , L65
 JMP
-HERE 5858 , L66
+HERE 9200 , L66
 , label L65
 LDIA 12 , load small integer
 STLGE
@@ -6580,53 +10366,53 @@ STA 107 , [Stack:18]
 AIN 91 , [Stack:2]
 STA 108 , [Stack:19]
 LDW
-HERE 5871 , L71
+HERE 9213 , L71
 SWPC
 LDW
-HERE 5892 , L70
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 9234 , L70
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L71
 LDW
-HERE 5880 , L73
+HERE 9222 , L73
 SWPC
 LDW
-HERE 5885 , L72
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 9227 , L72
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L73
 LDIA 0 , load small integer
 STLGE
 HERE 89 , [Stack:0]
 JMP
-HERE 2377 , NOT
+HERE 4975 , NOT
 , label L72
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 BIN 104 , [Stack:15]
 BSL
 STLGE
 HERE 89 , [Stack:0]
 JMP
-HERE 2377 , NOT
+HERE 4975 , NOT
 , label L70
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 BIN 108 , [Stack:19]
 SWP
 AND
 LDIB 0 , load small integer
 SUB , operator !=
 JMPZ
-HERE 5902 , L67
+HERE 9244 , L67
 JMP
-HERE 5905 , L68
+HERE 9247 , L68
 , label L67
 LDIA 0
 JMP
-HERE 5906 , L69
+HERE 9248 , L69
 , label L68
 LDIA 1
 , label L69
@@ -6651,13 +10437,13 @@ AND
 LDIB 0 , load small integer
 SUB , operator !=
 JMPZ
-HERE 5930 , L74
+HERE 9272 , L74
 JMP
-HERE 5933 , L75
+HERE 9275 , L75
 , label L74
 LDIA 0
 JMP
-HERE 5934 , L76
+HERE 9276 , L76
 , label L75
 LDIA 1
 , label L76
@@ -6712,7 +10498,7 @@ SWP
 LDIA 101 , [Stack:12]
 STAOUT
 JMP
-HERE 6815 , L21
+HERE 10157 , L21
 , label L20
 LDIA 89 , [Stack:0]
 LDAIN
@@ -6725,20 +10511,20 @@ AND
 LDIB 31 , load small integer
 SUB , operator ==
 JMPZ
-HERE 6001 , L80
+HERE 9343 , L80
 JMP
-HERE 5998 , L79
+HERE 9340 , L79
 , label L79
 LDIA 0
 JMP
-HERE 6002 , L81
+HERE 9344 , L81
 , label L80
 LDIA 1
 , label L81
 LDIB 0
 SUB
 JMPZ
-HERE 6104 , L78
+HERE 9446 , L78
 LDIA 89 , [Stack:0]
 LDAIN
 LDWB
@@ -6750,24 +10536,24 @@ AND
 LDIB 0 , load small integer
 SUB , operator >
 JMPZ
-HERE 6022 , L82
+HERE 9364 , L82
 JMPC
-HERE 6025 , L83
+HERE 9367 , L83
 JMP
-HERE 6022 , L82
+HERE 9364 , L82
 , label L82
 LDIA 0
 JMP
-HERE 6026 , L84
+HERE 9368 , L84
 , label L83
 LDIA 1
 , label L84
 LDIB 0
 SUB
 JMPZ
-HERE 6104 , L78
+HERE 9446 , L78
 JMP
-HERE 6032 , L77
+HERE 9374 , L77
 , label L77
 LDIA 89 , [Stack:0]
 LDAIN
@@ -6840,7 +10626,7 @@ LDIA 101 , [Stack:12]
 STAOUT
 AIN 101 , [Stack:12]
 JMP
-HERE 6820 , DivFloats
+HERE 10162 , DivFloats
 , label L78
 LDIA 90 , [Stack:1]
 LDAIN
@@ -6853,20 +10639,20 @@ AND
 LDIB 31 , load small integer
 SUB , operator ==
 JMPZ
-HERE 6121 , L88
+HERE 9463 , L88
 JMP
-HERE 6118 , L87
+HERE 9460 , L87
 , label L87
 LDIA 0
 JMP
-HERE 6122 , L89
+HERE 9464 , L89
 , label L88
 LDIA 1
 , label L89
 LDIB 0
 SUB
 JMPZ
-HERE 6224 , L86
+HERE 9566 , L86
 LDIA 90 , [Stack:1]
 LDAIN
 LDWB
@@ -6878,24 +10664,24 @@ AND
 LDIB 0 , load small integer
 SUB , operator >
 JMPZ
-HERE 6142 , L90
+HERE 9484 , L90
 JMPC
-HERE 6145 , L91
+HERE 9487 , L91
 JMP
-HERE 6142 , L90
+HERE 9484 , L90
 , label L90
 LDIA 0
 JMP
-HERE 6146 , L92
+HERE 9488 , L92
 , label L91
 LDIA 1
 , label L92
 LDIB 0
 SUB
 JMPZ
-HERE 6224 , L86
+HERE 9566 , L86
 JMP
-HERE 6152 , L85
+HERE 9494 , L85
 , label L85
 LDIA 90 , [Stack:1]
 LDAIN
@@ -6968,7 +10754,7 @@ LDIA 101 , [Stack:12]
 STAOUT
 AIN 101 , [Stack:12]
 JMP
-HERE 6820 , DivFloats
+HERE 10162 , DivFloats
 , label L86
 LDIA 89 , [Stack:0]
 LDAIN
@@ -6981,20 +10767,20 @@ AND
 LDIB 0 , load small integer
 SUB , operator ==
 JMPZ
-HERE 6241 , L102
+HERE 9583 , L102
 JMP
-HERE 6238 , L101
+HERE 9580 , L101
 , label L101
 LDIA 0
 JMP
-HERE 6242 , L103
+HERE 9584 , L103
 , label L102
 LDIA 1
 , label L103
 LDIB 0
 SUB
 JMPZ
-HERE 6270 , L98
+HERE 9612 , L98
 LDIA 89 , [Stack:0]
 LDAIN
 LDWB
@@ -7006,33 +10792,33 @@ AND
 LDIB 0 , load small integer
 SUB , operator ==
 JMPZ
-HERE 6263 , L105
+HERE 9605 , L105
 JMP
-HERE 6260 , L104
+HERE 9602 , L104
 , label L104
 LDIA 0
 JMP
-HERE 6264 , L106
+HERE 9606 , L106
 , label L105
 LDIA 1
 , label L106
 LDIB 0
 SUB
 JMPZ
-HERE 6270 , L98
+HERE 9612 , L98
 JMP
-HERE 6273 , L99
+HERE 9615 , L99
 , label L98
 LDIA 0
 JMP
-HERE 6274 , L100
+HERE 9616 , L100
 , label L99
 LDIA 1
 , label L100
 LDIB 0
 SUB
 JMPZ
-HERE 6334 , L95
+HERE 9676 , L95
 LDIA 90 , [Stack:1]
 LDAIN
 LDWB
@@ -7044,20 +10830,20 @@ AND
 LDIB 0 , load small integer
 SUB , operator ==
 JMPZ
-HERE 6295 , L111
+HERE 9637 , L111
 JMP
-HERE 6292 , L110
+HERE 9634 , L110
 , label L110
 LDIA 0
 JMP
-HERE 6296 , L112
+HERE 9638 , L112
 , label L111
 LDIA 1
 , label L112
 LDIB 0
 SUB
 JMPZ
-HERE 6324 , L107
+HERE 9666 , L107
 LDIA 90 , [Stack:1]
 LDAIN
 LDWB
@@ -7069,46 +10855,46 @@ AND
 LDIB 0 , load small integer
 SUB , operator ==
 JMPZ
-HERE 6317 , L114
+HERE 9659 , L114
 JMP
-HERE 6314 , L113
+HERE 9656 , L113
 , label L113
 LDIA 0
 JMP
-HERE 6318 , L115
+HERE 9660 , L115
 , label L114
 LDIA 1
 , label L115
 LDIB 0
 SUB
 JMPZ
-HERE 6324 , L107
+HERE 9666 , L107
 JMP
-HERE 6327 , L108
+HERE 9669 , L108
 , label L107
 LDIA 0
 JMP
-HERE 6328 , L109
+HERE 9670 , L109
 , label L108
 LDIA 1
 , label L109
 LDIB 0
 SUB
 JMPZ
-HERE 6334 , L95
+HERE 9676 , L95
 JMP
-HERE 6337 , L96
+HERE 9679 , L96
 , label L95
 LDIA 0
 JMP
-HERE 6338 , L97
+HERE 9680 , L97
 , label L96
 LDIA 1
 , label L97
 LDIB 1
 SUB
 JMPZ
-HERE 6398 , L93
+HERE 9740 , L93
 LDIA 89 , [Stack:0]
 LDAIN
 LDWB
@@ -7120,20 +10906,20 @@ AND
 LDIB 31 , load small integer
 SUB , operator ==
 JMPZ
-HERE 6359 , L120
+HERE 9701 , L120
 JMP
-HERE 6356 , L119
+HERE 9698 , L119
 , label L119
 LDIA 0
 JMP
-HERE 6360 , L121
+HERE 9702 , L121
 , label L120
 LDIA 1
 , label L121
 LDIB 0
 SUB
 JMPZ
-HERE 6388 , L116
+HERE 9730 , L116
 LDIA 90 , [Stack:1]
 LDAIN
 LDWB
@@ -7145,35 +10931,35 @@ AND
 LDIB 31 , load small integer
 SUB , operator ==
 JMPZ
-HERE 6381 , L123
+HERE 9723 , L123
 JMP
-HERE 6378 , L122
+HERE 9720 , L122
 , label L122
 LDIA 0
 JMP
-HERE 6382 , L124
+HERE 9724 , L124
 , label L123
 LDIA 1
 , label L124
 LDIB 0
 SUB
 JMPZ
-HERE 6388 , L116
+HERE 9730 , L116
 JMP
-HERE 6391 , L117
+HERE 9733 , L117
 , label L116
 LDIA 0
 JMP
-HERE 6392 , L118
+HERE 9734 , L118
 , label L117
 LDIA 1
 , label L118
 LDIB 1
 SUB
 JMPZ
-HERE 6398 , L93
+HERE 9740 , L93
 JMP
-HERE 6434 , L94
+HERE 9776 , L94
 , label L93
 LDIA 101 , [Stack:12]
 LDAIN
@@ -7210,7 +10996,7 @@ LDIA 101 , [Stack:12]
 STAOUT
 AIN 101 , [Stack:12]
 JMP
-HERE 6820 , DivFloats
+HERE 10162 , DivFloats
 , label L94
 LDIA 89 , [Stack:0]
 LDAIN
@@ -7223,20 +11009,20 @@ AND
 LDIB 0 , load small integer
 SUB , operator ==
 JMPZ
-HERE 6451 , L131
+HERE 9793 , L131
 JMP
-HERE 6448 , L130
+HERE 9790 , L130
 , label L130
 LDIA 0
 JMP
-HERE 6452 , L132
+HERE 9794 , L132
 , label L131
 LDIA 1
 , label L132
 LDIB 0
 SUB
 JMPZ
-HERE 6480 , L127
+HERE 9822 , L127
 LDIA 89 , [Stack:0]
 LDAIN
 LDWB
@@ -7248,33 +11034,33 @@ AND
 LDIB 0 , load small integer
 SUB , operator ==
 JMPZ
-HERE 6473 , L134
+HERE 9815 , L134
 JMP
-HERE 6470 , L133
+HERE 9812 , L133
 , label L133
 LDIA 0
 JMP
-HERE 6474 , L135
+HERE 9816 , L135
 , label L134
 LDIA 1
 , label L135
 LDIB 0
 SUB
 JMPZ
-HERE 6480 , L127
+HERE 9822 , L127
 JMP
-HERE 6483 , L128
+HERE 9825 , L128
 , label L127
 LDIA 0
 JMP
-HERE 6484 , L129
+HERE 9826 , L129
 , label L128
 LDIA 1
 , label L129
 LDIB 1
 SUB
 JMPZ
-HERE 6512 , L125
+HERE 9854 , L125
 LDIA 89 , [Stack:0]
 LDAIN
 LDWB
@@ -7286,22 +11072,22 @@ AND
 LDIB 31 , load small integer
 SUB , operator ==
 JMPZ
-HERE 6505 , L137
+HERE 9847 , L137
 JMP
-HERE 6502 , L136
+HERE 9844 , L136
 , label L136
 LDIA 0
 JMP
-HERE 6506 , L138
+HERE 9848 , L138
 , label L137
 LDIA 1
 , label L138
 LDIB 1
 SUB
 JMPZ
-HERE 6512 , L125
+HERE 9854 , L125
 JMP
-HERE 6530 , L126
+HERE 9872 , L126
 , label L125
 AIN 94 , [Stack:5]
 LDIB 1
@@ -7320,7 +11106,7 @@ LDIA 101 , [Stack:12]
 STAOUT
 AIN 101 , [Stack:12]
 JMP
-HERE 6820 , DivFloats
+HERE 10162 , DivFloats
 , label L126
 LDIA 90 , [Stack:1]
 LDAIN
@@ -7333,20 +11119,20 @@ AND
 LDIB 0 , load small integer
 SUB , operator ==
 JMPZ
-HERE 6547 , L145
+HERE 9889 , L145
 JMP
-HERE 6544 , L144
+HERE 9886 , L144
 , label L144
 LDIA 0
 JMP
-HERE 6548 , L146
+HERE 9890 , L146
 , label L145
 LDIA 1
 , label L146
 LDIB 0
 SUB
 JMPZ
-HERE 6576 , L141
+HERE 9918 , L141
 LDIA 90 , [Stack:1]
 LDAIN
 LDWB
@@ -7358,33 +11144,33 @@ AND
 LDIB 0 , load small integer
 SUB , operator ==
 JMPZ
-HERE 6569 , L148
+HERE 9911 , L148
 JMP
-HERE 6566 , L147
+HERE 9908 , L147
 , label L147
 LDIA 0
 JMP
-HERE 6570 , L149
+HERE 9912 , L149
 , label L148
 LDIA 1
 , label L149
 LDIB 0
 SUB
 JMPZ
-HERE 6576 , L141
+HERE 9918 , L141
 JMP
-HERE 6579 , L142
+HERE 9921 , L142
 , label L141
 LDIA 0
 JMP
-HERE 6580 , L143
+HERE 9922 , L143
 , label L142
 LDIA 1
 , label L143
 LDIB 1
 SUB
 JMPZ
-HERE 6608 , L139
+HERE 9950 , L139
 LDIA 89 , [Stack:0]
 LDAIN
 LDWB
@@ -7396,22 +11182,22 @@ AND
 LDIB 31 , load small integer
 SUB , operator ==
 JMPZ
-HERE 6601 , L151
+HERE 9943 , L151
 JMP
-HERE 6598 , L150
+HERE 9940 , L150
 , label L150
 LDIA 0
 JMP
-HERE 6602 , L152
+HERE 9944 , L152
 , label L151
 LDIA 1
 , label L152
 LDIB 1
 SUB
 JMPZ
-HERE 6608 , L139
+HERE 9950 , L139
 JMP
-HERE 6648 , L140
+HERE 9990 , L140
 , label L139
 AIN 94 , [Stack:5]
 LDIB 1
@@ -7452,15 +11238,15 @@ LDIA 101 , [Stack:12]
 STAOUT
 AIN 101 , [Stack:12]
 JMP
-HERE 6820 , DivFloats
+HERE 10162 , DivFloats
 , label L140
 AIN 95 , [Stack:6]
 LDIB 0 , load small integer
 SUB , operator ==
 JMPZ
-HERE 6655 , L153
+HERE 9997 , L153
 JMP
-HERE 6730 , L154
+HERE 10072 , L154
 , label L153
 AIN 95 , [Stack:6]
 LDIB 1 , load small integer
@@ -7481,7 +11267,7 @@ LDIA 0 , load small integer
 STLGE
 HERE 106 , [Stack:17]
 JMP
-HERE 6679 , L12
+HERE 10021 , L12
 , label L9
 AIN 106 , [Stack:17]
 LDIB 1
@@ -7492,11 +11278,11 @@ AIN 106 , [Stack:17]
 LDIB 16 , load small integer
 SUB , operator <
 JMPZ
-HERE 6713 , L11
+HERE 10055 , L11
 JMPC
-HERE 6713 , L11
+HERE 10055 , L11
 JMP
-HERE 6688 , L10
+HERE 10030 , L10
 , label L10
 AIN 105 , [Stack:16]
 LDWB
@@ -7506,12 +11292,12 @@ LDWB
 HERE 1024 , load large integer
 SUB , operator ==
 JMPZ
-HERE 6699 , L155
+HERE 10041 , L155
 JMP
-HERE 6701 , L156
+HERE 10043 , L156
 , label L155
 JMP
-HERE 6713 , L11
+HERE 10055 , L11
 , label L156
 AIN 105 , [Stack:16]
 LDIB 1 , load small integer
@@ -7524,7 +11310,7 @@ SUB
 STLGE
 HERE 95 , [Stack:6]
 JMP
-HERE 6675 , L9, jump to next iteration
+HERE 10017 , L9, jump to next iteration
 , label L11
 AIN 105 , [Stack:16]
 LDIB 1023
@@ -7548,9 +11334,9 @@ AIN 96 , [Stack:7]
 LDIB 0 , load small integer
 SUB , operator ==
 JMPZ
-HERE 6737 , L157
+HERE 10079 , L157
 JMP
-HERE 6812 , L158
+HERE 10154 , L158
 , label L157
 AIN 96 , [Stack:7]
 LDIB 1 , load small integer
@@ -7571,7 +11357,7 @@ LDIA 0 , load small integer
 STLGE
 HERE 107 , [Stack:18]
 JMP
-HERE 6761 , L16
+HERE 10103 , L16
 , label L13
 AIN 107 , [Stack:18]
 LDIB 1
@@ -7582,11 +11368,11 @@ AIN 107 , [Stack:18]
 LDIB 16 , load small integer
 SUB , operator <
 JMPZ
-HERE 6795 , L15
+HERE 10137 , L15
 JMPC
-HERE 6795 , L15
+HERE 10137 , L15
 JMP
-HERE 6770 , L14
+HERE 10112 , L14
 , label L14
 AIN 106 , [Stack:17]
 LDWB
@@ -7596,12 +11382,12 @@ LDWB
 HERE 1024 , load large integer
 SUB , operator ==
 JMPZ
-HERE 6781 , L159
+HERE 10123 , L159
 JMP
-HERE 6783 , L160
+HERE 10125 , L160
 , label L159
 JMP
-HERE 6795 , L15
+HERE 10137 , L15
 , label L160
 AIN 106 , [Stack:17]
 LDIB 1 , load small integer
@@ -7614,7 +11400,7 @@ SUB
 STLGE
 HERE 96 , [Stack:7]
 JMP
-HERE 6757 , L13, jump to next iteration
+HERE 10099 , L13, jump to next iteration
 , label L15
 AIN 106 , [Stack:17]
 LDIB 1023
@@ -7639,22 +11425,16 @@ STLGE
 HERE 102 , [Stack:13]
 , label L21
 JMP
-HERE 5423 , L1, jump to next iteration
+HERE 8765 , L1, jump to next iteration
 , label L3
 AIN 101 , [Stack:12]
 JMP
-HERE 6820 , DivFloats
+HERE 10162 , DivFloats
 , label DivFloats
 JMP
-HERE 6925 , __return
-, reference [6822:0]
-HERE 0 , return value
-, reference [6823:0]
-HERE 60925 , stack pointer
-, reference [6824:0]
-HERE 0 , temporary pointer
+HERE 10264 , __return
 , label __call
-AIN 6823 , Yabal:stack_pointer
+AIN 114 , Yabal:stack_pointer
 STAOUT
 LDIB 1
 ADD
@@ -7748,158 +11528,158 @@ LDIB 1
 ADD
 BIN 111 , [Stack:20]
 STAOUT
-AIN 6823 , Yabal:stack_pointer
+AIN 114 , Yabal:stack_pointer
 LDIB 24
 ADD
-STA 6823 , Yabal:stack_pointer
+STA 114 , Yabal:stack_pointer
 SWPC
 JREG
 , label __return
-STA 6822 , Yabal:return_value
-AIN 6823 , Yabal:stack_pointer
+STA 113 , Yabal:return_value
+AIN 114 , Yabal:stack_pointer
 LDIB 24
 SUB
-STA 6823 , Yabal:stack_pointer
-STA 6824 , Yabal:temp
-AIN 6824 , Yabal:temp
+STA 114 , Yabal:stack_pointer
+STA 115 , Yabal:temp
+AIN 115 , Yabal:temp
 LDIB 1
 ADD
-STA 6824 , Yabal:temp
+STA 115 , Yabal:temp
 LDAIN
 STA 89 , [Stack:0]
-AIN 6824 , Yabal:temp
+AIN 115 , Yabal:temp
 LDIB 1
 ADD
-STA 6824 , Yabal:temp
+STA 115 , Yabal:temp
 LDAIN
 STA 90 , [Stack:1]
-AIN 6824 , Yabal:temp
+AIN 115 , Yabal:temp
 LDIB 1
 ADD
-STA 6824 , Yabal:temp
+STA 115 , Yabal:temp
 LDAIN
 STA 91 , [Stack:2]
-AIN 6824 , Yabal:temp
+AIN 115 , Yabal:temp
 LDIB 1
 ADD
-STA 6824 , Yabal:temp
+STA 115 , Yabal:temp
 LDAIN
 STA 92 , [Stack:3]
-AIN 6824 , Yabal:temp
+AIN 115 , Yabal:temp
 LDIB 1
 ADD
-STA 6824 , Yabal:temp
+STA 115 , Yabal:temp
 LDAIN
 STA 93 , [Stack:4]
-AIN 6824 , Yabal:temp
+AIN 115 , Yabal:temp
 LDIB 1
 ADD
-STA 6824 , Yabal:temp
+STA 115 , Yabal:temp
 LDAIN
 STA 94 , [Stack:5]
-AIN 6824 , Yabal:temp
+AIN 115 , Yabal:temp
 LDIB 1
 ADD
-STA 6824 , Yabal:temp
+STA 115 , Yabal:temp
 LDAIN
 STA 95 , [Stack:6]
-AIN 6824 , Yabal:temp
+AIN 115 , Yabal:temp
 LDIB 1
 ADD
-STA 6824 , Yabal:temp
+STA 115 , Yabal:temp
 LDAIN
 STA 96 , [Stack:7]
-AIN 6824 , Yabal:temp
+AIN 115 , Yabal:temp
 LDIB 1
 ADD
-STA 6824 , Yabal:temp
+STA 115 , Yabal:temp
 LDAIN
 STA 97 , [Stack:8]
-AIN 6824 , Yabal:temp
+AIN 115 , Yabal:temp
 LDIB 1
 ADD
-STA 6824 , Yabal:temp
+STA 115 , Yabal:temp
 LDAIN
 STA 98 , [Stack:9]
-AIN 6824 , Yabal:temp
+AIN 115 , Yabal:temp
 LDIB 1
 ADD
-STA 6824 , Yabal:temp
+STA 115 , Yabal:temp
 LDAIN
 STA 99 , [Stack:10]
-AIN 6824 , Yabal:temp
+AIN 115 , Yabal:temp
 LDIB 1
 ADD
-STA 6824 , Yabal:temp
+STA 115 , Yabal:temp
 LDAIN
 STA 100 , [Stack:11]
-AIN 6824 , Yabal:temp
+AIN 115 , Yabal:temp
 LDIB 1
 ADD
-STA 6824 , Yabal:temp
+STA 115 , Yabal:temp
 LDAIN
 STA 101 , [Stack:12]
-AIN 6824 , Yabal:temp
+AIN 115 , Yabal:temp
 LDIB 1
 ADD
-STA 6824 , Yabal:temp
+STA 115 , Yabal:temp
 LDAIN
 STA 102 , [Stack:13]
-AIN 6824 , Yabal:temp
+AIN 115 , Yabal:temp
 LDIB 1
 ADD
-STA 6824 , Yabal:temp
+STA 115 , Yabal:temp
 LDAIN
 STA 103 , [Stack:14]
-AIN 6824 , Yabal:temp
+AIN 115 , Yabal:temp
 LDIB 1
 ADD
-STA 6824 , Yabal:temp
+STA 115 , Yabal:temp
 LDAIN
 STA 104 , [Stack:15]
-AIN 6824 , Yabal:temp
+AIN 115 , Yabal:temp
 LDIB 1
 ADD
-STA 6824 , Yabal:temp
+STA 115 , Yabal:temp
 LDAIN
 STA 105 , [Stack:16]
-AIN 6824 , Yabal:temp
+AIN 115 , Yabal:temp
 LDIB 1
 ADD
-STA 6824 , Yabal:temp
+STA 115 , Yabal:temp
 LDAIN
 STA 106 , [Stack:17]
-AIN 6824 , Yabal:temp
+AIN 115 , Yabal:temp
 LDIB 1
 ADD
-STA 6824 , Yabal:temp
+STA 115 , Yabal:temp
 LDAIN
 STA 107 , [Stack:18]
-AIN 6824 , Yabal:temp
+AIN 115 , Yabal:temp
 LDIB 1
 ADD
-STA 6824 , Yabal:temp
+STA 115 , Yabal:temp
 LDAIN
 STA 108 , [Stack:19]
-AIN 6824 , Yabal:temp
+AIN 115 , Yabal:temp
 LDIB 1
 ADD
-STA 6824 , Yabal:temp
+STA 115 , Yabal:temp
 LDAIN
 STA 109 , [Stack:21]
-AIN 6824 , Yabal:temp
+AIN 115 , Yabal:temp
 LDIB 1
 ADD
-STA 6824 , Yabal:temp
+STA 115 , Yabal:temp
 LDAIN
 STA 110 , [Stack:22]
-AIN 6824 , Yabal:temp
+AIN 115 , Yabal:temp
 LDIB 1
 ADD
-STA 6824 , Yabal:temp
+STA 115 , Yabal:temp
 LDAIN
 STA 111 , [Stack:20]
-AIN 6823 , Yabal:stack_pointer
+AIN 114 , Yabal:stack_pointer
 LDAIN
 JREG
 , label Program
@@ -7991,32 +11771,32 @@ STLGE
 HERE 17 , [Global:10]
 , label L0
 LDW
-HERE 7167 , L7
+HERE 10506 , L7
 SWPC
 LDW
-HERE 7192 , L6
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 10531 , L6
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L7
 LDW
-HERE 7176 , L9
+HERE 10515 , L9
 SWPC
 LDW
-HERE 7181 , L8
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 10520 , L8
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L9
 LDIA 4 , load small integer
 STLGE
 HERE 89 , [Stack:0]
 JMP
-HERE 1634 , rand
+HERE 3588 , rand
 , label L8
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 89 , [Stack:0]
 LDIA 5 , load small integer
@@ -8026,38 +11806,38 @@ LDIA 70 , load small integer
 STLGE
 HERE 91 , [Stack:2]
 JMP
-HERE 1683 , ClampInt
+HERE 3639 , ClampInt
 , label L6
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 18 , [Global:11]
 LDW
-HERE 7204 , L11
+HERE 10543 , L11
 SWPC
 LDW
-HERE 7229 , L10
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 10568 , L10
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L11
 LDW
-HERE 7213 , L13
+HERE 10552 , L13
 SWPC
 LDW
-HERE 7218 , L12
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 10557 , L12
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L13
 LDIA 7 , load small integer
 STLGE
 HERE 89 , [Stack:0]
 JMP
-HERE 1634 , rand
+HERE 3588 , rand
 , label L12
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 89 , [Stack:0]
 LDIA 0 , load small integer
@@ -8067,38 +11847,38 @@ LDIA 107 , load small integer
 STLGE
 HERE 91 , [Stack:2]
 JMP
-HERE 1683 , ClampInt
+HERE 3639 , ClampInt
 , label L10
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 19 , [Global:12]
 LDW
-HERE 7241 , L15
+HERE 10580 , L15
 SWPC
 LDW
-HERE 7266 , L14
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 10605 , L14
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L15
 LDW
-HERE 7250 , L17
+HERE 10589 , L17
 SWPC
 LDW
-HERE 7255 , L16
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 10594 , L16
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L17
 LDIA 7 , load small integer
 STLGE
 HERE 89 , [Stack:0]
 JMP
-HERE 1634 , rand
+HERE 3588 , rand
 , label L16
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 89 , [Stack:0]
 LDIA 0 , load small integer
@@ -8108,38 +11888,38 @@ LDIA 107 , load small integer
 STLGE
 HERE 91 , [Stack:2]
 JMP
-HERE 1683 , ClampInt
+HERE 3639 , ClampInt
 , label L14
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 20 , [Global:13]
 LDW
-HERE 7278 , L19
+HERE 10617 , L19
 SWPC
 LDW
-HERE 7303 , L18
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 10642 , L18
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L19
 LDW
-HERE 7287 , L21
+HERE 10626 , L21
 SWPC
 LDW
-HERE 7292 , L20
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 10631 , L20
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L21
 LDIA 7 , load small integer
 STLGE
 HERE 89 , [Stack:0]
 JMP
-HERE 1634 , rand
+HERE 3588 , rand
 , label L20
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 89 , [Stack:0]
 LDIA 0 , load small integer
@@ -8149,38 +11929,38 @@ LDIA 107 , load small integer
 STLGE
 HERE 91 , [Stack:2]
 JMP
-HERE 1683 , ClampInt
+HERE 3639 , ClampInt
 , label L18
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 21 , [Global:14]
 LDW
-HERE 7315 , L23
+HERE 10654 , L23
 SWPC
 LDW
-HERE 7340 , L22
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 10679 , L22
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L23
 LDW
-HERE 7324 , L25
+HERE 10663 , L25
 SWPC
 LDW
-HERE 7329 , L24
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 10668 , L24
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L25
 LDIA 7 , load small integer
 STLGE
 HERE 89 , [Stack:0]
 JMP
-HERE 1634 , rand
+HERE 3588 , rand
 , label L24
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 89 , [Stack:0]
 LDIA 0 , load small integer
@@ -8190,38 +11970,38 @@ LDIA 107 , load small integer
 STLGE
 HERE 91 , [Stack:2]
 JMP
-HERE 1683 , ClampInt
+HERE 3639 , ClampInt
 , label L22
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 22 , [Global:15]
 LDW
-HERE 7352 , L27
+HERE 10691 , L27
 SWPC
 LDW
-HERE 7377 , L26
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 10716 , L26
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L27
 LDW
-HERE 7361 , L29
+HERE 10700 , L29
 SWPC
 LDW
-HERE 7366 , L28
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 10705 , L28
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L29
 LDIA 7 , load small integer
 STLGE
 HERE 89 , [Stack:0]
 JMP
-HERE 1634 , rand
+HERE 3588 , rand
 , label L28
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 89 , [Stack:0]
 LDIA 0 , load small integer
@@ -8231,38 +12011,38 @@ LDIA 107 , load small integer
 STLGE
 HERE 91 , [Stack:2]
 JMP
-HERE 1683 , ClampInt
+HERE 3639 , ClampInt
 , label L26
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 23 , [Global:16]
 LDW
-HERE 7389 , L31
+HERE 10728 , L31
 SWPC
 LDW
-HERE 7414 , L30
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 10753 , L30
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L31
 LDW
-HERE 7398 , L33
+HERE 10737 , L33
 SWPC
 LDW
-HERE 7403 , L32
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 10742 , L32
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L33
 LDIA 7 , load small integer
 STLGE
 HERE 89 , [Stack:0]
 JMP
-HERE 1634 , rand
+HERE 3588 , rand
 , label L32
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 89 , [Stack:0]
 LDIA 0 , load small integer
@@ -8272,39 +12052,39 @@ LDIA 107 , load small integer
 STLGE
 HERE 91 , [Stack:2]
 JMP
-HERE 1683 , ClampInt
+HERE 3639 , ClampInt
 , label L30
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 24 , [Global:17]
 LDW
-HERE 7426 , L35
+HERE 10765 , L35
 SWPC
 LDW
-HERE 7431 , L34
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 10770 , L34
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L35
 LDIA 15 , load small integer
 STLGE
 HERE 89 , [Stack:0]
 JMP
-HERE 1634 , rand
+HERE 3588 , rand
 , label L34
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 STLGE
 HERE 25 , [Global:18]
 LDW
-HERE 7443 , L37
+HERE 10782 , L37
 SWPC
 LDW
-HERE 7459 , L36
-STA 6824 , Yabal:temp
-BIN 6824 , Yabal:temp
+HERE 10798 , L36
+STA 115 , Yabal:temp
+BIN 115 , Yabal:temp
 JMP
-HERE 6825 , __call
+HERE 10164 , __call
 , label L37
 AIN 19 , [Global:12], load value
 STA 89 , [Stack:0], store value
@@ -8321,19 +12101,19 @@ STA 94 , [Stack:5], store value
 AIN 25 , [Global:18], load value
 STA 95 , [Stack:6], store value
 JMP
-HERE 1244 , DrawWireTriangle
+HERE 1247 , DrawWireTriangle
 , label L36
-AIN 6822 , Yabal:return_value
+AIN 113 , Yabal:return_value
 ADD
 ADD
 ADD
 ADD
 JMP
-HERE 7158 , L0
+HERE 10497 , L0
 , label L2
 , label L3
 JMP
-HERE 7466 , L3
+HERE 10805 , L3
 , label L5
 AIN 18 , [Global:11]
 LDWB
