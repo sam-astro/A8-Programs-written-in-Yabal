@@ -368,15 +368,15 @@ while (true) {
     // else if(choice == 3)
         //DrawFilledTriangle(x0, y0, x1, y1, x2, y2, color)
 	// break
-    // asm{
-    //     vbuf
-    // }
     asm{
-        add
-        add
-        add
-        add
+        vbuf
     }
+    // asm{
+    //     add
+    //     add
+    //     add
+    //     add
+    // }
 }
 
 // struct MouseInput {

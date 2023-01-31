@@ -8324,16 +8324,13 @@ JMP
 HERE 1244 , DrawWireTriangle
 , label L36
 AIN 6822 , Yabal:return_value
-ADD
-ADD
-ADD
-ADD
+VBUF
 JMP
 HERE 7158 , L0
 , label L2
 , label L3
 JMP
-HERE 7466 , L3
+HERE 7463 , L3
 , label L5
 AIN 18 , [Global:11]
 LDWB
