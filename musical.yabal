@@ -315,6 +315,9 @@ void EditTrackerVal(){
 
 // Draw the selection box for the first time
 DrawNewSelection()
+asm{
+    vbuf
+}
 
 while(true){
     if(playing == 0){
@@ -358,6 +361,9 @@ while(true){
                 b36cC = 0
                 UpdateTrackerValues()
                 UpdateTrackerIndexes()
+                asm{
+                    vbuf
+                }
             }
             else if(keyInput >= 13 && keyInput <= 48) // If not a control key, use as input to change current frequency
                 if(keyInput != 35 && keyInput != 36 && keyInput != 37 && keyInput != 38)
@@ -366,6 +372,9 @@ while(true){
         }
         UpdateTrackerValues()
         UpdateTrackerIndexes()
+        asm{
+            vbuf
+        }
         lastKey = keyInput
     }
     else {
@@ -376,6 +385,9 @@ while(true){
             
             UpdateTrackerValues()
             UpdateTrackerIndexes()
+            asm{
+                vbuf
+            }
 
             // Read key input from expansion port
             keyInput = expansionPort[0]

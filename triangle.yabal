@@ -66,7 +66,7 @@ void draw_line(int x1, int y1, int x2, int y2, int color) {
 		inc2 = MultSignedInts(dy, TWO)
 		var maxval = dx.val
 		for (var i=0; i<maxval; i++) {
-			if (e.s == 0 || (e.s == 1 && e.val == 0)) { // if  e >= 0
+			if (e.s == 0 || ((e.s == 1) && (e.val == 0))) { // if  e >= 0
 				// y += incy
 				y = AddSignedInts(y, incy)
 				// e += inc1
@@ -80,7 +80,7 @@ void draw_line(int x1, int y1, int x2, int y2, int color) {
 			}
 			// x += incx
 			x = AddSignedInts(x, incx)
-            if(x>60000||x>107||y>60000||y>107) // Don't draw pixels out of range
+            if(x.val>60000||x.val>107||y.val>60000||y.val>107) // Don't draw pixels out of range
                 continue
 			SetPixel(x, y, color)
 		}
@@ -97,7 +97,7 @@ void draw_line(int x1, int y1, int x2, int y2, int color) {
 		inc2 = MultSignedInts(dx, TWO)
 		var maxval = dy.val
 		for (var i = 0; i < maxval; i++) {
-			if (e.s == 0 || (e.s == 1 && e.val == 0)) { // if  e >= 0
+			if (e.s == 0 || ((e.s == 1) && (e.val == 0))) { // if  e >= 0
 				// x += incx
 				x = AddSignedInts(x, incx)
 				// e += inc1
@@ -212,7 +212,7 @@ void DrawFilledCircle(int xCenter, int yCenter, int radius, int color){
                 continue
             }
 
-            if(AddSignedInts(x*x,y*y) <= radiusSquared+radius){ // Calculate distance between point and center of circle. If lessthan or equal to radius, color pixel.
+            if(AddSignedInts(x.val*x.val,y.val*y.val) <= radiusSquared+radius){ // Calculate distance between point and center of circle. If lessthan or equal to radius, color pixel.
                 SetPixel(newX, newY, color)
             }
 
@@ -246,8 +246,8 @@ void DrawWireCircle(int xCenter, int yCenter, int radius, int color){
                 continue
             }
 
-            SignedInt tot = AddSignedInts(x*x,y*y)
-            if(tot >= radiusSquared-radius && tot <= radiusSquared+radius){ // Calculate distance between point and center of circle. If lessthan or equal to radius, color pixel.
+            SignedInt tot = AddSignedInts(x.val*x.val,y.val*y.val)
+            if((tot.val >= radiusSquared-radius) && (tot.val <= radiusSquared+radius)){ // Calculate distance between point and center of circle. If lessthan or equal to radius, color pixel.
                 SetPixel(newX, newY, color)
             }
 
@@ -362,9 +362,9 @@ while (true) {
     // if(choice == 0)
     //     DrawWireCircle(x0, y0, r, color)
     // else if(choice == 1)
-         DrawWireTriangle(x0, y0, x1, y1, x2, y2, color)
+         //DrawWireTriangle(x0, y0, x1, y1, x2, y2, color)
     // else if(choice == 2)
-        // DrawFilledCircle(x0, y0, r, color)
+        DrawFilledCircle(x0, y0, r, color)
     // else if(choice == 3)
         //DrawFilledTriangle(x0, y0, x1, y1, x2, y2, color)
 	// break
@@ -1876,5 +1876,33 @@ struct Float16 {
 
 struct SignedInt {
     int val : 15
-    bool s : 1
+    int s : 1
+}
+
+SignedInt operator &(SignedInt a, SignedInt b) {
+    return { val: a.val & b.val, s: a.s & b.s }
+}
+
+SignedInt operator &(SignedInt a, int b) {
+    return { val: a.val & b, s: a.s & (b>>15) }
+}
+
+bool operator >(SignedInt a, int b) {
+    return a.s == 1 || a.val > b;
+}
+
+SignedInt operator /(SignedInt a, int b) {
+    return { val: a.val / b, s: a.s }
+}
+
+SignedInt operator /(SignedInt a, SignedInt b) {
+    return { val: a.val / b.val, s: a.s ^ b.s }
+}
+
+SignedInt operator *(SignedInt a, SignedInt b) {
+    return { val: a.val * b.val, s: a.s ^ b.s }
+}
+
+SignedInt operator |(SignedInt a, int b) {
+    return { val: a.val | b, s: a.s | (b>>15) }
 }

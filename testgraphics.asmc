@@ -1,5 +1,5 @@
 JMP
-HERE 170 , Program
+HERE 196 , Program
 , reference [2:0]
 HERE 0 , size: 2, variables: screen@2:4
 HERE 0
@@ -10,191 +10,221 @@ HERE 0 , size: 1, variables: y@19:13
 , reference [6:0]
 HERE 0 , size: 1, variables: 
 , reference [7:0]
-HERE 0 , size: 1, variables: x@4:18, x@9:17
-, reference [8:0]
-HERE 0 , size: 1, variables: y@4:25, min@9:24
-, reference [9:0]
-HERE 0 , size: 1, variables: color@4:32, max@9:33
-, reference [10:0]
-HERE 0 , size: 1, variables: screenOffset@5:8
-, reference [11:0]
 HERE 0 , size: 1, variables: 
+, reference [8:0]
+HERE 0 , size: 1, variables: 
+, reference [9:0]
+HERE 0 , size: 1, variables: 
+, reference [10:0]
+HERE 0 , size: 1, variables: x@4:18, x@9:17
+, reference [11:0]
+HERE 0 , size: 1, variables: y@4:25, min@9:24
 , reference [12:0]
-HERE 0 , return value
+HERE 0 , size: 1, variables: color@4:32, max@9:33
 , reference [13:0]
-HERE 61213 , stack pointer
+HERE 0 , size: 1, variables: screenOffset@5:8
 , reference [14:0]
+HERE 0 , size: 1, variables: 
+, reference [15:0]
+HERE 0 , return value (0)
+HERE 0 , return value (1)
+HERE 0 , return value (2)
+HERE 0 , return value (3)
+HERE 0 , return value (4)
+HERE 0 , return value (5)
+HERE 0 , return value (6)
+HERE 0 , return value (7)
+HERE 0 , return value (8)
+HERE 0 , return value (9)
+, reference [25:0]
+HERE 61213 , stack pointer
+, reference [26:0]
+HERE 61294 , stack allocation pointer
+, reference [27:0]
 HERE 0 , temporary pointer
-, label SetPixel
-LDW
-HERE 24 , L1
-SWPC
-LDW
-HERE 34 , L0
-STA 14 , Yabal:temp
-BIN 14 , Yabal:temp
-JMP
-HERE 103 , __call
-, label L1
-AIN 8 , [Stack:1], load value
-STA 7 , [Stack:0], store value
-LDIA 0 , load small integer
-STLGE
-HERE 8 , [Stack:1]
-LDIA 107 , load small integer
-STLGE
-HERE 9 , [Stack:2]
-JMP
-HERE 72 , ClampInt
-, label L0
-AIN 12 , Yabal:return_value
-LDIB 108 , load small integer
-MULT
-STA 11 , [Stack:4]
-LDW
-HERE 47 , L3
-SWPC
-LDW
-HERE 57 , L2
-STA 14 , Yabal:temp
-BIN 14 , Yabal:temp
-JMP
-HERE 103 , __call
-, label L3
-AIN 7 , [Stack:0], load value
-STA 7 , [Stack:0], store value
-LDIA 0 , load small integer
-STLGE
-HERE 8 , [Stack:1]
-LDIA 107 , load small integer
-STLGE
-HERE 9 , [Stack:2]
-JMP
-HERE 72 , ClampInt
-, label L2
-AIN 12 , Yabal:return_value
-BIN 11 , [Stack:4]
-SWP
-ADD
-STLGE
-HERE 10 , [Stack:3]
-AIN 2 , [Global:0]
-BIN 10 , [Stack:3]
-ADD , load address
-BIN 9 , [Stack:2], set value in B
-BNK 1
-STAOUT
-BNK 0
-, label SetPixel
-JMP
-HERE 131 , __return
-, label ClampInt
-AIN 7 , [Stack:0]
-BIN 8 , [Stack:1]
-SUB , operator <
-JMPZ
-HERE 86 , L1
-JMPC
-HERE 86 , L1
-JMP
-HERE 81 , L0
-, label L0
-AIN 8 , [Stack:1]
-JMP
-HERE 101 , ClampInt
-JMP
-HERE 98 , L2
-, label L1
-AIN 7 , [Stack:0]
-BIN 9 , [Stack:2]
-SUB , operator >
-JMPZ
-HERE 98 , L4
-JMPC
-HERE 95 , L3
-JMP
-HERE 98 , L4
-, label L3
-AIN 9 , [Stack:2]
-JMP
-HERE 101 , ClampInt
-, label L4
-, label L2
-AIN 7 , [Stack:0]
-JMP
-HERE 101 , ClampInt
-, label ClampInt
-JMP
-HERE 131 , __return
 , label __call
-AIN 13 , Yabal:stack_pointer
+AIN 25 , Yabal:stack_pointer
 STAOUT
 LDIB 1
 ADD
-BIN 7 , [Stack:0]
+BIN 10 , [Stack:0]
 STAOUT
 LDIB 1
 ADD
-BIN 8 , [Stack:1]
+BIN 11 , [Stack:1]
 STAOUT
 LDIB 1
 ADD
-BIN 9 , [Stack:2]
+BIN 12 , [Stack:2]
 STAOUT
 LDIB 1
 ADD
-BIN 10 , [Stack:3]
+BIN 13 , [Stack:3]
 STAOUT
 LDIB 1
 ADD
-BIN 11 , [Stack:4]
+BIN 14 , [Stack:4]
 STAOUT
-AIN 13 , Yabal:stack_pointer
+AIN 25 , Yabal:stack_pointer
 LDIB 6
 ADD
-STA 13 , Yabal:stack_pointer
+STA 25 , Yabal:stack_pointer
 SWPC
 JREG
 , label __return
-STA 12 , Yabal:return_value
-AIN 13 , Yabal:stack_pointer
+STA 15 , Yabal:return_value
+AIN 25 , Yabal:stack_pointer
 LDIB 6
 SUB
-STA 13 , Yabal:stack_pointer
-STA 14 , Yabal:temp
-AIN 14 , Yabal:temp
+STA 25 , Yabal:stack_pointer
+STA 27 , Yabal:temp
+AIN 27 , Yabal:temp
 LDIB 1
 ADD
-STA 14 , Yabal:temp
+STA 27 , Yabal:temp
 LDAIN
-STA 7 , [Stack:0]
-AIN 14 , Yabal:temp
+STA 10 , [Stack:0]
+AIN 27 , Yabal:temp
 LDIB 1
 ADD
-STA 14 , Yabal:temp
+STA 27 , Yabal:temp
 LDAIN
-STA 8 , [Stack:1]
-AIN 14 , Yabal:temp
+STA 11 , [Stack:1]
+AIN 27 , Yabal:temp
 LDIB 1
 ADD
-STA 14 , Yabal:temp
+STA 27 , Yabal:temp
 LDAIN
-STA 9 , [Stack:2]
-AIN 14 , Yabal:temp
+STA 12 , [Stack:2]
+AIN 27 , Yabal:temp
 LDIB 1
 ADD
-STA 14 , Yabal:temp
+STA 27 , Yabal:temp
 LDAIN
-STA 10 , [Stack:3]
-AIN 14 , Yabal:temp
+STA 13 , [Stack:3]
+AIN 27 , Yabal:temp
 LDIB 1
 ADD
-STA 14 , Yabal:temp
+STA 27 , Yabal:temp
 LDAIN
-STA 11 , [Stack:4]
-AIN 13 , Yabal:stack_pointer
+STA 14 , [Stack:4]
+AIN 25 , Yabal:stack_pointer
 LDAIN
 JREG
+, label L0
+LDW
+HERE 106 , L1
+SWPC
+AIN 25 , Yabal:stack_pointer
+STA 6 , [Temp:0], store current stack pointer
+LDW
+HERE 119 , L0
+STA 27 , Yabal:temp
+BIN 27 , Yabal:temp
+JMP
+HERE 28 , __call
+, label L1
+AIN 6 , [Temp:0]
+LDIB 2
+ADD
+LDAIN
+STA 10 , [Stack:0]
+LDIA 0 , load small integer
+STLGE
+HERE 11 , [Stack:1]
+LDIA 107 , load small integer
+STLGE
+HERE 12 , [Stack:2]
+JMP
+HERE 162 , L1
+, label L0
+AIN 15 , Yabal:return_value
+LDIB 108 , load small integer
+MULT
+STA 14 , [Stack:4]
+LDW
+HERE 134 , L3
+SWPC
+AIN 25 , Yabal:stack_pointer
+STA 7 , [Temp:1], store current stack pointer
+LDW
+HERE 147 , L2
+STA 27 , Yabal:temp
+BIN 27 , Yabal:temp
+JMP
+HERE 28 , __call
+, label L3
+AIN 7 , [Temp:1]
+LDIB 1
+ADD
+LDAIN
+STA 10 , [Stack:0]
+LDIA 0 , load small integer
+STLGE
+HERE 11 , [Stack:1]
+LDIA 107 , load small integer
+STLGE
+HERE 12 , [Stack:2]
+JMP
+HERE 162 , L1
+, label L2
+AIN 15 , Yabal:return_value
+BIN 14 , [Stack:4]
+SWP
+ADD
+STLGE
+HERE 13 , [Stack:3]
+AIN 2 , [Global:0]
+BIN 13 , [Stack:3]
+ADD , load address
+BIN 12 , [Stack:2], set value in B
+BNK 1
+STAOUT
+BNK 0
+, label L2
+JMP
+HERE 56 , __return
+, label L1
+AIN 10 , [Stack:0]
+BIN 11 , [Stack:1]
+SUB , operator <
+JMPZ
+HERE 177 , L1
+JMPC
+HERE 177 , L1
+JMP
+HERE 171 , L0
+, label L0
+AIN 11 , [Stack:1]
+STA 15 , Yabal:return_value
+JMP
+HERE 194 , L3
+JMP
+HERE 190 , L2
+, label L1
+AIN 10 , [Stack:0]
+BIN 12 , [Stack:2]
+SUB , operator >
+JMPZ
+HERE 190 , L4
+JMPC
+HERE 186 , L3
+JMP
+HERE 190 , L4
+, label L3
+AIN 12 , [Stack:2]
+STA 15 , Yabal:return_value
+JMP
+HERE 194 , L3
+, label L4
+, label L2
+AIN 10 , [Stack:0]
+STA 15 , Yabal:return_value
+JMP
+HERE 194 , L3
+, label L3
+JMP
+HERE 56 , __return
 , label Program
 LDW
 HERE 53871 , load large integer
@@ -205,75 +235,78 @@ LDIA 0 , load small integer
 STLGE
 HERE 4 , [Global:1]
 JMP
-HERE 184 , L3
-, label L0
+HERE 210 , L7
+, label L4
 AIN 4 , [Global:1]
 LDIB 1
 ADD , increment value
 STA 4 , [Global:1]
-, label L3
+, label L7
 AIN 4 , [Global:1]
 LDIB 108 , load small integer
 SUB , operator <
 JMPZ
-HERE 241 , L2
+HERE 270 , L6
 JMPC
-HERE 241 , L2
+HERE 270 , L6
 JMP
-HERE 193 , L1
-, label L1
+HERE 219 , L5
+, label L5
 LDIA 0 , load small integer
 STLGE
 HERE 5 , [Global:2]
 JMP
-HERE 202 , L7
-, label L4
+HERE 228 , L11
+, label L8
 AIN 5 , [Global:2]
 LDIB 1
 ADD , increment value
 STA 5 , [Global:2]
-, label L7
+, label L11
 AIN 5 , [Global:2]
 LDIB 108 , load small integer
 SUB , operator <
 JMPZ
-HERE 239 , L6
+HERE 268 , L10
 JMPC
-HERE 239 , L6
+HERE 268 , L10
 JMP
-HERE 211 , L5
-, label L5
-LDW
-HERE 220 , L9
-SWPC
-LDW
-HERE 236 , L8
-STA 14 , Yabal:temp
-BIN 14 , Yabal:temp
-JMP
-HERE 103 , __call
+HERE 237 , L9
 , label L9
+LDW
+HERE 248 , L13
+SWPC
+AIN 25 , Yabal:stack_pointer
+STA 8 , [Temp:2], store current stack pointer
+LDW
+HERE 264 , L12
+STA 27 , Yabal:temp
+BIN 27 , Yabal:temp
+JMP
+HERE 28 , __call
+, label L13
 AIN 4 , [Global:1], load value
-STA 7 , [Stack:0], store value
+STA 10 , [Stack:0], store value
 AIN 5 , [Global:2], load value
-STA 8 , [Stack:1], store value
+STA 11 , [Stack:1], store value
 AIN 4 , [Global:1]
-STA 6 , [Temp:0]
+STA 9 , [Temp:3]
 AIN 5 , [Global:2]
 LDIB 10 , load small integer
 BSL
-BIN 6 , [Temp:0]
+BIN 9 , [Temp:3]
 SWP
 OR
 STLGE
-HERE 9 , [Stack:2]
+HERE 12 , [Stack:2]
 JMP
-HERE 15 , SetPixel
-, label L8
-AIN 12 , Yabal:return_value
+HERE 95 , L0
+, label L12
+AIN 15 , Yabal:return_value
+VBUF
 JMP
-HERE 198 , L4, jump to next iteration
+HERE 224 , L8, jump to next iteration
+, label L10
+JMP
+HERE 206 , L4, jump to next iteration
 , label L6
-JMP
-HERE 180 , L0, jump to next iteration
-, label L2
