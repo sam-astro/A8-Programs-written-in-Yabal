@@ -1,0 +1,103 @@
+
+
+const var keyBoard = create_pointer<int>(53500,1)
+
+var file = include_image("./amigaball.png")
+var screen = create_pointer(53871, 1)
+
+var meta = file[-1]
+var width = meta >> 8 & 0xFF
+var height = meta & 0xFF
+
+var xdir = 1
+var ydir = 0
+var xPos = 0
+var yPos = 0
+
+// Convert integer to it's negative value in twos complement
+int Negative(int x){
+    return (~x) + 1
+}
+
+void DrawImage(int x, int y, int[] data){
+    for (var xpix = 0; xpix < width; xpix++) {
+        for (var ypix = 0; ypix < height; ypix++) {
+            var screenOffset = ((ypix+y) * 108) + xpix+x
+            var pixelOffset = (ypix * width) + xpix
+
+            var pixel = file[pixelOffset]
+            var a = pixel >> 15
+
+            if (a == 1)
+                screen[screenOffset] = pixel
+        }
+    }
+}
+
+void ClearScreenBuffer(){
+    for (var p = 0; p < 11664; p++)
+        screen[p] = 0;
+}
+
+
+
+while(true) {
+    // HandleInput();
+    MoveBall();
+    DrawImage(xPos, yPos, file);
+    asm { VBUF }
+    ClearScreenBuffer();
+}
+
+void MoveBall(){
+    if(ydir == 1 && yPos > 0) // Move up
+        yPos -= 1
+    else if(ydir == 1)
+        ydir = 0
+    if(ydir == 0 && yPos < 108 - height) // Move down
+        yPos += 1
+    else if(ydir == 0)
+        ydir = 1
+    if(xdir == 0 && xPos > 0) // Move left
+        xPos -= 1
+    else if(xdir == 0)
+        xdir = 1
+    if(xdir == 1 && xPos < 107-width) // Move right
+        xPos += 1
+    else if(xdir == 1)
+        xdir = 0
+}
+
+void HandleInput(){
+    const int keyboardVal = keyBoard[0];
+    if(keyboardVal == 'W' && yPos > 0)
+        yPos -= 1;
+    if(keyboardVal == 'S' && yPos < 107)
+        yPos += 1;
+    if(keyboardVal == 'A' && xPos > 0)
+        xPos -= 1;
+    if(keyboardVal == 'D' && xPos < 107)
+        xPos += 1;
+}
+
+const int lfsr = 0b1010110010100010;
+int lfsr() {
+	var bit = 0
+
+	bit = ((lfsr >> 1) ^ (lfsr >> 2) ^ (lfsr >> 3) ^ (lfsr >> 7)) & 1
+	lfsr = (lfsr >> 1) | (bit << 15)
+
+	return bit;
+}
+int rand(int bits) {
+	int out = 0
+	int count = 0
+
+	while(count < bits) {
+		out = out << 1
+		out = out | lfsr()
+		count += 1
+	}
+
+	return out;
+}

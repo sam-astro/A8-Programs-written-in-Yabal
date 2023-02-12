@@ -78,22 +78,22 @@ pixels[6159] = 65535
 pixels[6052] = 65535
 
 chars[22] = 'A'
-chars[24] = 'B'
-chars[26] = 'C'
-chars[28] = 'D'
+chars[25] = 'B'
+chars[28] = 'C'
+chars[31] = 'D'
 
 
 for(var sectionCount = 2; sectionCount < 17; sectionCount += 2)
-    for(var x = 22; x < 69; x++)
+    for(var x = 22; x < 94; x++)
         for(var y = sectionCount*6; y < (sectionCount*6)+6; y++)
             pixels[(y * SCREENW)+x] = 4229
 for(var sectionCount = 3; sectionCount < 18; sectionCount += 2)
-    for(var x = 22; x < 69; x++)
+    for(var x = 22; x < 94; x++)
         for(var y = sectionCount*6; y < (sectionCount*6)+6; y++)
             pixels[(y * SCREENW)+x] = 3171
 
 // Draw dividing lines between tracks
-for(var x = 21; x < 70; x += 12)
+for(var x = 21; x < 108; x += 18)
     for(var y = 12; y < 108; y += 2)
         pixels[(y * SCREENW)+x] = 12684
 
@@ -193,24 +193,8 @@ void B36ToChar(){
 }
 
 void ClearCurrectSelection(){
-    var xPos = 22
-    var xWidth = 11
-    if(selection == 0){
-        xPos = 22
-        xWidth = 11
-    }
-    else if(selection == 1){
-        xPos = 34
-        xWidth = 11
-    }
-    else if(selection == 2){
-        xPos = 46
-        xWidth = 11
-    }
-    else if(selection == 3){
-        xPos = 58
-        xWidth = 11
-    }
+    var xPos = 22 + (selection*6)
+    var xWidth = 5
 
     for(var x = xPos; x < xPos + xWidth; x++)
         for(var y = 54; y < 54 + 6; y++)
@@ -218,24 +202,8 @@ void ClearCurrectSelection(){
 }
 
 void DrawNewSelection(){
-    var xPos = 22
-    var xWidth = 11
-    if(selection == 0){
-        xPos = 22
-        xWidth = 11
-    }
-    else if(selection == 1){
-        xPos = 34
-        xWidth = 11
-    }
-    else if(selection == 2){
-        xPos = 46
-        xWidth = 11
-    }
-    else if(selection == 3){
-        xPos = 58
-        xWidth = 11
-    }
+    var xPos = 22 + (selection*6)
+    var xWidth = 5
 
     for(var x = xPos; x < xPos + xWidth; x++)
         for(var y = 54; y < 54 + 6; y++)
@@ -246,27 +214,27 @@ void UpdateTrackerValues(){
     for(var i = 2; i < 18; i++){
         if(trackerLocation-9+i>65526 || trackerLocation-9+i >= sizeof(channelA)){
             chars[(i*18)+4] = ' '
-            chars[(i*18)+6] = ' '
-            chars[(i*18)+8] = ' '
+            chars[(i*18)+7] = ' '
             chars[(i*18)+10] = ' '
+            chars[(i*18)+13] = ' '
         }
         else{
             chars[(i*18)+4] = channelA[trackerLocation-9+i]
 
             if(trackerLocation-9+i < sizeof(channelB))
-                chars[(i*18)+6] = channelB[trackerLocation-9+i]
+                chars[(i*18)+7] = channelB[trackerLocation-9+i]
             else
-                chars[(i*18)+6] = 78
+                chars[(i*18)+7] = 78
 
             if(trackerLocation-9+i < sizeof(channelC))
-                chars[(i*18)+8] = channelC[trackerLocation-9+i]
-            else
-                chars[(i*18)+8] = 78
-
-            if(trackerLocation-9+i < sizeof(channelD))
-                chars[(i*18)+10] = channelD[trackerLocation-9+i]
+                chars[(i*18)+10] = channelC[trackerLocation-9+i]
             else
                 chars[(i*18)+10] = 78
+
+            if(trackerLocation-9+i < sizeof(channelD))
+                chars[(i*18)+13] = channelD[trackerLocation-9+i]
+            else
+                chars[(i*18)+13] = 78
         }
         
     }
@@ -337,7 +305,7 @@ while(true){
                 selection -= 1
                 DrawNewSelection()
             }
-            else if(keyInput == 10 && selection < 3){ // Right arrow
+            else if(keyInput == 10 && selection < 11){ // Right arrow
                 ClearCurrectSelection()
                 selection += 1
                 DrawNewSelection()
@@ -379,7 +347,7 @@ while(true){
     }
     else {
         // Iterate through all notes and play them
-        var maxSize = sizeof(channelA)
+        var maxSize = sizeof(channelA);
         maxSize -= 1
         while(trackerLocation < maxSize && playing == 1) {
             

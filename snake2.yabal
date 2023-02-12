@@ -1,0 +1,378 @@
+const var screen   = create_pointer(53870,1)
+const var chars    = create_pointer(53546,1)
+const var snake    = create_pointer<SnakePart>(53500,0)
+const var apples   = create_pointer<Apple>(53000,0)
+const var keyBoard = create_pointer<KeyBoard>(53500,1)
+const var mouse    = create_pointer<Mouse>(53501,1)
+
+const int snakeC1  = get_color(0, 255, 0)
+const int snakeC2  = get_color(88, 255, 46)
+const int nApples  = 7
+
+const int[] title  = "SNAKE 2                                                             CLICK TO PLAY                                                                                                                                 CALION#0501" //                  
+
+int snakeLen       = 3
+int dir            = 0
+int score          = 0
+int highScore      = 0
+int skipFrames     = 0
+int scene          = 0
+int difficulity    = 5
+int lfsr           = 0b1011101011101000
+
+bool hasPressed    = false
+
+inline int get_color(int r, int g, int b) => (r/8<<10)+(g/8<<5)+(b/8)
+
+setup()
+while(true) {
+	skipFrames = (skipFrames + 1) % difficulity
+	clear()
+	if (scene == 0) {
+		int start = 96
+		for (var i = 0; true; i++) {
+			int c = title[i]
+			if (c == 0xFFFF) break
+			chars[start+i] = c
+		}
+		Mouse m = mouse[0]
+		if (m.left || m.right) {
+			scene = 1
+			hasPressed = true
+		}
+	} else if (scene == 1) {
+		input()
+		updateSnake()
+		drawUI()
+		drawApples()
+		drawSnake()
+		if (highScore < score) highScore = score
+	} else {
+		chars[0] = 'H'
+		chars[1] = 'I'
+		chars[2] = 'G'
+		chars[3] = 'H'
+		chars[4] = 'S'
+		chars[5] = 'C'
+		chars[6] = 'O'
+		chars[7] = 'R'
+		chars[8] = 'E'
+		chars[9] = ':'
+		if (highScore == 0) {
+			chars[11] = '0'
+		} else {
+			write_int(highScore, 11)
+		}
+		int start = (9*17) - 4
+		chars[start] = 'Y'
+		chars[start+1] = 'O'
+		chars[start+2] = 'U'
+		chars[start+4] = 'L'
+		chars[start+5] = 'O'
+		chars[start+6] = 'S'
+		chars[start+7] = 'E'
+		write_int(score, 18*17+13)
+		Mouse m = mouse[0]
+		if (m.left || m.right) {
+			setup()
+			scene = 1
+			hasPressed = true
+		}
+	}
+    asm { VBUF }
+}
+
+void setup() {
+	snakeLen    = 3
+	dir         = 0
+	skipFrames  = 0
+	scene       = 0
+	difficulity = 5
+	hasPressed = false
+	for (var i = 0; i < score; i++) {
+		snake[i].x = 0
+		snake[i].y = 0
+		snake[i].id = 0
+		snake[i].color = 0
+	}
+	for (var i = 0; i < snakeLen; i++) {
+		snake[i].x = 50+(snakeLen-i-1)
+		snake[i].y = 50
+		snake[i].id = i
+		if (i == 0) {
+			snake[i].color = snakeC1
+		} else {
+			snake[i].color = snakeC2
+		}
+	}
+	score = 0
+	for (var i = 0; i < nApples; i++) {
+		int x = (rand(16)) % 108
+		int y = (rand(16)) % 99
+		apples[i].x = x
+		apples[i].y = y
+	}
+}
+
+void input() {
+	KeyBoard k = keyBoard[0]
+	Mouse m = mouse[0]
+	if (m.left && !hasPressed) {
+		if (dir == 3) dir = 2
+		else if (dir == 2) dir = 1
+		else if (dir == 1) dir = 0
+		else if (dir == 0) dir = 3
+		hasPressed = true
+	} else if (m.right && !hasPressed) {
+		if (dir == 0) dir = 1
+		else if (dir == 1) dir = 2
+		else if (dir == 2) dir = 3
+		else if (dir == 3) dir = 0
+		hasPressed = true
+	}
+	if (!m.left && !m.right) {
+		hasPressed = false
+	}
+}
+
+// Epik broken code
+/*Apple newPos() {
+	int xx = 0
+	int yy = 0
+	while (true) {
+		xx = (rand(16)) % 108
+		yy = (rand(16)) % 99
+		bool found = false
+		for (var i = 0; i < nApples; i++) {
+			if (apples[i].x == xx && apples[i].y == yy) true
+		}
+		if (!found) break
+	}
+	Apple a = {x: xx, y: yy}
+	return a
+}*/
+
+void updateSnake() {
+	if (skipFrames == 0) {
+		for (var i = 1; i < snakeLen; i++) {
+			if (i != snakeLen) {
+				int index = snakeLen-i
+				snake[index].x = snake[index-1].x
+				snake[index].y = snake[index-1].y
+			}
+		}
+		
+		if (dir == 0) {
+			snake[0].x += 1
+		} else if (dir == 1) {
+			snake[0].y += 1
+		} else if (dir == 2) {
+			snake[0].x -= 1
+		} else {
+			snake[0].y -= 1
+		}
+		SnakePart s = snake[0]
+		for (var i = 0; i < snakeLen; i++) {
+			SnakePart ss = snake[i]
+			if (s.x == ss.x && s.y == ss.y && s.id != ss.id) scene = 2
+		}
+		if (s.x < 0 || s.x > 107 || s.y < 0 || s.y > 98) scene = 2
+		for (var i = 0; i < nApples; i++) {
+			Apple a = apples[i]
+			if (a.x == s.x && a.y == s.y) {
+				int x = (rand(16)) % 108
+				int y = (rand(16)) % 99
+				apples[i].x = x
+				apples[i].y = y
+				score += 1
+				snakeLen += 1
+				snake[snakeLen-1].color = snakeC2
+				snake[snakeLen-1].id = snake[snakeLen-2].id + 1
+				if (score % 4 == 3) {
+					difficulity -= 1
+					if (difficulity < 1) difficulity = 1
+					skipFrames -= 1
+				}
+			}
+		}
+	}
+}
+
+void setPixel(int x, int y, int c) {
+	screen[y*108+x] = c
+}
+
+void clear() {
+	for (var i = 0; i < 108*108; i++) {
+		screen[i] = 0
+	}
+	for (var i = 0; i < 18*18; i++) {
+		chars[i] = 0
+	}
+}
+
+void drawUI() {
+	int b = get_color(0, 255, 110)
+	for (var y = 99; y < 108; y++) {
+		for (var x = 0; x < 108; x++) {
+			screen[y*108+x] = b
+		}
+	}
+	
+	int c = get_color(255,255,255)
+	for (var i = 0; i < 7; i++) {
+		setPixel(7,100+i,c)
+		setPixel(8,100+i,c)
+		setPixel(9,100+i,c)
+		setPixel(10,100+i,c)
+		setPixel(11,100+i,c)
+	}
+	setPixel(7, 100,b)
+	setPixel(11,100,b)
+	setPixel(7, 106,b)
+	setPixel(11,106,b)
+	
+	Mouse m = mouse[0]
+	
+	int pressed    = get_color(161, 161, 161)
+	int notPressed = get_color(201, 201, 201)
+	
+	if (m.left) {
+		setPixel(8,101,pressed)
+		setPixel(8,102,pressed)
+	} else {
+		setPixel(8,101,notPressed)
+		setPixel(8,102,notPressed)
+	}
+	if (m.right) {
+		setPixel(10,101,pressed)
+		setPixel(10,102,pressed)
+	} else {
+		setPixel(10,101,notPressed)
+		setPixel(10,102,notPressed)
+	}
+	
+	if (dir == 0) {
+		chars[306] = '>'
+	} else if (dir == 1) {
+		chars[306] = 72
+	} else if (dir == 2) {
+		chars[306] = '<'
+	} else if (dir == 3) {
+		chars[306] = 71
+	}
+	if (score == 0) {
+		chars[18*17+17] = '0'
+	} else {
+		write_int(score, 18*17+13)
+	}
+	chars[0] = 'H'
+	chars[1] = 'I'
+	chars[2] = 'G'
+	chars[3] = 'H'
+	chars[4] = 'S'
+	chars[5] = 'C'
+	chars[6] = 'O'
+	chars[7] = 'R'
+	chars[8] = 'E'
+	chars[9] = ':'
+	chars[10] = ' '
+	if (highScore == 0) {
+		chars[11] = '0'
+	} else {
+		write_int(highScore, 11)
+	}
+}
+
+void drawSnake() {
+	for (var i = 0; i < snakeLen; i++) {
+		var x = snake[i].x
+		var y = snake[i].y
+		var c = snake[i].color
+		screen[y*108+x] = c
+	}
+}
+
+void drawApples() {
+	for (var i = 0; i < nApples; i++) {
+		var x = apples[i].x
+		var y = apples[i].y
+		screen[y*108+x] = get_color(255,0,0)
+	}
+}
+// float.yabal
+int lfsr() {
+	var bit = 0
+
+	bit = ((lfsr >> 1) ^ (lfsr >> 2) ^ (lfsr >> 3) ^ (lfsr >> 7)) & 1
+	lfsr = (lfsr >> 1) | (bit << 15)
+
+	return bit;
+}
+int rand(int bits) {
+	int out = 0
+	int count = 0
+
+	while(count < bits) {
+		out = out << 1
+		out = out | lfsr()
+		count += 1
+	}
+
+	return out;
+}
+void write_int(int value, int pos) {
+    var reverser = create_pointer(65530, 0)
+    var i = 0
+    for (var o = 0; o < 5; o++) reverser[o] = 0
+    while (value > 0) {
+        var char = (value % 10) switch {
+            1 => '1',
+            2 => '2',
+            3 => '3',
+            4 => '4',
+            5 => '5',
+            6 => '6',
+            7 => '7',
+            8 => '8',
+            9 => '9',
+            _ => '0'
+        }
+
+        reverser[i] = char
+        value /= 10
+        i += 1
+    }
+    bool atFirst = false
+    for (var o = 0; o < 5; o++){
+		if(reverser[4-o] != 0) atFirst = true
+        else if(atFirst==false) continue
+        chars[pos+o] = reverser[4-o]
+    }
+}
+// float.yabal
+
+struct SnakePart {
+	int x
+	int y
+	int color
+	int id
+}
+
+struct Apple {
+	int x
+	int y
+}
+
+struct KeyBoard {
+	int key : 8
+}
+
+struct Mouse {
+	int y : 7
+	int x : 7
+	int left : 1
+	int right : 1
+}
+
+// clear; ./yabal.exe build ./snake2.yabal; astro8 ./snake2.asm
