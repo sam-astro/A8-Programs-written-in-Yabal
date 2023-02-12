@@ -3,10 +3,18 @@ from curses.ascii import isalpha
 import sys
 import numpy as np
 
+from PIL import Image
+outImage = Image.new("RGB", (108, 108), (0, 0, 0))
+# outImage.save("musicdata.png", "PNG")
+
+musicdataList = []
+
 print()
 
 base36 = ['.', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V']
 defaultOctave = 4
+
+notesIndexed = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
 
 def NoteToFreq(note):
 	freq = 0
@@ -347,6 +355,8 @@ if plnlist:
 			channels[1] += "."
 			channels[2] += "."
 			channels[3] += "."
+			# musicdataList.append(0)
+			# musicdataList.append(0)
 			continue
 
 		editedChannels = [0] * 4
@@ -387,6 +397,7 @@ if plnlist:
 				
 				for x in range(0, int(length)):
 					channels[channelToUse] += str(FreqToBase36(NoteToFreq(ch.upper() + mod + str(octave+octaveOffset))))
+					musicdataList.append(((notesIndexed.index(ch.upper())&0b111)<<5)+((1 if mod == "#" else 0)<<3)+((octave+octaveOffset)&0b111))
 					# if channelToUse != 0:
 					# 	channels[0] += "."
 					# if channelToUse != 1:
@@ -410,6 +421,41 @@ if plnlist:
 		# channels[1] += ".."
 		# channels[2] += ".."
 		# channels[3] += ".."
+
+	# Make sure list size is a multiple of 108
+	while len(musicdataList) % 108 != 0:
+		musicdataList.append(0)
+	
+	# splitrgbBitsList = []
+	# for v in musicdataList:
+	# 	r = int(((int(v)&0b0111110000000000)>>10)/31.0*255)
+	# 	g = int(((int(v)&0b0000001111100000)>>5)/31.0*255)
+	# 	b = int((int(v)&0b0000000000011111)/31.0*255)
+	# 	splitrgbBitsList.append((r, g, b))
+	# print(str(splitrgbBitsList))
+
+	# array = np.array(splitrgbBitsList, dtype=np.uint8).reshape(-1, 108)
+	
+	# outImage = Image.fromarray(array).convert("RGB")
+	# outImage.save("musicdata.png", "PNG")
+
+	img = Image.new('RGB', [108,int(len(musicdataList)/108)], 255)
+	data = img.load()
+	
+	for i, v in enumerate(musicdataList):
+		r = int(((int(v)&0b0111110000000000)>>10)/31.0*255)
+		g = int(((int(v)&0b0000001111100000)>>5)/31.0*255)
+		b = int((int(v)&0b0000000000011111)/31.0*255)
+		data[(i%108),(i/108)] = ((r, g, b))
+
+	# for x in range(img.size[0]):
+	# 	for y in range(img.size[1]):
+	# 		data[x,y] = (
+	# 			x % 255,
+	# 			y % 255,
+	# 			(x**2-y**2) % 255,
+	# 		)
+	img.save("musicdata.png", "PNG")
 
 	print(channels[0]+".\"")
 	print(channels[1]+".\"")
