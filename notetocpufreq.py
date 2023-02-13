@@ -197,6 +197,187 @@ def NoteToFreq(note):
 
 	return freq
 
+def NoteToIndex(note):
+	freq = 0
+	if note=="C0":
+		freq = 1
+	if note=="C#0" or note == "Db0":
+		freq = 2
+	if note=="D0":
+		freq = 3
+	if note=="D#0" or note == "Eb0":
+		freq = 4
+	if note=="E0":
+		freq = 5
+	if note=="F0":
+		freq = 6
+	if note=="F#0" or note == "Gb0":
+		freq = 7
+	if note=="G0":
+		freq = 8
+	if note=="G#0" or note == "Ab0":
+		freq = 9
+	if note=="A0":
+		freq = 10
+	if note=="A#0" or note == "Bb0":
+		freq = 11
+	if note=="B0":
+		freq = 12
+
+	if note=="C1":
+		freq = 13
+	if note=="C#1" or note == "Db1":
+		freq = 14
+	if note=="D1":
+		freq = 15
+	if note=="D#1" or note == "Eb1":
+		freq = 16
+	if note=="E1":
+		freq = 17
+	if note=="F1":
+		freq = 18
+	if note=="F#1" or note == "Gb1":
+		freq = 19
+	if note=="G1":
+		freq = 20
+	if note=="G#1" or note == "Ab1":
+		freq = 21
+	if note=="A1":
+		freq = 22
+	if note=="A#1" or note == "Bb1":
+		freq = 23
+	if note=="B1":
+		freq = 24
+
+	if note=="C2":
+		freq = 25
+	if note=="C#2" or note == "Db2":
+		freq = 26
+	if note=="D2":
+		freq = 27
+	if note=="D#2" or note == "Eb2":
+		freq = 28
+	if note=="E2":
+		freq = 29
+	if note=="F2":
+		freq = 30
+	if note=="F#2" or note == "Gb2":
+		freq = 31
+	if note=="G2":
+		freq = 32
+	if note=="G#2" or note == "Ab2":
+		freq = 33
+	if note=="A2":
+		freq = 34
+	if note=="A#2" or note == "Bb2":
+		freq = 35
+	if note=="B2":
+		freq = 36
+
+	if note=="C3":
+		freq = 37
+	if note=="C#3" or note == "Db3":
+		freq = 38
+	if note=="D3":
+		freq = 39
+	if note=="D#3" or note == "Eb3":
+		freq = 40
+	if note=="E3":
+		freq = 41
+	if note=="F3":
+		freq = 42
+	if note=="F#3" or note == "Gb3":
+		freq = 43
+	if note=="G3":
+		freq = 44
+	if note=="G#3" or note == "Ab3":
+		freq = 45
+	if note=="A3":
+		freq = 46
+	if note=="A#3" or note == "Bb3":
+		freq = 47
+	if note=="B3":
+		freq = 48
+
+	if note=="C4":
+		freq = 49
+	if note=="C#4" or note == "Db4":
+		freq = 50
+	if note=="D4":
+		freq = 51
+	if note=="D#4" or note == "Eb4":
+		freq = 52
+	if note=="E4":
+		freq = 53
+	if note=="F4":
+		freq = 54
+	if note=="F#4" or note == "Gb4":
+		freq = 55
+	if note=="G4":
+		freq = 56
+	if note=="G#4" or note == "Ab4":
+		freq = 57
+	if note=="A4":
+		freq = 58
+	if note=="A#4" or note == "Bb4":
+		freq = 59
+	if note=="B4":
+		freq = 60
+
+	if note=="C5":
+		freq = 61
+	if note=="C#5" or note == "Db5":
+		freq = 62
+	if note=="D5":
+		freq = 63
+	if note=="D#5" or note == "Eb5":
+		freq = 64
+	if note=="E5":
+		freq = 65
+	if note=="F5":
+		freq = 66
+	if note=="F#5" or note == "Gb5":
+		freq = 67
+	if note=="G5":
+		freq = 68
+	if note=="G#5" or note == "Ab5":
+		freq = 69
+	if note=="A5":
+		freq = 70
+	if note=="A#5" or note == "Bb5":
+		freq = 71
+	if note=="B5":
+		freq = 72
+
+	if note=="C6":
+		freq = 73
+	if note=="C#6" or note == "Db6":
+		freq = 74
+	if note=="D6":
+		freq = 75
+	if note=="D#6" or note == "Eb6":
+		freq = 76
+	if note=="E6":
+		freq = 77
+	if note=="F6":
+		freq = 78
+	if note=="F#6" or note == "Gb6":
+		freq = 79
+	if note=="G6":
+		freq = 80
+	if note=="G#6" or note == "Ab6":
+		freq = 81
+	if note=="A6":
+		freq = 82
+	if note=="A#6" or note == "Bb6":
+		freq = 83
+	if note=="B6":
+		freq = 84
+	if note=="-":
+		freq = 0
+
+	return freq
+
 def FreqToBase36(f):
 	#return base36[max(0, min(round( np.log((5*(100*f+9991))/52641)/0.09616 ), 31))]
 	return base36[max(0, min(round((f / 400) / 2 * 30), 31))]
