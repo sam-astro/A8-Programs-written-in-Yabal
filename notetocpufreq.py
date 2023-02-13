@@ -355,8 +355,8 @@ if plnlist:
 			channels[1] += "."
 			channels[2] += "."
 			channels[3] += "."
-			# musicdataList.append(0)
-			# musicdataList.append(0)
+			musicdataList.append(0)
+			musicdataList.append(0)
 			continue
 
 		editedChannels = [0] * 4
@@ -395,9 +395,15 @@ if plnlist:
 					channelToUse = usedChannels
 					usedChannels += 1
 				
+				channelp1 = 0
+				channelp2 = 0
+				if channelToUse == 0 or channelToUse == 1:
+					channelp1 = ((notesIndexed.index(ch.upper())&0b111)<<5)+((1 if mod == "#" else 0)<<3)+((octave+octaveOffset)&0b111)
+				if channelToUse == 2 or channelToUse == 3:
+					channelp2 = ((notesIndexed.index(ch.upper())&0b111)<<5)+((1 if mod == "#" else 0)<<3)+((octave+octaveOffset)&0b111)
+				musicdataList.append((channelp1 << 8) + channelp2)
 				for x in range(0, int(length)):
 					channels[channelToUse] += str(FreqToBase36(NoteToFreq(ch.upper() + mod + str(octave+octaveOffset))))
-					musicdataList.append(((notesIndexed.index(ch.upper())&0b111)<<5)+((1 if mod == "#" else 0)<<3)+((octave+octaveOffset)&0b111))
 					# if channelToUse != 0:
 					# 	channels[0] += "."
 					# if channelToUse != 1:
