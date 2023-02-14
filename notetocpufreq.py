@@ -410,6 +410,60 @@ def CompressLines(section):
 	print()
 	return out
 
+def TrackerToImageData(trackerData):
+	musicdataList = []
+	
+	# Iterate all of the tracker rows
+	for i, ch in enumerate(trackerData[0]):
+		# Iterate through each channel
+		for j, ch2 in enumerate(trackerData):
+			if j == 0: # Create new entry if creating data for first or second byte
+				musicdataList.append(0)
+			# Compute the first and second part of the 16-bit word
+			channelp1 = 0
+			channelp2 = 0
+			if j == 0 or j == 1:
+				channelp1 = ((notesIndexed.index(trackerData[0].upper())&0b111)<<5)+((1 if mod == "#" else 0)<<3)+((octave+octaveOffset)&0b111)
+			if j == 2 or j == 3:
+				channelp2 = ((notesIndexed.index(trackerData[0].upper())&0b111)<<5)+((1 if mod == "#" else 0)<<3)+((octave+octaveOffset)&0b111)
+	
+	
+	
+	# Make sure list size is a multiple of 108
+	while len(musicdataList) % 108 != 0:
+		musicdataList.append(0)
+	
+	# splitrgbBitsList = []
+	# for v in musicdataList:
+	# 	r = int(((int(v)&0b0111110000000000)>>10)/31.0*255)
+	# 	g = int(((int(v)&0b0000001111100000)>>5)/31.0*255)
+	# 	b = int((int(v)&0b0000000000011111)/31.0*255)
+	# 	splitrgbBitsList.append((r, g, b))
+	# print(str(splitrgbBitsList))
+
+	# array = np.array(splitrgbBitsList, dtype=np.uint8).reshape(-1, 108)
+	
+	# outImage = Image.fromarray(array).convert("RGB")
+	# outImage.save("musicdata.png", "PNG")
+
+	img = Image.new('RGB', [108,int(len(musicdataList)/108)], 255)
+	data = img.load()
+	
+	for i, v in enumerate(musicdataList):
+		r = int(((int(v)&0b0111110000000000)>>10)/31.0*255)
+		g = int(((int(v)&0b0000001111100000)>>5)/31.0*255)
+		b = int((int(v)&0b0000000000011111)/31.0*255)
+		data[(i%108),(i/108)] = ((r, g, b))
+
+	# for x in range(img.size[0]):
+	# 	for y in range(img.size[1]):
+	# 		data[x,y] = (
+	# 			x % 255,
+	# 			y % 255,
+	# 			(x**2-y**2) % 255,
+	# 		)
+	img.save("musicdata.png", "PNG")
+
 argoffset = 0
 octaveOffset = 0
 octaveSpecificChannels = [-1] * 10
@@ -497,6 +551,8 @@ if plnlist:
 	print(contents)
 	print()
 	channels = ["const var channelA = \"", "const var channelB = \"", "const var channelC = \"", "const var channelD = \"", ]
+	channelData = ["", "", "", ""]
+	channelRaw = ["", "", "", ""]
 	octaveTracks = [""] * 10
 	contentSections = contents.split("~")
 
@@ -532,12 +588,14 @@ if plnlist:
 				noteFound = True
 				break
 		if noteFound == False:
-			channels[0] += "."
-			channels[1] += "."
-			channels[2] += "."
-			channels[3] += "."
-			musicdataList.append(0)
-			musicdataList.append(0)
+			channelData[0] += "."
+			channelData[1] += "."
+			channelData[2] += "."
+			channelData[3] += "."
+			channelRaw[0] += "."
+			channelRaw[1] += "."
+			channelRaw[2] += "."
+			channelRaw[3] += "."
 			continue
 
 		editedChannels = [0] * 4
@@ -576,15 +634,9 @@ if plnlist:
 					channelToUse = usedChannels
 					usedChannels += 1
 				
-				channelp1 = 0
-				channelp2 = 0
-				if channelToUse == 0 or channelToUse == 1:
-					channelp1 = ((notesIndexed.index(ch.upper())&0b111)<<5)+((1 if mod == "#" else 0)<<3)+((octave+octaveOffset)&0b111)
-				if channelToUse == 2 or channelToUse == 3:
-					channelp2 = ((notesIndexed.index(ch.upper())&0b111)<<5)+((1 if mod == "#" else 0)<<3)+((octave+octaveOffset)&0b111)
-				musicdataList.append((channelp1 << 8) + channelp2)
 				for x in range(0, int(length)):
-					channels[channelToUse] += str(FreqToBase36(NoteToFreq(ch.upper() + mod + str(octave+octaveOffset))))
+					channelData[channelToUse] += str(FreqToBase36(NoteToFreq(ch.upper() + mod + str(octave+octaveOffset))))
+					channelRaw[channelToUse] += ch.upper()+(mod if mod == "#" else "-") + str(octave+octaveOffset)
 					# if channelToUse != 0:
 					# 	channels[0] += "."
 					# if channelToUse != 1:
@@ -593,56 +645,25 @@ if plnlist:
 					# 	channels[2] += "."
 					# if channelToUse != 3:
 					# 	channels[3] += "."
-				channels[channelToUse] += ".."
+				channelData[channelToUse] += ".."
+				channelRaw[channelToUse] += ".."
 
 				continue
 		
 		highestLength = 0
-		for i, e in enumerate(channels): # Find longest channel
+		for i, e in enumerate(channelData): # Find longest channel
 			if len(e) > highestLength:
 				highestLength = len(e)
-		for i, e in enumerate(channels): # Add highest length to all unedited channels
-			while len(channels[i]) < highestLength:
-				channels[i] += "."
-		# channels[0] += ".."
-		# channels[1] += ".."
-		# channels[2] += ".."
-		# channels[3] += ".."
+		for i, e in enumerate(channelData): # Add highest length to all unedited channels
+			while len(channelData[i]) < highestLength:
+				channelData[i] += "."
+				channelRaw[i] += "."
+	channels[0] += channelData[0]
+	channels[1] += channelData[1]
+	channels[2] += channelData[2]
+	channels[3] += channelData[3]
 
-	# Make sure list size is a multiple of 108
-	while len(musicdataList) % 108 != 0:
-		musicdataList.append(0)
-	
-	# splitrgbBitsList = []
-	# for v in musicdataList:
-	# 	r = int(((int(v)&0b0111110000000000)>>10)/31.0*255)
-	# 	g = int(((int(v)&0b0000001111100000)>>5)/31.0*255)
-	# 	b = int((int(v)&0b0000000000011111)/31.0*255)
-	# 	splitrgbBitsList.append((r, g, b))
-	# print(str(splitrgbBitsList))
-
-	# array = np.array(splitrgbBitsList, dtype=np.uint8).reshape(-1, 108)
-	
-	# outImage = Image.fromarray(array).convert("RGB")
-	# outImage.save("musicdata.png", "PNG")
-
-	img = Image.new('RGB', [108,int(len(musicdataList)/108)], 255)
-	data = img.load()
-	
-	for i, v in enumerate(musicdataList):
-		r = int(((int(v)&0b0111110000000000)>>10)/31.0*255)
-		g = int(((int(v)&0b0000001111100000)>>5)/31.0*255)
-		b = int((int(v)&0b0000000000011111)/31.0*255)
-		data[(i%108),(i/108)] = ((r, g, b))
-
-	# for x in range(img.size[0]):
-	# 	for y in range(img.size[1]):
-	# 		data[x,y] = (
-	# 			x % 255,
-	# 			y % 255,
-	# 			(x**2-y**2) % 255,
-	# 		)
-	img.save("musicdata.png", "PNG")
+	TrackerToImageData(channelRaw)
 
 	print(channels[0]+".\"")
 	print(channels[1]+".\"")
