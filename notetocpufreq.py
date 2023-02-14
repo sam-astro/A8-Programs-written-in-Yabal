@@ -417,15 +417,17 @@ def TrackerToImageData(trackerData):
 	for i, ch in enumerate(trackerData[0]):
 		# Iterate through each channel
 		for j, ch2 in enumerate(trackerData):
-			if j == 0: # Create new entry if creating data for first or second byte
-				musicdataList.append(0)
 			# Compute the first and second part of the 16-bit word
 			channelp1 = 0
 			channelp2 = 0
 			if j == 0 or j == 1:
-				channelp1 = ((notesIndexed.index(trackerData[0].upper())&0b111)<<5)+((1 if mod == "#" else 0)<<3)+((octave+octaveOffset)&0b111)
+				channelp1 = ((notesIndexed.index(trackerData[j][i].upper())&0b111)<<5)+((1 if trackerData[j][i+1] == "#" else 0)<<3)+((trackerData[j][i+2])&0b111)
 			if j == 2 or j == 3:
-				channelp2 = ((notesIndexed.index(trackerData[0].upper())&0b111)<<5)+((1 if mod == "#" else 0)<<3)+((octave+octaveOffset)&0b111)
+				channelp2 = ((notesIndexed.index(trackerData[j+1][i].upper())&0b111)<<5)+((1 if trackerData[j+1][i+1] == "#" else 0)<<3)+((trackerData[j+1][i+2])&0b111)
+			# Create new entry if creating data for first 2 channels or second 2 channels
+			musicdataList.append((channelp1<<8)+channelp2)
+			j += 1 # Iterate over channels 2 at a time, since that is how they're stored
+		i += 2 # Offset by (note data width)-1
 	
 	
 	
