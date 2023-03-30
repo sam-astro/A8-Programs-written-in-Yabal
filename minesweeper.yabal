@@ -3,6 +3,8 @@
 
 var floats = create_pointer<Float16>(0x0, 1);
 var signedInts = create_pointer<SignedInt>(0x1111, 1);
+var gameBoard = create_pointer(0x2222, 1); // 0 => Empty,  1-8 => Number of surrounding mines,  9 => Mine
+var cellState = create_pointer(0x2367, 1); // 0 => Unclicked,  1 => Flagged,  2 => Shown,  3 => Shown Mine
 
 var screen = create_pointer(53871, 1)
 
@@ -22,16 +24,61 @@ const Float16 ONE = { sign : 0, exponent : 0b01111, fraction : 0 };
 int pointerX = 54;
 int pointerY = 54;
 
+// Function to safely check if a grid location contains a mine.
+bool IsMine(int x, int y){
+  // Make sure check cell is in range
+  if(x>=18 ||y>=18)
+    return false;
+
+  if(gameBoard[(i-1)*18+(j)] == 9){
+    return true;
+  }
+  return false;
+}
+
 // Iterate every board location, and decide if there should be a piece there randomly.
 // Then create a table of all of the mine counts at each piece
-int GenerateBoard(){
-  // 18x18
+void GenerateBoard(){
+  // 18x18 randomly spawn mines
   for(int i = 0; i < (18*18); i++){
     // ~20% chance
     int r = rand(4);
     if(r<=4){
-      
+      gameBoard[i] = 9;
     }
+    else{
+      gameBoard[i] = 0;
+    }
+    cellState[i] = 0;
+  }
+  // count surrounding mines
+  for(int i = 0; i < 18; i++){
+    for(int j = 0; j < 18; j++){
+      int neighborCount = 0;
+      if(IsMine(i, j))
+        continue;
+      if(IsMine(i-1, j))
+        neighborCount += 1;
+      if(IsMine(i-1, j-1))
+        neighborCount += 1;
+      if(IsMine(i, j-1))
+        neighborCount += 1;
+      if(IsMine(i, j+1))
+        neighborCount += 1;
+      if(IsMine(i+1, j+1))
+        neighborCount += 1;
+      if(IsMine(i, j+1))
+        neighborCount += 1;
+      if(IsMine(i-1, j+1))
+        neighborCount += 1;
+      gameBoard[i, j] = neighborCount;
+    }
+  }
+}
+
+void Background(){
+  for(int i = 0; i < (108*108); i++){
+    screen[i] = get_color(0xb4, 0xb4, 0xb4);
   }
 }
 
@@ -229,6 +276,71 @@ void DrawPointer(int x, int y){
 }
 
 
+
+// Draw every board location and lines depending on board state
+void DrawBoard(){
+  Background();
+  // 18x18 draw board squares
+  for(int i = 0; i < (18*18); i++){
+    // Colors: #ffffff #b4b4b4 #464646
+    // If cell state is 0, draw blank square
+    if(cellState[i] == 0){
+    	int topLeftX = i % 6;
+    	int topLeftY = i / 6;
+	// White highlight
+	SetPixel(topLeftX, topLeftY, 0b111111111111111);
+	SetPixel(topLeftX+1, topLeftY, 0b111111111111111);
+	SetPixel(topLeftX+2, topLeftY, 0b111111111111111);
+	SetPixel(topLeftX+3, topLeftY, 0b111111111111111);
+	SetPixel(topLeftX+4, topLeftY, 0b111111111111111);
+	SetPixel(topLeftX, topLeftY+1, 0b111111111111111);
+	SetPixel(topLeftX, topLeftY+2, 0b111111111111111);
+	SetPixel(topLeftX, topLeftY+3, 0b111111111111111);
+	SetPixel(topLeftX, topLeftY+4, 0b111111111111111);
+	// Grey shadow
+	SetPixel(topLeftX+5, topLeftY, 0b111111111111111);
+	SetPixel(topLeftX+5, topLeftY+1, 0b111111111111111);
+	SetPixel(topLeftX+5, topLeftY+2, 0b111111111111111);
+	SetPixel(topLeftX+5, topLeftY+3, 0b111111111111111);
+	SetPixel(topLeftX+5, topLeftY+4, 0b111111111111111);
+	SetPixel(topLeftX+5, topLeftY+5, 0b111111111111111);
+	SetPixel(topLeftX+4, topLeftY+5, 0b111111111111111);
+	SetPixel(topLeftX+3, topLeftY+5, 0b111111111111111);
+	SetPixel(topLeftX+2, topLeftY+5, 0b111111111111111);
+	SetPixel(topLeftX+1, topLeftY+5, 0b111111111111111);
+	SetPixel(topLeftX, topLeftY+5, 0b111111111111111);
+    }
+    // If cell state is 1, draw flag
+    if(cellState[i] == 1){
+    	int topLeftX = i % 6;
+    	int topLeftY = i / 6;
+	// White highlight
+	SetPixel(topLeftX, topLeftY, 0b111111111111111);
+	SetPixel(topLeftX+1, topLeftY, 0b111111111111111);
+	SetPixel(topLeftX+2, topLeftY, 0b111111111111111);
+	SetPixel(topLeftX+3, topLeftY, 0b111111111111111);
+	SetPixel(topLeftX+4, topLeftY, 0b111111111111111);
+	SetPixel(topLeftX, topLeftY+1, 0b111111111111111);
+	SetPixel(topLeftX, topLeftY+2, 0b111111111111111);
+	SetPixel(topLeftX, topLeftY+3, 0b111111111111111);
+	SetPixel(topLeftX, topLeftY+4, 0b111111111111111);
+	// Grey shadow
+	SetPixel(topLeftX+5, topLeftY, 0b111111111111111);
+	SetPixel(topLeftX+5, topLeftY+1, 0b111111111111111);
+	SetPixel(topLeftX+5, topLeftY+2, 0b111111111111111);
+	SetPixel(topLeftX+5, topLeftY+3, 0b111111111111111);
+	SetPixel(topLeftX+5, topLeftY+4, 0b111111111111111);
+	SetPixel(topLeftX+5, topLeftY+5, 0b111111111111111);
+	SetPixel(topLeftX+4, topLeftY+5, 0b111111111111111);
+	SetPixel(topLeftX+3, topLeftY+5, 0b111111111111111);
+	SetPixel(topLeftX+2, topLeftY+5, 0b111111111111111);
+	SetPixel(topLeftX+1, topLeftY+5, 0b111111111111111);
+	SetPixel(topLeftX, topLeftY+5, 0b111111111111111);
+    }
+  }
+}
+
+
 var lfsr = 0b1011101011101000;
 int lfsr()
 {
@@ -258,12 +370,11 @@ int rand(int bits)
 
 // Game Loop, handle mouse input and movement.
 while (true) {
-    int r = ClampInt(rand(4), 5, 70);
     
     Mouse mouseInput = mousePort[0];
-		if (mouseInput.left || mouseInput.right) { // Handle mouse input
-			
-		}
+    if (mouseInput.left || mouseInput.right) { // Handle mouse input
+      	
+    }
     else{
       DrawPointer(mouseInput.x, mouseInput.y);
     }
