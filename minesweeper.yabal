@@ -6,7 +6,7 @@ var signedInts = create_pointer<SignedInt>(0x1111, 1);
 var gameBoard = create_pointer(0x2222, 1); // 0 => Empty,  1-8 => Number of surrounding mines,  9 => Mine
 var cellState = create_pointer(0x2367, 1); // 0 => Unclicked,  1 => Flagged,  2 => Shown,  3 => Shown Mine
 
-var screen = create_pointer(53871, 1)
+var screen = create_pointer(53870, 1)
 
 var expansionPorts = create_pointer(53500, 1)
 const var mousePort = create_pointer<Mouse>(53501,1)
@@ -30,7 +30,7 @@ bool IsMine(int x, int y){
   if(x>=18 ||y>=18)
     return false;
 
-  if(gameBoard[(i-1)*18+(j)] == 9){
+  if(gameBoard[x*18+y] == 9){
     return true;
   }
   return false;
@@ -43,7 +43,7 @@ void GenerateBoard(){
   for(int i = 0; i < (18*18); i++){
     // ~20% chance
     int r = rand(4);
-    if(r<=4){
+    if(r<=3){
       gameBoard[i] = 9;
     }
     else{
@@ -71,7 +71,7 @@ void GenerateBoard(){
         neighborCount += 1;
       if(IsMine(i-1, j+1))
         neighborCount += 1;
-      gameBoard[i, j] = neighborCount;
+      gameBoard[i*18 + j] = neighborCount;
     }
   }
 }
@@ -209,7 +209,7 @@ void DrawFilledCircle(int xCenter, int yCenter, int radius, int color){
             newX = xCenter+SignedToTwosComp(x)
             newY = yCenter+SignedToTwosComp(y)
             // Make sure pixel is inside screen, otherwise don't render it.
-            if(newX>107||newY>107){
+            if(newX>106||newY>106){
                 x = AddSignedInts(x, 1)
                 continue
             }
@@ -243,7 +243,7 @@ void DrawWireCircle(int xCenter, int yCenter, int radius, int color){
             newX = xCenter+SignedToTwosComp(x)
             newY = yCenter+SignedToTwosComp(y)
             // Make sure pixel is inside screen, otherwise don't render it.
-            if(newX>107||newY>107){
+            if(newX>106||newY>106){
                 x = AddSignedInts(x, 1)
                 continue
             }
@@ -266,9 +266,10 @@ void DrawWireCircle(int xCenter, int yCenter, int radius, int color){
 void DrawPointer(int x, int y){
   // Only redraw the game screen and move pointer if the pointer was actually moved, otherwise it can stay the same.
   if(x != pointerX || y != pointerY){
-    DrawBoard();
-    DrawFilledCircle(x, y, 3, 0b101010001100011);
-    DrawWireCircle(x, y, 3, 0b111111111111111);
+    //DrawBoard();
+    //DrawFilledCircle(x, y, 2, 0b101010001100011);
+    //DrawWireCircle(x, y, 2, 0b111111111111111);
+    DrawWireCircle(x, y, 2, 0);
     pointerX = x;
     pointerY = y;
   }
@@ -282,60 +283,75 @@ void DrawBoard(){
   Background();
   // 18x18 draw board squares
   for(int i = 0; i < (18*18); i++){
+    // //Draw mine if there is one there
+    // if(gameBoard[i] == 9){
+    //     write('O');
+    //     //DrawWireCircle(((i%18) * 6)+2, (i / 18 * 6)+2, 2, 0b101010001100011);
+    // }
+    // else{
+    //     write(' ');
+    // }
     // Colors: #ffffff #b4b4b4 #464646
     // If cell state is 0, draw blank square
     if(cellState[i] == 0){
-    	int topLeftX = i % 6;
-    	int topLeftY = i / 6;
-	// White highlight
-	SetPixel(topLeftX, topLeftY, 0b111111111111111);
-	SetPixel(topLeftX+1, topLeftY, 0b111111111111111);
-	SetPixel(topLeftX+2, topLeftY, 0b111111111111111);
-	SetPixel(topLeftX+3, topLeftY, 0b111111111111111);
-	SetPixel(topLeftX+4, topLeftY, 0b111111111111111);
-	SetPixel(topLeftX, topLeftY+1, 0b111111111111111);
-	SetPixel(topLeftX, topLeftY+2, 0b111111111111111);
-	SetPixel(topLeftX, topLeftY+3, 0b111111111111111);
-	SetPixel(topLeftX, topLeftY+4, 0b111111111111111);
-	// Grey shadow
-	SetPixel(topLeftX+5, topLeftY, 0b111111111111111);
-	SetPixel(topLeftX+5, topLeftY+1, 0b111111111111111);
-	SetPixel(topLeftX+5, topLeftY+2, 0b111111111111111);
-	SetPixel(topLeftX+5, topLeftY+3, 0b111111111111111);
-	SetPixel(topLeftX+5, topLeftY+4, 0b111111111111111);
-	SetPixel(topLeftX+5, topLeftY+5, 0b111111111111111);
-	SetPixel(topLeftX+4, topLeftY+5, 0b111111111111111);
-	SetPixel(topLeftX+3, topLeftY+5, 0b111111111111111);
-	SetPixel(topLeftX+2, topLeftY+5, 0b111111111111111);
-	SetPixel(topLeftX+1, topLeftY+5, 0b111111111111111);
-	SetPixel(topLeftX, topLeftY+5, 0b111111111111111);
+    	int topLeftX = (i%18) * 6;
+    	int topLeftY = i / 18 * 6;
+        int white = 0b111111111111111;
+        int grey = get_color(0x46, 0x46, 0x46);
+        int background = get_color(0xb4, 0xb4, 0xb4);
+        //write_int(gameBoard[i]);
+        // White highlight
+        SetPixel(topLeftX, topLeftY, white);
+        SetPixel(topLeftX+1, topLeftY, white);
+        SetPixel(topLeftX+2, topLeftY, white);
+        SetPixel(topLeftX+3, topLeftY, white);
+        SetPixel(topLeftX+4, topLeftY, white);
+        SetPixel(topLeftX, topLeftY+1, white);
+        SetPixel(topLeftX, topLeftY+2, white);
+        SetPixel(topLeftX, topLeftY+3, white);
+        SetPixel(topLeftX, topLeftY+4, white);
+        // Grey shadow
+        SetPixel(topLeftX+5, topLeftY, background);
+        SetPixel(topLeftX+5, topLeftY+1, grey);
+        SetPixel(topLeftX+5, topLeftY+2, grey);
+        SetPixel(topLeftX+5, topLeftY+3, grey);
+        SetPixel(topLeftX+5, topLeftY+4, grey);
+        SetPixel(topLeftX+5, topLeftY+5, grey);
+        SetPixel(topLeftX+4, topLeftY+5, grey);
+        SetPixel(topLeftX+3, topLeftY+5, grey);
+        SetPixel(topLeftX+2, topLeftY+5, grey);
+        SetPixel(topLeftX+1, topLeftY+5, grey);
+        SetPixel(topLeftX, topLeftY+5, background);
     }
     // If cell state is 1, draw flag
     if(cellState[i] == 1){
-    	int topLeftX = i % 6;
-    	int topLeftY = i / 6;
-	// White highlight
-	SetPixel(topLeftX, topLeftY, 0b111111111111111);
-	SetPixel(topLeftX+1, topLeftY, 0b111111111111111);
-	SetPixel(topLeftX+2, topLeftY, 0b111111111111111);
-	SetPixel(topLeftX+3, topLeftY, 0b111111111111111);
-	SetPixel(topLeftX+4, topLeftY, 0b111111111111111);
-	SetPixel(topLeftX, topLeftY+1, 0b111111111111111);
-	SetPixel(topLeftX, topLeftY+2, 0b111111111111111);
-	SetPixel(topLeftX, topLeftY+3, 0b111111111111111);
-	SetPixel(topLeftX, topLeftY+4, 0b111111111111111);
-	// Grey shadow
-	SetPixel(topLeftX+5, topLeftY, 0b111111111111111);
-	SetPixel(topLeftX+5, topLeftY+1, 0b111111111111111);
-	SetPixel(topLeftX+5, topLeftY+2, 0b111111111111111);
-	SetPixel(topLeftX+5, topLeftY+3, 0b111111111111111);
-	SetPixel(topLeftX+5, topLeftY+4, 0b111111111111111);
-	SetPixel(topLeftX+5, topLeftY+5, 0b111111111111111);
-	SetPixel(topLeftX+4, topLeftY+5, 0b111111111111111);
-	SetPixel(topLeftX+3, topLeftY+5, 0b111111111111111);
-	SetPixel(topLeftX+2, topLeftY+5, 0b111111111111111);
-	SetPixel(topLeftX+1, topLeftY+5, 0b111111111111111);
-	SetPixel(topLeftX, topLeftY+5, 0b111111111111111);
+    	int topLeftX = (i%18) * 6;
+    	int topLeftY = i / 18 * 6;
+        int white = 0b111111111111111;
+        int grey = get_color(0x46, 0x46, 0x46);
+        int background = get_color(0xb4, 0xb4, 0xb4);
+        // White highlight
+        SetPixel(topLeftX, topLeftY, white);
+        SetPixel(topLeftX+1, topLeftY, white);
+        SetPixel(topLeftX+2, topLeftY, white);
+        SetPixel(topLeftX+3, topLeftY, white);
+        SetPixel(topLeftX+4, topLeftY, white);
+        SetPixel(topLeftX, topLeftY+1, white);
+        SetPixel(topLeftX, topLeftY+2, white);
+        SetPixel(topLeftX, topLeftY+3, white);
+        SetPixel(topLeftX, topLeftY+4, white);
+        // Grey shadow
+        SetPixel(topLeftX+5, topLeftY, background);
+        SetPixel(topLeftX+5, topLeftY+1, grey);
+        SetPixel(topLeftX+5, topLeftY+2, grey);
+        SetPixel(topLeftX+5, topLeftY+3, grey);
+        SetPixel(topLeftX+5, topLeftY+4, grey);
+        SetPixel(topLeftX+5, topLeftY+5, grey);
+        SetPixel(topLeftX+4, topLeftY+5, grey);
+        SetPixel(topLeftX+3, topLeftY+5, grey);
+        SetPixel(topLeftX+2, topLeftY+5, grey);
+        SetPixel(topLeftX+1, topLeftY+5, grey);
+        SetPixel(topLeftX, topLeftY+5, background);
     }
   }
 }
@@ -368,6 +384,8 @@ int rand(int bits)
     return out;
 }
 
+GenerateBoard();
+DrawBoard();
 // Game Loop, handle mouse input and movement.
 while (true) {
     
