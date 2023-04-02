@@ -3,8 +3,8 @@
 
 var floats = create_pointer<Float16>(0x0, 1);
 var signedInts = create_pointer<SignedInt>(0x1111, 1);
-var gameBoard = create_pointer(0x2222, 1); // 0 => Empty,  1-8 => Number of surrounding mines,  9 => Mine
-var cellState = create_pointer(0x2367, 1); // 0 => Unclicked,  1 => Flagged,  2 => Shown,  3 => Shown Mine
+var gameBoard = create_pointer(0x2222, 0); // 0 => Empty,  1-8 => Number of surrounding mines,  9 => Mine
+var cellState = create_pointer(0x3333, 0); // 0 => Unclicked,  1 => Flagged,  2 => Shown,  3 => Shown Mine
 
 var screen = create_pointer(53870, 1)
 
@@ -24,16 +24,22 @@ const Float16 ONE = { sign : 0, exponent : 0b01111, fraction : 0 };
 int pointerX = 54;
 int pointerY = 54;
 
+const int background_color = get_color(0xb4, 0xb4, 0xb4);
+const int white_color = get_color(0xff, 0xff, 0xff);
+
 // Function to safely check if a grid location contains a mine.
 bool IsMine(int x, int y){
   // Make sure check cell is in range
-  if(x>=18 ||y>=18)
+  if(x>=18 || y>=18){
     return false;
+  }
 
-  if(gameBoard[x*18+y] == 9){
+  if(gameBoard[(y*18)+x] == 9){
     return true;
   }
-  return false;
+  else{
+    return false;
+  }
 }
 
 // Iterate every board location, and decide if there should be a piece there randomly.
@@ -43,7 +49,7 @@ void GenerateBoard(){
   for(int i = 0; i < (18*18); i++){
     // ~20% chance
     int r = rand(4);
-    if(r<=3){
+    if(r<=2){
       gameBoard[i] = 9;
     }
     else{
@@ -52,43 +58,65 @@ void GenerateBoard(){
     cellState[i] = 0;
   }
   // count surrounding mines
-  for(int i = 0; i < 18; i++){
-    for(int j = 0; j < 18; j++){
-      int neighborCount = 0;
-      if(IsMine(i, j))
+  int neighborCount = 0;
+  for(int x = 0; x < 18; x++){
+    for(int y = 0; y < 18; y++){
+      neighborCount = 0;
+      if(gameBoard[y*18 + x] == 9)
         continue;
-      if(IsMine(i-1, j))
-        neighborCount += 1;
-      if(IsMine(i-1, j-1))
-        neighborCount += 1;
-      if(IsMine(i, j-1))
-        neighborCount += 1;
-      if(IsMine(i, j+1))
-        neighborCount += 1;
-      if(IsMine(i+1, j+1))
-        neighborCount += 1;
-      if(IsMine(i, j+1))
-        neighborCount += 1;
-      if(IsMine(i-1, j+1))
-        neighborCount += 1;
-      gameBoard[i*18 + j] = neighborCount;
+        
+      if(IsMine(x-1, y)){
+          neighborCount += 1;
+      }
+      if(IsMine(x-1, y-1)){
+          neighborCount += 1;
+      }
+      if(IsMine(x, y-1)){
+          neighborCount += 1;
+      }
+      if(IsMine(x+1, y-1)){
+          neighborCount += 1;
+      }
+      if(IsMine(x+1, y)){
+          neighborCount += 1;
+      }
+      if(IsMine(x+1, y+1)){
+          neighborCount += 1;
+      }
+      if(IsMine(x, y+1)){
+          neighborCount += 1;
+      }
+      if(IsMine(x-1, y+1)){
+          neighborCount += 1;
+      }
+      
+    //   write_int(neighborCount);
+    //   write(' ');
+      gameBoard[(y*18) + x] = neighborCount;
     }
   }
 }
 
-// Draw the background color over the entire screen
+// Draw the background_color color over the entire screen
 void Background(){
   for(int i = 0; i < (108*108); i++){
-    screen[i] = get_color(0xb4, 0xb4, 0xb4);
+    screen[i] = background_color;
   }
 }
-// Draw the background color over a smaller section of the screen, starting at the xy location
-// indicated by `ax` and `ay`. This will continue drawing, left to right top to bottom form this location
-// until it goes the vertical length `h`
-void BackgroundSection(int ax, int ay, int h){
+// Draw the background_color color over a smaller section of the screen, starting at the xy location
+// indicated by `ax` and `ay`. This will continue drawing, left to right top to bottom from this location
+// until it reaches xy location `bx` and `by`
+void BackgroundSection(int ax, int ay, int bx, int by){
   int startPos = ax+(ay*108);
-  for(int i = startPos; i < startPos+(h*108); i++){
-    screen[i] = get_color(0xb4, 0xb4, 0xb4);
+
+  int width = bx-ax;
+  int height = by-ay;
+
+  for(int x = 0; x < width; x++){
+    for(int y = 0; y < height; y++){
+        //screen[startPos + (y*108 + x)] = background_color;
+        SetPixel(ax+x, ay+y, background_color);
+    }
   }
 }
 
@@ -277,14 +305,117 @@ void DrawPointer(int x, int y){
   // Only redraw the game screen and pointer if the pointer was actually moved, otherwise it can stay the same.
   if(x != pointerX || y != pointerY){
     // Redraw the necessary part of the board that was erased by the last cursor position
-    DrawBoardSection(pointerX-3, pointerY-3, pointerX+3, pointerY+3);
+    DrawBoardSection(pointerX, pointerY, pointerX, pointerY);
   
     // Draw the new cursor
-    DrawWireCircle(x, y, 2, 0);
+    DrawWireCircle(x, y, 1, 0);
+    //DrawWireTriangle(x-3, y-3, x, y+3, x+3, y+3, 0);
     pointerX = x;
     pointerY = y;
   }
 
+}
+
+
+
+// Draw a single cell of a board, (DOES NOT DRAW THE BACKGROUND, only the content)
+void DrawBoardCell(int i){
+  int topLeftX = (i%18) * 6;
+  int topLeftY = i / 18 * 6;
+  
+  // Colors: #ffffff #b4b4b4 #464646
+  // If cell state is 0, draw blank square
+  if(cellState[i] == 0){
+      int grey = get_color(0x46, 0x46, 0x46);
+      //write_int(gameBoard[i]);
+      // White highlight
+      SetPixel(topLeftX, topLeftY, white_color);
+      SetPixel(topLeftX+1, topLeftY, white_color);
+      SetPixel(topLeftX+2, topLeftY, white_color);
+      SetPixel(topLeftX+3, topLeftY, white_color);
+      SetPixel(topLeftX+4, topLeftY, white_color);
+      SetPixel(topLeftX, topLeftY+1, white_color);
+      SetPixel(topLeftX, topLeftY+2, white_color);
+      SetPixel(topLeftX, topLeftY+3, white_color);
+      SetPixel(topLeftX, topLeftY+4, white_color);
+      // Grey shadow
+      SetPixel(topLeftX+5, topLeftY, background_color);
+      SetPixel(topLeftX+5, topLeftY+1, grey);
+      SetPixel(topLeftX+5, topLeftY+2, grey);
+      SetPixel(topLeftX+5, topLeftY+3, grey);
+      SetPixel(topLeftX+5, topLeftY+4, grey);
+      SetPixel(topLeftX+5, topLeftY+5, grey);
+      SetPixel(topLeftX+4, topLeftY+5, grey);
+      SetPixel(topLeftX+3, topLeftY+5, grey);
+      SetPixel(topLeftX+2, topLeftY+5, grey);
+      SetPixel(topLeftX+1, topLeftY+5, grey);
+      SetPixel(topLeftX, topLeftY+5, background_color);
+  }
+  // If cell state is 1, draw flag
+  else if(cellState[i] == 1){
+      int black = 0;
+      int grey = get_color(0x46, 0x46, 0x46);
+      int red = get_color(0xff, 0, 0);
+      //write_int(gameBoard[i]);
+      // White highlight
+      SetPixel(topLeftX, topLeftY, white_color);
+      SetPixel(topLeftX+1, topLeftY, white_color);
+      SetPixel(topLeftX+2, topLeftY, white_color);
+      SetPixel(topLeftX+3, topLeftY, white_color);
+      SetPixel(topLeftX+4, topLeftY, white_color);
+      SetPixel(topLeftX, topLeftY+1, white_color);
+      SetPixel(topLeftX, topLeftY+2, white_color);
+      SetPixel(topLeftX, topLeftY+3, white_color);
+      SetPixel(topLeftX, topLeftY+4, white_color);
+      // Grey shadow
+      SetPixel(topLeftX+5, topLeftY, background_color);
+      SetPixel(topLeftX+5, topLeftY+1, grey);
+      SetPixel(topLeftX+5, topLeftY+2, grey);
+      SetPixel(topLeftX+5, topLeftY+3, grey);
+      SetPixel(topLeftX+5, topLeftY+4, grey);
+      SetPixel(topLeftX+5, topLeftY+5, grey);
+      SetPixel(topLeftX+4, topLeftY+5, grey);
+      SetPixel(topLeftX+3, topLeftY+5, grey);
+      SetPixel(topLeftX+2, topLeftY+5, grey);
+      SetPixel(topLeftX+1, topLeftY+5, grey);
+      SetPixel(topLeftX, topLeftY+5, background_color);
+      // Red flag
+      SetPixel(topLeftX+2, topLeftY+1, red);
+      SetPixel(topLeftX+2, topLeftY+2, red);
+      SetPixel(topLeftX+1, topLeftY+2, red);
+      SetPixel(topLeftX+2, topLeftY+3, red);
+      // Black flag pole
+      SetPixel(topLeftX+3, topLeftY+1, black);
+      SetPixel(topLeftX+3, topLeftY+2, black);
+      SetPixel(topLeftX+3, topLeftY+3, black);
+      SetPixel(topLeftX+3, topLeftY+4, black);
+  }
+  // If cell state is 2, draw number if necessary, or nothing if no number
+  else if(cellState[i] == 2){
+      
+	// If board location has no surrounding bombs, leave blank.
+	if(gameBoard[i] == 0){
+		return 0;
+    }
+	
+	// If the board location contains a mine, change the cell state and lose the game
+	if(gameBoard[i] == 9){
+		cellState[i] = 3;
+    DrawFilledCircle(topLeftX+2, topLeftY+2, 3, 0);
+		return 0;
+	}
+	
+	// If there is at least 1 neighbor mine, write the number in that square
+    // int countedMines = gameBoard[i];
+    // write_int(countedMines);
+    // write(' ');
+	WriteIntColored(topLeftX+1, topLeftY+1, i);
+  }
+  // If cell state is 3, draw mine
+  else if(cellState[i] == 3){
+    DrawFilledCircle(topLeftX+2, topLeftY+2, 3, 0);
+      
+  }
 }
 
 
@@ -301,135 +432,12 @@ void DrawBoard(){
 // Draw only necessary board locations and content in pixel range
 // (x1 and y1 are the top-left corner of selection, x2 y2 are the bottom-right corner.)
 void DrawBoardSection(int x1, int y1, int x2, int y2){
-  BackgroundSection(x1, y1, y2-y1);
-  int startPoint = ((x1-(x1%6))/6)+((y1-(y1%6))/6)*18;
-  int endPoint = ((x2-(x2%6))/6)+((y2-(y2%6))/6)*18;
+  BackgroundSection(x1-1, y1-1, x2+3, y2+3);
+  int startPoint = ((x1-6)/6)+((y1-6)/6)*18;
+  int endPoint = ((x2+6)/6)+((y2+6)/6)*18;
   // 18x18 draw board squares
   for(int i = startPoint; i < endPoint; i++){
     DrawBoardCell(i);
-    }
-  }
-}
-
-
-// Draw a single cell of a board, (DOES NOT DRAW THE BACKGROUND, only the content)
-void DrawBoardCell(int i){
-  int topLeftX = (i%18) * 6;
-  int topLeftY = i / 18 * 6;
-  
-    // Colors: #ffffff #b4b4b4 #464646
-    // If cell state is 0, draw blank square
-    if(cellState[i] == 0){
-        int white = 0b111111111111111;
-        int grey = get_color(0x46, 0x46, 0x46);
-        int background = get_color(0xb4, 0xb4, 0xb4);
-        //write_int(gameBoard[i]);
-        // White highlight
-        SetPixel(topLeftX, topLeftY, white);
-        SetPixel(topLeftX+1, topLeftY, white);
-        SetPixel(topLeftX+2, topLeftY, white);
-        SetPixel(topLeftX+3, topLeftY, white);
-        SetPixel(topLeftX+4, topLeftY, white);
-        SetPixel(topLeftX, topLeftY+1, white);
-        SetPixel(topLeftX, topLeftY+2, white);
-        SetPixel(topLeftX, topLeftY+3, white);
-        SetPixel(topLeftX, topLeftY+4, white);
-        // Grey shadow
-        SetPixel(topLeftX+5, topLeftY, background);
-        SetPixel(topLeftX+5, topLeftY+1, grey);
-        SetPixel(topLeftX+5, topLeftY+2, grey);
-        SetPixel(topLeftX+5, topLeftY+3, grey);
-        SetPixel(topLeftX+5, topLeftY+4, grey);
-        SetPixel(topLeftX+5, topLeftY+5, grey);
-        SetPixel(topLeftX+4, topLeftY+5, grey);
-        SetPixel(topLeftX+3, topLeftY+5, grey);
-        SetPixel(topLeftX+2, topLeftY+5, grey);
-        SetPixel(topLeftX+1, topLeftY+5, grey);
-        SetPixel(topLeftX, topLeftY+5, background);
-    }
-    // If cell state is 1, draw flag
-    if(cellState[i] == 1){
-        int white = 0b111111111111111;
-        int black = 0;
-        int grey = get_color(0x46, 0x46, 0x46);
-        int red = get_color(0xff, 0, 0);
-        int background = get_color(0xb4, 0xb4, 0xb4);
-        //write_int(gameBoard[i]);
-        // White highlight
-        SetPixel(topLeftX, topLeftY, white);
-        SetPixel(topLeftX+1, topLeftY, white);
-        SetPixel(topLeftX+2, topLeftY, white);
-        SetPixel(topLeftX+3, topLeftY, white);
-        SetPixel(topLeftX+4, topLeftY, white);
-        SetPixel(topLeftX, topLeftY+1, white);
-        SetPixel(topLeftX, topLeftY+2, white);
-        SetPixel(topLeftX, topLeftY+3, white);
-        SetPixel(topLeftX, topLeftY+4, white);
-        // Grey shadow
-        SetPixel(topLeftX+5, topLeftY, background);
-        SetPixel(topLeftX+5, topLeftY+1, grey);
-        SetPixel(topLeftX+5, topLeftY+2, grey);
-        SetPixel(topLeftX+5, topLeftY+3, grey);
-        SetPixel(topLeftX+5, topLeftY+4, grey);
-        SetPixel(topLeftX+5, topLeftY+5, grey);
-        SetPixel(topLeftX+4, topLeftY+5, grey);
-        SetPixel(topLeftX+3, topLeftY+5, grey);
-        SetPixel(topLeftX+2, topLeftY+5, grey);
-        SetPixel(topLeftX+1, topLeftY+5, grey);
-        SetPixel(topLeftX, topLeftY+5, background);
-        // Red flag
-        SetPixel(topLeftX+2, topLeftY+1, red);
-        SetPixel(topLeftX+2, topLeftY+2, red);
-        SetPixel(topLeftX+1, topLeftY+2, red);
-        SetPixel(topLeftX+2, topLeftY+3, red);
-        // Black flag pole
-        SetPixel(topLeftX+3, topLeftY+1, red);
-        SetPixel(topLeftX+3, topLeftY+2, red);
-        SetPixel(topLeftX+3, topLeftY+3, red);
-        SetPixel(topLeftX+3, topLeftY+4, red);
-    }
-    // If cell state is 2, draw number if necessary, or nothing if no number
-    if(cellState[i] == 1){
-        int white = 0b111111111111111;
-        int black = 0;
-        int grey = get_color(0x46, 0x46, 0x46);
-        int red = get_color(0xff, 0, 0);
-        int background = get_color(0xb4, 0xb4, 0xb4);
-        //write_int(gameBoard[i]);
-        // Grey border
-        SetPixel(topLeftX, topLeftY, background);
-        SetPixel(topLeftX+1, topLeftY, background);
-        SetPixel(topLeftX+2, topLeftY, background);
-        SetPixel(topLeftX+3, topLeftY, background);
-        SetPixel(topLeftX+4, topLeftY, background);
-        SetPixel(topLeftX, topLeftY+1, background);
-        SetPixel(topLeftX, topLeftY+2, background);
-        SetPixel(topLeftX, topLeftY+3, background);
-        SetPixel(topLeftX, topLeftY+4, background);
-        SetPixel(topLeftX+5, topLeftY, background);
-        SetPixel(topLeftX+5, topLeftY+1, background);
-        SetPixel(topLeftX+5, topLeftY+2, background);
-        SetPixel(topLeftX+5, topLeftY+3, background);
-        SetPixel(topLeftX+5, topLeftY+4, background);
-        SetPixel(topLeftX+5, topLeftY+5, background);
-        SetPixel(topLeftX+4, topLeftY+5, background);
-        SetPixel(topLeftX+3, topLeftY+5, background);
-        SetPixel(topLeftX+2, topLeftY+5, background);
-        SetPixel(topLeftX+1, topLeftY+5, background);
-        SetPixel(topLeftX, topLeftY+5, background);
-        
-	// If board location has no surrounding bombs, leave blank.
-	if(gameBoard[i] == 0)
-		continue;
-	
-	// If the board location contains a mine, change the cell state and lose the game
-	if(gameBoard[i] == 9){
-		boardState[i] = 3;
-		continue;
-	}
-	
-	// If there is at least 1 neighbor mine, write the number in that square
-	WriteIntColored(topLeftX+1, topLeftY+1, gameBoard[i]);
   }
 }
 
@@ -463,36 +471,51 @@ int rand(int bits)
 
 GenerateBoard();
 DrawBoard();
+int lastMousePress = 0;
+mousePort[0] = 0;
 // Game Loop, handle mouse input and movement.
 while (true) {
     
     Mouse mouseInput = mousePort[0];
     // If user clicks cell that is covered, uncover it and redraw it
-    if (mouseInput.left) {
-      	int cellLocation = mouseInput.x/6 + (mouseInput.y/6)*18;
-	if(cellState[cellLocation] == 0){
-		cellState[cellLocation] = 2;
-		
-		int topLeftX = (cellLocation%18) * 6;
-		int topLeftY = cellLocation / 18 * 6;
-		BackgroundSection(topLeftX, topLeftY, 8);
-		DrawBoardCell(cellLocation);
-	}
+    if (mouseInput.left && (lastMousePress != 1)) {
+      	int cellLocation = (mouseInput.x)/6 + ((mouseInput.y)/6)*18;
+        if(cellState[cellLocation] == 0){
+            cellState[cellLocation] = 2;
+            
+            int topLeftX = (cellLocation%18) * 6;
+            int topLeftY = cellLocation / 18 * 6;
+            BackgroundSection(topLeftX, topLeftY, topLeftX+6, topLeftY+6);
+            DrawBoardCell(cellLocation);
+        }
+        mouseInput.left = 0;
+        lastMousePress = 1;
     }
     // If user right-clicks cell that is covered, place a flag over it and redraw it.
-    else if (mouseInput.right) {
-      	int cellLocation = mouseInput.x/6 + (mouseInput.y/6)*18;
-	if(cellState[cellLocation] == 0){
-		cellState[cellLocation] = 1;
-		
-		int topLeftX = (cellLocation%18) * 6;
-		int topLeftY = cellLocation / 18 * 6;
-		BackgroundSection(topLeftX, topLeftY, 8);
-		DrawBoardCell(cellLocation);
-	}
+    else if (mouseInput.right && (lastMousePress != 2)) {
+      	int cellLocation = (mouseInput.x)/6 + ((mouseInput.y)/6)*18;
+        if(cellState[cellLocation] == 0){ // If the space is blank, place flag
+            cellState[cellLocation] = 1;
+            
+            int topLeftX = (cellLocation%18) * 6;
+            int topLeftY = cellLocation / 18 * 6;
+            BackgroundSection(topLeftX, topLeftY, topLeftX+6, topLeftY+6);
+            DrawBoardCell(cellLocation);
+        }
+        else if(cellState[cellLocation] == 1){ // Else, if the space is already a flag, remove it.
+            cellState[cellLocation] = 0;
+            
+            int topLeftX = (cellLocation%18) * 6;
+            int topLeftY = cellLocation / 18 * 6;
+            BackgroundSection(topLeftX, topLeftY, topLeftX+6, topLeftY+6);
+            DrawBoardCell(cellLocation);
+        }
+        mouseInput.right = 0;
+        lastMousePress = 2;
     }
     else{
-      DrawPointer(mouseInput.x, mouseInput.y);
+        DrawPointer(mouseInput.x, mouseInput.y);
+        lastMousePress = 0;
     }
     
     asm{
@@ -594,7 +617,9 @@ void write(int c) {
     offset++
 }
 
-void WriteIntColored(int x, int y, int c){
+void WriteIntColored(int x, int y, int index){
+    int counted = gameBoard[index];
+
 	// Character pixels for numbers 1-8
 	const int char_1 = 0b0010011000100010;
 	const int char_2 = 0b1111000111101111;
@@ -614,50 +639,59 @@ void WriteIntColored(int x, int y, int c){
 	const int col_7 = get_color(0x10, 0x10, 0x10);
 	const int col_8 = get_color(0xcc, 0xcc, 0xcc);
 	
-	int chardata = 0;
-	int charcolor = 0;
+	var chardata = 0b1111000000001111;
+	int charcolor = 0b110010010101010;
 	
-	if(c == 1){
+	if(counted == 1){
 		chardata = char_1;
 		charcolor = col_1;
 	}
-	if(c == 2){
+	else if(counted == 2){
 		chardata = char_2;
 		charcolor = col_2;
 	}
-	if(c == 3){
+	else if(counted == 3){
 		chardata = char_3;
 		charcolor = col_3;
 	}
-	if(c == 4){
+	else if(counted == 4){
 		chardata = char_4;
 		charcolor = col_4;
 	}
-	if(c == 5){
+	else if(counted == 5){
 		chardata = char_5;
 		charcolor = col_5;
 	}
-	if(c == 6){
+	else if(counted == 6){
 		chardata = char_6;
 		charcolor = col_6;
 	}
-	if(c == 7){
+	else if(counted == 7){
 		chardata = char_7;
 		charcolor = col_7;
 	}
-	if(c == 8){
+	else if(counted == 8){
 		chardata = char_8;
 		charcolor = col_8;
 	}
+    else{
+		chardata = 0b1001100110011001;
+		charcolor = col_2;
+    }
 	
 	// Draw the character using data in `chardata` and with the color of `charcolor`
-	for(int yy = 0; yy < 4; yy++){
-		for(int xx = 0; xx < 4; xx++){
+    int cnt = 16;
+	for(int by = 0; by < 4; by++){
+		for(int bx = 0; bx < 4; bx++){
 			// If this pixel should be filled in
-			if(chardata & 0b1000000000000000 == 0b1000000000000000)
-				SetPixel(x+xx, y+yy, charcolor);
+			if((chardata&0b1000000000000000) == 0b1000000000000000){
+                // var screenOffset = (ClampInt(y+by, 0, 107) * 108) + ClampInt(x+bx, 0, 107);
+                // screen[screenOffset] = charcolor;
+				SetPixel(x+bx, y+by, charcolor);
+            }
 			// Shift pixel data
-			chardata = (chardata << 1);
+			chardata = chardata<<1;
+            cnt-=1;
 		}
 	}
 }
