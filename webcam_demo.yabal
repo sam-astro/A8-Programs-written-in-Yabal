@@ -51,7 +51,7 @@ while(true) {
         
         // Send the next request message
         // Format: 0b10 YYYYYYY XXXXXXX
-        webcam[0] = 0b1000000000000000 + (curY << 8) + curX;
+        webcam[0] = 0b1000000000000000 + (curY << 7) + curX;
         
         asm{
         VBUF
