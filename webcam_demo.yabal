@@ -1,27 +1,61 @@
 var screen = create_pointer(53871, 1)
 var webcam = create_pointer(53503, 1)
 
+var curX = 0;
+var curY = 0;
 
 while(true) {
-    var input = webcam[0];
-    var color = (input >> 14)&0b11
-    var x = input & 0b1111111
-    var y = (input >> 7) & 0b1111111
-
-    var pixelOffset = (y * 108) + x
+    var wb = webcam[0];
     
-    if(color==0){
-        color = 0
-    }
-    else if(color==1){
-        color = 7399
-    }
-    else if(color==2){
-        color = 14798
-    }
-    else if(color==3){
-        color = 32767
-    }
+    // If first bit is not 1, then it is received data,
+    // So continue:
+    if(wb < 0b1000000000000000){
+        // Colors come in groups of 6, like 0b0000 CC CC CC CC CC CC
+        // The first 4 bits are blank, since they are used for controls
+        // The groups are ordered from right to left (CC at right end is the Leftmost pixel location)
+        
+        // Iterate the 6 groups of bits
+        while(i < 6){
+            var color = wb & 0b11
 
-    screen[pixelOffset] = color
+            var pixelOffset = (currY * 108) + currX
+
+            if(color==0){
+                color = 0
+            }
+            else if(color==1){
+                color = 7399
+            }
+            else if(color==2){
+                color = 14798
+            }
+            else if(color==3){
+                color = 32767
+            }
+
+            screen[pixelOffset] = color
+            
+            // Shift right by 2 to next group
+            wb = wb >> 2;
+            
+            curX += 1;
+            if(currX >= 108){
+                curX = 0;
+                curY += 1;
+            }
+            if(currY >= 108){
+                curX = 0;
+                curY = 0;
+            }
+        }
+        
+        // Send the next request message
+        // Format: 0b10 YYYYYYY XXXXXXX
+        webcam[0] = 0b1000000000000000 + (curY << 8) + curX;
+        
+        asm{
+        VBUF
+        };
+    }
+    else if()
 }
