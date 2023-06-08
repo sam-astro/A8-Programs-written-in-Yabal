@@ -1,4 +1,3 @@
-
 // import "float.yabal"
 
 var floats = create_pointer<Float16>(0x0, 1);

@@ -1,24 +1,34 @@
-var screen = create_pointer(53871, 1)
-var webcam = create_pointer(53503, 1)
+var screen = create_pointer(53870, 1)
+var screenBuf = create_pointer(20000, 1)
+//var screenBuf2 = create_pointer(31666, 1)
+var webcam = create_pointer<int>(53503, 1)
 
 var curX = 0;
 var curY = 0;
+
+// Capture initial image with 0b11 command
+webcam[0] = 0b1100000000000000;
+
+asm{
+VBUF
+};
 
 while(true) {
     var wb = webcam[0];
     
     // If first bit is not 1, then it is received data,
     // So continue:
-    if(wb < 0b1000000000000000){
-        // Colors come in groups of 6, like 0b0000 CC CC CC CC CC CC
-        // The first 4 bits are blank, since they are used for controls
+    if(wb < 0b0100000000000000){
+        // Colors come in groups of 7, like 0b0000 CC CC CC CC CC CC
+        // The first 2 bits are blank, since they are used for controls
         // The groups are ordered from right to left (CC at right end is the Leftmost pixel location)
         
-        // Iterate the 6 groups of bits
-        while(i < 6){
+        // Iterate the first 7 groups of bits
+        var i = 0;
+        while(i < 7){
             var color = wb & 0b11
 
-            var pixelOffset = (currY * 108) + currX
+            var pixelOffset = (curY * 108) + curX
 
             if(color==0){
                 color = 0
@@ -33,29 +43,160 @@ while(true) {
                 color = 32767
             }
 
-            screen[pixelOffset] = color
+            //color = 0b0000000000011111
+            screenBuf[pixelOffset] = color
             
             // Shift right by 2 to next group
             wb = wb >> 2;
             
             curX += 1;
-            if(currX >= 108){
+            if(curX >= 108){
                 curX = 0;
                 curY += 1;
+                // asm{
+                // VBUF
+                // };
             }
-            if(currY >= 108){
+            if(curY >= 108){
                 curX = 0;
                 curY = 0;
+                webcam[0] = 0b0100000000000000;
+                DitherImage();
+            }
+
+            i += 1;
+        }
+        int count = 0
+        for (count=1; count<2; count++){
+            // Iterate the next 8 groups of bits
+            i = 0;
+            //webcam[count] = webcam[count]
+            
+            while(i < 8){
+                var color = webcam[count] & 0b11
+
+                var pixelOffset = (curY * 108) + curX
+
+                if(color==0){
+                    color = 0
+                }
+                else if(color==1){
+                    color = 7399
+                }
+                else if(color==2){
+                    color = 14798
+                }
+                else if(color==3){
+                    color = 32767
+                }
+
+                //color = 0b0000000000011111
+                screenBuf[pixelOffset] = color
+                
+                // Shift right by 2 to next group
+                webcam[count] = webcam[count] >> 2;
+                
+                curX += 1;
+                if(curX >= 108){
+                    curX = 0;
+                    curY += 1;
+                    // asm{
+                    // VBUF
+                    // };
+                }
+                if(curY >= 108){
+                    curX = 0;
+                    curY = 0;
+                    webcam[0] = 0b0100000000000000;
+                    DitherImage();
+                }
+
+                i += 1;
             }
         }
-        
         // Send the next request message
         // Format: 0b10 YYYYYYY XXXXXXX
-        webcam[0] = 0b1000000000000000 + (curY << 7) + curX;
+        if(webcam[0] != 0b0100000000000000)
+            webcam[0] = 0b1000000000000000 + (curY << 7) + curX;
+        // asm{
+        // VBUF
+        // };
         
-        asm{
-        VBUF
-        };
     }
-    else if()
+    //else if()
+    // asm{
+    // VBUF
+    // };
+}
+
+bool IsGreater(int val, int maxVal, int scaledComparer, int maxComparer){
+    int scaled = (val&0b11111) / 3;
+    if(scaled > scaledComparer)
+        return true;
+
+    return false;
+}
+
+int StepHigher( int val){
+    int scaled = (val&0b11111) / 3;
+    scaled += 1
+    scaled = scaled * 3
+    return (scaled) + (scaled<<5) + (scaled<<10);
+}
+
+void DitherImage(){
+    // Blur
+    // Iterate through X axis
+    for (var x=1; x<107; x++){
+        // Iterate through Y axis
+        for (var y=1; y<107; y++){
+            int average = 0;
+            var pixelOffset = (y * 108) + x
+            average += (screenBuf[pixelOffset] & 0b11111) / 7399
+            average += (screenBuf[pixelOffset+1] & 0b11111) / 7399
+            average += (screenBuf[pixelOffset+1 + 108] & 0b11111) / 7399
+            average += (screenBuf[pixelOffset + 108] & 0b11111) / 7399
+            average += (screenBuf[pixelOffset - 1 + 108] & 0b11111) / 7399
+            average += (screenBuf[pixelOffset - 1] & 0b11111) / 7399
+            average += (screenBuf[pixelOffset - 1 - 108] & 0b11111) / 7399
+            average += (screenBuf[pixelOffset - 108] & 0b11111) / 7399
+            average += (screenBuf[pixelOffset + 1 - 108] & 0b11111) / 7399
+            average = average/9
+            screen[pixelOffset] = (average) + (average << 5) + (average << 10)
+        }
+    }
+    // // Iterate through X axis
+    // for (int x=0; x<108; x+=3){
+    //     // Iterate through Y axis
+    //     for (int y=0; y<108; y++){
+    //         var pixelOffset = (y * 108) + x
+    //         if(y % 3 == 0){ // third row of filter
+    //             if((screen[pixelOffset]&0b11111) / 3 > 7)
+    //                 screen[pixelOffset] = 1057+screen[pixelOffset]
+    //             if((screen[pixelOffset+1]&0b11111) / 3 > 6)
+    //                 screen[pixelOffset+1] = 1057+screen[pixelOffset+1]
+    //             if((screen[pixelOffset+2]&0b11111) / 3 > 3)
+    //                 screen[pixelOffset+2] = 1057+screen[pixelOffset+2]
+    //         }
+    //         else if(y % 2 == 0){ // second row of filter
+    //             if((screen[pixelOffset]&0b11111) / 3 > 5)
+    //                 screen[pixelOffset] = 1057+screen[pixelOffset]
+    //             if((screen[pixelOffset+1]&0b11111) / 3 > 2)
+    //                 screen[pixelOffset+1] = 1057+screen[pixelOffset+1]
+    //             if((screen[pixelOffset+2]&0b11111) / 3 > 9)
+    //                 screen[pixelOffset+2] = 1057+screen[pixelOffset+2]
+    //         }
+    //         else{ // first row of filter
+    //             if((screen[pixelOffset]&0b11111) / 3 > 1)
+    //                 screen[pixelOffset] = 1057+screen[pixelOffset]
+    //             if((screen[pixelOffset+1]&0b11111) / 3 > 8)
+    //                 screen[pixelOffset+1] = 1057+screen[pixelOffset+1]
+    //             if((screen[pixelOffset+2]&0b11111) / 3 > 4)
+    //                 screen[pixelOffset+2] = 1057+screen[pixelOffset+2]
+    //         }
+    //     }
+    // }
+    asm{
+    VBUF
+    };
 }
