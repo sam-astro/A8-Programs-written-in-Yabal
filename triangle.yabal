@@ -350,27 +350,59 @@ int rand(int bits)
 while (true) {
 	// rand(7)
 	// rand(7)
-    int r = ClampInt(rand(4), 5, 70)
-    int x0 = ClampInt(rand(7), 0, 107)
-    int y0 = ClampInt(rand(7), 0, 107)
-    int x1 = ClampInt(rand(7), 0, 107)
-    int y1 = ClampInt(rand(7), 0, 107)
-    int x2 = ClampInt(rand(7), 0, 107)
-    int y2 = ClampInt(rand(7), 0, 107)
+    //int r = ClampInt(rand(4), 5, 70)
+    //int x0 = ClampInt(rand(7), 0, 107)
+    //int y0 = ClampInt(rand(7), 0, 107)
+    //int x1 = ClampInt(rand(7), 0, 107)
+    //int y1 = ClampInt(rand(7), 0, 107)
+    //int x2 = ClampInt(rand(7), 0, 107)
+    //int y2 = ClampInt(rand(7), 0, 107)
     // var choice = rand(2)
-	var color = rand(15)
+    
+    // Front of cube
+    int v0x = 27
+    int v0y = 27
+    int v0z = 1
+    int v1x = 81
+    int v1y = 27
+    int v1z = 1
+    int v2x = 81
+    int v2y = 81
+    int v2z = 1
+    int v3x = 27
+    int v3y = 81
+    int v3z = 1
+    // Back of cube
+    int v4x = 27
+    int v4y = 27
+    int v4z = 2
+    int v5x = 81
+    int v5y = 27
+    int v5z = 2
+    int v6x = 81
+    int v6y = 81
+    int v6z = 2
+    int v7x = 27
+    int v7y = 81
+    int v7z = 2
+    
+    
+    
+    var color = rand(15)
+    DrawWireTriangle(v0x, v0y, v1x, v1y, v2x, v2y, color)
+    
     // if(choice == 0)
     //     DrawWireCircle(x0, y0, r, color)
     // else if(choice == 1)
          //DrawWireTriangle(x0, y0, x1, y1, x2, y2, color)
     // else if(choice == 2)
-        DrawFilledCircle(x0, y0, r, color)
+    //    DrawFilledCircle(x0, y0, r, color)
     // else if(choice == 3)
         //DrawFilledTriangle(x0, y0, x1, y1, x2, y2, color)
 	// break
     asm{
-        vbuf
-    }
+        VBUF
+    };
     // asm{
     //     add
     //     add
