@@ -44,7 +44,7 @@ while(true) {
             }
 
             //color = 0b0000000000011111
-            screenBuf[pixelOffset] = color
+            screen[pixelOffset] = color
             
             // Shift right by 2 to next group
             wb = wb >> 2;
@@ -53,15 +53,15 @@ while(true) {
             if(curX >= 108){
                 curX = 0;
                 curY += 1;
-                // asm{
-                // VBUF
-                // };
+                asm{
+                VBUF
+                };
             }
             if(curY >= 108){
                 curX = 0;
                 curY = 0;
                 webcam[0] = 0b0100000000000000;
-                DitherImage();
+                //DitherImage();
             }
 
             i += 1;
@@ -91,7 +91,7 @@ while(true) {
                 }
 
                 //color = 0b0000000000011111
-                screenBuf[pixelOffset] = color
+                screen[pixelOffset] = color
                 
                 // Shift right by 2 to next group
                 webcam[count] = webcam[count] >> 2;
@@ -100,15 +100,15 @@ while(true) {
                 if(curX >= 108){
                     curX = 0;
                     curY += 1;
-                    // asm{
-                    // VBUF
-                    // };
+                asm{
+                VBUF
+                };
                 }
                 if(curY >= 108){
                     curX = 0;
                     curY = 0;
                     webcam[0] = 0b0100000000000000;
-                    DitherImage();
+                    //DitherImage();
                 }
 
                 i += 1;
@@ -118,9 +118,6 @@ while(true) {
         // Format: 0b10 YYYYYYY XXXXXXX
         if(webcam[0] != 0b0100000000000000)
             webcam[0] = 0b1000000000000000 + (curY << 7) + curX;
-        // asm{
-        // VBUF
-        // };
         
     }
     //else if()

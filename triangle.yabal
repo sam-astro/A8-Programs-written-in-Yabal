@@ -5,6 +5,11 @@ var floats = create_pointer<Float16>(0x0, 1);
 var signedInts = create_pointer<SignedInt>(0x1111, 1);
 
 var screen = create_pointer(53871, 1)
+// var cordicAngles = create_pointer(10000, 1)
+var sinTable = create_pointer(10000, 1)
+var pointsXY = create_pointer<Point>(11000, 1)
+var pointsZ = create_pointer(12000, 1)
+var RpointsXY = create_pointer<Point>(12000, 1)
 
 var expansionPorts = create_pointer(53500, 1)
 
@@ -17,6 +22,12 @@ var highlightOppositeColor = 0b1111111111111111
 
 const Float16 FLOAT_ZERO = { sign : 0, exponent : 0, fraction : 0 };
 const Float16 ONE = { sign : 0, exponent : 0b01111, fraction : 0 };
+Float16 PI = { sign : 0, exponent : 0b10000, fraction : 0b1001001000 };
+Float16 HALFPI = 0x3E48
+Float16 PISQ = 0x48EE
+Float16 ONE = { sign : 0, exponent : 0b01111, fraction : 0 };
+Float16 ONETWENTYEIGHT = { sign : 0, exponent : 0b10110, fraction : 0 };
+Float16 HALF = 0x3800
 
 // https://gist.github.com/nowke/965fed0d5191bf373f1262be584207bb
 void draw_line(int x1, int y1, int x2, int y2, int color) {
@@ -128,68 +139,68 @@ void DrawWireTriangle(int x0, int y0,int x1, int y1,int x2, int y2, int color){
 	draw_line(x0, y0, x2, y2, color)
 }
 
-// Not good method, change in future
-void DrawFilledTriangle(int x0, int y0,int x1, int y1,int x2, int y2, int color){
-    DrawWireTriangle(x0, y0, x1, y1, x2, y2, ~color)
-    // Get center of triangle
-    int centroidX = (x0+x1+x2)/3
-    int centroidY = (y0+y1+y2)/3
-    // Draw center pixel
-    SetPixel(centroidX, centroidY, color)
-    SetPixel((centroidX+x0)/2, (centroidY+y0)/2, color)
-    SetPixel((centroidX+x1)/2, (centroidY+y1)/2, color)
-    SetPixel((centroidX+x2)/2, (centroidY+y2)/2, color)
-    // SetPixel(centroidX, centroidY, color)
+// // Not good method, change in future
+// void DrawFilledTriangle(int x0, int y0,int x1, int y1,int x2, int y2, int color){
+//     DrawWireTriangle(x0, y0, x1, y1, x2, y2, ~color)
+//     // Get center of triangle
+//     int centroidX = (x0+x1+x2)/3
+//     int centroidY = (y0+y1+y2)/3
+//     // Draw center pixel
+//     SetPixel(centroidX, centroidY, color)
+//     SetPixel((centroidX+x0)/2, (centroidY+y0)/2, color)
+//     SetPixel((centroidX+x1)/2, (centroidY+y1)/2, color)
+//     SetPixel((centroidX+x2)/2, (centroidY+y2)/2, color)
+//     // SetPixel(centroidX, centroidY, color)
 
-    int found = 11
-    while(found > 10){
-        found = 0
-        for(var y=1; y<107; y++){
-            for(var x=1; x<107; x++){
-                if(GetPixel(x, y) == color){ // If current center pixel is the draw color, check neighbors
-                    if(GetPixel(x-1, y) != ~color && GetPixel(x-1, y) != color){
-                        SetPixel(x-1, y, color)
-                        found += 1
-                    }
-                    if(GetPixel(x, y-1) != ~color && GetPixel(x, y-1) != color){
-                        SetPixel(x, y-1, color)
-                        found += 1
-                    }
-                    if(GetPixel(x+1, y) != ~color && GetPixel(x+1, y) != color){
-                        SetPixel(x+1, y, color)
-                        found += 1
-                    }
-                    if(GetPixel(x, y+1) != ~color && GetPixel(x, y+1) != color){
-                        SetPixel(x, y+1, color)
-                        found += 1
-                    }
-                }
-            }
-        }
-        for(var y=106; y>0; y--){
-            for(var x=106; x>0; x--){
-                if(GetPixel(x, y) == color){ // If current center pixel is the draw color, check neighbors
-                    if(GetPixel(x-1, y) != ~color && GetPixel(x-1, y) != color){
-                        SetPixel(x-1, y, color)
-                        found += 1
-                    }
-                    if(GetPixel(x, y-1) != ~color && GetPixel(x, y-1) != color){
-                        SetPixel(x, y-1, color)
-                        found += 1
-                    }
-                    if(GetPixel(x+1, y) != ~color && GetPixel(x+1, y) != color){
-                        SetPixel(x+1, y, color)
-                        found += 1
-                    }
-                    if(GetPixel(x, y+1) != ~color && GetPixel(x, y+1) != color){
-                        SetPixel(x, y+1, color)
-                        found += 1
-                    }
-                }
-            }
-        }
-    }
-}
+//     int found = 11
+//     while(found > 10){
+//         found = 0
+//         for(var y=1; y<107; y++){
+//             for(var x=1; x<107; x++){
+//                 if(GetPixel(x, y) == color){ // If current center pixel is the draw color, check neighbors
+//                     if(GetPixel(x-1, y) != ~color && GetPixel(x-1, y) != color){
+//                         SetPixel(x-1, y, color)
+//                         found += 1
+//                     }
+//                     if(GetPixel(x, y-1) != ~color && GetPixel(x, y-1) != color){
+//                         SetPixel(x, y-1, color)
+//                         found += 1
+//                     }
+//                     if(GetPixel(x+1, y) != ~color && GetPixel(x+1, y) != color){
+//                         SetPixel(x+1, y, color)
+//                         found += 1
+//                     }
+//                     if(GetPixel(x, y+1) != ~color && GetPixel(x, y+1) != color){
+//                         SetPixel(x, y+1, color)
+//                         found += 1
+//                     }
+//                 }
+//             }
+//         }
+//         for(var y=106; y>0; y--){
+//             for(var x=106; x>0; x--){
+//                 if(GetPixel(x, y) == color){ // If current center pixel is the draw color, check neighbors
+//                     if(GetPixel(x-1, y) != ~color && GetPixel(x-1, y) != color){
+//                         SetPixel(x-1, y, color)
+//                         found += 1
+//                     }
+//                     if(GetPixel(x, y-1) != ~color && GetPixel(x, y-1) != color){
+//                         SetPixel(x, y-1, color)
+//                         found += 1
+//                     }
+//                     if(GetPixel(x+1, y) != ~color && GetPixel(x+1, y) != color){
+//                         SetPixel(x+1, y, color)
+//                         found += 1
+//                     }
+//                     if(GetPixel(x, y+1) != ~color && GetPixel(x, y+1) != color){
+//                         SetPixel(x, y+1, color)
+//                         found += 1
+//                     }
+//                 }
+//             }
+//         }
+//     }
+// }
 
 void DrawFilledCircle(int xCenter, int yCenter, int radius, int color){
 	int radiusSquared = radius*radius
@@ -276,49 +287,49 @@ void DrawWireCircle(int xCenter, int yCenter, int radius, int color){
 //     return s>=0 && t>=0 && s+t<=D
 // }
 
-/* A utility function to calculate area of triangle formed by (x1, y1),
-   (x2, y2) and (x3, y3) */
-int area(int x1, int y1, int x2, int y2, int x3, int y3)
-{
-//    return (x1*SubToSignedInt(y2,y3) + x2*SubToSignedInt(y3,y1)+ x3*SubToSignedInt(y1,y2))/2
-    SignedInt y2y3Dif = SubToSignedInt(y2, y3)
-    SignedInt y3y1Dif = SubToSignedInt(y3, y1)
-    SignedInt y1y2Dif = SubToSignedInt(y1, y2)
-    write_signed_int(SubToSignedInt(x1, y3))
-    write(',')
-    // write_signed_int(y2)
-    // write(',')
-    // write_signed_int(y1y2Dif)
-    // write(',')
-    //return Math.abs((x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) / 2.0)
-    var outvar = ((AddSignedInts(AddSignedInts(MultSignedInts(x1, SubToSignedInt(y2, y3)), MultSignedInts(x2, SubToSignedInt(y3, y1))), MultSignedInts(x3, SubToSignedInt(y1, y2))))&0b111111111111111)/2
-    // write('o')
-    // write(':')
-    write_int(outvar)
-    return outvar
-}
+// /* A utility function to calculate area of triangle formed by (x1, y1),
+//    (x2, y2) and (x3, y3) */
+// int area(int x1, int y1, int x2, int y2, int x3, int y3)
+// {
+// //    return (x1*SubToSignedInt(y2,y3) + x2*SubToSignedInt(y3,y1)+ x3*SubToSignedInt(y1,y2))/2
+//     SignedInt y2y3Dif = SubToSignedInt(y2, y3)
+//     SignedInt y3y1Dif = SubToSignedInt(y3, y1)
+//     SignedInt y1y2Dif = SubToSignedInt(y1, y2)
+//     write_signed_int(SubToSignedInt(x1, y3))
+//     write(',')
+//     // write_signed_int(y2)
+//     // write(',')
+//     // write_signed_int(y1y2Dif)
+//     // write(',')
+//     //return Math.abs((x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) / 2.0)
+//     var outvar = ((AddSignedInts(AddSignedInts(MultSignedInts(x1, SubToSignedInt(y2, y3)), MultSignedInts(x2, SubToSignedInt(y3, y1))), MultSignedInts(x3, SubToSignedInt(y1, y2))))&0b111111111111111)/2
+//     // write('o')
+//     // write(':')
+//     write_int(outvar)
+//     return outvar
+// }
 
-bool isInside(int x, int y, int x1, int y1, int x2, int y2, int x3, int y3)
-{
-//    write('o')
-   /* Calculate area of triangle ABC */
-   var A = area(x1, y1, x2, y2, x3, y3)
-//    write_int(y1)
+// bool isInside(int x, int y, int x1, int y1, int x2, int y2, int x3, int y3)
+// {
+// //    write('o')
+//    /* Calculate area of triangle ABC */
+//    var A = area(x1, y1, x2, y2, x3, y3)
+// //    write_int(y1)
 
-   /* Calculate area of triangle PBC */
-   var A1 = area(x, y, x2, y2, x3, y3)
+//    /* Calculate area of triangle PBC */
+//    var A1 = area(x, y, x2, y2, x3, y3)
 
-   /* Calculate area of triangle PAC */
-   var A2 = area(x1, y1, x, y, x3, y3)
+//    /* Calculate area of triangle PAC */
+//    var A2 = area(x1, y1, x, y, x3, y3)
 
-   /* Calculate area of triangle PAB */
-   var A3 = area(x1, y1, x2, y2, x, y)
+//    /* Calculate area of triangle PAB */
+//    var A3 = area(x1, y1, x2, y2, x, y)
 
-   /* Check if sum of A1, A2 and A3 is same as A */
-   var sum = A1 + A2 + A3
-   write_int(sum)
-   return ((A >= sum-100)&&(A <= sum+100))
-}
+//    /* Check if sum of A1, A2 and A3 is same as A */
+//    var sum = A1 + A2 + A3
+//    write_int(sum)
+//    return ((A >= sum-100)&&(A <= sum+100))
+// }
 
 var lfsr = 0b1011101011101000;
 int lfsr()
@@ -347,7 +358,305 @@ int rand(int bits)
     return out;
 }
 
+// Init sine table
+sinTable[0] = 0;
+sinTable[1] = 2;
+sinTable[2] = 4;
+sinTable[3] = 6;
+sinTable[4] = 8;
+sinTable[5] = 11;
+sinTable[6] = 13;
+sinTable[7] = 15;
+sinTable[8] = 17;
+sinTable[9] = 20;
+sinTable[10] = 22;
+sinTable[11] = 24;
+sinTable[12] = 26;
+sinTable[13] = 28;
+sinTable[14] = 30;
+sinTable[15] = 33;
+sinTable[16] = 35;
+sinTable[17] = 37;
+sinTable[18] = 39;
+sinTable[19] = 41;
+sinTable[20] = 43;
+sinTable[21] = 45;
+sinTable[22] = 47;
+sinTable[23] = 50;
+sinTable[24] = 52;
+sinTable[25] = 54;
+sinTable[26] = 56;
+sinTable[27] = 58;
+sinTable[28] = 60;
+sinTable[29] = 62;
+sinTable[30] = 63;
+sinTable[31] = 65;
+sinTable[32] = 67;
+sinTable[33] = 69;
+sinTable[34] = 71;
+sinTable[35] = 73;
+sinTable[36] = 75;
+sinTable[37] = 77;
+sinTable[38] = 78;
+sinTable[39] = 80;
+sinTable[40] = 82;
+sinTable[41] = 83;
+sinTable[42] = 85;
+sinTable[43] = 87;
+sinTable[44] = 88;
+sinTable[45] = 90;
+sinTable[46] = 92;
+sinTable[47] = 93;
+sinTable[48] = 95;
+sinTable[49] = 96;
+sinTable[50] = 98;
+sinTable[51] = 99;
+sinTable[52] = 100;
+sinTable[53] = 102;
+sinTable[54] = 103;
+sinTable[55] = 104;
+sinTable[56] = 106;
+sinTable[57] = 107;
+sinTable[58] = 108;
+sinTable[59] = 109;
+sinTable[60] = 110;
+sinTable[61] = 111;
+sinTable[62] = 113;
+sinTable[63] = 114;
+sinTable[64] = 115;
+sinTable[65] = 116;
+sinTable[66] = 116;
+sinTable[67] = 117;
+sinTable[68] = 118;
+sinTable[69] = 119;
+sinTable[70] = 120;
+sinTable[71] = 121;
+sinTable[72] = 121;
+sinTable[73] = 122;
+sinTable[74] = 123;
+sinTable[75] = 123;
+sinTable[76] = 124;
+sinTable[77] = 124;
+sinTable[78] = 125;
+sinTable[79] = 125;
+sinTable[80] = 126;
+sinTable[81] = 126;
+sinTable[82] = 126;
+sinTable[83] = 127;
+sinTable[84] = 127;
+sinTable[85] = 127;
+sinTable[86] = 127;
+sinTable[87] = 127;
+sinTable[88] = 127;
+sinTable[89] = 127;
+
+
+int sin(int x){
+    x+=360;
+
+    var loopTimes = 0;
+
+    while(x>179){
+        x -= 180
+
+        loopTimes += 1;
+    }
+
+    if(x > 89){
+        x = 90 - (x-89);
+    }
+
+    int outSinVal = sinTable[x];
+
+    int willAdd = 128
+    if(loopTimes % 2 == 0){
+        return willAdd-sinTable[x]
+    }
+    return sinTable[x] + willAdd
+    // else{
+    //     yCoord = yCoord/9+40
+    // }
+
+    //int out = sinTable[x]
+    //return (sinTable[x] + willAdd)
+    //return sinTable[x] + willAdd
+}
+
+int cos(int x){
+    x+=360;
+    
+    var loopTimes = 0;
+
+    x -= 90 // Offset for cos input
+
+    while(x>179){
+        x -= 180
+
+        loopTimes += 1;
+    }
+
+    if(x > 89){
+        x = 90 - (x-89);
+    }
+
+    int outSinVal = sinTable[x];
+
+    int willAdd = 128
+    if(loopTimes % 2 == 0){
+        return willAdd-sinTable[x]
+    }
+    return sinTable[x] + willAdd
+    // else{
+    //     yCoord = yCoord/9+40
+    // }
+
+    //int out = sinTable[x]
+    //return (sinTable[x] + willAdd)
+    //return sinTable[x] + willAdd
+}
+
+// int lastY = 0
+// for(int x = 1; x < 106; x++){
+    
+//     int xCoord = x*10
+//     bool topOfCurve = false
+
+//     int yCoord = sin(xCoord)
+//     yCoord = yCoord / 9
+//     // if(loopTimes % 2 == 0){
+//     //     yCoord = 40-yCoord/9
+//     // }
+//     // else{
+//     //     yCoord = yCoord/9+40
+//     // }
+//     if(lastY == 0)
+//         lastY = yCoord
+//     draw_line(x, yCoord, x-1, lastY, 0b1111111111100011)
+//     //SetPixel(x, yCoord/3, 0b1111111111100011)
+//     lastY = yCoord
+// }
+
+// lastY = 0
+// for(int x = 1; x < 106; x++){
+    
+//     int xCoord = x*10
+//     bool topOfCurve = false
+
+//     int yCoord = cos(xCoord)
+//     yCoord = yCoord / 9
+//     // if(loopTimes % 2 == 0){
+//     //     yCoord = 40-yCoord/9
+//     // }
+//     // else{
+//     //     yCoord = yCoord/9+40
+//     // }
+//     if(lastY == 0)
+//         lastY = yCoord
+//     draw_line(x, yCoord, x-1, lastY, 0b00000000011011)
+//     //SetPixel(x, yCoord/3, 0b1111111111100011)
+//     lastY = yCoord
+// }
+
+// Float16 ss = qSin(90)
+// // write('v')
+// write_float(ss)
+
+int rotatedXY = 0;
+int rotatedZ = 0;
+void RotatePoint(int index, int degrees){
+    // write_binary(pointsXY[1])
+    // newline()
+    int value = pointsXY[index]
+    // write_binary(value)
+    // newline()
+
+    int inX = (value & 0b11111111)
+    int inY = (value & 0b1111111100000000)>>8
+
+    // Calculate sine and cosine of the angle using integer math
+    int angle = degrees
+    int sinVal = sin(angle);
+    int cosVal = cos(angle);
+
+    // Translate point to the origin
+    int offset = 54;
+    int translatedX;
+    int translatedY;
+    if(inX < offset){
+        translatedX = offset-inX;
+    }
+    else{
+        translatedX = inX-offset;
+    }
+    if(inY < offset){
+        translatedX = offset-inY;
+    }
+    else{
+        translatedX = inY-offset;
+    }
+
+    // Perform rotation using integer math
+    int rotatedX = ((translatedX * cosVal - translatedY * sinVal))/(128-27);
+    int rotatedY = ((translatedX * sinVal + translatedY * cosVal))/(128-27);
+
+    // Translate point back to its original position
+    int vx = rotatedX+offset/3;
+    int vy = rotatedY+offset/3;
+
+    rotatedXY = (vx<<8)|vy;
+
+    //var color = rand(15)
+    //int color = 23422;
+}
+
+
+int counter = 0;
+
+    
+
+// Front of cube
+pointsXY[0] = {x : 27, y : 27};
+pointsZ[0] = 1;
+pointsXY[1] = {x : 81, y : 27};
+pointsZ[1] = 1;
+pointsXY[2] = {x : 81, y : 81};
+pointsZ[2] = 1;
+pointsXY[3] = {x : 27, y : 81};
+pointsZ[3] = 1;
+// Back of cube
+pointsXY[4] = {x : 27, y : 27};
+pointsZ[4] = 2;
+pointsXY[5] = {x : 81, y : 27};
+pointsZ[5] = 2;
+pointsXY[6] = {x : 81, y : 81};
+pointsZ[6] = 2;
+pointsXY[7] = {x : 27, y : 81};
+pointsZ[7] = 2;
+    
+
+// // Front of cube
+// pointsXY[0] = (27 << 8) |  27;
+// pointsZ[0] = 1;
+// pointsXY[1] = (81 << 8) |  27;
+// pointsZ[1] = 1;
+// pointsXY[2] = (81 << 8) |  81;
+// pointsZ[2] = 1;
+// pointsXY[3] = (27 << 8) |  81;
+// pointsZ[3] = 1;
+// // Back of cube
+// pointsXY[4] = (27 << 8) |  27;
+// pointsZ[4] = 2;
+// pointsXY[5] = (81 << 8) |  27;
+// pointsZ[5] = 2;
+// pointsXY[6] = (81 << 8) |  81;
+// pointsZ[6] = 2;
+// pointsXY[7] = (27 << 8) |  81;
+// pointsZ[7] = 2;
+
+//write_binary(pointsXY[5]);
+
 while (true) {
+    counter+=1
 	// rand(7)
 	// rand(7)
     //int r = ClampInt(rand(4), 5, 70)
@@ -359,37 +668,94 @@ while (true) {
     //int y2 = ClampInt(rand(7), 0, 107)
     // var choice = rand(2)
     
-    // Front of cube
-    int v0x = 27
-    int v0y = 27
-    int v0z = 1
-    int v1x = 81
-    int v1y = 27
-    int v1z = 1
-    int v2x = 81
-    int v2y = 81
-    int v2z = 1
-    int v3x = 27
-    int v3y = 81
-    int v3z = 1
-    // Back of cube
-    int v4x = 27
-    int v4y = 27
-    int v4z = 2
-    int v5x = 81
-    int v5y = 27
-    int v5z = 2
-    int v6x = 81
-    int v6y = 81
-    int v6z = 2
-    int v7x = 27
-    int v7y = 81
-    int v7z = 2
+    
+
+    // Code for rotating a point around the origin
+    // int s = sin(90);
+    // int c = cos(90);
+    // Float16 ss = IntToFloat(s)
+    // ss = SubFloats(ss, ONETWENTYEIGHT)
+    // ss = DivFloats(ss, ONETWENTYEIGHT)
+    // Float16 cc = IntToFloat(c)
+    // cc = SubFloats(cc, ONETWENTYEIGHT)
+    // cc = DivFloats(cc, ONETWENTYEIGHT)
+
+    // Float16 ptx = IntToFloat(v1x)
+    // write_float(ptx)
+    // Float16 pty = IntToFloat(v1y)
+
+    // Float16 xop1 = MultFloats(ptx, cc)
+    // Float16 xop2 = MultFloats(pty, ss)
+    // Float16 xnew = SubFloats(xop1, xop2)
+
+    // Float16 yop1 = MultFloats(ptx, ss)
+    // Float16 yop2 = MultFloats(pty, cc)
+    // Float16 ynew = SubFloats(xop1, xop2)
+
+
+    // v1x = FloatToUnsignedInt(xnew)
+    // v1y = FloatToUnsignedInt(ynew)
+
+for(int i = 0; i < 400; i++){
+for(int f = 0; f < 10; f++){
+
+}
+}
+
+    //SetPixel(v0x, v0y, 0b011111111111111)
+
+
+
+    int value = pointsXY[0]
+
+    int inX = (value & 0b11111111)
+    int inY = (value & 0b1111111100000000)>>8
+    SetPixel(inX, inY, 0b0111110000000000)
+
+    // // iterate all points, and rotate them.
+    // for(int i = 0; i < 8; i++){
+    //     RotatePoint(i, 10)
+    //     //RpointsXY[i] = rotatedXY
+    //     int rX = (rotatedXY & 0b1111111100000000)>>8
+    //     int rY = rotatedXY & 0b11111111
+    //     SetPixel(rX, rY, 0b111111)
+    // }
+
+
+    RotatePoint(0, counter)
+    int rX = (rotatedXY & 0b1111111100000000)>>8
+    int rY = rotatedXY & 0b11111111
+    SetPixel(rX, rY, 0b111111)
+
+    
+    // RotatePoint(4, counter)
+    // int rX = (rotatedXY & 0b1111111100000000)>>8
+    // int rY = rotatedXY & 0b11111111
+    // SetPixel(rX, rY, 0b11111100000)
+    //SetPixel(v0x, v0y, 0b11111)
+
+
+    // write_int(v1x)
+    // newline()
+    // write_int(v1y)
+    // newline()
+
+    // // translate point back to origin:
+    // p.x -= cx;
+    // p.y -= cy;
+
+    // // rotate point
+    // int xnew = v1x * c - v1y * s;
+    // int ynew = v1x * s + v1y * c;
+
     
     
-    
-    var color = rand(15)
-    DrawWireTriangle(v0x, v0y, v1x, v1y, v2x, v2y, color)
+    // // Back
+    // DrawWireTriangle(v4x, v4y, v5x, v5y, v7x, v7y, color); // Front right
+    // DrawWireTriangle(v5x, v5y, v6x, v6y, v7x, v7y, color); // Front left
+    // // Front
+    // DrawWireTriangle(v0x, v0y, v1x, v1y, v2x, v2y, color); // Front right
+    // DrawWireTriangle(v0x, v0y, v2x, v2y, v3x, v3y, color); // Front left
     
     // if(choice == 0)
     //     DrawWireCircle(x0, y0, r, color)
@@ -403,12 +769,12 @@ while (true) {
     asm{
         VBUF
     };
-    // asm{
-    //     add
-    //     add
-    //     add
-    //     add
-    // }
+    
+    // // // Black out screen
+    // color = 0
+    // //int color = 23422;
+    // DrawWireTriangle(v0x, v0y, v1x, v1y, v2x, v2y, color)
+    // DrawWireTriangle(v0x, v0y, v2x, v2y, v3x, v3y, color)
 }
 
 // struct MouseInput {
@@ -500,11 +866,6 @@ while (true){
 // var charMem = create_pointer(53546, 1)
 
 
-Float16 PI = { sign : 0, exponent : 0b10000, fraction : 0b1001001000 };
-Float16 HALFPI = 0x3E48
-Float16 PISQ = 0x48EE
-Float16 ONE = { sign : 0, exponent : 0b01111, fraction : 0 };
-Float16 HALF = 0x3800
 
 inline int get_color(int r, int g, int b) {
     return (r / 8 << 10) + (g / 8 << 5) + (b / 8);
@@ -518,30 +879,6 @@ int ClampInt(int x, int min, int max){
 
     return x
 }
-
-// Quadratic approximation of the sine function
-Float16 qSin(Float16 x)
-{
-    Float16 t = MultFloats(x,HALFPI)
-    t = SubFloats(t, IntToFloat(FloatToInt(t))) // Subtract the rounded version to get quick mod
-    //if(CompareFloats(t, HALF, '<'))
-    //    return (-16.0*pow(t, 2.0))+(8.0*t);
-    //else
-    //    return (16.0*pow(t, 2.0))-(16.0*t)-(8.0*t) + 8.0;
-    return t
-}
-
-// // Quadratic approximation of the cosine function
-// Float16 qcosFunc(Float16 x)
-// {
-//     return qSin(x+(pifloat*1.5));
-// }
-
-// // Quadratic approximation of the tangent function
-// Float16 qtanFunc(Float16 x)
-// {
-//     return qSin(x)/qcosFunc(x);
-// }
 
 // Function for drawing a single pixel to the screen
 void SetPixel(int x, int y, int color){
@@ -706,12 +1043,6 @@ int TruncateTrailingZeros(int x){
 //     write_int(value.fraction)
 // }
 
-// Quadratic approximation of the sin function
-Float16 sin(Float16 x){
-    Float16 piSquared = MultFloats(PI, PI)
-    Float16 four = IntToFloat(4)
-    return MultFloats((DivFloats(MultFloats(four,x), piSquared)),SubFloats(PI,x))
-}
 
 // Returns true if values a and b are within +-range of eachother
 bool WithinRange(SignedInt aI, SignedInt bI, int range){
@@ -1911,6 +2242,11 @@ struct SignedInt {
     int s : 1
 }
 
+struct Point {
+    int x : 8
+    int y : 8
+}
+
 SignedInt operator &(SignedInt a, SignedInt b) {
     return { val: a.val & b.val, s: a.s & b.s }
 }
@@ -1937,4 +2273,16 @@ SignedInt operator *(SignedInt a, SignedInt b) {
 
 SignedInt operator |(SignedInt a, int b) {
     return { val: a.val | b, s: a.s | (b>>15) }
+}
+
+Point operator |(Point a, int b) {
+    return { x: a.x | b, y: (a.y<<8) | b }
+}
+
+Point operator &(Point a, int b) {
+    return { x: a.x & b, y: (a.y<<8) & b }
+}
+
+Point operator >>(Point a, int b) {
+    return ((a.y<<8)|a.x)>>b
 }
