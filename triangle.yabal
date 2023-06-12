@@ -451,7 +451,7 @@ sinTable[88] = 127;
 sinTable[89] = 127;
 
 
-int sin(int x){
+SignedInt sin(int x){
     x+=360;
 
     var loopTimes = 0;
@@ -467,61 +467,43 @@ int sin(int x){
     }
 
     int outSinVal = sinTable[x];
+    SignedInt outVal = {s:0, val:(sinTable[x])}
 
-    int willAdd = 128
-    if(loopTimes % 2 == 0){
-        return willAdd-sinTable[x]
+    if(loopTimes % 2 == 0){ // should be negative
+        outVal.s = 1
+        return outVal
     }
-    return sinTable[x] + willAdd
-    // else{
-    //     yCoord = yCoord/9+40
+    // else, positive
+    return outVal
+
+    // int willAdd = 128
+    // if(loopTimes % 2 == 0){
+    //     return willAdd-sinTable[x]
     // }
+    // return sinTable[x] + willAdd
 
     //int out = sinTable[x]
     //return (sinTable[x] + willAdd)
     //return sinTable[x] + willAdd
 }
 
-int cos(int x){
+SignedInt cos(int x){
     x+=360;
     
     var loopTimes = 0;
 
     x -= 90 // Offset for cos input
 
-    while(x>179){
-        x -= 180
-
-        loopTimes += 1;
-    }
-
-    if(x > 89){
-        x = 90 - (x-89);
-    }
-
-    int outSinVal = sinTable[x];
-
-    int willAdd = 128
-    if(loopTimes % 2 == 0){
-        return willAdd-sinTable[x]
-    }
-    return sinTable[x] + willAdd
-    // else{
-    //     yCoord = yCoord/9+40
-    // }
-
-    //int out = sinTable[x]
-    //return (sinTable[x] + willAdd)
-    //return sinTable[x] + willAdd
+    return sin(x)
 }
 
 // int lastY = 0
 // for(int x = 1; x < 106; x++){
     
 //     int xCoord = x*10
-//     bool topOfCurve = false
 
-//     int yCoord = sin(xCoord)
+//     SignedInt yCoord = sin(xCoord)
+//     yCoord = yCoord + 128
 //     yCoord = yCoord / 9
 //     // if(loopTimes % 2 == 0){
 //     //     yCoord = 40-yCoord/9
@@ -570,38 +552,41 @@ void RotatePoint(int index, int degrees){
     // write_binary(value)
     // newline()
 
-    int inX = (value & 0b11111111)
-    int inY = (value & 0b1111111100000000)>>8
+    SignedInt inX = (value & 0b11111111)
+    SignedInt inY = (value & 0b1111111100000000)>>8
 
     // Calculate sine and cosine of the angle using integer math
     int angle = degrees
-    int sinVal = sin(angle);
-    int cosVal = cos(angle);
+    SignedInt sinVal = sin(angle);
+    SignedInt cosVal = cos(angle);
 
     // Translate point to the origin
-    int offset = 54;
-    int translatedX;
-    int translatedY;
-    if(inX < offset){
-        translatedX = offset-inX;
-    }
-    else{
-        translatedX = inX-offset;
-    }
-    if(inY < offset){
-        translatedX = offset-inY;
-    }
-    else{
-        translatedX = inY-offset;
-    }
+    SignedInt offset = {s:0, val:54};
+    SignedInt translatedX;
+    SignedInt translatedY;
+    translatedX = inX - offset;
+    // write_signed_int(translatedX)
+    translatedY = inY - offset;
+    // if(inX < offset){
+    //     translatedX = offset-inX;
+    // }
+    // else{
+    //     translatedX = inX-offset;
+    // }
+    // if(inY < offset){
+    //     translatedX = offset-inY;
+    // }
+    // else{
+    //     translatedX = inY-offset;
+    // }
 
     // Perform rotation using integer math
-    int rotatedX = ((translatedX * cosVal - translatedY * sinVal))/(128-27);
-    int rotatedY = ((translatedX * sinVal + translatedY * cosVal))/(128-27);
+    SignedInt rotatedX = (translatedX * cosVal - translatedY * sinVal)/128;
+    SignedInt rotatedY = (translatedX * sinVal + translatedY * cosVal)/128;
 
     // Translate point back to its original position
-    int vx = rotatedX+offset/3;
-    int vy = rotatedY+offset/3;
+    int vx = rotatedX+offset;
+    int vy = rotatedY+offset;
 
     rotatedXY = (vx<<8)|vy;
 
@@ -696,36 +681,60 @@ while (true) {
     // v1x = FloatToUnsignedInt(xnew)
     // v1y = FloatToUnsignedInt(ynew)
 
-for(int i = 0; i < 400; i++){
-for(int f = 0; f < 10; f++){
+// for(int i = 0; i < 400; i++){
+// for(int f = 0; f < 10; f++){
 
-}
-}
+// }
+// }
 
     //SetPixel(v0x, v0y, 0b011111111111111)
 
 
 
-    int value = pointsXY[0]
+    // int value = pointsXY[0]
 
-    int inX = (value & 0b11111111)
-    int inY = (value & 0b1111111100000000)>>8
-    SetPixel(inX, inY, 0b0111110000000000)
+    // int inX = (value & 0b11111111)
+    // int inY = (value & 0b1111111100000000)>>8
+    // SetPixel(inX, inY, 0b0111110000000000)
 
-    // // iterate all points, and rotate them.
+    // iterate all points, and rotate them.
+    for(int i = 0; i < 8; i++){
+        RotatePoint(i, counter*4)
+        RpointsXY[i] = rotatedXY
+        // int rX = (rotatedXY & 0b1111111100000000)>>8
+        // int rY = rotatedXY & 0b11111111
+        Point rPoi = RpointsXY[i]
+        SetPixel(rPoi.x, rPoi.y, 0b111111)
+    }
+    Point rPoi1 = RpointsXY[0]
+    Point rPoi2 = RpointsXY[1]
+    Point rPoi3 = RpointsXY[2]
+    Point rPoi4 = RpointsXY[3]
+    DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi2.x, rPoi2.y, rPoi3.x, rPoi3.y, 0b111110000011111);
+    DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi3.x, rPoi3.y, rPoi4.x, rPoi4.y, 0b000001111111111);
+    DrawFilledCircle(rPoi1.x, rPoi1.y, 2, 0b000000000011111)
+    DrawFilledCircle(rPoi2.x, rPoi2.y, 2, 0b111110000000000)
+    DrawFilledCircle(rPoi3.x, rPoi3.y, 2, 0b111111111100000)
+    DrawFilledCircle(rPoi4.x, rPoi4.y, 2, 0b000001111100000)
+
+    // DrawWireTriangle(v0x, v0y, v2x, v2y, v3x, v3y, color);
+
+    // // iterate rotated points, and draw their triangles
     // for(int i = 0; i < 8; i++){
     //     RotatePoint(i, 10)
-    //     //RpointsXY[i] = rotatedXY
+    //     RpointsXY[i] = rotatedXY
     //     int rX = (rotatedXY & 0b1111111100000000)>>8
     //     int rY = rotatedXY & 0b11111111
     //     SetPixel(rX, rY, 0b111111)
     // }
 
 
-    RotatePoint(0, counter)
-    int rX = (rotatedXY & 0b1111111100000000)>>8
-    int rY = rotatedXY & 0b11111111
-    SetPixel(rX, rY, 0b111111)
+
+
+    // RotatePoint(0, counter)
+    // int rX = (rotatedXY & 0b1111111100000000)>>8
+    // int rY = rotatedXY & 0b11111111
+    // SetPixel(rX, rY, 0b111111)
 
     
     // RotatePoint(4, counter)
@@ -753,9 +762,6 @@ for(int f = 0; f < 10; f++){
     // // Back
     // DrawWireTriangle(v4x, v4y, v5x, v5y, v7x, v7y, color); // Front right
     // DrawWireTriangle(v5x, v5y, v6x, v6y, v7x, v7y, color); // Front left
-    // // Front
-    // DrawWireTriangle(v0x, v0y, v1x, v1y, v2x, v2y, color); // Front right
-    // DrawWireTriangle(v0x, v0y, v2x, v2y, v3x, v3y, color); // Front left
     
     // if(choice == 0)
     //     DrawWireCircle(x0, y0, r, color)
@@ -770,11 +776,15 @@ for(int f = 0; f < 10; f++){
         VBUF
     };
     
+    // DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi2.x, rPoi2.y, rPoi3.x, rPoi3.y, 0);
+    // DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi3.x, rPoi3.y, rPoi4.x, rPoi4.y, 0);
     // // // Black out screen
     // color = 0
     // //int color = 23422;
     // DrawWireTriangle(v0x, v0y, v1x, v1y, v2x, v2y, color)
     // DrawWireTriangle(v0x, v0y, v2x, v2y, v3x, v3y, color)
+    for(int x = 0; x < (108*108); x++)
+        screen[x] = 0;
 }
 
 // struct MouseInput {
@@ -2269,6 +2279,18 @@ SignedInt operator /(SignedInt a, SignedInt b) {
 
 SignedInt operator *(SignedInt a, SignedInt b) {
     return { val: a.val * b.val, s: a.s ^ b.s }
+}
+
+SignedInt operator +(SignedInt a, SignedInt b) {
+    return AddSignedInts(a, b)
+}
+
+SignedInt operator +(SignedInt a, int b) {
+    return AddSignedInts(a, b)
+}
+
+SignedInt operator -(SignedInt a, SignedInt b) {
+    return SubSignedInts(a, b)
 }
 
 SignedInt operator |(SignedInt a, int b) {
