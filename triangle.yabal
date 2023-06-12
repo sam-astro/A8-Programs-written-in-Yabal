@@ -546,14 +546,10 @@ signedint_t cos(int x){
 int rotatedXY = 0;
 int rotatedZ = 0;
 void RotatePoint(int index, int degrees){
-    // write_binary(pointsXY[1])
-    // newline()
-    int value = pointsXY[index]
-    // write_binary(value)
-    // newline()
+    Point value = pointsXY[index]
 
-    signedint_t inX = (value & 0b11111111)
-    signedint_t inY = (value & 0b1111111100000000)>>8
+    signedint_t inX = value.x
+    signedint_t inY = value.y
 
     // Calculate sine and cosine of the angle using integer math
     int angle = degrees
@@ -565,20 +561,7 @@ void RotatePoint(int index, int degrees){
     signedint_t translatedX;
     signedint_t translatedY;
     translatedX = inX - offset;
-    // write_signed_int(translatedX)
     translatedY = inY - offset;
-    // if(inX < offset){
-    //     translatedX = offset-inX;
-    // }
-    // else{
-    //     translatedX = inX-offset;
-    // }
-    // if(inY < offset){
-    //     translatedX = offset-inY;
-    // }
-    // else{
-    //     translatedX = inY-offset;
-    // }
 
     // Perform rotation using integer math
     signedint_t rotatedX = (translatedX * cosVal - translatedY * sinVal)/128;
@@ -589,9 +572,39 @@ void RotatePoint(int index, int degrees){
     int vy = rotatedY+offset;
 
     rotatedXY = (vx<<8)|vy;
+}
 
-    //var color = rand(15)
-    //int color = 23422;
+void RotatePoint3D(int index, int xRotate, int yRotate, int zRotate){
+    Point3D value = pointsXY[index]
+
+    signedint_t inX = value.x
+    signedint_t inY = value.y
+    signedint_t inZ = value.z
+
+    // Calculate sine and cosine of the angle using integer math
+    signedint_t sinX = sin(xRotate);
+    signedint_t cosX = cos(xRotate);
+    signedint_t sinY = sin(yRotate);
+    signedint_t cosY = cos(yRotate);
+    signedint_t sinZ = sin(zRotate);
+    signedint_t cosZ = cos(zRotate);
+
+    // Translate point to the origin
+    signedint_t offset = {s:0, val:54};
+    signedint_t translatedX;
+    signedint_t translatedY;
+    translatedX = inX - offset;
+    translatedY = inY - offset;
+
+    // Perform rotation using integer math
+    signedint_t rotatedX = (translatedX * cosVal - translatedY * sinVal)/128;
+    signedint_t rotatedY = (translatedX * sinVal + translatedY * cosVal)/128;
+
+    // Translate point back to its original position
+    int vx = rotatedX+offset;
+    int vy = rotatedY+offset;
+
+    rotatedXY = (vx<<8)|vy;
 }
 
 
