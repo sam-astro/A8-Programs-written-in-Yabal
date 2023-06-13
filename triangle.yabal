@@ -273,10 +273,10 @@ void DrawWireCircle(int xCenter, int yCenter, int radius, int color){
 }
 
 
-// bool ptInTriangle(int px, int py, int p0x, int p0y, int p1x, int p1y, int p2x, int p2y)
+// bool ptInTriangle(int translatedX, int translatedY, int p0x, int p0y, int p1x, int p1y, int p2x, int p2y)
 // {
-//     var dX = px-p2x
-//     var dY = py-p2y
+//     var dX = translatedX-p2x
+//     var dY = translatedY-p2y
 //     var dX21 = p2x-p1x
 //     var dY12 = p1y-p2y
 //     var D = dY12*(p0x-p2x) + dX21*(p0y-p2y)
@@ -543,8 +543,9 @@ signedint_t cos(int x){
 // // write('v')
 // write_float(ss)
 
-int rotatedXY = 0;
-int rotatedZ = 0;
+int _RotatedX = 0;
+int _RotatedY = 0;
+int _RotatedZ = 0;
 void RotatePoint(int index, int degrees){
     Point value = pointsXY[index]
 
@@ -568,18 +569,22 @@ void RotatePoint(int index, int degrees){
     signedint_t rotatedY = (translatedX * sinVal + translatedY * cosVal)/128;
 
     // Translate point back to its original position
-    int vx = rotatedX+offset;
-    int vy = rotatedY+offset;
+    _RotatedX = rotatedX+offset;
+    _RotatedY = rotatedY+offset;
 
-    rotatedXY = (vx<<8)|vy;
+    //_RotatedX = (vx<<8)|vy;
 }
 
+int _RotatedX = 0;
+int _RotatedY = 0;
+int _RotatedZ = 0;
 void RotatePoint3D(int index, int xRotate, int yRotate, int zRotate){
-    Point3D value = pointsXY[index]
+    Point xy = pointsXY[index]
+    int zz = pointsZ[index]
 
-    signedint_t inX = value.x
-    signedint_t inY = value.y
-    signedint_t inZ = value.z
+    signedint_t inX = xy.x
+    signedint_t inY = xy.y
+    signedint_t inZ = zz
 
     // Calculate sine and cosine of the angle using integer math
     signedint_t sinX = sin(xRotate);
@@ -591,20 +596,35 @@ void RotatePoint3D(int index, int xRotate, int yRotate, int zRotate){
 
     // Translate point to the origin
     signedint_t offset = {s:0, val:54};
-    signedint_t translatedX;
-    signedint_t translatedY;
-    translatedX = inX - offset;
-    translatedY = inY - offset;
+    signedint_t translatedX = inX - offset;
+    signedint_t translatedY = inY - offset;
+    signedint_t translatedZ = inZ - offset;
+    
+    signedint_t Axx = cosX*cosY;
+    signedint_t Axy = cosX*sinY*sinZ - sinX*cosZ;
+    signedint_t Axz = cosX*sinY*cosZ + sinX*sinZ;
 
-    // Perform rotation using integer math
-    signedint_t rotatedX = (translatedX * cosVal - translatedY * sinVal)/128;
-    signedint_t rotatedY = (translatedX * sinVal + translatedY * cosVal)/128;
+    signedint_t Ayx = sinX*cosY;
+    signedint_t Ayy = sinX*sinY*sinZ + cosX*cosZ;
+    signedint_t Ayz = sinX*sinY*cosZ - cosX*sinZ;
 
-    // Translate point back to its original position
-    int vx = rotatedX+offset;
-    int vy = rotatedY+offset;
+    signedint_t Azx = -sinY;
+    signedint_t Azy = cosY*sinZ;
+    signedint_t Azz = cosY*cosZ;
+    
+    _RotatedX = (Axx*translatedX + Axy*translatedY + Axz*translatedZ)/128+offset;
+    _RotatedY = (Ayx*translatedX + Ayy*translatedY + Ayz*translatedZ)/128+offset;
+    _RotatedZ = (Azx*translatedX + Azy*translatedY + Azz*translatedZ)/128+offset;
 
-    rotatedXY = (vx<<8)|vy;
+    //// Perform rotation using integer math
+    //signedint_t rotatedX = (translatedX * cosVal - translatedY * sinVal)/128;
+    //signedint_t rotatedY = (translatedX * sinVal + translatedY * cosVal)/128;
+
+    //// Translate point back to its original position
+    //int vx = rotatedX+offset;
+    //int vy = rotatedY+offset;
+
+    //_RotatedX = (vx<<8)|vy;
 }
 
 
@@ -654,70 +674,23 @@ pointsZ[7] = 2;
 //write_binary(pointsXY[5]);
 
 while (true) {
-    counter+=1
-	// rand(7)
-	// rand(7)
-    //int r = ClampInt(rand(4), 5, 70)
-    //int x0 = ClampInt(rand(7), 0, 107)
-    //int y0 = ClampInt(rand(7), 0, 107)
-    //int x1 = ClampInt(rand(7), 0, 107)
-    //int y1 = ClampInt(rand(7), 0, 107)
-    //int x2 = ClampInt(rand(7), 0, 107)
-    //int y2 = ClampInt(rand(7), 0, 107)
-    // var choice = rand(2)
+    counter += 1;
     
-    
-
-    // Code for rotating a point around the origin
-    // int s = sin(90);
-    // int c = cos(90);
-    // float16_t ss = IntToFloat(s)
-    // ss = SubFloats(ss, ONETWENTYEIGHT)
-    // ss = DivFloats(ss, ONETWENTYEIGHT)
-    // float16_t cc = IntToFloat(c)
-    // cc = SubFloats(cc, ONETWENTYEIGHT)
-    // cc = DivFloats(cc, ONETWENTYEIGHT)
-
-    // float16_t ptx = IntToFloat(v1x)
-    // write_float(ptx)
-    // float16_t pty = IntToFloat(v1y)
-
-    // float16_t xop1 = MultFloats(ptx, cc)
-    // float16_t xop2 = MultFloats(pty, ss)
-    // float16_t xnew = SubFloats(xop1, xop2)
-
-    // float16_t yop1 = MultFloats(ptx, ss)
-    // float16_t yop2 = MultFloats(pty, cc)
-    // float16_t ynew = SubFloats(xop1, xop2)
-
-
-    // v1x = FloatToUnsignedInt(xnew)
-    // v1y = FloatToUnsignedInt(ynew)
-
 // for(int i = 0; i < 400; i++){
 // for(int f = 0; f < 10; f++){
 
 // }
 // }
 
-    //SetPixel(v0x, v0y, 0b011111111111111)
-
-
-
-    // int value = pointsXY[0]
-
-    // int inX = (value & 0b11111111)
-    // int inY = (value & 0b1111111100000000)>>8
-    // SetPixel(inX, inY, 0b0111110000000000)
 
     // iterate all points, and rotate them.
     for(int i = 0; i < 8; i++){
         RotatePoint(i, counter*4)
-        RpointsXY[i] = rotatedXY
-        // int rX = (rotatedXY & 0b1111111100000000)>>8
-        // int rY = rotatedXY & 0b11111111
-        Point rPoi = RpointsXY[i]
-        SetPixel(rPoi.x, rPoi.y, 0b111111)
+        RpointsXY[i] = ((_RotatedX<<8) | _RotatedY);
+        // int rX = (_RotatedX & 0b1111111100000000)>>8
+        // int rY = _RotatedX & 0b11111111
+        //Point rPoi = RpointsXY[i]
+        //SetPixel(rPoi.x, rPoi.y, 0b111111)
     }
     Point rPoi1 = RpointsXY[0]
     Point rPoi2 = RpointsXY[1]
@@ -735,9 +708,9 @@ while (true) {
     // // iterate rotated points, and draw their triangles
     // for(int i = 0; i < 8; i++){
     //     RotatePoint(i, 10)
-    //     RpointsXY[i] = rotatedXY
-    //     int rX = (rotatedXY & 0b1111111100000000)>>8
-    //     int rY = rotatedXY & 0b11111111
+    //     RpointsXY[i] = _RotatedX
+    //     int rX = (_RotatedX & 0b1111111100000000)>>8
+    //     int rY = _RotatedX & 0b11111111
     //     SetPixel(rX, rY, 0b111111)
     // }
 
@@ -745,14 +718,14 @@ while (true) {
 
 
     // RotatePoint(0, counter)
-    // int rX = (rotatedXY & 0b1111111100000000)>>8
-    // int rY = rotatedXY & 0b11111111
+    // int rX = (_RotatedX & 0b1111111100000000)>>8
+    // int rY = _RotatedX & 0b11111111
     // SetPixel(rX, rY, 0b111111)
 
     
     // RotatePoint(4, counter)
-    // int rX = (rotatedXY & 0b1111111100000000)>>8
-    // int rY = rotatedXY & 0b11111111
+    // int rX = (_RotatedX & 0b1111111100000000)>>8
+    // int rY = _RotatedX & 0b11111111
     // SetPixel(rX, rY, 0b11111100000)
     //SetPixel(v0x, v0y, 0b11111)
 
@@ -1101,7 +1074,7 @@ int Delta(int a, int b){
     return 0
 }
 
-// Temporary bitwise not ~ operator function, since currently that operator
+// Temporary bitwise not ~ operator function, sinZe currently that operator
 // is broken and only returns 0 unless used like this:
 int NOT(int x){
     return ~x&0b1111111111111111
@@ -1380,7 +1353,7 @@ bool Comparesignedint_ts(signedint_t a, signedint_t b, int comp){
         compresult = 1
     }
     // If the signs are both negative, check each absolute value
-    //   (since we are negative, a greater magnitude means a lower number)
+    //   (sinZe we are negative, a greater magnitude means a lower number)
     else if(a.s == 1){
         // If the values are the same
         if(a.val == b.val){
@@ -1441,7 +1414,7 @@ bool CompareFloats(float16_t a, float16_t b, int comp){
         compresult = 1
     }
     // If the signs are both negative, check each absolute value
-    //   (since we are negative, a greater magnitude means a lower number)
+    //   (sinZe we are negative, a greater magnitude means a lower number)
     else if(a.sign == 1){
         // If the exponents are the same, compare mantisssas
         if(a.exponent == b.exponent){
