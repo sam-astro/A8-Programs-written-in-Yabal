@@ -91,7 +91,7 @@ void draw_line(int x1, int y1, int x2, int y2, int color) {
 			}
 			// x += incx
 			x = Addsignedint_ts(x, incx)
-            if(x.val>60000||x.val>107||y.val>60000||y.val>107) // Don't draw pixels out of range
+            if(x.val>32000||x.val>107||y.val>32000||y.val>107) // Don't draw pixels out of range
                 continue
 			SetPixel(x, y, color)
 		}
@@ -124,7 +124,7 @@ void draw_line(int x1, int y1, int x2, int y2, int color) {
 			y = Addsignedint_ts(y, incy)
 			int xval = x.val
 			int yval = y.val
-            if(xval>60000||xval>107||yval>60000||yval>107) // Don't draw pixels out of range
+            if(xval>32000||xval>107||yval>32000||yval>107) // Don't draw pixels out of range
                 continue
 			SetPixel(xval, yval, color)
 		}
