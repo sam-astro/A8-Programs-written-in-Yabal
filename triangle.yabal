@@ -9,7 +9,8 @@ var screen = create_pointer(53871, 1)
 var sinTable = create_pointer(10000, 1)
 var pointsXY = create_pointer<Point>(11000, 1)
 var pointsZ = create_pointer(12000, 1)
-var RpointsXY = create_pointer<Point>(12000, 1)
+var RpointsXY = create_pointer<Point>(13000, 1)
+var RpointsZ = create_pointer(14000, 1)
 
 var expansionPorts = create_pointer(53500, 1)
 
@@ -69,7 +70,7 @@ void draw_line(int x1, int y1, int x2, int y2, int color) {
 	// write_signed_int(dy)
 
 	if (Comparesignedint_ts(dx, dy, '>')) {
-		SetPixel(x, y, color)
+		//SetPixel(x, y, color)
 		e = Subsignedint_ts(dy, dx)
 		e = Multsignedint_ts(e, TWO)
 		inc1 = Subsignedint_ts(dy, dx)
@@ -91,13 +92,13 @@ void draw_line(int x1, int y1, int x2, int y2, int color) {
 			}
 			// x += incx
 			x = Addsignedint_ts(x, incx)
-            if(x.val>32000||x.val>107||y.val>32000||y.val>107) // Don't draw pixels out of range
+            if(x.val>=107||y.val>107) // Don't draw pixels out of range
                 continue
 			SetPixel(x, y, color)
 		}
 
 	} else {
-		SetPixel(x, y, color)
+		//SetPixel(x, y, color)
 		// e = 2*dx-dy
 		e = Multsignedint_ts(dx, TWO)
 		e = Subsignedint_ts(e, dy)
@@ -124,7 +125,7 @@ void draw_line(int x1, int y1, int x2, int y2, int color) {
 			y = Addsignedint_ts(y, incy)
 			int xval = x.val
 			int yval = y.val
-            if(xval>32000||xval>107||yval>32000||yval>107) // Don't draw pixels out of range
+            if(xval>=107||yval>107) // Don't draw pixels out of range
                 continue
 			SetPixel(xval, yval, color)
 		}
@@ -218,7 +219,7 @@ void DrawFilledCircle(int xCenter, int yCenter, int radius, int color){
             newX = xCenter+SignedToTwosComp(x)
             newY = yCenter+SignedToTwosComp(y)
             // Make sure pixel is inside screen, otherwise don't render it.
-            if(newX>107||newY>107){
+            if(newX>=107||newY>=107){
                 x = Addsignedint_ts(x, 1)
                 continue
             }
@@ -252,7 +253,7 @@ void DrawWireCircle(int xCenter, int yCenter, int radius, int color){
             newX = xCenter+SignedToTwosComp(x)
             newY = yCenter+SignedToTwosComp(y)
             // Make sure pixel is inside screen, otherwise don't render it.
-            if(newX>107||newY>107){
+            if(newX>=107||newY>=107){
                 x = Addsignedint_ts(x, 1)
                 continue
             }
@@ -543,9 +544,9 @@ signedint_t cos(int x){
 // // write('v')
 // write_float(ss)
 
-int _RotatedX = 0;
-int _RotatedY = 0;
-int _RotatedZ = 0;
+int _RotatedX = 1;
+int _RotatedY = 1;
+int _RotatedZ = 1;
 void RotatePoint(int index, int degrees){
     Point value = pointsXY[index]
 
@@ -575,9 +576,6 @@ void RotatePoint(int index, int degrees){
     //_RotatedX = (vx<<8)|vy;
 }
 
-int _RotatedX = 0;
-int _RotatedY = 0;
-int _RotatedZ = 0;
 void RotatePoint3D(int index, int xRotate, int yRotate, int zRotate){
     Point xy = pointsXY[index]
     int zz = pointsZ[index]
@@ -601,8 +599,8 @@ void RotatePoint3D(int index, int xRotate, int yRotate, int zRotate){
     signedint_t translatedZ = inZ - offset;
     
     signedint_t Axx = cosX*cosY;
-    signedint_t Axy = cosX*sinY*sinZ - sinX*cosZ;
-    signedint_t Axz = cosX*sinY*cosZ + sinX*sinZ;
+    signedint_t Axy = (cosX*sinY*sinZ) - (sinX*cosZ);
+    signedint_t Axz = (cosX*sinY*cosZ) + (sinX*sinZ);
 
     signedint_t Ayx = sinX*cosY;
     signedint_t Ayy = sinX*sinY*sinZ + cosX*cosZ;
@@ -612,9 +610,13 @@ void RotatePoint3D(int index, int xRotate, int yRotate, int zRotate){
     signedint_t Azy = cosY*sinZ;
     signedint_t Azz = cosY*cosZ;
     
-    _RotatedX = (Axx*translatedX + Axy*translatedY + Axz*translatedZ)/128+offset;
-    _RotatedY = (Ayx*translatedX + Ayy*translatedY + Ayz*translatedZ)/128+offset;
-    _RotatedZ = (Azx*translatedX + Azy*translatedY + Azz*translatedZ)/128+offset;
+    _RotatedX = (Axx*translatedX + Axy*translatedY + Axz*translatedZ);
+    _RotatedY = (Ayx*translatedX + Ayy*translatedY + Ayz*translatedZ);
+    _RotatedZ = (Azx*translatedX + Azy*translatedY + Azz*translatedZ);
+    
+    _RotatedX = (_RotatedX/1024)+offset;
+    _RotatedY = (_RotatedY/1024)+offset;
+    _RotatedZ = (_RotatedZ/1024)+offset;
 
     //// Perform rotation using integer math
     //signedint_t rotatedX = (translatedX * cosVal - translatedY * sinVal)/128;
@@ -634,22 +636,22 @@ int counter = 0;
 
 // Front of cube
 pointsXY[0] = {x : 27, y : 27};
-pointsZ[0] = 1;
+pointsZ[0] = 27;
 pointsXY[1] = {x : 81, y : 27};
-pointsZ[1] = 1;
+pointsZ[1] = 27;
 pointsXY[2] = {x : 81, y : 81};
-pointsZ[2] = 1;
+pointsZ[2] = 27;
 pointsXY[3] = {x : 27, y : 81};
-pointsZ[3] = 1;
+pointsZ[3] = 27;
 // Back of cube
 pointsXY[4] = {x : 27, y : 27};
-pointsZ[4] = 2;
+pointsZ[4] = 81;
 pointsXY[5] = {x : 81, y : 27};
-pointsZ[5] = 2;
+pointsZ[5] = 81;
 pointsXY[6] = {x : 81, y : 81};
-pointsZ[6] = 2;
+pointsZ[6] = 81;
 pointsXY[7] = {x : 27, y : 81};
-pointsZ[7] = 2;
+pointsZ[7] = 81;
     
 
 // // Front of cube
@@ -685,17 +687,18 @@ while (true) {
 
     // iterate all points, and rotate them.
     for(int i = 0; i < 8; i++){
-        RotatePoint(i, counter*4)
+        RotatePoint3D(i, counter, 0, 0)
         RpointsXY[i] = ((_RotatedX<<8) | _RotatedY);
+        RpointsZ[i] = 1
         // int rX = (_RotatedX & 0b1111111100000000)>>8
         // int rY = _RotatedX & 0b11111111
         //Point rPoi = RpointsXY[i]
         //SetPixel(rPoi.x, rPoi.y, 0b111111)
     }
-    Point rPoi1 = RpointsXY[0]
-    Point rPoi2 = RpointsXY[1]
-    Point rPoi3 = RpointsXY[2]
-    Point rPoi4 = RpointsXY[3]
+    Point rPoi1 = RpointsXY[0] / RpointsZ[0]
+    Point rPoi2 = RpointsXY[1] / RpointsZ[0]
+    Point rPoi3 = RpointsXY[2] / RpointsZ[0]
+    Point rPoi4 = RpointsXY[3] / RpointsZ[0]
     DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi2.x, rPoi2.y, rPoi3.x, rPoi3.y, 0b111110000011111);
     DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi3.x, rPoi3.y, rPoi4.x, rPoi4.y, 0b000001111111111);
     DrawFilledCircle(rPoi1.x, rPoi1.y, 2, 0b000000000011111)
@@ -1308,6 +1311,7 @@ signedint_t Signed(int a){
 }
 
 signedint_t NegativeSigned(int a){
+    a = a & 0b111111111111111;
     signedint_t outInt = {s: 1, val:a};
     return outInt
 }
@@ -2275,6 +2279,10 @@ signedint_t operator +(signedint_t a, int b) {
     return Addsignedint_ts(a, b)
 }
 
+signedint_t operator +(int a, signedint_t b) {
+    return Addsignedint_ts(a, b)
+}
+
 signedint_t operator -(signedint_t a, signedint_t b) {
     return Subsignedint_ts(a, b)
 }
@@ -2293,4 +2301,8 @@ Point operator &(Point a, int b) {
 
 Point operator >>(Point a, int b) {
     return ((a.y<<8)|a.x)>>b
+}
+
+Point operator /(Point a, int b) {
+    return { x: a.x / b, y: a.y / b }
 }
