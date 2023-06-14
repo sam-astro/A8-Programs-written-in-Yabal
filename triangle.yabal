@@ -1,20 +1,22 @@
 
 // import "float.yabal"
 
-var floats = create_pointer<float16_t>(0x0, 1);
-var signedInts = create_pointer<signedint_t>(0x1111, 1);
+const var floats = create_pointer<float16_t>(0x0, 1);
+const var signedInts = create_pointer<signedint_t>(0x1111, 1);
 
-var screen = create_pointer(53871, 1)
+const var screen = create_pointer(53871, 1)
 // var cordicAngles = create_pointer(10000, 1)
-var sinTable = create_pointer(10000, 1)
-var pointsXY = create_pointer<Point>(11000, 1)
-var pointsZ = create_pointer(12000, 1)
-var RpointsXY = create_pointer<Point>(13000, 1)
-var RpointsZ = create_pointer(14000, 1)
+const var sinTable = create_pointer(10000, 1)
+const var pointsXY = create_pointer<Point>(11000, 1)
+const var pointsZ = create_pointer(12000, 1)
+const var RpointsXY = create_pointer<Point>(13000, 1)
+const var RpointsX = create_pointer(14000, 1)
+const var RpointsY = create_pointer(15000, 1)
+const var RpointsZ = create_pointer(16000, 1)
 
-var expansionPorts = create_pointer(53500, 1)
+const var expansionPorts = create_pointer(53500, 1)
 
-var chars = create_pointer(53546, 1)
+const var chars = create_pointer(53546, 1)
 
 int offset = 0
 
@@ -23,20 +25,18 @@ var highlightOppositeColor = 0b1111111111111111
 
 const float16_t FLOAT_ZERO = { sign : 0, exponent : 0, fraction : 0 };
 const float16_t ONE = { sign : 0, exponent : 0b01111, fraction : 0 };
-float16_t PI = { sign : 0, exponent : 0b10000, fraction : 0b1001001000 };
-float16_t HALFPI = 0x3E48
-float16_t PISQ = 0x48EE
-float16_t ONE = { sign : 0, exponent : 0b01111, fraction : 0 };
-float16_t ONETWENTYEIGHT = { sign : 0, exponent : 0b10110, fraction : 0 };
-float16_t HALF = 0x3800
+const float16_t PI = { sign : 0, exponent : 0b10000, fraction : 0b1001001000 };
+const float16_t HALFPI = 0x3E48
+const float16_t PISQ = 0x48EE
+const float16_t ONE = { sign : 0, exponent : 0b01111, fraction : 0 };
+const float16_t ONETWENTYEIGHT = { sign : 0, exponent : 0b10110, fraction : 0 };
+const float16_t HALF = 0x3800
 
 // https://gist.github.com/nowke/965fed0d5191bf373f1262be584207bb
 void draw_line(int x1, int y1, int x2, int y2, int color) {
-	signedint_t TWO = {s:0, val:2};
 
 	signedint_t dx = {s:0, val:0};
 	signedint_t dy = {s:0, val:0};
-	// int i = 0
 	signedint_t e = {s:0, val:0};
 
 	signedint_t incx = {s:0, val:1};
@@ -46,18 +46,12 @@ void draw_line(int x1, int y1, int x2, int y2, int color) {
 
 	signedint_t x = {s:0, val:x1};
 	signedint_t y = {s:0, val:y1};
+    
+	dx = SubTosignedint_t(x2,x1)
+	dy = SubTosignedint_t(y2,y1)
 
-	// write_signed_int(x2)
-	// write(',')
-	// write_signed_int(x1)
-	// write(' ')
-	dx = Subsignedint_ts(x2,x)
-	dy = Subsignedint_ts(y2,y)
-
-	if (dx.s == 1) // If dx < 0
-		dx.s = 0
-	if (dy.s == 1)  // If dy < 0
-		dy.s = 0
+	dx.s = 0
+	dy.s = 0
 
 	if (x2 < x1)
 		incx.s = 1
@@ -65,64 +59,41 @@ void draw_line(int x1, int y1, int x2, int y2, int color) {
 	if (y2 < y1)
 		incy.s = 1
 
-	// write_signed_int(dx)
-	// write(',')
-	// write_signed_int(dy)
+	if (dx > dy) {
+		e = (dy - dx) * 2;
+		inc1 = (dy - dx) * 2;
+		inc2 = dy * 2;
 
-	if (Comparesignedint_ts(dx, dy, '>')) {
-		//SetPixel(x, y, color)
-		e = Subsignedint_ts(dy, dx)
-		e = Multsignedint_ts(e, TWO)
-		inc1 = Subsignedint_ts(dy, dx)
-		inc1 = Multsignedint_ts(inc1, TWO)
-		inc2 = Multsignedint_ts(dy, TWO)
-		var maxval = dx.val
-		for (var i=0; i<maxval; i++) {
-			if (e.s == 0 || ((e.s == 1) && (e.val == 0))) { // if  e >= 0
-				// y += incy
-				y = Addsignedint_ts(y, incy)
-				// e += inc1
-				e = Addsignedint_ts(e, inc1)
-				// newline()
-				// write_signed_int(y)
+		const int maxval = dx.val
+		for (int i=0; i<maxval; i++) {
+			if (((int)e) < 32768 || ((((int)e) >= 32768) && (e.val == 0))) { // if  e >= 0
+				y = y + incy;
+				e = e + inc1;
 			}
 			else{
-				// e += inc2
-				e = Addsignedint_ts(e, inc2)
+				e = e + inc2;
 			}
-			// x += incx
-			x = Addsignedint_ts(x, incx)
+			x = x + incx;
             if(x.val>=107||y.val>107) // Don't draw pixels out of range
                 continue
 			SetPixel(x, y, color)
 		}
 
 	} else {
-		//SetPixel(x, y, color)
-		// e = 2*dx-dy
-		e = Multsignedint_ts(dx, TWO)
-		e = Subsignedint_ts(e, dy)
-		// inc1 = 2*(dx-dy)
-		inc1 = Subsignedint_ts(dx, dy)
-		inc1 = Multsignedint_ts(inc1, TWO)
-		// inc2 = 2*dx
-		inc2 = Multsignedint_ts(dx, TWO)
-		var maxval = dy.val
-		for (var i = 0; i < maxval; i++) {
-			if (e.s == 0 || ((e.s == 1) && (e.val == 0))) { // if  e >= 0
-				// x += incx
-				x = Addsignedint_ts(x, incx)
-				// e += inc1
-				e = Addsignedint_ts(e, inc1)
-				// newline()
-				// write_signed_int(x)
+		e = (dx * 2) - dy;
+		inc1 = (dx - dy) * 2;
+		inc2 = dx * 2;
+
+		const int maxval = dy.val
+		for (int i = 0; i < maxval; i++) {
+			if (((int)e) < 32768 || ((((int)e) >= 32768) && (e.val == 0))) { // if  e >= 0
+				x = x + incx;
+				e = e + inc1;
 			}
 			else{
-				// e += inc2
-				e = Addsignedint_ts(e, inc2)
+				e = e + inc2;
 			}
-			// y += incy
-			y = Addsignedint_ts(y, incy)
+			y = y + incy;
 			int xval = x.val
 			int yval = y.val
             if(xval>=107||yval>107) // Don't draw pixels out of range
@@ -130,14 +101,19 @@ void draw_line(int x1, int y1, int x2, int y2, int color) {
 			SetPixel(xval, yval, color)
 		}
 	}
-	// SetPixel(x1, y1, get_color(255, 0, 0))
-	// SetPixel(x2, y2, get_color(0, 255, 0))
 }
 
 void DrawWireTriangle(int x0, int y0,int x1, int y1,int x2, int y2, int color){
 	draw_line(x0, y0, x1, y1, color)
 	draw_line(x1, y1, x2, y2, color)
 	draw_line(x0, y0, x2, y2, color)
+}
+
+void DrawWireQuad(int x0, int y0,int x1, int y1,int x2, int y2,int x3, int y3, int color){
+	draw_line(x0, y0, x1, y1, color)
+	draw_line(x1, y1, x2, y2, color)
+	draw_line(x2, y2, x3, y3, color)
+	draw_line(x3, y3, x0, y0, color)
 }
 
 // // Not good method, change in future
@@ -204,35 +180,36 @@ void DrawWireTriangle(int x0, int y0,int x1, int y1,int x2, int y2, int color){
 // }
 
 void DrawFilledCircle(int xCenter, int yCenter, int radius, int color){
-	int radiusSquared = radius*radius
+	const int radiusSquared = radius*radius;
+	const int radiusSquaredPlusRadius = radiusSquared + radius;
 
-    signedint_t xOrig = NegativeSigned(radius)
-    signedint_t x = xOrig
-    signedint_t y = NegativeSigned(radius)
+    const signedint_t xOrig = NegativeSigned(radius);
+    signedint_t x = xOrig;
+    signedint_t y = NegativeSigned(radius);
 
-    var rad1 = radius+1
-    var newX = 0
-    var newY = 0
+    int rad1 = radius+1;
+    int newX = 0;
+    int newY = 0;
 
-    while(y.s == 1 || y.val< rad1){
-        while(x.s == 1 || x.val< rad1){
-            newX = xCenter+SignedToTwosComp(x)
-            newY = yCenter+SignedToTwosComp(y)
+    while(((int)y) >= 32768 || y.val < rad1){
+        while(((int)x) >= 32768 || x.val < rad1){
+            newX = xCenter + SignedToTwosComp(x);
+            newY = yCenter + SignedToTwosComp(y);
+
             // Make sure pixel is inside screen, otherwise don't render it.
-            if(newX>=107||newY>=107){
-                x = Addsignedint_ts(x, 1)
-                continue
+            if(newX >= 107 || newY >= 107){
+                x = x + 1;
+                continue;
             }
 
-            if(Addsignedint_ts(x.val*x.val,y.val*y.val) <= radiusSquared+radius){ // Calculate distance between point and center of circle. If lessthan or equal to radius, color pixel.
-                SetPixel(newX, newY, color)
+            if((x * x) + (y * y) <= radiusSquaredPlusRadius){ // Calculate distance between point and center of circle. If lessthan or equal to radius, color pixel.
+                SetPixel(newX, newY, color);
             }
 
-            // write('x')
-            x = Addsignedint_ts(x, 1)
+            x = x + 1;
         }
-        x = xOrig
-        y = Addsignedint_ts(y, 1)
+        x = xOrig;
+        y = y + 1;
     }
 
 }
@@ -248,8 +225,8 @@ void DrawWireCircle(int xCenter, int yCenter, int radius, int color){
     var newX = 0
     var newY = 0
 
-    while(y.s == 1 || y.val< rad1){
-        while(x.s == 1 || x.val< rad1){
+    while(((int)y) >= 32768 || y.val< rad1){
+        while(((int)x) >= 32768 || x.val< rad1){
             newX = xCenter+SignedToTwosComp(x)
             newY = yCenter+SignedToTwosComp(y)
             // Make sure pixel is inside screen, otherwise don't render it.
@@ -455,13 +432,8 @@ sinTable[89] = 127;
 signedint_t sin(int x){
     x+=360;
 
-    var loopTimes = 0;
-
-    while(x>179){
-        x -= 180
-
-        loopTimes += 1;
-    }
+    x = x%180
+    int loopTimes = x/180;
 
     if(x > 89){
         x = 90 - (x-89);
@@ -476,26 +448,10 @@ signedint_t sin(int x){
     }
     // else, positive
     return outVal
-
-    // int willAdd = 128
-    // if(loopTimes % 2 == 0){
-    //     return willAdd-sinTable[x]
-    // }
-    // return sinTable[x] + willAdd
-
-    //int out = sinTable[x]
-    //return (sinTable[x] + willAdd)
-    //return sinTable[x] + willAdd
 }
 
 signedint_t cos(int x){
-    x+=360;
-    
-    var loopTimes = 0;
-
-    x -= 90 // Offset for cos input
-
-    return sin(x)
+    return sin(x-90)
 }
 
 // int lastY = 0
@@ -560,10 +516,8 @@ void RotatePoint(int index, int degrees){
 
     // Translate point to the origin
     signedint_t offset = {s:0, val:54};
-    signedint_t translatedX;
-    signedint_t translatedY;
-    translatedX = inX - offset;
-    translatedY = inY - offset;
+    signedint_t translatedX = inX - offset;
+    signedint_t translatedY = inY - offset;
 
     // Perform rotation using integer math
     signedint_t rotatedX = (translatedX * cosVal - translatedY * sinVal)/128;
@@ -572,8 +526,6 @@ void RotatePoint(int index, int degrees){
     // Translate point back to its original position
     _RotatedX = rotatedX+offset;
     _RotatedY = rotatedY+offset;
-
-    //_RotatedX = (vx<<8)|vy;
 }
 
 void RotateCoords(int x, int y, int degrees){
@@ -587,10 +539,8 @@ void RotateCoords(int x, int y, int degrees){
 
     // Translate point to the origin
     signedint_t offset = {s:0, val:54};
-    signedint_t translatedX;
-    signedint_t translatedY;
-    translatedX = inX - offset;
-    translatedY = inY - offset;
+    signedint_t translatedX = inX - offset;
+    signedint_t translatedY = inY - offset;
 
     // Perform rotation using integer math
     signedint_t rotatedX = (translatedX * cosVal - translatedY * sinVal)/128;
@@ -735,8 +685,10 @@ while (true) {
 
     // iterate all points, and rotate them.
     for(int i = 0; i < 8; i++){
-        RotatePoint3D(i, counter*4, counter*3, counter)
-        RpointsXY[i] = ((_RotatedX<<8) | _RotatedY);
+        RotatePoint3D(i, counter*4, counter*3, 0)
+        //RpointsXY[i] = ((_RotatedX<<8) | _RotatedY);
+        RpointsX[i] = _RotatedX;
+        RpointsY[i] = _RotatedY;
         //RpointsZ[i] = _RotatedZ
         RpointsZ[i] = 0
         // int rX = (_RotatedX & 0b1111111100000000)>>8
@@ -745,66 +697,90 @@ while (true) {
         //SetPixel(rPoi.x, rPoi.y, 0b111111)
     }
 
-    int focalLength = 1;
-    int focalOffset = 0;
+    const int focalLength = 1;
+    const int focalOffset = 0;
 
-    int lineColor = 0b11111111111111
+    const int lineColor = 0b11111111111111
 
     // Front
-    Point rPoi1 = (RpointsXY[0] * focalLength) / (RpointsZ[0] + focalLength) + focalOffset
-    Point rPoi2 = (RpointsXY[1] * focalLength) / (RpointsZ[1] + focalLength) + focalOffset
-    Point rPoi3 = (RpointsXY[2] * focalLength) / (RpointsZ[2] + focalLength) + focalOffset
-    Point rPoi4 = (RpointsXY[3] * focalLength) / (RpointsZ[3] + focalLength) + focalOffset
-    DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi2.x, rPoi2.y, rPoi3.x, rPoi3.y, lineColor);
-    DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi3.x, rPoi3.y, rPoi4.x, rPoi4.y, lineColor);
-    DrawFilledCircle(rPoi1.x, rPoi1.y, 2, 0b000000000011111)
-    DrawFilledCircle(rPoi2.x, rPoi2.y, 2, 0b111110000000000)
-    DrawFilledCircle(rPoi3.x, rPoi3.y, 2, 0b111111111100000)
-    DrawFilledCircle(rPoi4.x, rPoi4.y, 2, 0b000001111100000)
+    int rPoi1x = (RpointsX[0] * focalLength) / (RpointsZ[0] + focalLength) + focalOffset
+    int rPoi1y = (RpointsY[0] * focalLength) / (RpointsZ[0] + focalLength) + focalOffset
+    int rPoi2x = (RpointsX[1] * focalLength) / (RpointsZ[1] + focalLength) + focalOffset
+    int rPoi2y = (RpointsY[1] * focalLength) / (RpointsZ[1] + focalLength) + focalOffset
+    int rPoi3x = (RpointsX[2] * focalLength) / (RpointsZ[2] + focalLength) + focalOffset
+    int rPoi3y = (RpointsY[2] * focalLength) / (RpointsZ[2] + focalLength) + focalOffset
+    int rPoi4x = (RpointsX[3] * focalLength) / (RpointsZ[3] + focalLength) + focalOffset
+    int rPoi4y = (RpointsY[3] * focalLength) / (RpointsZ[3] + focalLength) + focalOffset
+    DrawWireTriangle(rPoi1x, rPoi1y, rPoi2x, rPoi2y, rPoi3x, rPoi3y, lineColor);
+    DrawWireTriangle(rPoi1x, rPoi1y, rPoi3x, rPoi3y, rPoi4x, rPoi4y, lineColor);
+    DrawFilledCircle(rPoi1x, rPoi1y, 2, 0b000000000011111)
+    DrawFilledCircle(rPoi2x, rPoi2y, 2, 0b111110000000000)
+    DrawFilledCircle(rPoi3x, rPoi3y, 2, 0b111111111100000)
+    DrawFilledCircle(rPoi4x, rPoi4y, 2, 0b000001111100000)
 
     // Back
-    rPoi1 = (RpointsXY[4] * focalLength) / (RpointsZ[4] + focalLength) + focalOffset
-    rPoi2 = (RpointsXY[5] * focalLength) / (RpointsZ[5] + focalLength) + focalOffset
-    rPoi3 = (RpointsXY[6] * focalLength) / (RpointsZ[6] + focalLength) + focalOffset
-    rPoi4 = (RpointsXY[7] * focalLength) / (RpointsZ[7] + focalLength) + focalOffset
-    DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi2.x, rPoi2.y, rPoi3.x, rPoi3.y, lineColor);
-    DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi3.x, rPoi3.y, rPoi4.x, rPoi4.y, lineColor);
-    DrawFilledCircle(rPoi1.x, rPoi1.y, 2, 0b111110000011111)
-    DrawFilledCircle(rPoi2.x, rPoi2.y, 2, 0b000001111111111)
-    DrawFilledCircle(rPoi3.x, rPoi3.y, 2, 0b111111111100000)
-    DrawFilledCircle(rPoi4.x, rPoi4.y, 2, 0b000001111100000)
+    rPoi1x = (RpointsX[4] * focalLength) / (RpointsZ[4] + focalLength) + focalOffset
+    rPoi1y = (RpointsY[4] * focalLength) / (RpointsZ[4] + focalLength) + focalOffset
+    rPoi2x = (RpointsX[5] * focalLength) / (RpointsZ[5] + focalLength) + focalOffset
+    rPoi2y = (RpointsY[5] * focalLength) / (RpointsZ[5] + focalLength) + focalOffset
+    rPoi3x = (RpointsX[6] * focalLength) / (RpointsZ[6] + focalLength) + focalOffset
+    rPoi3y = (RpointsY[6] * focalLength) / (RpointsZ[6] + focalLength) + focalOffset
+    rPoi4x = (RpointsX[7] * focalLength) / (RpointsZ[7] + focalLength) + focalOffset
+    rPoi4y = (RpointsY[7] * focalLength) / (RpointsZ[7] + focalLength) + focalOffset
+    DrawWireTriangle(rPoi1x, rPoi1y, rPoi2x, rPoi2y, rPoi3x, rPoi3y, lineColor);
+    DrawWireTriangle(rPoi1x, rPoi1y, rPoi3x, rPoi3y, rPoi4x, rPoi4y, lineColor);
+    DrawFilledCircle(rPoi1x, rPoi1y, 2, 0b000000000011111)
+    DrawFilledCircle(rPoi2x, rPoi2y, 2, 0b111110000000000)
+    DrawFilledCircle(rPoi3x, rPoi3y, 2, 0b111111111100000)
+    DrawFilledCircle(rPoi4x, rPoi4y, 2, 0b000001111100000)
 
     // Right
-    rPoi1 = (RpointsXY[1] * focalLength) / (RpointsZ[1] + focalLength) + focalOffset
-    rPoi2 = (RpointsXY[5] * focalLength) / (RpointsZ[5] + focalLength) + focalOffset
-    rPoi3 = (RpointsXY[6] * focalLength) / (RpointsZ[6] + focalLength) + focalOffset
-    rPoi4 = (RpointsXY[2] * focalLength) / (RpointsZ[2] + focalLength) + focalOffset
-    DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi2.x, rPoi2.y, rPoi3.x, rPoi3.y, lineColor);
-    DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi3.x, rPoi3.y, rPoi4.x, rPoi4.y, lineColor);
+    rPoi1x = (RpointsX[1] * focalLength) / (RpointsZ[1] + focalLength) + focalOffset
+    rPoi1y = (RpointsY[1] * focalLength) / (RpointsZ[1] + focalLength) + focalOffset
+    rPoi2x = (RpointsX[5] * focalLength) / (RpointsZ[5] + focalLength) + focalOffset
+    rPoi2y = (RpointsY[5] * focalLength) / (RpointsZ[5] + focalLength) + focalOffset
+    rPoi3x = (RpointsX[6] * focalLength) / (RpointsZ[6] + focalLength) + focalOffset
+    rPoi3y = (RpointsY[6] * focalLength) / (RpointsZ[6] + focalLength) + focalOffset
+    rPoi4x = (RpointsX[2] * focalLength) / (RpointsZ[2] + focalLength) + focalOffset
+    rPoi4y = (RpointsY[2] * focalLength) / (RpointsZ[2] + focalLength) + focalOffset
+    DrawWireTriangle(rPoi1x, rPoi1y, rPoi2x, rPoi2y, rPoi3x, rPoi3y, lineColor);
+    DrawWireTriangle(rPoi1x, rPoi1y, rPoi3x, rPoi3y, rPoi4x, rPoi4y, lineColor);
 
     // Left
-    rPoi1 = (RpointsXY[4] * focalLength) / (RpointsZ[4] + focalLength) + focalOffset
-    rPoi2 = (RpointsXY[0] * focalLength) / (RpointsZ[0] + focalLength) + focalOffset
-    rPoi3 = (RpointsXY[3] * focalLength) / (RpointsZ[3] + focalLength) + focalOffset
-    rPoi4 = (RpointsXY[7] * focalLength) / (RpointsZ[7] + focalLength) + focalOffset
-    DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi2.x, rPoi2.y, rPoi3.x, rPoi3.y, lineColor);
-    DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi3.x, rPoi3.y, rPoi4.x, rPoi4.y, lineColor);
+    rPoi1x = (RpointsX[4] * focalLength) / (RpointsZ[4] + focalLength) + focalOffset
+    rPoi1y = (RpointsY[4] * focalLength) / (RpointsZ[4] + focalLength) + focalOffset
+    rPoi2x = (RpointsX[0] * focalLength) / (RpointsZ[0] + focalLength) + focalOffset
+    rPoi2y = (RpointsY[0] * focalLength) / (RpointsZ[0] + focalLength) + focalOffset
+    rPoi3x = (RpointsX[3] * focalLength) / (RpointsZ[3] + focalLength) + focalOffset
+    rPoi3y = (RpointsY[3] * focalLength) / (RpointsZ[3] + focalLength) + focalOffset
+    rPoi4x = (RpointsX[7] * focalLength) / (RpointsZ[7] + focalLength) + focalOffset
+    rPoi4y = (RpointsY[7] * focalLength) / (RpointsZ[7] + focalLength) + focalOffset
+    DrawWireTriangle(rPoi1x, rPoi1y, rPoi2x, rPoi2y, rPoi3x, rPoi3y, lineColor);
+    DrawWireTriangle(rPoi1x, rPoi1y, rPoi3x, rPoi3y, rPoi4x, rPoi4y, lineColor);
 
     // Top
-    rPoi1 = (RpointsXY[4] * focalLength) / (RpointsZ[4] + focalLength) + focalOffset
-    rPoi2 = (RpointsXY[5] * focalLength) / (RpointsZ[5] + focalLength) + focalOffset
-    rPoi3 = (RpointsXY[1] * focalLength) / (RpointsZ[1] + focalLength) + focalOffset
-    rPoi4 = (RpointsXY[0] * focalLength) / (RpointsZ[0] + focalLength) + focalOffset
-    DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi2.x, rPoi2.y, rPoi3.x, rPoi3.y, lineColor);
-    DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi3.x, rPoi3.y, rPoi4.x, rPoi4.y, lineColor);
+    rPoi1x = (RpointsX[4] * focalLength) / (RpointsZ[4] + focalLength) + focalOffset
+    rPoi1y = (RpointsY[4] * focalLength) / (RpointsZ[4] + focalLength) + focalOffset
+    rPoi2x = (RpointsX[5] * focalLength) / (RpointsZ[5] + focalLength) + focalOffset
+    rPoi2y = (RpointsY[5] * focalLength) / (RpointsZ[5] + focalLength) + focalOffset
+    rPoi3x = (RpointsX[1] * focalLength) / (RpointsZ[1] + focalLength) + focalOffset
+    rPoi3y = (RpointsY[1] * focalLength) / (RpointsZ[1] + focalLength) + focalOffset
+    rPoi4x = (RpointsX[0] * focalLength) / (RpointsZ[0] + focalLength) + focalOffset
+    rPoi4y = (RpointsY[0] * focalLength) / (RpointsZ[0] + focalLength) + focalOffset
+    DrawWireTriangle(rPoi1x, rPoi1y, rPoi2x, rPoi2y, rPoi3x, rPoi3y, lineColor);
+    DrawWireTriangle(rPoi1x, rPoi1y, rPoi3x, rPoi3y, rPoi4x, rPoi4y, lineColor);
 
     // Bottom
-    rPoi1 = (RpointsXY[3] * focalLength) / (RpointsZ[3] + focalLength) + focalOffset
-    rPoi2 = (RpointsXY[2] * focalLength) / (RpointsZ[2] + focalLength) + focalOffset
-    rPoi3 = (RpointsXY[6] * focalLength) / (RpointsZ[6] + focalLength) + focalOffset
-    rPoi4 = (RpointsXY[7] * focalLength) / (RpointsZ[7] + focalLength) + focalOffset
-    DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi2.x, rPoi2.y, rPoi3.x, rPoi3.y, lineColor);
-    DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi3.x, rPoi3.y, rPoi4.x, rPoi4.y, lineColor);
+    rPoi1x = (RpointsX[3] * focalLength) / (RpointsZ[3] + focalLength) + focalOffset
+    rPoi1y = (RpointsY[3] * focalLength) / (RpointsZ[3] + focalLength) + focalOffset
+    rPoi2x = (RpointsX[2] * focalLength) / (RpointsZ[2] + focalLength) + focalOffset
+    rPoi2y = (RpointsY[2] * focalLength) / (RpointsZ[2] + focalLength) + focalOffset
+    rPoi3x = (RpointsX[6] * focalLength) / (RpointsZ[6] + focalLength) + focalOffset
+    rPoi3y = (RpointsY[6] * focalLength) / (RpointsZ[6] + focalLength) + focalOffset
+    rPoi4x = (RpointsX[7] * focalLength) / (RpointsZ[7] + focalLength) + focalOffset
+    rPoi4y = (RpointsY[7] * focalLength) / (RpointsZ[7] + focalLength) + focalOffset
+    DrawWireTriangle(rPoi1x, rPoi1y, rPoi2x, rPoi2y, rPoi3x, rPoi3y, lineColor);
+    DrawWireTriangle(rPoi1x, rPoi1y, rPoi3x, rPoi3y, rPoi4x, rPoi4y, lineColor);
 
     // DrawWireTriangle(v0x, v0y, v2x, v2y, v3x, v3y, color);
 
@@ -865,8 +841,8 @@ while (true) {
         VBUF
     };
     
-    // DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi2.x, rPoi2.y, rPoi3.x, rPoi3.y, 0);
-    // DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi3.x, rPoi3.y, rPoi4.x, rPoi4.y, 0);
+    // DrawWireTriangle(rPoi1x, rPoi1y, rPoi2x, rPoi2y, rPoi3x, rPoi3y, 0);
+    // DrawWireTriangle(rPoi1x, rPoi1y, rPoi3x, rPoi3y, rPoi4x, rPoi4y, 0);
     // // // Black out screen
     // color = 0
     // //int color = 23422;
@@ -1114,7 +1090,7 @@ void write_float(float16_t f) {
 }
 
 void write_signed_int(signedint_t i) {
-    if(i.s == true) // If negative, print `-`
+    if(((int)i) >= 32768) // If negative, print `-`
         write('-')
     int v = i.val
     write_int(v)
@@ -1229,7 +1205,7 @@ int pow(signedint_t base, signedint_t exponent){
     if(base.s)
         finalSign = !(exponent.val%2==0)
     // If the exponent is negative, we divide each time instead of multiply
-    if(exponent.s == 1){
+    if(((int)exponent) >= 32768){
         for (var i = 1; i < exponent.val; i++){
             calculated = calculated / base
         }
@@ -1307,7 +1283,7 @@ signedint_t Addsignedint_ts(signedint_t a, signedint_t b){
         outInt.val = (a.val+b.val)
     }
     // Else if the signs are different and a is negative while b is positive, subtract a from b (b-a)
-    else if(a.s == 1){
+    else if(((int)a) >= 32768){
         // If the value of A is bigger than the value of B, then that means subtracting will make B negative
         if(a.val > b.val){
             outInt.s = 1
@@ -1320,7 +1296,7 @@ signedint_t Addsignedint_ts(signedint_t a, signedint_t b){
         // outInt.val = Delta(a.val,b.val)
     }
     // Else if the signs are different and b is negative while a is positive, subtract b from a (a-b)
-    else if(b.s == 1){
+    else if(((int)b) >= 32768){
         // If the value of B is bigger than the value of A, then that means subtracting will make A negative
         if(b.val > a.val){
             outInt.s = 1
@@ -1463,7 +1439,7 @@ bool Comparesignedint_ts(signedint_t a, signedint_t b, int comp){
     }
     // If the signs are both negative, check each absolute value
     //   (sinZe we are negative, a greater magnitude means a lower number)
-    else if(a.s == 1){
+    else if(((int)a) >= 32768){
         // If the values are the same
         if(a.val == b.val){
             compresult = 0
@@ -1478,7 +1454,7 @@ bool Comparesignedint_ts(signedint_t a, signedint_t b, int comp){
         }
     }
     // If the signs are both positive, check each absolute value
-    else if(a.s == 0){
+    else if(((int)a) < 32768){
         // If the values are the same
         if(a.val == b.val){
             compresult = 0
@@ -2361,7 +2337,11 @@ signedint_t operator &(signedint_t a, int b) {
 }
 
 bool operator >(signedint_t a, int b) {
-    return a.s == 1 || a.val > b;
+    return ((int)a) >= 32768 || a.val > b;
+}
+
+bool operator >(signedint_t a, signedint_t b) {
+    return Comparesignedint_ts(a, b, '>')
 }
 
 signedint_t operator /(signedint_t a, int b) {
@@ -2374,6 +2354,10 @@ signedint_t operator /(signedint_t a, signedint_t b) {
 
 signedint_t operator *(signedint_t a, signedint_t b) {
     return { val: a.val * b.val, s: a.s ^ b.s }
+}
+
+signedint_t operator *(signedint_t a, int b) {
+    return { val: a.val * b, s: a.s }
 }
 
 signedint_t operator +(signedint_t a, signedint_t b) {
