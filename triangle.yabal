@@ -576,6 +576,31 @@ void RotatePoint(int index, int degrees){
     //_RotatedX = (vx<<8)|vy;
 }
 
+void RotateCoords(int x, int y, int degrees){
+    signedint_t inX = x
+    signedint_t inY = y
+
+    // Calculate sine and cosine of the angle using integer math
+    int angle = degrees
+    signedint_t sinVal = sin(angle);
+    signedint_t cosVal = cos(angle);
+
+    // Translate point to the origin
+    signedint_t offset = {s:0, val:54};
+    signedint_t translatedX;
+    signedint_t translatedY;
+    translatedX = inX - offset;
+    translatedY = inY - offset;
+
+    // Perform rotation using integer math
+    signedint_t rotatedX = (translatedX * cosVal - translatedY * sinVal)/128;
+    signedint_t rotatedY = (translatedX * sinVal + translatedY * cosVal)/128;
+
+    // Translate point back to its original position
+    _RotatedX = rotatedX+offset;
+    _RotatedY = rotatedY+offset;
+}
+
 void RotatePoint3D(int index, int xRotate, int yRotate, int zRotate){
     Point xy = pointsXY[index]
     int zz = pointsZ[index]
@@ -584,19 +609,36 @@ void RotatePoint3D(int index, int xRotate, int yRotate, int zRotate){
     signedint_t inY = xy.y
     signedint_t inZ = zz
 
-    // Calculate sine and cosine of the angle using integer math
-    signedint_t sinX = sin(xRotate);
-    signedint_t cosX = cos(xRotate);
-    signedint_t sinY = sin(yRotate);
-    signedint_t cosY = cos(yRotate);
-    signedint_t sinZ = sin(zRotate);
-    signedint_t cosZ = cos(zRotate);
+    // // Calculate sine and cosine of the angle using integer math
+    // signedint_t sinX = sin(xRotate);
+    // signedint_t cosX = cos(xRotate);
+    // signedint_t sinY = sin(yRotate);
+    // signedint_t cosY = cos(yRotate);
+    // signedint_t sinZ = sin(zRotate);
+    // signedint_t cosZ = cos(zRotate);
 
-    // Translate point to the origin
-    signedint_t offset = {s:0, val:54};
-    signedint_t translatedX = inX - offset;
-    signedint_t translatedY = inY - offset;
-    signedint_t translatedZ = inZ - offset;
+    // // Translate point to the origin
+    // signedint_t offset = {s:0, val:54};
+    // signedint_t translatedX = inX - offset;
+    // signedint_t translatedY = inY - offset;
+    // signedint_t translatedZ = inZ - offset;
+
+
+
+    RotateCoords(inX, inY, zRotate);       // Rotate 2D around Z axis (front on)
+    int rX = _RotatedX&0b111111111111111
+    int rY = _RotatedY&0b111111111111111
+    RotateCoords(rX, inZ, yRotate); // Rotate 2D around Y axis (top down)
+    rX = _RotatedX&0b111111111111111
+    int rZ = _RotatedY&0b111111111111111
+    RotateCoords(rZ, rY, xRotate);       // Rotate 2D around X axis (from right)
+    rY = _RotatedY&0b111111111111111
+    rZ = _RotatedX&0b111111111111111
+
+    _RotatedX = rX;
+    _RotatedY = rY;
+    _RotatedZ = rZ;
+
     
     //signedint_t Axx = cosX*cosY;
     //signedint_t Axy = (cosX*sinY*sinZ) - (sinX*cosZ);
@@ -618,19 +660,21 @@ void RotatePoint3D(int index, int xRotate, int yRotate, int zRotate){
     //_RotatedY = (_RotatedY/1024)+offset;
     //_RotatedZ = (_RotatedZ/1024)+offset;
 
-	signedint_t newY = ((translatedY * cosX) - (translatedZ * sinX)) / 128;
-	signedint_t newZ = ((translatedY * sinX) + (translatedZ * cosX)) / 128;
 
-	signedint_t tempX = ((translatedX * cosY) + (newZ * sinY)) / 128;
-	signedint_t tempZ = ((NegativeSigned(translatedX) * sinY) + (newZ * cosY)) / 128;
+
+	// signedint_t newY = ((translatedY * cosX) - (translatedZ * sinX)) / 128;
+	// signedint_t newZ = ((translatedY * sinX) + (translatedZ * cosX)) / 128;
+
+	// signedint_t tempX = ((translatedX * cosY) + (newZ * sinY)) / 128;
+	// signedint_t tempZ = ((NegativeSigned(translatedX) * sinY) + (newZ * cosY)) / 128;
 	
-    _RotatedX = (tempX * cosZ) - (newY * sinZ);
-    _RotatedY = (tempX * sinZ) + (newY * cosZ);
-    _RotatedZ = tempZ;
+    // _RotatedX = (tempX * cosZ) - (newY * sinZ);
+    // _RotatedY = (tempX * sinZ) + (newY * cosZ);
+    // _RotatedZ = tempZ;
 	
-    _RotatedX = (_RotatedX)+offset;
-    _RotatedY = (_RotatedY)+offset;
-    _RotatedZ = (_RotatedZ)+offset;
+    // _RotatedX = (_RotatedX)+offset;
+    // _RotatedY = (_RotatedY)+offset;
+    // _RotatedZ = (_RotatedZ)+offset;
 }
 
 
@@ -691,24 +735,76 @@ while (true) {
 
     // iterate all points, and rotate them.
     for(int i = 0; i < 8; i++){
-        RotatePoint3D(i, counter, 0, 0)
+        RotatePoint3D(i, counter*4, counter*3, counter)
         RpointsXY[i] = ((_RotatedX<<8) | _RotatedY);
-        RpointsZ[i] = 1
+        //RpointsZ[i] = _RotatedZ
+        RpointsZ[i] = 0
         // int rX = (_RotatedX & 0b1111111100000000)>>8
         // int rY = _RotatedX & 0b11111111
         //Point rPoi = RpointsXY[i]
         //SetPixel(rPoi.x, rPoi.y, 0b111111)
     }
-    Point rPoi1 = RpointsXY[0] / RpointsZ[0]
-    Point rPoi2 = RpointsXY[1] / RpointsZ[0]
-    Point rPoi3 = RpointsXY[2] / RpointsZ[0]
-    Point rPoi4 = RpointsXY[3] / RpointsZ[0]
-    DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi2.x, rPoi2.y, rPoi3.x, rPoi3.y, 0b111110000011111);
-    DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi3.x, rPoi3.y, rPoi4.x, rPoi4.y, 0b000001111111111);
+
+    int focalLength = 1;
+    int focalOffset = 0;
+
+    int lineColor = 0b11111111111111
+
+    // Front
+    Point rPoi1 = (RpointsXY[0] * focalLength) / (RpointsZ[0] + focalLength) + focalOffset
+    Point rPoi2 = (RpointsXY[1] * focalLength) / (RpointsZ[1] + focalLength) + focalOffset
+    Point rPoi3 = (RpointsXY[2] * focalLength) / (RpointsZ[2] + focalLength) + focalOffset
+    Point rPoi4 = (RpointsXY[3] * focalLength) / (RpointsZ[3] + focalLength) + focalOffset
+    DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi2.x, rPoi2.y, rPoi3.x, rPoi3.y, lineColor);
+    DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi3.x, rPoi3.y, rPoi4.x, rPoi4.y, lineColor);
     DrawFilledCircle(rPoi1.x, rPoi1.y, 2, 0b000000000011111)
     DrawFilledCircle(rPoi2.x, rPoi2.y, 2, 0b111110000000000)
     DrawFilledCircle(rPoi3.x, rPoi3.y, 2, 0b111111111100000)
     DrawFilledCircle(rPoi4.x, rPoi4.y, 2, 0b000001111100000)
+
+    // Back
+    rPoi1 = (RpointsXY[4] * focalLength) / (RpointsZ[4] + focalLength) + focalOffset
+    rPoi2 = (RpointsXY[5] * focalLength) / (RpointsZ[5] + focalLength) + focalOffset
+    rPoi3 = (RpointsXY[6] * focalLength) / (RpointsZ[6] + focalLength) + focalOffset
+    rPoi4 = (RpointsXY[7] * focalLength) / (RpointsZ[7] + focalLength) + focalOffset
+    DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi2.x, rPoi2.y, rPoi3.x, rPoi3.y, lineColor);
+    DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi3.x, rPoi3.y, rPoi4.x, rPoi4.y, lineColor);
+    DrawFilledCircle(rPoi1.x, rPoi1.y, 2, 0b111110000011111)
+    DrawFilledCircle(rPoi2.x, rPoi2.y, 2, 0b000001111111111)
+    DrawFilledCircle(rPoi3.x, rPoi3.y, 2, 0b111111111100000)
+    DrawFilledCircle(rPoi4.x, rPoi4.y, 2, 0b000001111100000)
+
+    // Right
+    rPoi1 = (RpointsXY[1] * focalLength) / (RpointsZ[1] + focalLength) + focalOffset
+    rPoi2 = (RpointsXY[5] * focalLength) / (RpointsZ[5] + focalLength) + focalOffset
+    rPoi3 = (RpointsXY[6] * focalLength) / (RpointsZ[6] + focalLength) + focalOffset
+    rPoi4 = (RpointsXY[2] * focalLength) / (RpointsZ[2] + focalLength) + focalOffset
+    DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi2.x, rPoi2.y, rPoi3.x, rPoi3.y, lineColor);
+    DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi3.x, rPoi3.y, rPoi4.x, rPoi4.y, lineColor);
+
+    // Left
+    rPoi1 = (RpointsXY[4] * focalLength) / (RpointsZ[4] + focalLength) + focalOffset
+    rPoi2 = (RpointsXY[0] * focalLength) / (RpointsZ[0] + focalLength) + focalOffset
+    rPoi3 = (RpointsXY[3] * focalLength) / (RpointsZ[3] + focalLength) + focalOffset
+    rPoi4 = (RpointsXY[7] * focalLength) / (RpointsZ[7] + focalLength) + focalOffset
+    DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi2.x, rPoi2.y, rPoi3.x, rPoi3.y, lineColor);
+    DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi3.x, rPoi3.y, rPoi4.x, rPoi4.y, lineColor);
+
+    // Top
+    rPoi1 = (RpointsXY[4] * focalLength) / (RpointsZ[4] + focalLength) + focalOffset
+    rPoi2 = (RpointsXY[5] * focalLength) / (RpointsZ[5] + focalLength) + focalOffset
+    rPoi3 = (RpointsXY[1] * focalLength) / (RpointsZ[1] + focalLength) + focalOffset
+    rPoi4 = (RpointsXY[0] * focalLength) / (RpointsZ[0] + focalLength) + focalOffset
+    DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi2.x, rPoi2.y, rPoi3.x, rPoi3.y, lineColor);
+    DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi3.x, rPoi3.y, rPoi4.x, rPoi4.y, lineColor);
+
+    // Bottom
+    rPoi1 = (RpointsXY[3] * focalLength) / (RpointsZ[3] + focalLength) + focalOffset
+    rPoi2 = (RpointsXY[2] * focalLength) / (RpointsZ[2] + focalLength) + focalOffset
+    rPoi3 = (RpointsXY[6] * focalLength) / (RpointsZ[6] + focalLength) + focalOffset
+    rPoi4 = (RpointsXY[7] * focalLength) / (RpointsZ[7] + focalLength) + focalOffset
+    DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi2.x, rPoi2.y, rPoi3.x, rPoi3.y, lineColor);
+    DrawWireTriangle(rPoi1.x, rPoi1.y, rPoi3.x, rPoi3.y, rPoi4.x, rPoi4.y, lineColor);
 
     // DrawWireTriangle(v0x, v0y, v2x, v2y, v3x, v3y, color);
 
@@ -1317,6 +1413,11 @@ signedint_t Signed(int a){
 signedint_t NegativeSigned(int a){
     a = a & 0b111111111111111;
     signedint_t outInt = {s: 1, val:a};
+    return outInt
+}
+
+signedint_t NegativeSigned(signedint_t a){
+    signedint_t outInt = {s: ~(a.s), val:a};
     return outInt
 }
 
@@ -2309,4 +2410,12 @@ Point operator >>(Point a, int b) {
 
 Point operator /(Point a, int b) {
     return { x: a.x / b, y: a.y / b }
+}
+
+Point operator *(Point a, int b) {
+    return { x: a.x * b, y: a.y * b }
+}
+
+Point operator +(Point a, int b) {
+    return { x: a.x + b, y: a.y + b }
 }
