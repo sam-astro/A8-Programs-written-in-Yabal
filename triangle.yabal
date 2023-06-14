@@ -598,35 +598,39 @@ void RotatePoint3D(int index, int xRotate, int yRotate, int zRotate){
     signedint_t translatedY = inY - offset;
     signedint_t translatedZ = inZ - offset;
     
-    signedint_t Axx = cosX*cosY;
-    signedint_t Axy = (cosX*sinY*sinZ) - (sinX*cosZ);
-    signedint_t Axz = (cosX*sinY*cosZ) + (sinX*sinZ);
+    //signedint_t Axx = cosX*cosY;
+    //signedint_t Axy = (cosX*sinY*sinZ) - (sinX*cosZ);
+    //signedint_t Axz = (cosX*sinY*cosZ) + (sinX*sinZ);
 
-    signedint_t Ayx = sinX*cosY;
-    signedint_t Ayy = sinX*sinY*sinZ + cosX*cosZ;
-    signedint_t Ayz = sinX*sinY*cosZ - cosX*sinZ;
+    //signedint_t Ayx = sinX*cosY;
+    //signedint_t Ayy = sinX*sinY*sinZ + cosX*cosZ;
+    //signedint_t Ayz = sinX*sinY*cosZ - cosX*sinZ;
 
-    signedint_t Azx = -sinY;
-    signedint_t Azy = cosY*sinZ;
-    signedint_t Azz = cosY*cosZ;
+    //signedint_t Azx = -sinY;
+    //signedint_t Azy = cosY*sinZ;
+    //signedint_t Azz = cosY*cosZ;
     
-    _RotatedX = (Axx*translatedX + Axy*translatedY + Axz*translatedZ);
-    _RotatedY = (Ayx*translatedX + Ayy*translatedY + Ayz*translatedZ);
-    _RotatedZ = (Azx*translatedX + Azy*translatedY + Azz*translatedZ);
+    //_RotatedX = (Axx*translatedX + Axy*translatedY + Axz*translatedZ);
+    //_RotatedY = (Ayx*translatedX + Ayy*translatedY + Ayz*translatedZ);
+    //_RotatedZ = (Azx*translatedX + Azy*translatedY + Azz*translatedZ);
     
-    _RotatedX = (_RotatedX/1024)+offset;
-    _RotatedY = (_RotatedY/1024)+offset;
-    _RotatedZ = (_RotatedZ/1024)+offset;
+    //_RotatedX = (_RotatedX/1024)+offset;
+    //_RotatedY = (_RotatedY/1024)+offset;
+    //_RotatedZ = (_RotatedZ/1024)+offset;
 
-    //// Perform rotation using integer math
-    //signedint_t rotatedX = (translatedX * cosVal - translatedY * sinVal)/128;
-    //signedint_t rotatedY = (translatedX * sinVal + translatedY * cosVal)/128;
+	signedint_t newY = ((translatedY * cosX) - (translatedZ * sinX)) / 128;
+	signedint_t newZ = ((translatedY * sinX) + (translatedZ * cosX)) / 128;
 
-    //// Translate point back to its original position
-    //int vx = rotatedX+offset;
-    //int vy = rotatedY+offset;
-
-    //_RotatedX = (vx<<8)|vy;
+	signedint_t tempX = ((translatedX * cosY) + (newZ * sinY)) / 128;
+	signedint_t tempZ = ((NegativeSigned(translatedX) * sinY) + (newZ * cosY)) / 128;
+	
+    _RotatedX = (tempX * cosZ) - (newY * sinZ);
+    _RotatedY = (tempX * sinZ) + (newY * cosZ);
+    _RotatedZ = tempZ;
+	
+    _RotatedX = (_RotatedX)+offset;
+    _RotatedY = (_RotatedY)+offset;
+    _RotatedZ = (_RotatedZ)+offset;
 }
 
 
