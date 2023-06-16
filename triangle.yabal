@@ -687,10 +687,10 @@ while (true) {
     for(int i = 0; i < 8; i++){
         RotatePoint3D(i, counter*4, counter*3, 0)
         //RpointsXY[i] = ((_RotatedX<<8) | _RotatedY);
-        RpointsX[i] = _RotatedX;
-        RpointsY[i] = _RotatedY;
-        //RpointsZ[i] = _RotatedZ
-        RpointsZ[i] = 0
+        RpointsX[i] = _RotatedX+54;
+        RpointsY[i] = _RotatedY+54;
+        RpointsZ[i] = _RotatedZ
+        //RpointsZ[i] = 0
         // int rX = (_RotatedX & 0b1111111100000000)>>8
         // int rY = _RotatedX & 0b11111111
         //Point rPoi = RpointsXY[i]
