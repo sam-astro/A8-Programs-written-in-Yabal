@@ -689,26 +689,26 @@ asm{
 
 while (true) {
 
-    for(int x = 0; x < 108; x++){
-        for(int y = 0; y < 108; y++){
-            _StartRayPosX = x;
-            _StartRayPosY = y;
-            SendRay();
-            SetPixel(x, y, eight_to_fifteen_bit_color(_RayRGB));
-        }
-        asm{
-            VBUF
-        };
-    }
+    // for(int x = 0; x < 108; x++){
+    //     for(int y = 0; y < 108; y++){
+    //         _StartRayPosX = x;
+    //         _StartRayPosY = y;
+    //         SendRay();
+    //         SetPixel(x, y, eight_to_fifteen_bit_color(_RayRGB));
+    //     }
+    //     asm{
+    //         VBUF
+    //     };
+    // }
 
-    // lfsr();
-    // _StartRayPosX = rand(15)%107;
-    // _StartRayPosY = rand(15)%107;
-    // SendRay();
-    // SetPixel(_StartRayPosX, _StartRayPosY, eight_to_fifteen_bit_color(_RayRGB));
-    // asm{
-    //     VBUF
-    // };
+    lfsr();
+    _StartRayPosX = rand(15)%107;
+    _StartRayPosY = rand(15)%107;
+    SendRay();
+    SetPixel(_StartRayPosX, _StartRayPosY, eight_to_fifteen_bit_color(_RayRGB));
+    asm{
+        VBUF
+    };
 
     
     // for(int x = 0; x < (108*108); x++)

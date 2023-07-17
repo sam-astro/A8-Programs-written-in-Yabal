@@ -1,0 +1,707 @@
+
+// import "float.yabal"
+
+const var signedInts = create_pointer<signedint_t>(0x1111, 1);
+
+const var screen = create_pointer(53870, 1);
+
+const var expansionPorts = create_pointer(53500, 1);
+
+const var chars = create_pointer(53546, 1);
+const var userBuffer = create_pointer(8000, 0);
+
+const var MEM = create_pointer(0, 0);
+
+
+int offset = 0;
+int userOffset = 0;
+
+var highlightColor = 0b1000000000000000;
+var highlightOppositeColor = 0b1111111111111111;
+
+const int TRANSPARENT = 0b1000000000000000;
+
+int lastKey = 168;
+
+int nextArg = 0;
+
+// Startup
+int backgroundColor; // 7380
+backgroundColor = 7380; // 7380
+int foregroundColor = 32652;
+// int backgroundColor = get_color(123, 114, 214);
+for(int x = 0; x < (108*108); x++)
+    screen[x] = backgroundColor;
+
+newline();
+write(' ');
+// ChangeHighlightColor(62, 50, 162);
+write('a');
+write('s');
+write('t');
+write('r');
+write('o');
+write('s');
+write(' ');
+write('v');
+write('1');
+write('.');
+write('0');
+write(' ');
+write('2');
+write('0');
+write('2');
+write('3');
+newline();
+write(' ');
+write('b');
+write('a');
+write('s');
+write('i');
+write('c');
+write(' ');
+write('o');
+write('n');
+write('e');
+write('c');
+write('o');
+write('m');
+write('m');
+write('a');
+write('n');
+write('d');
+
+promptUserInput();
+
+int timeCount = 0;
+
+while (true) {
+
+    // Get key press:
+    int keyPress = expansionPorts[0];
+    int pressed = keyPress & 32768;
+    keyPress = keyPress & 32767;
+
+    // If key command is being sent
+    if(keyPress != 168 && keyPress != lastKey){
+        // If the command is a press and not a release
+        if(pressed == 32768){
+            // If backspace key, delete last character
+            if(keyPress == 70){
+                if(userOffset > 0)
+                    delete();
+            }
+            // If enter key, process comamnd
+            else if(keyPress == 85){
+                // Append newline character so it knows where the command ends
+                userBuffer[userOffset] = 85;
+                processCommand();
+            }
+            // Else, type character
+            else{
+                userWrite(keyPress);
+            }
+            lastKey = keyPress;
+        }
+    }
+    else if(keyPress == 168)
+        lastKey = 168;
+
+    timeCount++;
+
+    if(timeCount >= 60000){
+        animateCursor();
+        timeCount = 0;
+    }
+}
+
+
+
+while (true){
+
+}
+
+
+
+//////////////////////////////////////////
+//  This is all float and writing code: //
+//////////////////////////////////////////
+
+
+inline int get_color(int r, int g, int b) {
+    return (r / 8 << 10) + (g / 8 << 5) + (b / 8);
+}
+
+int ClampInt(int x, int min, int max){
+    if(x<min)
+        return min
+    else if(x>max)
+        return max
+
+    return x
+}
+
+// Function for drawing a single pixel to the screen safely, if you don't know if the x,y values are out of bounds
+void SetPixelSAFE(int x, int y, int color){
+    var screenOffset = (ClampInt(y, 0, 107) * 108) + ClampInt(x, 0, 107)
+    screen[screenOffset] = color
+}
+
+// Function for drawing a single pixel to the screen
+// ~PC 2555
+void SetPixel(int x, int y, int color){
+    var screenOffset = (y * 108) + x
+    screen[screenOffset] = color
+}
+
+// Function for getting a single pixel color from video memory
+int GetPixel(int x, int y){
+    var screenOffset = (ClampInt(y, 0, 107) * 108) + ClampInt(x, 0, 107)
+    return screen[screenOffset]
+}
+
+int cursorChar;
+int lastCursorPos;
+const int CURSOR_0 = 8;
+const int CURSOR_1 = 0;
+void animateCursor(){
+    if(cursorChar == CURSOR_0){
+        cursorChar = CURSOR_1;
+    }
+    else {
+        cursorChar = CURSOR_0;
+    }
+    chars[offset] = cursorChar;
+    lastCursorPos = offset;
+    
+    asm{
+        VBUF
+    };
+}
+
+void promptUserInput(){
+    newline();
+    ChangeHighlightColor(123, 114, 214);
+    write('a');
+    write('8');
+    write('$');
+    highlightColor = TRANSPARENT;
+    write(' ');
+    userOffset = 0;
+}
+
+void ChangeHighlightColor(int r, int g, int b){
+    highlightColor = get_color(r, g, b)
+    highlightOppositeColor = get_color(256-r, 256-g, 256-b)
+}
+
+void delete(){
+    userBuffer[userOffset-1] = 0;
+    chars[offset-1] = 0
+    chars[lastCursorPos] = 0
+    offset -= 1;
+    userOffset -= 1;
+    
+    asm{
+        VBUF
+    };
+}
+
+void write(int c) {
+    chars[offset] = c
+
+    if((highlightColor & 0b1000000000000000) != 0b1000000000000000)
+    {
+        // Draw highlight behind character
+        var pixOffsetY = (offset/18)*6
+        var pixOffsetX = ((offset*6)%108)
+        for (var x = 0; x < 6; x++) {
+            for (var y = 0; y < 6; y++) {
+                SetPixel(pixOffsetX+x, pixOffsetY+y, highlightColor)
+            }
+        }
+    }
+
+    // Increment location offset by 1
+    offset++;
+
+    if(offset >= 18*18){
+        ScrollCharacterBuffer();
+        offset -= 18;
+    }
+
+    asm{
+        VBUF
+    };
+}
+
+void userWrite(int c){
+    userBuffer[userOffset] = c;
+    userOffset++;
+    write(c);
+}
+
+void ScrollCharacterBuffer(){
+    for(int x = 0; x < (18*17); x++) // Copy characters upwards
+        chars[x] = chars[x + 19];
+    for(int x = 0; x < (108*102); x++) // Copy background upwards
+        screen[x] = screen[x+108*6+1];
+    for(int x = (18*17); x < (18*18); x++) // Clear last line
+        chars[x] = 0;
+}
+
+void ScrollCharacterBufferOpposite(){
+    for(int x = 0; x < (18*17); x++)
+        chars[x] = chars[x + 19];
+    for(int x = (18*17); x < (18*18); x++) // Clear last line
+        chars[x] = 0;
+}
+
+signedint_t IntTosignedint_t(int x){
+    signedint_t o = {s:0, val:x};
+    return o
+}
+
+int SignedToTwosComp(signedint_t x){
+    int out = x.val
+    if(x.s){
+        out = Negative(out)
+    }
+    return out
+}
+
+void processCommand(){
+
+
+    // Get hash of first word
+    int firstWord = 0
+    for(int x = 0; x < (18*18); x++){
+        if((userBuffer[x] == 0) || (userBuffer[x] == 85)) // If space or command end, break
+            break;
+        firstWord += ((userBuffer[x]) * (x + 1));
+    }
+
+    // Find what command the first word is:
+    if(firstWord == 156){ // Clear screen, CLS
+        for(int x = 0; x < (108*108); x++){
+            screen[x] = backgroundColor;
+        }
+        for(int x = 0; x < (18*18); x++){
+            chars[x] = 0;
+        }
+        offset = 0;
+    }
+
+    if(firstWord == 219) // POKE command
+    {
+        const int addr = ParseNumber(5);
+        const int val = ParseNumber(nextArg);
+        newline();
+        write_int(addr);
+        write(',');
+        write_int(val);
+        newline();
+        write_binary(MEM[addr])
+        newline();
+        MEM[addr] = val;
+    }
+    if(firstWord == 205){ // PEEK command
+        write('e');
+    }
+    
+    write(' ');
+    write_int(firstWord);
+    promptUserInput();
+}
+
+void newline(){
+    
+    chars[lastCursorPos] = 0;
+    offset = offset / 18 * 18 + 18
+    
+    if(offset >= 18*18){
+        ScrollCharacterBuffer();
+        offset -= 18;
+    }
+
+    asm{
+        VBUF
+    };
+}
+
+int ParseNumber(int index){
+    int digits = 0;
+    int outValue = 0;
+
+    // Count the number of digits in the number
+    for(int x = index; x < (18*18); x++){
+         // If space or command end or comma, break
+        if((userBuffer[x] == 0) || (userBuffer[x] == 85) || (userBuffer[x] == 54))
+            break;
+        digits++;
+    }
+    nextArg = index + digits + 1;
+
+    int currentDigit = 0;
+    for(int x = index; x < (18*18); x++){
+         // If space or command end or comma, break
+        if((userBuffer[x] == 0) || (userBuffer[x] == 85) || (userBuffer[x] == 54)) 
+            break;
+        const int shifted = (userBuffer[x] - 39);
+        const int digitFromRight = (digits-currentDigit);
+        outValue += (shifted * pow(10, digitFromRight-1));
+        currentDigit++;
+    }
+
+    return outValue;
+}
+
+void write_int(int value) {
+    var reverser = create_pointer(65530, 0)
+    var i = 0
+    for (var o = 0; o < 5; o++){
+        reverser[o] = 0
+    }
+    while (value > 0) {
+        var char = (value % 10) switch {
+            1 => '1',
+            2 => '2',
+            3 => '3',
+            4 => '4',
+            5 => '5',
+            6 => '6',
+            7 => '7',
+            8 => '8',
+            9 => '9',
+            _ => '0'
+        }
+
+        reverser[i] = char
+        value = value / 10
+        i += 1
+    }
+    bool atFirst = false
+    for (var o = 0; o < 5; o++){
+        // If the first non-zero number has finally been found, start writing number
+        if(reverser[4-o] != 0)
+            atFirst = true
+        // Otherwise it is just a trailing zero, so skip
+        else if(atFirst==false)
+            continue
+        write(reverser[4-o])
+    }
+}
+
+void write_binary(int value) {
+    var reverser = create_pointer(65519, 0)
+    var i = 0
+    for (var i = 0; i < 16; i++){
+        reverser[i] = 0
+    }
+    while (value > 0) {
+        var char = (value & 1) switch {
+            1 => '1',
+            _ => '0'
+        }
+
+        reverser[15-i] = char
+        value = value >> 1
+        i += 1
+    }
+    for (var i = 0; i < 16; i++){
+        write(reverser[i])
+    }
+}
+
+void write_signed_int(signedint_t i) {
+    if(((int)i) >= 32768) // If negative, print `-`
+        write('-')
+    int v = i.val
+    write_int(v)
+}
+
+int TruncateTrailingZeros(int x){
+    var o = x
+    for (var i = 0; i < 16; i++){
+        // If the last digit is 1, then stop shifting
+        if((o & 1) == 1)
+            break
+        // Otherwise shift again
+        o = o >> 1
+    }
+    return o
+}
+
+
+// Returns true if values a and b are within +-range of eachother
+bool WithinRange(signedint_t aI, signedint_t bI, int range){
+    var a = aI.val
+    var b = bI.val
+    if(a > b){
+        if((a-b)<=range){
+            // write_int(a-b)
+            return true
+        }
+        else{
+            return false
+        }
+    }
+    else if(a < b){
+        if((b-a)<=range){
+            // write_int(b-a)
+            return true
+        }
+        else{
+            return false
+        }
+    }
+    return true
+}
+
+int Delta(int a, int b){
+    if(a > b)
+        return a - b
+    else if(a < b)
+        return b - a
+
+    return 0
+}
+
+// Temporary bitwise not ~ operator function, sinZe currently that operator
+// is broken and only returns 0 unless used like this:
+int NOT(int x){
+    return ~x&0b1111111111111111
+}
+
+// Convert integer to it's negative value in twos complement
+int Negative(int x){
+    return (~x) + 1
+}
+
+inline int XOR(int a, int b){
+    return (a|b)&(NOT(a&b))
+}
+
+
+// Kindof inefficient square root method
+int sqrt(int x){
+	int counter=1
+	int sqroot=1
+	while(sqroot <= x)
+	{
+		counter += 1
+		sqroot = counter*counter
+	}
+	return counter - 1
+}
+
+// Returns the integer base raised to the power integer exponent
+int pow(signedint_t base, signedint_t exponent){
+    var calculated = base
+    var finalSign = 0
+
+    if(exponent == 0)
+        return 1;
+
+    if(base.s)
+        finalSign = !(exponent.val%2==0)
+    // If the exponent is negative, we divide each time instead of multiply
+    if(((int)exponent) >= 32768){
+        for (var i = 1; i < exponent.val; i++){
+            calculated = calculated / base
+        }
+    }
+    // Otherwise it is normal multiplication exponent
+    else {
+        for (var i = 1; i < exponent.val; i++){
+            calculated = calculated * base
+        }
+    }
+    return calculated|(finalSign<<15)
+}
+
+// ~PC 3300
+signedint_t Addsignedint_ts(signedint_t a, signedint_t b){
+    signedint_t outInt = {s: 0, val:0};
+
+    // If the signs are the same, just add and return that same sign
+    if(a.s == b.s){
+        // outInt.s = a.s
+        // outInt.val = (a.val+b.val)
+        outInt = (((int)a)&32768) | ((((int)a)+((int)b)) & 32767);
+    }
+    // Else if the signs are different and a is negative while b is positive, subtract a from b (b-a)
+    else if(((int)a) >= 32768){
+        // If the value of A is bigger than the value of B, then that means subtracting will make B negative
+        if((((int)a)&32767) > (((int)b)&32767)){
+            outInt = 32768 | ((((int)a)-((int)b)) & 32767);
+        }
+        else{
+            outInt.val = b.val-a.val
+        }
+    }
+    // Else if the signs are different and b is negative while a is positive, subtract b from a (a-b)
+    else if(((int)b) >= 32768){
+        // If the value of B is bigger than the value of A, then that means subtracting will make A negative
+        if((((int)b)&32767) > (((int)a)&32767)){
+            outInt = 32768 | ((((int)b)-((int)a)) & 32767);
+        }
+        else{
+            outInt.val = a.val-b.val
+        }
+    }
+
+    return outInt
+}
+
+// ~PC 3500
+signedint_t Subsignedint_ts(signedint_t a, signedint_t b){
+    // Invert b's sign bit
+    return Addsignedint_ts(a, (((int)(b)) ^ 0b1000000000000000));
+}
+
+signedint_t Multsignedint_ts(signedint_t a, signedint_t b){
+    // Determine final sign, if they are different it is 1, if they are both 0 it is 0, and if they are both 1 it is also 0
+    return {s:(a.s != b.s), val:((int)(a * b)) & 32767};
+}
+
+// Subtract two ints, and return a signed int to allow for negative numbers
+signedint_t SubTosignedint_t(int a, int b){
+    // Convert each to a signed int
+    signedint_t aInt = {s:0, val:a};
+    signedint_t bInt = {s:1, val:b}; // Invert b's sign
+
+    return aInt + bInt;
+}
+
+signedint_t Signed(int a){
+    return {s: 0, val:a};
+}
+
+signedint_t NegativeSigned(int a){
+    return {s: 1, val:(a & 32767)}
+}
+
+signedint_t NegativeSigned(signedint_t a){
+    return {s: ~(a.s), val:a};
+}
+
+bool Comparesignedint_ts(signedint_t a, signedint_t b, int comp){
+    int compresult = 0 // This stores the result of the comparison, 0 is for equal, 1 is if a > b, and 2 is if a < b
+
+    // If a is negative and b is not it is only less than
+    if(a.s > b.s){
+        compresult = 2
+    }
+    // If b is negative and a is not it is only greater than
+    else if(a.s < b.s){
+        compresult = 1
+    }
+    // If the signs are both negative, check each absolute value
+    //   (sinZe we are negative, a greater magnitude means a lower number)
+    else if(((int)a) >= 32768){
+        // If the values are the same
+        if(a.val == b.val){
+            compresult = 0
+        }
+        // If a is greater than b
+        else if(a.val > b.val){
+            compresult = 2
+        }
+        // If b is greater than a
+        else if(a.val < b.val){
+            compresult = 1
+        }
+    }
+    // If the signs are both positive, check each absolute value
+    else if(((int)a) < 32768){
+        // If the values are the same
+        if(a.val == b.val){
+            compresult = 0
+        }
+        // If a is greater than b
+        else if(a.val > b.val){
+            compresult = 1
+        }
+        // If b is greater than a
+        else if(a.val < b.val){
+            compresult = 2
+        }
+    }
+
+
+    // Now that the actual comparision is done, return a true or false based upon what we are looking for in `comp`
+    if(comp == '='){ // Equal
+        if(compresult == 0)
+            return true
+    }
+    else if(comp == '>'){ // Greater
+        if(compresult == 1)
+            return true
+    }
+    else if(comp == '<'){ // Less
+        if(compresult == 2)
+            return true
+    }
+
+    return false
+}
+
+
+
+struct signedint_t {
+    int val : 15
+    int s : 1
+}
+
+signedint_t operator &(signedint_t a, signedint_t b) {
+    return { val: a.val & b.val, s: a.s & b.s }
+}
+
+signedint_t operator &(signedint_t a, int b) {
+    return { val: a.val & b, s: a.s & (b>>15) }
+}
+
+bool operator >(signedint_t a, int b) {
+    return ((int)a) >= 32768 || a.val > b;
+}
+
+bool operator >(signedint_t a, signedint_t b) {
+    return Comparesignedint_ts(a, b, '>')
+}
+
+signedint_t operator /(signedint_t a, int b) {
+    return { val: a.val / b, s: a.s }
+}
+
+signedint_t operator /(signedint_t a, signedint_t b) {
+    return { val: a.val / b.val, s: a.s ^ b.s }
+}
+
+signedint_t operator *(signedint_t a, signedint_t b) {
+    return { val: a.val * b.val, s: a.s ^ b.s }
+}
+
+signedint_t operator *(signedint_t a, int b) {
+    return { val: a.val * b, s: a.s }
+}
+
+signedint_t operator +(signedint_t a, signedint_t b) {
+    return Addsignedint_ts(a, b)
+}
+
+signedint_t operator +(signedint_t a, int b) {
+    return Addsignedint_ts(a, b)
+}
+
+signedint_t operator +(int a, signedint_t b) {
+    return Addsignedint_ts(a, b)
+}
+
+signedint_t operator -(signedint_t a, signedint_t b) {
+    return Subsignedint_ts(a, b)
+}
+
+signedint_t operator |(signedint_t a, int b) {
+    return { val: a.val | b, s: a.s | (b>>15) }
+}

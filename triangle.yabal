@@ -4,7 +4,7 @@
 const var floats = create_pointer<float16_t>(0x0, 1);
 const var signedInts = create_pointer<signedint_t>(0x1111, 1);
 
-const var screen = create_pointer(53871, 1)
+const var screen = create_pointer(53870, 1)
 // var cordicAngles = create_pointer(10000, 1)
 const var sinTable = create_pointer(10000, 1)
 const var pointsXY = create_pointer<Point>(11000, 1)

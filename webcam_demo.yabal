@@ -53,14 +53,14 @@ while(true) {
             if(curX >= 108){
                 curX = 0;
                 curY += 1;
-                asm{
-                VBUF
-                };
             }
             if(curY >= 108){
                 curX = 0;
                 curY = 0;
-                webcam[0] = 0b0100000000000000;
+                asm{
+                VBUF
+                };
+                //webcam[0] = 0b0100000000000000;
                 //DitherImage();
             }
 
@@ -100,13 +100,13 @@ while(true) {
                 if(curX >= 108){
                     curX = 0;
                     curY += 1;
-                asm{
-                VBUF
-                };
                 }
                 if(curY >= 108){
                     curX = 0;
                     curY = 0;
+                    asm{
+                    VBUF
+                    };
                     webcam[0] = 0b0100000000000000;
                     //DitherImage();
                 }
