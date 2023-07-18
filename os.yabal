@@ -10,11 +10,12 @@ const var expansionPorts = create_pointer(53500, 1);
 const var chars = create_pointer(53546, 1);
 const var userBuffer = create_pointer(8000, 0);
 
-const var MEM = create_pointer(0, 0);
+const var BANK_0 = create_pointer(0, 0);
 
 
 int offset = 0;
 int userOffset = 0;
+int userBufferLength = 0;
 
 var highlightColor = 0b1000000000000000;
 var highlightOppositeColor = 0b1111111111111111;
@@ -25,13 +26,21 @@ int lastKey = 168;
 
 int nextArg = 0;
 
+int curChar = 0;
+
 // Startup
 int backgroundColor; // 7380
-backgroundColor = 7380; // 7380
-int foregroundColor = 32652;
+backgroundColor = 0; // 7380
+int backgroundColorCommand; // 7380
+backgroundColorCommand = 7380; // 7380
+int outputTextColor = 0b10101111;
+int inputTextColor = 0;
+int foregroundColor;
+foregroundColor = outputTextColor; // 111 111 11
 // int backgroundColor = get_color(123, 114, 214);
-for(int x = 0; x < (108*108); x++)
+for(int x = 0; x < (108*108); x++){
     screen[x] = backgroundColor;
+}
 
 newline();
 write(' ');
@@ -71,9 +80,12 @@ write('a');
 write('n');
 write('d');
 
+newline();
 promptUserInput();
 
 int timeCount = 0;
+
+userBuffer[0] = 85;
 
 while (true) {
 
@@ -91,15 +103,47 @@ while (true) {
                 if(userOffset > 0)
                     delete();
             }
-            // If enter key, process comamnd
+            // If enter key, process command
             else if(keyPress == 85){
                 // Append newline character so it knows where the command ends
-                userBuffer[userOffset] = 85;
+                userBuffer[userBufferLength] = 85;
                 processCommand();
+            }
+            // If up key, use last command
+            else if(keyPress == 71){
+                if(userOffset == 0){
+                    userBufferLength = 0;
+                    for (var x = 0; x < 18*18; x++){
+                        if(userBuffer[x] == 85) // If command end, break
+                            break;
+                        userColorWrite(userBuffer[x]);
+                        userOffset++;
+                        userBufferLength++;
+                    }
+                }
+            }
+            // If left key, move left
+            else if(keyPress == 9){
+                if(userOffset > 0){
+                    chars[offset] = curChar;
+                    userOffset--;
+                    offset--;
+                    curChar = userBuffer[userOffset];
+                }
+            }
+            // If right key, move right
+            else if(keyPress == 10){
+                if(userOffset < userBufferLength){
+                    chars[offset] = curChar;
+                    userOffset++;
+                    offset++;
+                    curChar = userBuffer[userOffset];
+                }
             }
             // Else, type character
             else{
                 userWrite(keyPress);
+                userBufferLength++;
             }
             lastKey = keyPress;
         }
@@ -163,15 +207,14 @@ int GetPixel(int x, int y){
 int cursorChar;
 int lastCursorPos;
 const int CURSOR_0 = 8;
-const int CURSOR_1 = 0;
 void animateCursor(){
     if(cursorChar == CURSOR_0){
-        cursorChar = CURSOR_1;
+        cursorChar = curChar;
     }
     else {
         cursorChar = CURSOR_0;
     }
-    chars[offset] = cursorChar;
+    chars[offset] = cursorChar | (inputTextColor<<8);
     lastCursorPos = offset;
     
     asm{
@@ -181,13 +224,16 @@ void animateCursor(){
 
 void promptUserInput(){
     newline();
-    ChangeHighlightColor(123, 114, 214);
+    // ChangeHighlightColor(123, 114, 214);
+    foregroundColor = 0b00010101;
     write('a');
     write('8');
     write('$');
     highlightColor = TRANSPARENT;
     write(' ');
+    foregroundColor = inputTextColor;
     userOffset = 0;
+    curChar = 0;
 }
 
 void ChangeHighlightColor(int r, int g, int b){
@@ -196,11 +242,38 @@ void ChangeHighlightColor(int r, int g, int b){
 }
 
 void delete(){
-    userBuffer[userOffset-1] = 0;
-    chars[offset-1] = 0
-    chars[lastCursorPos] = 0
+    
+    // Shift all characters to the left by 1, if in middle of buffer
+    if(userOffset < userBufferLength){
+        for (int x = userOffset-1; x <= userBufferLength+15; x++){
+            // if(userBuffer[x+1] == 85){
+            //     userBuffer[x+1] = 0;
+            // }
+            userBuffer[x] = userBuffer[x+1];
+            
+        }
+        for (int x = 0; x < userBufferLength+15; x++){
+            chars[offset-userOffset+x+1] = userBuffer[x+1];
+            
+            // int g = userBuffer[x+1];
+            // if(g == 0){
+            //     chars[offset-userOffset+x+1] = 2;
+            // }
+        }
+    }
+    else{
+        userBuffer[userOffset-1] = 0;
+        chars[offset-1] = 0;
+        chars[lastCursorPos] = chars[offset];
+    }
+
+    userBufferLength--;
     offset -= 1;
     userOffset -= 1;
+    lastCursorPos -= 1;
+
+    
+
     
     asm{
         VBUF
@@ -208,7 +281,7 @@ void delete(){
 }
 
 void write(int c) {
-    chars[offset] = c
+    chars[offset] = (foregroundColor<<8) + c;
 
     if((highlightColor & 0b1000000000000000) != 0b1000000000000000)
     {
@@ -238,7 +311,15 @@ void write(int c) {
 void userWrite(int c){
     userBuffer[userOffset] = c;
     userOffset++;
+    foregroundColor = inputTextColor;
     write(c);
+    foregroundColor = outputTextColor;
+}
+
+void userColorWrite(int c){
+    foregroundColor = inputTextColor;
+    write(c);
+    foregroundColor = outputTextColor;
 }
 
 void ScrollCharacterBuffer(){
@@ -271,7 +352,9 @@ int SignedToTwosComp(signedint_t x){
 }
 
 void processCommand(){
-
+    chars[offset] = curChar;
+    offset = lastCursorPos + (userBufferLength-userOffset);
+    lastCursorPos = offset;
 
     // Get hash of first word
     int firstWord = 0
@@ -291,23 +374,59 @@ void processCommand(){
         }
         offset = 0;
     }
-
-    if(firstWord == 219) // POKE command
+    else if(firstWord == 219) // POKE command
     {
         const int addr = ParseNumber(5);
         const int val = ParseNumber(nextArg);
-        newline();
-        write_int(addr);
-        write(',');
-        write_int(val);
-        newline();
-        write_binary(MEM[addr])
-        newline();
-        MEM[addr] = val;
+        BANK_0[addr] = val;
     }
-    if(firstWord == 205){ // PEEK command
-        write('e');
+    else if(firstWord == 205){ // PEEK command
+        const int addr = ParseNumber(5);
+        newline();
+        write_int(BANK_0[addr]);
     }
+    else if(firstWord == 301){ // COPY command A -> B
+        int copyVal = 0;
+        const int addrA = ParseNumber(5);
+        const int addrB = ParseNumber(nextArg);
+
+        BANK_0[addrB] = BANK_0[addrA];
+    }
+    else if(firstWord == 1016){ // COPYRANGE command  COPYRANGE fromStart fromEnd newpos
+        const int fromStart = ParseNumber(10);
+        const int fromEnd = ParseNumber(nextArg); // exclusive
+        const int newpos = ParseNumber(nextArg);
+
+        int offs = newpos-fromStart;
+        for(int x = fromStart; x < fromEnd; x++){
+            BANK_0[x+offs] = BANK_0[x];
+        }
+    }
+    else if(firstWord == 920){ // PEEKRANGE command  PEEKRANGE start end
+        const int startAddr = ParseNumber(10);
+        const int endAddr = ParseNumber(nextArg); // exclusive
+
+        newline();
+        for(int x = startAddr; x < endAddr; x++){
+            int v = BANK_0[x];
+            write_int(v);
+            if(x != (endAddr-1)){
+                write(',');
+            }
+        }
+    }
+    else if(firstWord == 1070){ // PEEKRANGEC command  PEEKRANGEC start end
+        const int startAddr = ParseNumber(11);
+        const int endAddr = ParseNumber(nextArg); // exclusive
+
+        newline();
+        for(int x = startAddr; x < endAddr; x++){
+            int v = BANK_0[x];
+            write(v);
+        }
+    }
+
+    userBufferLength = 0;
     
     write(' ');
     write_int(firstWord);
@@ -357,10 +476,11 @@ int ParseNumber(int index){
 }
 
 void write_int(int value) {
-    var reverser = create_pointer(65530, 0)
-    var i = 0
+    int startVal = value;
+    var reverser = create_pointer(65530, 0);
+    var i = 0;
     for (var o = 0; o < 5; o++){
-        reverser[o] = 0
+        reverser[o] = 0;
     }
     while (value > 0) {
         var char = (value % 10) switch {
@@ -380,15 +500,20 @@ void write_int(int value) {
         value = value / 10
         i += 1
     }
-    bool atFirst = false
+    bool atFirst = false;
     for (var o = 0; o < 5; o++){
         // If the first non-zero number has finally been found, start writing number
-        if(reverser[4-o] != 0)
-            atFirst = true
+        if(reverser[4-o] != 0){
+            atFirst = true;
+        }
         // Otherwise it is just a trailing zero, so skip
         else if(atFirst==false)
-            continue
-        write(reverser[4-o])
+            continue;
+        write(reverser[4-o]);
+    }
+
+    if(startVal == 0){
+        write('0');
     }
 }
 
