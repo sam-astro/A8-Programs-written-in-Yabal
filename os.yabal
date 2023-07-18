@@ -234,6 +234,9 @@ void promptUserInput(){
     foregroundColor = inputTextColor;
     userOffset = 0;
     curChar = 0;
+    for(int i = 0; i < 18*18; i++)
+        userBuffer[i] = 0;
+    userBuffer[0] = 85;
 }
 
 void ChangeHighlightColor(int r, int g, int b){
@@ -309,6 +312,29 @@ void write(int c) {
 }
 
 void userWrite(int c){
+
+    // Shift all characters to the right by 1, if in middle of buffer
+    if(userOffset < userBufferLength){
+        for (int x = userBufferLength+15; x > userOffset; x--){
+            // if(userBuffer[x+1] == 85){
+            //     userBuffer[x+1] = 0;
+            // }
+            userBuffer[x] = userBuffer[x-1];
+            
+        }
+        for (int x = 0; x < userBufferLength+15; x++){
+            if(userBuffer[x] == 85){
+                break;
+            }
+            chars[offset-userOffset+x] = userBuffer[x];
+            
+            // int g = userBuffer[x+1];
+            // if(g == 0){
+            //     chars[offset-userOffset+x+1] = 2;
+            // }
+        }
+    }
+
     userBuffer[userOffset] = c;
     userOffset++;
     foregroundColor = inputTextColor;
