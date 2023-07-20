@@ -2,19 +2,16 @@
 // import "float.yabal"
 
 const var signedInts = create_pointer<signedint_t>(0x1111, 1);
-
 const var screen = create_pointer(53870, 1);
-
 const var expansionPorts = create_pointer(53500, 1);
-
 const var chars = create_pointer(53546, 1);
 const var userBuffer = create_pointer(8000, 0);
-
+const var commandHistoryBuffer = create_pointer(9000, 0);
 const var BANK_0 = create_pointer(0, 0);
 
 
-int offset = 0;
-int userOffset = 0;
+int charBufferOffset = 0;
+int userBufferOffset = 0;
 int userBufferLength = 0;
 
 var highlightColor = 0b1000000000000000;
@@ -23,34 +20,45 @@ var highlightOppositeColor = 0b1111111111111111;
 const int TRANSPARENT = 0b1000000000000000;
 
 int lastKey = 168;
-
 int nextArg = 0;
-
 int curChar = 0;
 
-// Startup
+bool DEBUG_MODE = false;
+bool CURSOR_MODE = false;
+
+// Colors
 int backgroundColor; // 7380
 backgroundColor = 0; // 7380
-int backgroundColorCommand; // 7380
-backgroundColorCommand = 7380; // 7380
-int outputTextColor = 0b10101111;
+int outputTextColor = 0b01100111;
 int inputTextColor = 0;
+int errorTextColor = 0b11100001;
 int foregroundColor;
 foregroundColor = outputTextColor; // 111 111 11
-// int backgroundColor = get_color(123, 114, 214);
+
+
+
+
+
+// Clear screen to background color
 for(int x = 0; x < (108*108); x++){
     screen[x] = backgroundColor;
 }
 
 newline();
 write(' ');
-// ChangeHighlightColor(62, 50, 162);
+foregroundColor = get_text_color(255, 0, 0);
 write('a');
+foregroundColor = get_text_color(0, 255, 0);
 write('s');
+foregroundColor = get_text_color(0, 0, 255);
 write('t');
+foregroundColor = get_text_color(255, 255, 0);
 write('r');
+foregroundColor = get_text_color(255, 0, 255);
 write('o');
+foregroundColor = get_text_color(0, 255, 255);
 write('s');
+foregroundColor = outputTextColor;
 write(' ');
 write('v');
 write('1');
@@ -86,6 +94,8 @@ promptUserInput();
 int timeCount = 0;
 
 userBuffer[0] = 85;
+int lastMouseCursorChar = 0;
+int lastMousePos = 0;
 
 while (true) {
 
@@ -94,13 +104,30 @@ while (true) {
     int pressed = keyPress & 32768;
     keyPress = keyPress & 32767;
 
+    if(CURSOR_MODE){
+        // Get mouse position:
+        int mouseVal = expansionPorts[1];
+        int mouseXPos = (mouseVal >> 7) & 0b1111111;  // Shift X coord value from the left side to the right and get it by itself
+        int mouseYPos = mouseVal & 0b1111111;  // Get y coord by itself
+        int mousePos = (mouseXPos/6)+(mouseYPos/6*18);
+        if(lastMousePos != mousePos){
+            chars[lastMousePos] = lastMouseCursorChar;
+            lastMouseCursorChar = chars[mousePos+1];
+            chars[mousePos] = 84;
+            lastMousePos = mousePos;
+            asm{
+                VBUF
+            };
+        }
+    }
+
     // If key command is being sent
     if(keyPress != 168 && keyPress != lastKey){
         // If the command is a press and not a release
         if(pressed == 32768){
             // If backspace key, delete last character
             if(keyPress == 70){
-                if(userOffset > 0)
+                if(userBufferOffset > 0)
                     delete();
             }
             // If enter key, process command
@@ -111,34 +138,37 @@ while (true) {
             }
             // If up key, use last command
             else if(keyPress == 71){
-                if(userOffset == 0){
-                    userBufferLength = 0;
-                    for (var x = 0; x < 18*18; x++){
-                        if(userBuffer[x] == 85) // If command end, break
-                            break;
-                        userColorWrite(userBuffer[x]);
-                        userOffset++;
-                        userBufferLength++;
-                    }
+                charBufferOffset -= userBufferOffset;
+                userBufferLength = 0;
+                userBufferOffset = 0;
+                for (var x = 0; x < 18*18; x++){
+                    if(commandHistoryBuffer[x] == 85) // If command end, break
+                        break;
+                    userWrite(commandHistoryBuffer[x]);
+                    // userBufferOffset++;
+                    userBufferLength++;
                 }
             }
             // If left key, move left
             else if(keyPress == 9){
-                if(userOffset > 0){
-                    chars[offset] = curChar;
-                    userOffset--;
-                    offset--;
-                    curChar = userBuffer[userOffset];
+                if(userBufferOffset > 0){
+                    chars[charBufferOffset] = curChar;
+                    userBufferOffset--;
+                    charBufferOffset--;
+                    curChar = userBuffer[userBufferOffset];
                 }
             }
             // If right key, move right
             else if(keyPress == 10){
-                if(userOffset < userBufferLength){
-                    chars[offset] = curChar;
-                    userOffset++;
-                    offset++;
-                    curChar = userBuffer[userOffset];
+                if(userBufferOffset < userBufferLength){
+                    chars[charBufferOffset] = curChar;
+                    userBufferOffset++;
+                    charBufferOffset++;
+                    curChar = userBuffer[userBufferOffset];
                 }
+            }
+            else if(keyPress >= 87){
+                
             }
             // Else, type character
             else{
@@ -167,13 +197,11 @@ while (true){
 
 
 
-//////////////////////////////////////////
-//  This is all float and writing code: //
-//////////////////////////////////////////
-
-
 inline int get_color(int r, int g, int b) {
     return (r / 8 << 10) + (g / 8 << 5) + (b / 8);
+}
+inline int get_text_color(int r, int g, int b) {
+    return ((r-3) / 36 << 5) + ((g-3) / 36 << 2) + (b / 85);
 }
 
 int ClampInt(int x, int min, int max){
@@ -206,7 +234,7 @@ int GetPixel(int x, int y){
 
 int cursorChar;
 int lastCursorPos;
-const int CURSOR_0 = 8;
+const int CURSOR_0 = 86;
 void animateCursor(){
     if(cursorChar == CURSOR_0){
         cursorChar = curChar;
@@ -214,8 +242,8 @@ void animateCursor(){
     else {
         cursorChar = CURSOR_0;
     }
-    chars[offset] = cursorChar | (inputTextColor<<8);
-    lastCursorPos = offset;
+    chars[charBufferOffset] = cursorChar | (inputTextColor<<8);
+    lastCursorPos = charBufferOffset;
     
     asm{
         VBUF
@@ -230,9 +258,9 @@ void promptUserInput(){
     write('8');
     write('$');
     highlightColor = TRANSPARENT;
-    write(' ');
+    write(':');
     foregroundColor = inputTextColor;
-    userOffset = 0;
+    userBufferOffset = 0;
     curChar = 0;
     for(int i = 0; i < 18*18; i++)
         userBuffer[i] = 0;
@@ -247,50 +275,38 @@ void ChangeHighlightColor(int r, int g, int b){
 void delete(){
     
     // Shift all characters to the left by 1, if in middle of buffer
-    if(userOffset < userBufferLength){
-        for (int x = userOffset-1; x <= userBufferLength+15; x++){
-            // if(userBuffer[x+1] == 85){
-            //     userBuffer[x+1] = 0;
-            // }
+    if(userBufferOffset < userBufferLength){
+        for (int x = userBufferOffset-1; x <= userBufferLength+15; x++){
             userBuffer[x] = userBuffer[x+1];
-            
         }
         for (int x = 0; x < userBufferLength+15; x++){
-            chars[offset-userOffset+x+1] = userBuffer[x+1];
-            
-            // int g = userBuffer[x+1];
-            // if(g == 0){
-            //     chars[offset-userOffset+x+1] = 2;
-            // }
+            chars[charBufferOffset-userBufferOffset+x+1] = userBuffer[x+1];
         }
     }
     else{
-        userBuffer[userOffset-1] = 0;
-        chars[offset-1] = 0;
-        chars[lastCursorPos] = chars[offset];
+        userBuffer[userBufferOffset-1] = 0;
+        chars[charBufferOffset-1] = 0;
+        chars[lastCursorPos] = chars[charBufferOffset];
     }
 
     userBufferLength--;
-    offset -= 1;
-    userOffset -= 1;
+    charBufferOffset -= 1;
+    userBufferOffset -= 1;
     lastCursorPos -= 1;
 
-    
-
-    
     asm{
         VBUF
     };
 }
 
 void write(int c) {
-    chars[offset] = (foregroundColor<<8) + c;
+    chars[charBufferOffset] = (foregroundColor<<8) | c;
 
-    if((highlightColor & 0b1000000000000000) != 0b1000000000000000)
+    if(((highlightColor >> 15)&1) != 1)
     {
         // Draw highlight behind character
-        var pixOffsetY = (offset/18)*6
-        var pixOffsetX = ((offset*6)%108)
+        var pixOffsetY = (charBufferOffset/18)*6
+        var pixOffsetX = ((charBufferOffset*6)%108)
         for (var x = 0; x < 6; x++) {
             for (var y = 0; y < 6; y++) {
                 SetPixel(pixOffsetX+x, pixOffsetY+y, highlightColor)
@@ -298,12 +314,12 @@ void write(int c) {
         }
     }
 
-    // Increment location offset by 1
-    offset++;
+    // Increment location charBufferOffset by 1
+    charBufferOffset++;
 
-    if(offset >= 18*18){
+    if(charBufferOffset >= 18*18){
         ScrollCharacterBuffer();
-        offset -= 18;
+        charBufferOffset -= 18;
     }
 
     asm{
@@ -314,29 +330,20 @@ void write(int c) {
 void userWrite(int c){
 
     // Shift all characters to the right by 1, if in middle of buffer
-    if(userOffset < userBufferLength){
-        for (int x = userBufferLength+15; x > userOffset; x--){
-            // if(userBuffer[x+1] == 85){
-            //     userBuffer[x+1] = 0;
-            // }
+    if(userBufferOffset < userBufferLength){
+        for (int x = userBufferLength+15; x > userBufferOffset; x--){
             userBuffer[x] = userBuffer[x-1];
-            
         }
         for (int x = 0; x < userBufferLength+15; x++){
             if(userBuffer[x] == 85){
                 break;
             }
-            chars[offset-userOffset+x] = userBuffer[x];
-            
-            // int g = userBuffer[x+1];
-            // if(g == 0){
-            //     chars[offset-userOffset+x+1] = 2;
-            // }
+            chars[charBufferOffset-userBufferOffset+x] = userBuffer[x];
         }
     }
 
-    userBuffer[userOffset] = c;
-    userOffset++;
+    userBuffer[userBufferOffset] = c;
+    userBufferOffset++;
     foregroundColor = inputTextColor;
     write(c);
     foregroundColor = outputTextColor;
@@ -353,8 +360,10 @@ void ScrollCharacterBuffer(){
         chars[x] = chars[x + 19];
     for(int x = 0; x < (108*102); x++) // Copy background upwards
         screen[x] = screen[x+108*6+1];
-    for(int x = (18*17); x < (18*18); x++) // Clear last line
+    for(int x = (18*17); x < (18*18); x++) // Clear last line of characters
         chars[x] = 0;
+    for(int x = (108*102); x < (108*108); x++) // Clear last line of background
+        screen[x] = backgroundColor;
 }
 
 void ScrollCharacterBufferOpposite(){
@@ -378,15 +387,18 @@ int SignedToTwosComp(signedint_t x){
 }
 
 void processCommand(){
-    chars[offset] = curChar;
-    offset = lastCursorPos + (userBufferLength-userOffset);
-    lastCursorPos = offset;
+    chars[charBufferOffset] = curChar;
+    charBufferOffset = lastCursorPos + (userBufferLength-userBufferOffset);
+    lastCursorPos = charBufferOffset;
 
     // Get hash of first word
     int firstWord = 0
     for(int x = 0; x < (18*18); x++){
-        if((userBuffer[x] == 0) || (userBuffer[x] == 85)) // If space or command end, break
+        if((userBuffer[x] == 0) || (userBuffer[x] == 85)){ // If space or command end, break
+            // if(userBuffer[x] == 0) // If space, add more to hash
+            //     firstWord += 15 * (x + 1);
             break;
+        }
         firstWord += ((userBuffer[x]) * (x + 1));
     }
 
@@ -398,7 +410,7 @@ void processCommand(){
         for(int x = 0; x < (18*18); x++){
             chars[x] = 0;
         }
-        offset = 0;
+        charBufferOffset = 0;
     }
     else if(firstWord == 219) // POKE command
     {
@@ -426,6 +438,12 @@ void processCommand(){
         int offs = newpos-fromStart;
         for(int x = fromStart; x < fromEnd; x++){
             BANK_0[x+offs] = BANK_0[x];
+            if(x%10 == 0){
+                int keyPress = expansionPorts[0];
+                keyPress = keyPress & 32767;
+                if(keyPress == 'c')
+                    break;
+            }
         }
     }
     else if(firstWord == 920){ // PEEKRANGE command  PEEKRANGE start end
@@ -439,6 +457,12 @@ void processCommand(){
             if(x != (endAddr-1)){
                 write(',');
             }
+            if(x%10 == 0){
+                int keyPress = expansionPorts[0];
+                keyPress = keyPress & 32767;
+                if(keyPress == 'c')
+                    break;
+            }
         }
     }
     else if(firstWord == 1070){ // PEEKRANGEC command  PEEKRANGEC start end
@@ -449,24 +473,158 @@ void processCommand(){
         for(int x = startAddr; x < endAddr; x++){
             int v = BANK_0[x];
             write(v);
+            if(x%10 == 0){
+                int keyPress = expansionPorts[0];
+                keyPress = keyPress & 32767;
+                if(keyPress == 'c')
+                    break;
+            }
         }
     }
+    else if(firstWord == 319){ // DEBUG command
+        DEBUG_MODE = !DEBUG_MODE;
+    }
+    else if(firstWord == 1198){ // TESTWRITE command
+        newline();
+        if((userBuffer[10] == 0) || (userBuffer[10] == 85)){ // If there are no arguments, test all characters
+            for(int x = 0; x < 100; x++)
+                write(x);
+        }
+        else{ // If there is an argument, write only that character
+            const int ch = ParseNumber(10);
+            write(ch);
+        }
+    }
+    else if(firstWord == 1246){ // COLORTEST command
+
+        int secondWord = 0;
+        if(userBuffer[10] != 0)
+        {
+            // Get hash of second word
+            for(int x = 10; x < (18*18); x++){
+                if((userBuffer[x] == 0) || (userBuffer[x] == 85)){ // If space or command end, break
+                    break;
+                }
+                secondWord += ((userBuffer[x]) * (x + 1 - 10));
+            }
+        }
+
+        if(secondWord == 366){
+            newline();
+            var pixOffsetY = (charBufferOffset/18)*6;
+            var pixOffsetX = ((charBufferOffset*6)%108);
+            int initialOffset = pixOffsetX+(pixOffsetY*108);
+            int x;
+            int location = initialOffset;
+            for(x = 0; x <= 0b111111111111111; x++){
+                int pos = x;
+
+                asm{
+                    VBUF
+                }
+
+                if(x%(108*6) == 0){
+                    for(int ii = 0; ii < 18; ii++){
+                        write(0);
+                    }
+                    if(charBufferOffset>=(18*16)+1)
+                        location -= (108*6);
+                }
+                screen[location] = x;
+
+
+                if(x%10 == 0){
+                    int keyPress = expansionPorts[0];
+                    keyPress = keyPress & 32767;
+                    if(keyPress == 'c')
+                        break;
+                }
+                location++;
+            }
+            foregroundColor = outputTextColor;
+            write(' ');
+            write_int(x);
+            write(' ');
+            write('c');
+            write('o');
+            write('l');
+            write('o');
+            write('r');
+            write('s');
+        }
+        else{
+            newline();
+            highlightColor = 0b000110001100011;
+            for(int x = 0; x <= 0b11111111; x++){
+                foregroundColor = x;
+
+                write(69);
+
+                if(x%10 == 0){
+                    int keyPress = expansionPorts[0];
+                    keyPress = keyPress & 32767;
+                    if(keyPress == 'c')
+                        break;
+                }
+            }
+            highlightColor = 0b1000000000000000;
+            foregroundColor = outputTextColor;
+            write(' ');
+            write_int(0b11111111);
+            write(' ');
+            write('c');
+            write('o');
+            write('l');
+            write('o');
+            write('r');
+            write('s');
+        }
+    }
+    else{
+        // If command is not blank, write not found error
+        if(firstWord != 0){
+            newline();
+            foregroundColor = errorTextColor;
+            write('i');
+            write('n');
+            write('v');
+            write('a');
+            write('l');
+            write('i');
+            write('d');
+            write(' ');
+            write('c');
+            write('m');
+            write('d');
+            foregroundColor = outputTextColor;
+        } 
+    }
+
+    // Add command to history buffer
+    for(int c = 0; c < userBufferLength; c++){
+        commandHistoryBuffer[c] = userBuffer[c];
+    }
+    commandHistoryBuffer[userBufferLength] = 85;
 
     userBufferLength = 0;
     
-    write(' ');
-    write_int(firstWord);
+    if(DEBUG_MODE){
+        write(' ');
+        write_int(firstWord);
+    }
+
+    
     promptUserInput();
 }
 
 void newline(){
     
-    chars[lastCursorPos] = 0;
-    offset = offset / 18 * 18 + 18
+    //chars[lastCursorPos] = 0;
+    charBufferOffset = charBufferOffset / 18 * 18 + 18
     
-    if(offset >= 18*18){
+    if(charBufferOffset >= 18*18){
         ScrollCharacterBuffer();
-        offset -= 18;
+        charBufferOffset -= 18;
     }
 
     asm{
@@ -481,7 +639,7 @@ int ParseNumber(int index){
     // Count the number of digits in the number
     for(int x = index; x < (18*18); x++){
          // If space or command end or comma, break
-        if((userBuffer[x] == 0) || (userBuffer[x] == 85) || (userBuffer[x] == 54))
+        if((userBuffer[x] == 0) || (userBuffer[x] == 85) || (userBuffer[x] == 55))
             break;
         digits++;
     }
@@ -490,7 +648,7 @@ int ParseNumber(int index){
     int currentDigit = 0;
     for(int x = index; x < (18*18); x++){
          // If space or command end or comma, break
-        if((userBuffer[x] == 0) || (userBuffer[x] == 85) || (userBuffer[x] == 54)) 
+        if((userBuffer[x] == 0) || (userBuffer[x] == 85) || (userBuffer[x] == 55)) 
             break;
         const int shifted = (userBuffer[x] - 39);
         const int digitFromRight = (digits-currentDigit);
@@ -797,6 +955,7 @@ bool Comparesignedint_ts(signedint_t a, signedint_t b, int comp){
 
     return false
 }
+
 
 
 
