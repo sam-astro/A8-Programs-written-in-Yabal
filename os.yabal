@@ -493,9 +493,20 @@ void processCommand(){
             write(ch);
         }
     }
-    else if(firstWord == 181){ // LOAD command
+    else if(firstWord == 240){ // EDIT command
+        // newline();
+        // if((userBuffer[10] == 0) || (userBuffer[10] == 85)){ // If there are no arguments, test all characters
+        //     for(int x = 0; x < 100; x++)
+        //         write(x);
+        // }
+        // else{ // If there is an argument, write only that character
+        //     const int ch = ParseNumber(10);
+        //     write(ch);
+        // }
+    }
+    else if(firstWord == 227){ // SAVE command
         newline();
-        if((userBuffer[10] == 0) || (userBuffer[10] == 85)){ // If there are no arguments, test all characters
+        if((userBuffer[5] == 0) || (userBuffer[5] == 85)){ // If there are no arguments, test all characters
             foregroundColor = errorTextColor;
             write(50);
             write('n');
@@ -510,16 +521,103 @@ void processCommand(){
         }
         else{ // If there is an argument, send characters one by one
             int i = 5;
+            // Send path to file
+            while(userBuffer[i] != 0){
+                write(userBuffer[i]);
+                expansionPorts[5] = (0b1111000000000000 | userBuffer[i]);
+                i++;
+                while(expansionPorts[5] != 0)
+                {
+                }
+            }
+            expansionPorts[5] = (0b1111000000000000 | 85);
+            while(expansionPorts[5] != 0)
+            {
+            }
+            i++;
+            // Send data for file
+            while(userBuffer[i] != 85){
+                write(userBuffer[i]);
+                expansionPorts[5] = (0b1111000000000000 | userBuffer[i]);
+                i++;
+                while(expansionPorts[5] != 0)
+                {
+                }
+            }
+            expansionPorts[5] = (0b1111000000000000 | 78);
+            while(expansionPorts[5] != 0)
+            {
+            }
+            // // Get file data
+            // while(expansionPorts[5] != 65535){
+            //     if(expansionPorts[5] != 0){
+            //         write(expansionPorts[5]);
+            //         expansionPorts[5] = 0;
+            //     }
+            // }
+        }
+    }
+    else if(firstWord == 414){ // START command
+        newline();
+        if((userBuffer[6] == 0) || (userBuffer[6] == 85)){ // If there are no arguments, test all characters
+            foregroundColor = errorTextColor;
+            write(50);
+            write('n');
+            write('o');
+            write(' ');
+            write('a');
+            write('r');
+            write('g');
+            write('s');
+            write(50);
+            foregroundColor = outputTextColor;
+        }
+        else{ // If there is an argument, send characters one by one
+            int i = 6;
             while(userBuffer[i] != 0){
                 write(userBuffer[i]);
                 expansionPorts[5] = (0b1000000000000000 | userBuffer[i]);
                 i++;
-                // if(userBuffer[i] == 85){
-                //     break;
-                // }
                 while(expansionPorts[5] != 0)
                 {
-
+                }
+            }
+        }
+    }
+    else if(firstWord == 181){ // LOAD command
+        newline();
+        if((userBuffer[5] == 0) || (userBuffer[5] == 85)){ // If there are no arguments, test all characters
+            foregroundColor = errorTextColor;
+            write(50);
+            write('n');
+            write('o');
+            write(' ');
+            write('a');
+            write('r');
+            write('g');
+            write('s');
+            write(50);
+            foregroundColor = outputTextColor;
+        }
+        else{ // If there is an argument, send characters one by one
+            int i = 5;
+            // Request file data
+            while(userBuffer[i] != 0){
+                write(userBuffer[i]);
+                expansionPorts[5] = (0b1101000000000000 | userBuffer[i]);
+                i++;
+                while(expansionPorts[5] != 0)
+                {
+                }
+            }
+            newline();
+            // Get file data
+            while(expansionPorts[5] != 4095){
+                if(expansionPorts[5] != 0){
+                    write(expansionPorts[5]&255);
+                    // write(',');
+                    if(expansionPorts[5] != 4095)
+                        expansionPorts[5] = 0;
                 }
             }
         }
