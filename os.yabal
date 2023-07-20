@@ -395,8 +395,6 @@ void processCommand(){
     int firstWord = 0
     for(int x = 0; x < (18*18); x++){
         if((userBuffer[x] == 0) || (userBuffer[x] == 85)){ // If space or command end, break
-            // if(userBuffer[x] == 0) // If space, add more to hash
-            //     firstWord += 15 * (x + 1);
             break;
         }
         firstWord += ((userBuffer[x]) * (x + 1));
@@ -495,6 +493,37 @@ void processCommand(){
             write(ch);
         }
     }
+    else if(firstWord == 181){ // LOAD command
+        newline();
+        if((userBuffer[10] == 0) || (userBuffer[10] == 85)){ // If there are no arguments, test all characters
+            foregroundColor = errorTextColor;
+            write(50);
+            write('n');
+            write('o');
+            write(' ');
+            write('a');
+            write('r');
+            write('g');
+            write('s');
+            write(50);
+            foregroundColor = outputTextColor;
+        }
+        else{ // If there is an argument, send characters one by one
+            int i = 5;
+            while(userBuffer[i] != 0){
+                write(userBuffer[i]);
+                expansionPorts[5] = (0b1000000000000000 | userBuffer[i]);
+                i++;
+                // if(userBuffer[i] == 85){
+                //     break;
+                // }
+                while(expansionPorts[5] != 0)
+                {
+
+                }
+            }
+        }
+    }
     else if(firstWord == 1246){ // COLORTEST command
 
         int secondWord = 0;
@@ -518,10 +547,6 @@ void processCommand(){
             int location = initialOffset;
             for(x = 0; x <= 0b111111111111111; x++){
                 int pos = x;
-
-                asm{
-                    VBUF
-                }
 
                 if(x%(108*6) == 0){
                     for(int ii = 0; ii < 18; ii++){
