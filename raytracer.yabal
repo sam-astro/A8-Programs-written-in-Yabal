@@ -488,6 +488,10 @@ int distance(signedint_t x1, signedint_t y1, signedint_t z1, signedint_t x2, sig
     int d = sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2) + pow(z2 - z1, 2));
     return d;
 }
+int magnitude(signedint_t x1, signedint_t y1, signedint_t z1){
+    int d = sqrt(pow(x1, 2) + pow(y1, 2) + pow(z1, 2));
+    return d;
+}
 
 /*
 // Ray tracer code to go off of:
@@ -567,28 +571,31 @@ vec3 SendRay(vec3 startLocation, vec3 directionVec){
 signedint_t _StartRayPosX;
 signedint_t _StartRayPosY;
 signedint_t _StartRayPosZ;
-signedint_t _RayDirectionX;
-signedint_t _RayDirectionY;
-signedint_t _RayDirectionZ = 1;
-signedint_t _RayPosX;
-signedint_t _RayPosY;
-signedint_t _RayPosZ;
-int _RayRGB = 0b11100011;
+float16_t _RayDirectionX;
+float16_t _RayDirectionY;
+float16_t _RayDirectionZ = IntToFloat(1);
+float16_t _RayPosX;
+float16_t _RayPosY;
+float16_t _RayPosZ;
+int _RayRGB;
 
 int maxBounces = 1;
 int maxMoveDist = 100;
 
 void SendRay(){
-    _RayPosX = _StartRayPosX;
-    _RayPosY = _StartRayPosY;
-    _RayPosZ = 1;
-    _RayDirectionZ = 1;
+    _RayPosX = IntToFloat(_StartRayPosX);
+    _RayPosY = IntToFloat(_StartRayPosY);
+    _RayPosZ = IntToFloat(1);
+    _RayDirectionX = IntToFloat(0);
+    _RayDirectionY = IntToFloat(0);
+    _RayDirectionZ = IntToFloat(1);
+    _RayRGB = 0;
     for(int iteration = 0; iteration < maxBounces; iteration++){ // Bounce multiple times
         for(int z = 0; z < maxMoveDist; z++){ // Move 20 units in directionVec
             //currentLocation += directionVec;
-            _RayPosX += _RayDirectionX;
-            _RayPosY += _RayDirectionY;
-            _RayPosZ += _RayDirectionZ;
+            _RayPosX = _RayPosX + _RayDirectionX;
+            _RayPosY = _RayPosY + _RayDirectionY;
+            _RayPosZ = _RayPosZ + _RayDirectionZ;
             // // Check if ray is under plane, if so draw floor
             // if(currentLocation.y<=0.0){
             //     vec3 normal = normalize(vec3(0, 1, 0));
@@ -621,14 +628,58 @@ void SendRay(){
             //     break;
             // }
             // else
-                for(int sh = 0; sh <1; sh++){
-                    int xPos = ((int)spheres[sh]) & 0b11111111;
-                    int yPos = (((int)spheres[sh]) & 0b1111111100000000) >> 8;
+            bool didHit = false;
+                for(int sh = 0; sh <3; sh++){
+                    signedint_t spherePosX = ((int)spheres[sh]) & 0b11111111;
+                    signedint_t spherePosY = (((int)spheres[sh]) & 0b1111111100000000) >> 8;
                     signedint_t spherePosZ = spherePosZ[sh];
                     SphereInfo sphereInfo = sphereInfos[sh];
-                    int dist = distance(_RayPosX, _RayPosY, _RayPosZ, xPos, yPos, spherePosZ);
+                    int iRPosX = FloatToInt(_RayPosX);
+                    int iRPosY = FloatToInt(_RayPosY);
+                    int iRPosZ = FloatToInt(_RayPosZ);
+                    int dist = distance(iRPosX, iRPosY, iRPosZ, spherePosX, spherePosY, spherePosZ);
                     // //float lightDist = distance(currentLocation, light.position);
                     if(dist < sphereInfo.radius){
+                        // float16_t normalX = (_RayPosX - IntToFloat(spherePosX)) / IntToFloat(sphereInfo.radius);
+                        // float16_t normalY = (_RayPosY - IntToFloat(spherePosY)) / IntToFloat(sphereInfo.radius);
+                        // float16_t normalZ = (_RayPosZ - IntToFloat(spherePosZ)) / IntToFloat(sphereInfo.radius);
+                        // int normalXScaled = FloatToInt(normalX * IntToFloat(255));
+                        // int normalYScaled = FloatToInt(normalY * IntToFloat(255));
+                        // int normalZScaled = FloatToInt(normalZ * IntToFloat(255));
+                        
+                        // int magnitude = magnitude(normalXScaled, normalYScaled, normalZScaled);
+
+                        // normalX = normalX / (IntToFloat(magnitude) / IntToFloat(255));
+                        // normalY = normalY / (IntToFloat(magnitude) / IntToFloat(255));
+                        // normalZ = normalZ / (IntToFloat(magnitude) / IntToFloat(255));
+
+                        // float16_t dot = ((_RayDirectionX * normalX) + (_RayDirectionY * normalY) + (_RayDirectionZ * normalZ)) * IntToFloat(2);
+
+                        // float16_t cNormX = normalX * dot;
+                        // float16_t cNormY = normalY * dot;
+                        // float16_t cNormZ = normalZ * dot;
+
+                        // _RayDirectionX = FloatToInt(cNormX - _RayDirectionX);
+                        // _RayDirectionY = FloatToInt(cNormY - _RayDirectionY);
+                        // _RayDirectionZ = FloatToInt(cNormZ - _RayDirectionZ);
+                        // int RayDirectionXScaled = FloatToInt(_RayDirectionX * IntToFloat(255));
+                        // int RayDirectionYScaled = FloatToInt(_RayDirectionY * IntToFloat(255));
+                        // int RayDirectionZScaled = FloatToInt(_RayDirectionZ * IntToFloat(255));
+                        
+                        // int mag = magnitude(FloatToInt(RayDirectionXScaled), FloatToInt(RayDirectionYScaled), FloatToInt(RayDirectionZScaled));
+
+
+                        // _RayDirectionX = _RayDirectionX / (IntToFloat(mag) / IntToFloat(255));
+                        // _RayDirectionY = _RayDirectionY / (IntToFloat(mag) / IntToFloat(255));
+                        // _RayDirectionZ = _RayDirectionZ / (IntToFloat(mag) / IntToFloat(255));
+
+                        // dot = ((IntToFloat(NegativeSigned(1)) * normalX) + (IntToFloat(1) * normalY) + (IntToFloat(5) * normalZ));
+                        // float16_t shadow = (IntToFloat(1) - dot) * IntToFloat(2);
+
+                        // _RayPosX = _RayPosX + FloatToInt(normalX*IntToFloat(10));
+                        // _RayPosY = _RayPosY + FloatToInt(normalY*IntToFloat(10));
+                        //_RayPosZ = _RayPosZ - IntTosignedint_t(4);
+
                         // vec3 normal = normalize((currentLocation - shape.position)/shape.radius);
                         // vec3 newDir = normalize(reflect(directionVec, normal));
                         // // Change newDir by random amount, equal to the inverse of reflectivity
@@ -641,13 +692,28 @@ void SendRay(){
                         // // Bounce and compute next ray
                         // z = maxMoveDist;
                         // directionVec = newDir;
-                        _RayRGB = sphereInfo.color / (z / 8);
+                        //_RayRGB = (FloatToInt(normalX*IntToFloat(255))<<10) | (FloatToInt(normalX*IntToFloat(255))<<5) | FloatToInt(normalZ*IntToFloat(255));
+                        //signedint_t col = ((((sphereInfo.color>>5)&0b111)/(iteration+1))<<5)|((((sphereInfo.color>>2)&0b111)/(iteration+1))<<2)|((sphereInfo.color&0b11)/(iteration+1));
+                        
+                        // if(shadow < IntToFloat(1)){
+                        //     col = 0b00100101;
+                        // }
+                        
+                        //_RayRGB = _RayRGB + col;
+
+                        _RayRGB = sphereInfo.color;
                         z = maxMoveDist;
+                        didHit = true;
+                        //z = 0;
                         break;
                     }
-                    else{
-                        _RayRGB = 0b11100011;
-                    }
+                    // else{
+                    //     _RayRGB = 0;
+                    //     //z = maxMoveDist;
+                    // }
+                }
+                if(didHit == false){
+                    iteration = maxBounces;
                 }
         }
         // // If this is the final bounce, calculate angle difference between ray and light
@@ -666,7 +732,15 @@ void SendRay(){
 
 spheres[0] = {x:54, y:54};
 spherePosZ[0] = 54;
-sphereInfos[0] = {color:0b11, radius:40};
+sphereInfos[0] = {color:0b11, radius:20};
+
+spheres[1] = {x:67, y:40};
+spherePosZ[1] = 54;
+sphereInfos[1] = {color:0b11100000, radius:15};
+
+spheres[2] = {x:25, y:40};
+spherePosZ[2] = 70;
+sphereInfos[2] = {color:0b11100, radius:30};
 
 
 int counter = 0;
@@ -682,6 +756,9 @@ write('r');
 write('i');
 write('n');
 write('g');
+for(int i = 0; i < (18*18-9); i++){
+    write(' ');
+}
 
 asm{
     VBUF
@@ -689,26 +766,26 @@ asm{
 
 while (true) {
 
-    // for(int x = 0; x < 108; x++){
-    //     for(int y = 0; y < 108; y++){
-    //         _StartRayPosX = x;
-    //         _StartRayPosY = y;
-    //         SendRay();
-    //         SetPixel(x, y, eight_to_fifteen_bit_color(_RayRGB));
-    //     }
-    //     asm{
-    //         VBUF
-    //     };
-    // }
+    for(int x = 0; x < 108; x++){
+        for(int y = 0; y < 108; y++){
+            _StartRayPosX = x;
+            _StartRayPosY = y;
+            SendRay();
+            SetPixel(x, y, eight_to_fifteen_bit_color(_RayRGB));
+        }
+        asm{
+            VBUF
+        };
+    }
 
-    lfsr();
-    _StartRayPosX = rand(15)%107;
-    _StartRayPosY = rand(15)%107;
-    SendRay();
-    SetPixel(_StartRayPosX, _StartRayPosY, eight_to_fifteen_bit_color(_RayRGB));
-    asm{
-        VBUF
-    };
+    // lfsr();
+    // _StartRayPosX = rand(15)%107;
+    // _StartRayPosY = rand(15)%107;
+    // SendRay();
+    // SetPixel(_StartRayPosX, _StartRayPosY, eight_to_fifteen_bit_color(_RayRGB));
+    // asm{
+    //     VBUF
+    // };
 
     
     // for(int x = 0; x < (108*108); x++)
@@ -993,16 +1070,6 @@ int TruncateTrailingZeros(int x){
     return o
 }
 
-// void write_float(float16_t value) {
-//     if (value.sign == 1) {
-//         write('-')
-//     }
-
-//     write_int(value.exponent)
-//     write('.')
-//     write_int(value.fraction)
-// }
-
 
 // Returns true if values a and b are within +-range of eachother
 bool WithinRange(signedint_t aI, signedint_t bI, int range){
@@ -1057,19 +1124,6 @@ inline int XOR(int a, int b){
 int get_shift_amnt(int man, int exp){
     return 10-exp
 }
-
-// string DecimalToBinaryString(int a)
-// {
-//     uint b = (uint)a
-//     string binary = ''
-//     uint mask = 0x80000000u
-//     while (mask > 0)
-//     {
-//         binary += ((b & mask) == 0) ? '0' : '1'
-//         mask >>= 1
-//     }
-//     return binary
-// }
 
 // Kindof inefficient square root method
 int sqrt(int x){
@@ -1138,11 +1192,11 @@ float16_t normalizeFloat(int fraction, int exponent){
 }
 
 int deNormalizeFraction(int f, int exp){
-    bool sn = (10-exp>60000)
-    var vl = 10-exp
+    bool sn = ((10-exp)>60000);
+    int vl = 10-exp;
     // signedint_t powNum = { s : 0, val : 0 };
     if (sn){
-        vl = 65535-(10-exp)
+        vl = 65535-(10-exp);
         // powNum.s = 1
     }
     // powNum.val = vl
@@ -1151,12 +1205,10 @@ int deNormalizeFraction(int f, int exp){
     // return (f * pow(2, powNum))
     // If negative
     if(sn == 1){
-        return f<<vl
+        return f<<vl;
     }
     // Otherwise shift normal way
-    else{
-        return f>>vl
-    }
+    return f>>vl;
 }
 
 // ~PC 3300
@@ -1238,20 +1290,20 @@ int FloatToUnsignedInt(float16_t fl){
 
 // Return the signed integer rounded approximation of a float
 signedint_t FloatToInt(float16_t fl){
-    var tmpF = fl.fraction + 0b10000000000
+    int tmpF = fl.fraction + 0b10000000000;
     // tmpF = TruncateTrailingZeros(tmpF)
 
-    var tmpE = fl.exponent - 15
+    int tmpE = fl.exponent - 15;
 
-    var si = fl.sign
+    int si = fl.sign;
 
     // int out = tmpF >> get_shift_amnt(tmpF, tmpE)
 
-    var ouval = deNormalizeFraction(tmpF, tmpE) // Int version
+    int ouval = deNormalizeFraction(tmpF, tmpE); // Int version
 
     signedint_t out = { s:si, val:ouval }; // Add correct sign
 
-    return out
+    return out;
 }
 
 bool Comparesignedint_ts(signedint_t a, signedint_t b, int comp){
@@ -1401,33 +1453,33 @@ bool CompareFloats(float16_t a, float16_t b, int comp){
 // Return the integer rounded approximation of a float
 float16_t IntToFloat(signedint_t x){
     // Find the exponent, by shifting left until the largest digit is reached
-    var count = 1
-    var tmp = x.val
-    var mask = 1
-    for (var i = 0; i < 16; i++){
+    int count = 1;
+    int tmp = x.val;
+    int mask = 1;
+    for (int i = 0; i < 16; i++){
         // If the first digit is 1, then stop shifting because we have the count
         if((tmp & 0b1000000000000000) == 0b1000000000000000)
-            break
+            break;
         // Otherwise shift again
-        tmp = tmp << 1
-        count += 1
+        tmp = tmp << 1;
+        count += 1;
     }
     // Get exponent from count, then add offset of 15 for float format
-    var exp = (15-count)+15
+    int exp = (15-count)+15;
 
-    var mant = x.val
+    int mant = x.val;
     // If the mantissa is >= 10 bits long already, only use first 10
     if(mant > 0b11111111111){
-        mant = mant >> ((16-count)-11)
+        mant = mant >> ((16-count)-11);
     }
     else if(mant < 0b10000000000){
-        mant = mant << (11-(16-count))
+        mant = mant << (11-(16-count));
     }
 
     float16_t outFloat = normalizeFloat(mant, exp);
-    outFloat.sign = x.s
+    outFloat.sign = x.s;
 
-    return outFloat
+    return outFloat;
 }
 
 float16_t AddFloats(float16_t floatA, float16_t floatB){
@@ -1731,415 +1783,6 @@ float16_t DivFloats (float16_t a, float16_t b)
 }
 
 
-// /////////////////////////
-// // These are the tests //
-// /////////////////////////
-
-// ChangeHighlightColor(0, 0, 200)
-// write('f')
-// write('l')
-// write('o')
-// write('a')
-// write('t')
-// write(' ')
-// write('t')
-// write('e')
-// write('s')
-// write('t')
-// write('s')
-// write(':')
-// newline()
-
-// // // herethisis:
-// // var valu = 0b1000000001
-// // newline()
-// // write_binary(valu)
-// // valu = valu^0b1100000001
-// // newline()
-// // write_binary(valu)
-// // // goto herethisis
-
-
-// // float16_t f16 = { sign : 1, exponent : 5, fraction : 10 };
-// // write_int(f16.exponent)
-// signedint_t correctVal = {s:0, val:0};
-// signedint_t val = {s:0, val:0};
-// // write_signed_int(RetSame(val))
-
-// // t1: Float to int 1022
-// correctVal = {s:0, val:1022};
-// ChangeHighlightColor(0, 128, 128)
-// write('t')
-// write('1')
-// write(' ')
-// float16_t inValue = IntToFloat(correctVal);
-// val = FloatToInt(inValue)
-// // newline()
-// // write_float(inValue)
-// if(WithinRange(correctVal, val, 10) == false)
-//     ChangeHighlightColor(230, 0, 0)
-// else
-//     ChangeHighlightColor(0, 230, 0)
-// write_signed_int(val)
-// write(' ')
-// ChangeHighlightColor(128, 128, 0)
-// write_signed_int(correctVal)
-// ChangeHighlightColor(0, 128, 128)
-// newline()
-
-// // t2: Float to int 2751
-// correctVal = {s:0, val:2751};
-// ChangeHighlightColor(0, 128, 128)
-// write('t')
-// write('2')
-// write(' ')
-// float16_t inValue = IntToFloat(correctVal);
-// val = FloatToInt(inValue)
-// // newline()
-// // write_float(inValue)
-// if(WithinRange(correctVal, val, 10) == false)
-//     ChangeHighlightColor(230, 0, 0)
-// else
-//     ChangeHighlightColor(0, 230, 0)
-// write_signed_int(val)
-// write(' ')
-// ChangeHighlightColor(128, 128, 0)
-// write_signed_int(correctVal)
-// ChangeHighlightColor(0, 128, 128)
-// newline()
-// // write_binary(val) // Binary should be: 0000000010100000
-
-// // // t2: Add floats 160 + 160 = 320
-// // correctVal = 320
-// // ChangeHighlightColor(0, 128, 128)
-// // write('t')
-// // write('2')
-// // write(' ')
-// // float16_t t2a = { sign : 0, exponent : 0b10110, fraction : 0b0100000000 };
-// // float16_t t2b = { sign : 0, exponent : 0b10110, fraction : 0b0100000000 };
-// // val = AddFloats(t2a, t2b)
-// // if(WithinRange(correctVal, val, 10) == false)
-// //     ChangeHighlightColor(230, 0, 0)
-// // else
-// //     ChangeHighlightColor(0, 230, 0)
-// // write_int(val)
-// // write(' ')
-// // ChangeHighlightColor(128, 128, 0)
-// // write_int(correctVal)
-// // ChangeHighlightColor(0, 128, 128)
-// // newline()
-// // newline()
-
-// // t3: Add floats 150 + 500 = 650
-// signedint_t AVal = {s:0, val:150};
-// signedint_t BVal = {s:0, val:500};
-// correctVal = {s:0, val:(AVal.val+BVal.val)};
-// ChangeHighlightColor(0, 128, 128)
-// write('t')
-// write('3')
-// write(' ')
-// float16_t inValueA = IntToFloat(AVal);
-// write_signed_int(FloatToInt(inValueA))
-// float16_t inValueB = IntToFloat(BVal);
-// write('+')
-// write_signed_int(FloatToInt(inValueB))
-// val = FloatToInt(AddFloats(inValueA, inValueB))
-// if(WithinRange(correctVal, val, 10) == false)
-//     ChangeHighlightColor(230, 0, 0)
-// else
-//     ChangeHighlightColor(0, 230, 0)
-// write('=')
-// write_signed_int(val)
-// write(' ')
-// ChangeHighlightColor(128, 128, 0)
-// write_signed_int(correctVal)
-// ChangeHighlightColor(0, 128, 128)
-
-// // t4: Add floats 700 + 140 = 840
-// signedint_t AVal = {s:0, val:700};
-// signedint_t BVal = {s:0, val:140};
-// correctVal = {s:0, val:(AVal.val + BVal.val)};
-// ChangeHighlightColor(0, 128, 128)
-// write('t')
-// write('4')
-// write(' ')
-// float16_t inValueA = IntToFloat(AVal);
-// write_signed_int(FloatToInt(inValueA))
-// float16_t inValueB = IntToFloat(BVal);
-// write('+')
-// write_signed_int(FloatToInt(inValueB))
-// val = FloatToInt(AddFloats(inValueA, inValueB))
-// if(WithinRange(correctVal, val, 10) == false)
-//     ChangeHighlightColor(230, 0, 0)
-// else
-//     ChangeHighlightColor(0, 230, 0)
-// write('=')
-// write_signed_int(val)
-// write(' ')
-// ChangeHighlightColor(128, 128, 0)
-// write_signed_int(correctVal)
-// ChangeHighlightColor(0, 128, 128)
-
-// // t5: Add floats 3000 + -7000 = -4000
-// signedint_t AVal = {s:0, val:3000};
-// signedint_t BVal = {s:1, val:7000};
-// correctVal = {s:0, val:(AVal.val - BVal.val)};
-// ChangeHighlightColor(0, 128, 128)
-// write('t')
-// write('5')
-// write(' ')
-// float16_t inValueA = IntToFloat(AVal);
-// write_signed_int(FloatToInt(inValueA))
-// float16_t inValueB = IntToFloat(BVal);
-// write('+')
-// write_signed_int(FloatToInt(inValueB))
-// val = FloatToInt(AddFloats(inValueA, inValueB))
-// if(WithinRange(correctVal, val, 10) == false)
-//     ChangeHighlightColor(230, 0, 0)
-// else
-//     ChangeHighlightColor(0, 230, 0)
-// write('=')
-// write_signed_int(val)
-// write(' ')
-// ChangeHighlightColor(128, 128, 0)
-// write_signed_int(correctVal)
-// ChangeHighlightColor(0, 128, 128)
-// newline()
-
-// // t6: Multiply floats 50 * 4 = 200
-// signedint_t AVal = {s:0, val:50};
-// signedint_t BVal = {s:0, val:4};
-// correctVal = {s:0, val:(AVal.val*BVal.val)};
-// write('t')
-// write('6')
-// write(' ')
-// float16_t inValueA = IntToFloat(AVal);
-// float16_t inValueB = IntToFloat(BVal);
-// val = FloatToInt(MultFloats(inValueA, inValueB))
-// if(WithinRange(correctVal, val, 10) == false)
-//     ChangeHighlightColor(230, 0, 0)
-// else
-//     ChangeHighlightColor(0, 230, 0)
-// write_signed_int(val)
-// write(' ')
-// ChangeHighlightColor(128, 128, 0)
-// write_signed_int(correctVal)
-// ChangeHighlightColor(0, 128, 128)
-// newline()
-
-// // t7: Multiply floats 17 * 0.5 = 8.5
-// signedint_t AVal = {s:0, val:17};
-// correctVal = {s:0, val:(AVal.val/2)};
-// write('t')
-// write('7')
-// write(' ')
-// float16_t inValueA = IntToFloat(AVal);
-// float16_t inValueB = { sign : 0, exponent : 0b01110, fraction : 0 };
-// val = FloatToInt(MultFloats(inValueA, inValueB))
-// if(WithinRange(correctVal, val, 10) == false)
-//     ChangeHighlightColor(230, 0, 0)
-// else
-//     ChangeHighlightColor(0, 230, 0)
-// write_signed_int(val)
-// write(' ')
-// ChangeHighlightColor(128, 128, 0)
-// write_signed_int(correctVal)
-// ChangeHighlightColor(0, 128, 128)
-// newline()
-
-// // t8: Subtract floats 140 - 37 = 107
-// signedint_t AVal = {s:0, val:140};
-// signedint_t BVal = {s:0, val:37};
-// correctVal = {s:0, val:(AVal.val-BVal.val)};
-// write('t')
-// write('8')
-// write(' ')
-// float16_t inValueA = IntToFloat(AVal);
-// float16_t inValueB = IntToFloat(BVal);
-// val = FloatToInt(SubFloats(inValueA, inValueB))
-// if(WithinRange(correctVal, val, 10) == false)
-//     ChangeHighlightColor(230, 0, 0)
-// else
-//     ChangeHighlightColor(0, 230, 0)
-// write_signed_int(val)
-// write(' ')
-// ChangeHighlightColor(128, 128, 0)
-// write_signed_int(correctVal)
-// ChangeHighlightColor(0, 128, 128)
-// newline()
-// // write_binary(val)
-// // newline()
-
-// // t9: Divide floats 70 / 24 = 80
-// signedint_t AVal = {s:0, val:70};
-// // signedint_t BVal = {s:0, val:3};
-// correctVal = {s:0, val:116};
-// write('t')
-// write('9')
-// write(' ')
-// float16_t inValueA = IntToFloat(AVal);
-// float16_t inValueB = {sign:0, fraction:0b0011001100, exponent:0b01110};
-// val = FloatToInt(DivFloats(inValueA, inValueB))
-// if(WithinRange(correctVal, val, 10) == false)
-//     ChangeHighlightColor(230, 0, 0)
-// else
-//     ChangeHighlightColor(0, 230, 0)
-// write_signed_int(val)
-// write(' ')
-// ChangeHighlightColor(128, 128, 0)
-// write_signed_int(correctVal)
-// ChangeHighlightColor(0, 128, 128)
-// newline()
-
-
-// // tx: Divide floats 10 / 2 = 5
-// signedint_t AVal = {s:0, val:10};
-// signedint_t BVal = {s:0, val:2};
-// correctVal = {s:0, val:(AVal.val/BVal.val)};
-// write('t')
-// write('x')
-// write(' ')
-// float16_t inValueA = IntToFloat(AVal);
-// float16_t inValueB = IntToFloat(BVal);
-// val = FloatToInt(DivFloats(inValueA, inValueB))
-// if(WithinRange(correctVal, val, 10) == false)
-//     ChangeHighlightColor(230, 0, 0)
-// else
-//     ChangeHighlightColor(0, 230, 0)
-// write_signed_int(val)
-// write(' ')
-// ChangeHighlightColor(128, 128, 0)
-// write_signed_int(correctVal)
-// ChangeHighlightColor(0, 128, 128)
-// newline()
-
-// // t5: Float to int 1.7
-// write('t')
-// write('5')
-// write(' ')
-// float16_t t5 = { sign : 0, exponent : 0b01111, fraction : 0b1011001100 };
-// val = FloatToInt(t5)
-// write_int(val)
-// newline()
-// newline()
-
-// // t6: Int to Float to int 0 through 10000
-// write('t')
-// write('6')
-// write(' ')
-// // Iterate through all values 0 through 10000, and count the number of incorrect
-// var numWrong = 0
-// var startWrong = 0
-// var endWrong = 0
-// for (var i = 0; i < 10000; i++){
-//     correctVal = i
-//     float16_t t6 = IntToFloat(correctVal);
-//     // t6 = normalizeFloat(t6.fraction, t6.exponent)
-//     // float16_t t6 = { sign : 0, exponent : 0b10100, fraction : 0b0010000000 };
-//     val = FloatToInt(t6)
-//     if(WithinRange(correctVal, val, 10) == false){
-//         numWrong += 1
-//         if(startWrong==0)
-//             startWrong = i
-
-//         endWrong = i
-//         // write_int(i)
-//         // break
-//     }
-// }
-// write(' ')
-// write('w')
-// write('r')
-// write('o')
-// write('n')
-// write('g')
-// write(':')
-// write(' ')
-// ChangeHighlightColor(128, 0, 128)
-// if(numWrong > 0)
-//     write_int(numWrong)
-// else{
-//     ChangeHighlightColor(0, 230, 0)
-//     write('n')
-//     write('o')
-//     write('n')
-//     write('e')
-// }
-// newline()
-// ChangeHighlightColor(0, 128, 128)
-// write('s')
-// write('t')
-// write('a')
-// write(':')
-// write(' ')
-// write_int(startWrong)
-// newline()
-// write('e')
-// write('n')
-// write('d')
-// write(':')
-// write(' ')
-// write_int(endWrong)
-// newline()
-
-
-//cout << DecimalToBinaryString(val) << ' : ' << val << endl
-
-//    cout << 'Float To Int: 13.78' <<endl;
-//    val = FloatToInt(0, 0b10010, 0b1011100011);
-//    cout << DecimalToBinaryString(val) << ' : ' << val << endl;
-//    cout<<endl;
-
-//    cout << 'Float To Int: 2100' <<endl;
-//    val = FloatToInt(0, 0b11010, 0b0000011010);
-//    cout << DecimalToBinaryString(val) << ' : ' << val << endl;
-//    cout<<endl;
-
-//    cout << 'Float To Int: 3.141' <<endl;
-//    val = FloatToInt(0, 0b10000, 0b1001001000);
-//    cout << DecimalToBinaryString(val) << ' : ' << val << endl;
-//    cout<<endl;
-
-//    cout << 'Add floats: 3.141 + 20 = 23.141' <<endl;
-//    val = AddFloats(0, 0b10000, 0b1001001000, 0, 0b10011, 0b0100000000);
-//    cout << DecimalToBinaryString(val) << ' : ' << val << endl;
-//    cout<<endl;
-
-//    cout << 'Add floats: 281 + 425.5 = 706.5' <<endl;
-//    val = AddFloats(0, 0b10111, 0b0001100100, 0, 0b10111, 0b1010100110);
-//    cout << DecimalToBinaryString(val) << ' : ' << val << endl;
-//    cout<<endl;
-
-//    cout << 'Sub floats: 800 - 425.5 = 374.5' <<endl;
-//    val = SubFloats(0, 0b11000, 0b1001000000, 0, 0b10111, 0b1010100110);
-//    cout << DecimalToBinaryString(val) << ' : ' << val << endl;
-//    cout<<endl;
-
-//    cout << 'Mult floats: 15 * 3.5 = 52.5' <<endl;
-//    val = MultFloats(0, 0b10010, 0b1110000000, 0, 0b10000, 0b1100000000);
-//    cout << DecimalToBinaryString(val) << ' : ' << val << endl;
-//    cout<<endl;
-
-//    cout << 'Mult floats: 300 * 3.5 = 1050' <<endl;
-//    val = MultFloats(0, 0b10111, 0b0010110000, 0, 0b10000, 0b1100000000);
-//    cout << DecimalToBinaryString(val) << ' : ' << val << endl;
-//    cout<<endl;
-
-//    cout << 'Mult floats: 300 * 0.5 = 150' <<endl;
-//    val = MultFloats(0, 0b10111, 0b0010110000, 0, 0b01110, 0b0000000000);
-//    cout << DecimalToBinaryString(val) << ' : ' << val << endl;
-//    cout<<endl;
-
-//    cout << 'Mult floats: 0.5 * 0.5 = 0.25' <<endl;
-//    val = MultFloats(0, 0b01110, 0b0000000000, 0, 0b01110, 0b0000000000);
-//    cout << DecimalToBinaryString(val) << ' : ' << val << endl;
-//    cout<<endl;
-
-// while (true) {
-
-// }
-
-
 struct float16_t {
     int sign : 1
     int exponent : 5
@@ -2210,12 +1853,49 @@ signedint_t operator +(int a, signedint_t b) {
     return Addsignedint_ts(a, b)
 }
 
+int operator <<(signedint_t a, int b) {
+    return a.val<<b;
+}
+
 signedint_t operator -(signedint_t a, signedint_t b) {
     return Subsignedint_ts(a, b)
 }
 
 signedint_t operator |(signedint_t a, int b) {
     return { val: a.val | b, s: a.s | (b>>15) }
+}
+
+signedint_t operator |(int b, signedint_t a) {
+    return { val: a.val | b, s: a.s | (b>>15) }
+}
+
+
+float16_t operator +(float16_t a, float16_t b) {
+    return AddFloats(a, b);
+}
+
+float16_t operator -(float16_t a, float16_t b) {
+    return SubFloats(a, b);
+}
+
+float16_t operator *(float16_t a, float16_t b) {
+    return MultFloats(a, b);
+}
+
+float16_t operator /(float16_t a, float16_t b) {
+    return DivFloats(a, b);
+}
+
+bool operator >(float16_t a, float16_t b) {
+    return CompareFloats(a, b, '>');
+}
+
+bool operator <(float16_t a, float16_t b) {
+    return CompareFloats(a, b, '<');
+}
+
+bool operator ==(float16_t a, float16_t b) {
+    return CompareFloats(a, b, '=');
 }
 
 Point operator |(Point a, int b) {
