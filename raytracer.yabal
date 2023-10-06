@@ -571,31 +571,31 @@ vec3 SendRay(vec3 startLocation, vec3 directionVec){
 signedint_t _StartRayPosX;
 signedint_t _StartRayPosY;
 signedint_t _StartRayPosZ;
-float16_t _RayDirectionX;
-float16_t _RayDirectionY;
-float16_t _RayDirectionZ = IntToFloat(1);
-float16_t _RayPosX;
-float16_t _RayPosY;
-float16_t _RayPosZ;
+signedint_t _RayDirectionX;
+signedint_t _RayDirectionY;
+signedint_t _RayDirectionZ = 1;
+signedint_t _RayPosX;
+signedint_t _RayPosY;
+signedint_t _RayPosZ;
 int _RayRGB;
 
-int maxBounces = 1;
+int maxBounces = 2;
 int maxMoveDist = 100;
 
 void SendRay(){
-    _RayPosX = IntToFloat(_StartRayPosX);
-    _RayPosY = IntToFloat(_StartRayPosY);
-    _RayPosZ = IntToFloat(1);
-    _RayDirectionX = IntToFloat(0);
-    _RayDirectionY = IntToFloat(0);
-    _RayDirectionZ = IntToFloat(1);
+    _RayPosX = _StartRayPosX;
+    _RayPosY = _StartRayPosY;
+    _RayPosZ = 1;
+    _RayDirectionX = 0;
+    _RayDirectionY = 0;
+    _RayDirectionZ = 1;
     _RayRGB = 0;
     for(int iteration = 0; iteration < maxBounces; iteration++){ // Bounce multiple times
         for(int z = 0; z < maxMoveDist; z++){ // Move 20 units in directionVec
             //currentLocation += directionVec;
-            _RayPosX = _RayPosX + _RayDirectionX;
-            _RayPosY = _RayPosY + _RayDirectionY;
-            _RayPosZ = _RayPosZ + _RayDirectionZ;
+            _RayPosX += _RayDirectionX;
+            _RayPosY += _RayDirectionY;
+            _RayPosZ += _RayDirectionZ;
             // // Check if ray is under plane, if so draw floor
             // if(currentLocation.y<=0.0){
             //     vec3 normal = normalize(vec3(0, 1, 0));
@@ -628,50 +628,46 @@ void SendRay(){
             //     break;
             // }
             // else
-            bool didHit = false;
                 for(int sh = 0; sh <3; sh++){
                     signedint_t spherePosX = ((int)spheres[sh]) & 0b11111111;
                     signedint_t spherePosY = (((int)spheres[sh]) & 0b1111111100000000) >> 8;
                     signedint_t spherePosZ = spherePosZ[sh];
                     SphereInfo sphereInfo = sphereInfos[sh];
-                    int iRPosX = FloatToInt(_RayPosX);
-                    int iRPosY = FloatToInt(_RayPosY);
-                    int iRPosZ = FloatToInt(_RayPosZ);
-                    int dist = distance(iRPosX, iRPosY, iRPosZ, spherePosX, spherePosY, spherePosZ);
+                    int dist = distance(_RayPosX, _RayPosY, _RayPosZ, spherePosX, spherePosY, spherePosZ);
                     // //float lightDist = distance(currentLocation, light.position);
                     if(dist < sphereInfo.radius){
-                        // float16_t normalX = (_RayPosX - IntToFloat(spherePosX)) / IntToFloat(sphereInfo.radius);
-                        // float16_t normalY = (_RayPosY - IntToFloat(spherePosY)) / IntToFloat(sphereInfo.radius);
-                        // float16_t normalZ = (_RayPosZ - IntToFloat(spherePosZ)) / IntToFloat(sphereInfo.radius);
-                        // int normalXScaled = FloatToInt(normalX * IntToFloat(255));
-                        // int normalYScaled = FloatToInt(normalY * IntToFloat(255));
-                        // int normalZScaled = FloatToInt(normalZ * IntToFloat(255));
+                        float16_t normalX = (IntToFloat(_RayPosX) - IntToFloat(spherePosX)) / IntToFloat(sphereInfo.radius);
+                        float16_t normalY = (IntToFloat(_RayPosY) - IntToFloat(spherePosY)) / IntToFloat(sphereInfo.radius);
+                        float16_t normalZ = (IntToFloat(_RayPosZ) - IntToFloat(spherePosZ)) / IntToFloat(sphereInfo.radius);
+                        int normalXScaled = normalX * IntToFloat(255);
+                        int normalYScaled = normalY * IntToFloat(255);
+                        int normalZScaled = normalZ * IntToFloat(255);
                         
-                        // int magnitude = magnitude(normalXScaled, normalYScaled, normalZScaled);
+                        int magnitude = magnitude(normalXScaled, normalYScaled, normalZScaled);
 
-                        // normalX = normalX / (IntToFloat(magnitude) / IntToFloat(255));
-                        // normalY = normalY / (IntToFloat(magnitude) / IntToFloat(255));
-                        // normalZ = normalZ / (IntToFloat(magnitude) / IntToFloat(255));
+                        normalX = normalX / (IntToFloat(magnitude) / IntToFloat(255));
+                        normalY = normalY / (IntToFloat(magnitude) / IntToFloat(255));
+                        normalZ = normalZ / (IntToFloat(magnitude) / IntToFloat(255));
 
-                        // float16_t dot = ((_RayDirectionX * normalX) + (_RayDirectionY * normalY) + (_RayDirectionZ * normalZ)) * IntToFloat(2);
+                        float16_t dot = ((IntToFloat(_RayDirectionX) * normalX) + (IntToFloat(_RayDirectionY) * normalY) + (IntToFloat(_RayDirectionZ) * normalZ)) * IntToFloat(2);
 
-                        // float16_t cNormX = normalX * dot;
-                        // float16_t cNormY = normalY * dot;
-                        // float16_t cNormZ = normalZ * dot;
+                        float16_t cNormX = normalX * dot;
+                        float16_t cNormY = normalY * dot;
+                        float16_t cNormZ = normalZ * dot;
 
-                        // _RayDirectionX = FloatToInt(cNormX - _RayDirectionX);
-                        // _RayDirectionY = FloatToInt(cNormY - _RayDirectionY);
-                        // _RayDirectionZ = FloatToInt(cNormZ - _RayDirectionZ);
-                        // int RayDirectionXScaled = FloatToInt(_RayDirectionX * IntToFloat(255));
-                        // int RayDirectionYScaled = FloatToInt(_RayDirectionY * IntToFloat(255));
-                        // int RayDirectionZScaled = FloatToInt(_RayDirectionZ * IntToFloat(255));
+                        _RayDirectionX = FloatToInt(cNormX - IntToFloat(_RayDirectionX));
+                        _RayDirectionY = FloatToInt(cNormY - IntToFloat(_RayDirectionY));
+                        _RayDirectionZ = FloatToInt(cNormZ - IntToFloat(_RayDirectionZ));
+                        int RayDirectionXScaled = _RayDirectionX * 255;
+                        int RayDirectionYScaled = _RayDirectionY * 255;
+                        int RayDirectionZScaled = _RayDirectionZ * 255;
                         
-                        // int mag = magnitude(FloatToInt(RayDirectionXScaled), FloatToInt(RayDirectionYScaled), FloatToInt(RayDirectionZScaled));
+                        magnitude = magnitude(RayDirectionXScaled, RayDirectionYScaled, RayDirectionZScaled);
 
 
-                        // _RayDirectionX = _RayDirectionX / (IntToFloat(mag) / IntToFloat(255));
-                        // _RayDirectionY = _RayDirectionY / (IntToFloat(mag) / IntToFloat(255));
-                        // _RayDirectionZ = _RayDirectionZ / (IntToFloat(mag) / IntToFloat(255));
+                        _RayDirectionX = FloatToInt(IntToFloat(_RayDirectionX) / (IntToFloat(magnitude) / IntToFloat(255)));
+                        _RayDirectionY = FloatToInt(IntToFloat(_RayDirectionY) / (IntToFloat(magnitude) / IntToFloat(255)));
+                        _RayDirectionZ = FloatToInt(IntToFloat(_RayDirectionZ) / (IntToFloat(magnitude) / IntToFloat(255)));
 
                         // dot = ((IntToFloat(NegativeSigned(1)) * normalX) + (IntToFloat(1) * normalY) + (IntToFloat(5) * normalZ));
                         // float16_t shadow = (IntToFloat(1) - dot) * IntToFloat(2);
@@ -693,17 +689,16 @@ void SendRay(){
                         // z = maxMoveDist;
                         // directionVec = newDir;
                         //_RayRGB = (FloatToInt(normalX*IntToFloat(255))<<10) | (FloatToInt(normalX*IntToFloat(255))<<5) | FloatToInt(normalZ*IntToFloat(255));
-                        //signedint_t col = ((((sphereInfo.color>>5)&0b111)/(iteration+1))<<5)|((((sphereInfo.color>>2)&0b111)/(iteration+1))<<2)|((sphereInfo.color&0b11)/(iteration+1));
+                        signedint_t col = ((((sphereInfo.color>>5)&0b111)/(iteration+1))<<5)|((((sphereInfo.color>>2)&0b111)/(iteration+1))<<2)|((sphereInfo.color&0b11)/(iteration+1));
                         
                         // if(shadow < IntToFloat(1)){
                         //     col = 0b00100101;
                         // }
                         
-                        //_RayRGB = _RayRGB + col;
+                        _RayRGB = _RayRGB + col;
 
-                        _RayRGB = sphereInfo.color;
+                        // _RayRGB = sphereInfo.color / (z / 8);
                         z = maxMoveDist;
-                        didHit = true;
                         //z = 0;
                         break;
                     }
@@ -711,9 +706,6 @@ void SendRay(){
                     //     _RayRGB = 0;
                     //     //z = maxMoveDist;
                     // }
-                }
-                if(didHit == false){
-                    iteration = maxBounces;
                 }
         }
         // // If this is the final bounce, calculate angle difference between ray and light
@@ -1192,11 +1184,11 @@ float16_t normalizeFloat(int fraction, int exponent){
 }
 
 int deNormalizeFraction(int f, int exp){
-    bool sn = ((10-exp)>60000);
-    int vl = 10-exp;
+    bool sn = (10-exp>60000)
+    var vl = 10-exp
     // signedint_t powNum = { s : 0, val : 0 };
     if (sn){
-        vl = 65535-(10-exp);
+        vl = 65535-(10-exp)
         // powNum.s = 1
     }
     // powNum.val = vl
@@ -1205,10 +1197,12 @@ int deNormalizeFraction(int f, int exp){
     // return (f * pow(2, powNum))
     // If negative
     if(sn == 1){
-        return f<<vl;
+        return f<<vl
     }
     // Otherwise shift normal way
-    return f>>vl;
+    else{
+        return f>>vl
+    }
 }
 
 // ~PC 3300
@@ -1290,20 +1284,20 @@ int FloatToUnsignedInt(float16_t fl){
 
 // Return the signed integer rounded approximation of a float
 signedint_t FloatToInt(float16_t fl){
-    int tmpF = fl.fraction + 0b10000000000;
+    var tmpF = fl.fraction + 0b10000000000
     // tmpF = TruncateTrailingZeros(tmpF)
 
-    int tmpE = fl.exponent - 15;
+    var tmpE = fl.exponent - 15
 
-    int si = fl.sign;
+    var si = fl.sign
 
     // int out = tmpF >> get_shift_amnt(tmpF, tmpE)
 
-    int ouval = deNormalizeFraction(tmpF, tmpE); // Int version
+    var ouval = deNormalizeFraction(tmpF, tmpE) // Int version
 
     signedint_t out = { s:si, val:ouval }; // Add correct sign
 
-    return out;
+    return out
 }
 
 bool Comparesignedint_ts(signedint_t a, signedint_t b, int comp){
