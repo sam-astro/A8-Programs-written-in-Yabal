@@ -603,7 +603,7 @@ void processCommand(){
             int i = 5;
             // Request file data
             while(userBuffer[i] != 0){
-                write(userBuffer[i]);
+                //write(userBuffer[i]);
                 expansionPorts[5] = (0b1101000000000000 | userBuffer[i]);
                 i++;
                 while(expansionPorts[5] != 0)
@@ -614,7 +614,12 @@ void processCommand(){
             // Get file data
             while(expansionPorts[5] != 4095){
                 if(expansionPorts[5] != 0){
-                    write(expansionPorts[5]&255);
+                    if((expansionPorts[5] & 255) == 85){
+                        newline();
+                    }
+                    else if((expansionPorts[5] & 255) <= 86 && (expansionPorts[5] & 255) >= 0){
+                        write(expansionPorts[5]&255);
+                    }
                     // write(',');
                     if(expansionPorts[5] != 4095)
                         expansionPorts[5] = 0;
