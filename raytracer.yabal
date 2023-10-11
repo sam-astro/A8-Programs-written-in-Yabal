@@ -1168,36 +1168,36 @@ while (true) {
     // Move spheres
 
     // Blue Sphere
+    int spherePosX = ((int)spheres[2]) & 0b11111111;
+    int spherePosY = (((int)spheres[2]) & 0b1111111100000000) >> 8;
     if((spherePosY >= 107-blueRadius) || (spherePosY <= blueRadius)){
         blueVelY = Negative(blueVelY);
     }
     if((spherePosX >= 107-blueRadius) || (spherePosX <= blueRadius)){
         blueVelX = Negative(blueVelX);
     }
-    int spherePosX = ((int)spheres[2]) & 0b11111111;
-    int spherePosY = (((int)spheres[2]) & 0b1111111100000000) >> 8;
     spherePosX += blueVelX;
     spherePosY += blueVelY;
     spheres[2] = (spherePosX | (spherePosY<<8));
 
     // Red Sphere
+    spherePosX = ((int)spheres[1]) & 0b11111111;
+    spherePosY = (((int)spheres[1]) & 0b1111111100000000) >> 8;
     if((spherePosY >= 107-redRadius) || (spherePosY <= redRadius)){
         redVelY = Negative(redVelY);
     }
     if((spherePosX >= 107-redRadius) || (spherePosX <= redRadius)){
         redVelX = Negative(redVelX);
     }
-    spherePosX = ((int)spheres[1]) & 0b11111111;
-    spherePosY = (((int)spheres[1]) & 0b1111111100000000) >> 8;
     spherePosX += redVelX;
     spherePosY += redVelY;
     spheres[1] = (spherePosX | (spherePosY<<8));
 
     // Green Sphere
+    int spherePositionZ = ((int)spherePosZ[0]) & 0b11111111;
     if((spherePositionZ >= 150) || (spherePositionZ <= 30)){
         greenVelZ = Negative(greenVelZ);
     }
-    int spherePositionZ = ((int)spherePosZ[0]) & 0b11111111;
     spherePositionZ += greenVelZ;
     spherePosZ[0] = spherePositionZ;
 
