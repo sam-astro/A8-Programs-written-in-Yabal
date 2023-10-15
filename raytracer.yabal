@@ -585,28 +585,34 @@ signedint_t _RayPosZ;
 signedint_t _RayPosXScaled;
 signedint_t _RayPosYScaled;
 signedint_t _RayPosZScaled;
+signedint_t dot;
+signedint_t cNormX;
+signedint_t cNormY;
+signedint_t cNormZ;
 int _RayRGB;
 
-int maxBounces = 3;
-int maxMoveDist = 150;
+int maxBounces = 2;
+int maxMoveDist = 216;
 
+float16_t scaler2 = IntToFloat(31);
+float16_t scaler3 = IntToFloat(3);
 void SendRay(){
-    _RayPosX = _StartRayPosX*31;
-    _RayPosY = _StartRayPosY*31;
-    _RayPosZ = 31;
-    _RayPosXScaled = _RayPosX/31;
-    _RayPosYScaled = _RayPosY/31;
-    _RayPosZScaled = _RayPosZ/31;
-    _RayDirectionX = (_StartRayPosX-54)/8;
-    _RayDirectionY = (_StartRayPosY-54)/8;
+    _RayPosX = _StartRayPosX*128;
+    _RayPosY = _StartRayPosY*128;
+    _RayPosZ = 128;
+    _RayPosXScaled = _RayPosX/128;
+    _RayPosYScaled = _RayPosY/128;
+    _RayPosZScaled = _RayPosZ/128;
+    _RayDirectionX = (_StartRayPosX-54)/4*2;
+    _RayDirectionY = (_StartRayPosY-54)/4*2;
     // _RayDirectionY = SubTosignedint_t(0, 1);
-    _RayDirectionZ = 31;
+    _RayDirectionZ = 31*2;
     _RayRGB = 0;
     int _RayR = 0;
     int _RayG = 0;
     int _RayB = 0;
-    int lightDirX = SubTosignedint_t(0, 32);
-    int lightDirY = SubTosignedint_t(0, 32);
+    int lightDirX = 0b1000000000100000; // -32
+    int lightDirY = 0b1000000000100000; // -32
     int lightDirZ = 32;
     int lastCollide = 1000;
     int albedo = 1;
@@ -620,9 +626,9 @@ void SendRay(){
             _RayPosX = _RayPosX + _RayDirectionX;
             _RayPosY = _RayPosY + _RayDirectionY;
             _RayPosZ = _RayPosZ + _RayDirectionZ;
-            _RayPosXScaled = _RayPosX/31;
-            _RayPosYScaled = _RayPosY/31;
-            _RayPosZScaled = _RayPosZ/31;
+            _RayPosXScaled = _RayPosX/128;
+            _RayPosYScaled = _RayPosY/128;
+            _RayPosZScaled = _RayPosZ/128;
             bool collided = false;
 
             // if(albedo == 999){
@@ -687,26 +693,7 @@ void SendRay(){
                 collided = true;
                 albedo = 1;
                 z = maxMoveDist;
-                break;
-            }
-
-            // End of range
-            else if(_RayPosZScaled >= maxMoveDist-5){
-                int col = get_color(0, 0, 0);
-                if(iteration == 0){
-                    _RayR = (((col >> 10) & 0b11111));
-                    _RayG = (((col >> 5) & 0b11111));
-                    _RayB = ((col & 0b11111));
-                }
-                else{
-                    _RayR = (_RayR*3/4/albedo + (((col >> 10) & 0b11111))/4*albedo);
-                    _RayG = (_RayG*3/4/albedo + (((col >> 5) & 0b11111))/4*albedo);
-                    _RayB = (_RayB*3/4/albedo + ((col & 0b11111))/4*albedo);
-                }
-                albedo = 1;
-                collided = true;
-                z = maxMoveDist;
-                _RayDirectionZ = 0-_RayDirectionZ;
+                iteration = maxBounces;
                 break;
             }
 
@@ -741,38 +728,29 @@ void SendRay(){
                 z = maxMoveDist;
                 break;
             }
-            // // Check if ray is under plane, if so draw floor
-            // if(currentLocation.y<=0.0){
-            //     vec3 normal = normalize(vec3(0, 1, 0));
-            //     vec3 newDir = normalize(reflect(directionVec, normal));
-            //     // Change newDir by random amount, equal to the inverse of reflectivity
-            //     newDir.x *= 1.0+0.2*(rand(currentLocation+newDir*float(iFrame))-0.5);
-            //     newDir.y *= 1.0+0.2*(rand(currentLocation+newDir*float(iFrame))-0.5);
-            //     newDir.z *= 1.0+0.2*(rand(currentLocation+newDir*float(iFrame))-0.5);
-            //     newDir = normalize(newDir);
-            //     // Add a little bit of color based off hit and current iteration
-            //     if((int(currentLocation.z)/50) % 2 == 0 && (int(currentLocation.x)/50) % 2 != 0)
-            //         newColor += (pow(2.0, 0.01*float(-z)))*(1.0-float(iteration)/float(maxBounces))*(1.0-float(z)/float(maxMoveDist));
-            //     else if((int(currentLocation.z)/50) % 2 == 0 || (int(currentLocation.x)/50) % 2 != 0)
-            //         newColor += vec3(0., 0., 1.)*(1.0-float(iteration)/float(maxBounces))*(1.0-float(z)/float(maxMoveDist));
-            //     else
-            //         newColor += (pow(2.0, 0.01*float(-z)))*(1.0-float(iteration)/float(maxBounces))*(1.0-float(z)/float(maxMoveDist));
 
-            //     newColor = normalize(newColor);
-            //     // Bounce and compute next ray
-            //     z = maxMoveDist;
-            //     directionVec = newDir;
-            //     break;
-            // }
-            // // Check if ray is behind camera, if so draw void
-            // else if(currentLocation.z<=-100.0){
-            //     vec3 normal = normalize(vec3(0, 0, 1));
-            //     newColor /= 2.0;
-            //     // Bounce and compute next ray
-            //     z = maxMoveDist;
-            //     break;
-            // }
-            // else
+            // End of range
+            else if(((int)_RayPosZScaled) >= 120){
+                int col = get_color(0, 0, 0);
+                if(iteration == 0){
+                    _RayR = (((col >> 10) & 0b11111));
+                    _RayG = (((col >> 5) & 0b11111));
+                    _RayB = ((col & 0b11111));
+                }
+                else{
+                    _RayR = (_RayR*3/4/albedo + (((col >> 10) & 0b11111))/4*albedo);
+                    _RayG = (_RayG*3/4/albedo + (((col >> 5) & 0b11111))/4*albedo);
+                    _RayB = (_RayB*3/4/albedo + ((col & 0b11111))/4*albedo);
+                }
+                albedo = 1;
+                collided = true;
+                z = maxMoveDist;
+                _RayDirectionZ = 0-_RayDirectionZ;
+                break;
+            }
+
+            // Spheres
+            else{
                 for(int sh = 0; sh <3; sh++){
                     signedint_t spherePosX = ((int)spheres[sh]) & 0b11111111;
                     signedint_t spherePosY = (((int)spheres[sh]) & 0b1111111100000000) >> 8;
@@ -785,8 +763,6 @@ void SendRay(){
                         collided = true;
                         lastCollide = sh;
                         //float16_t scaler = { sign : 0, exponent : 0b00111, fraction : 0b0 };
-                        float16_t scaler2 = IntToFloat(31);
-                        float16_t scaler3 = IntToFloat(3);
                         float16_t normalX = IntToFloat((_RayPosXScaled - spherePosX)*128) / IntToFloat(sphereRadius);
                         float16_t normalY = IntToFloat((_RayPosYScaled - spherePosY)*128) / IntToFloat(sphereRadius);
                         float16_t normalZ = IntToFloat((_RayPosZScaled - spherePosZ)*128) / IntToFloat(sphereRadius);
@@ -829,11 +805,11 @@ void SendRay(){
                         // normalZ = normalZ / (magnitude);
 
                         // num between -32 and 32
-                        signedint_t dot = ((_RayDirectionX * normalXScaled/4) + (_RayDirectionY * normalYScaled/4) + (_RayDirectionZ * normalZScaled/4));
+                        dot = ((_RayDirectionX * normalXScaled) + (_RayDirectionY * normalYScaled) + (_RayDirectionZ * normalZScaled));
 
-                        signedint_t cNormX = dot/192*normalXScaled/32;
-                        signedint_t cNormY = dot/192*normalYScaled/32;
-                        signedint_t cNormZ = dot/192*normalZScaled/32;
+                        cNormX = dot/192*normalXScaled/32;
+                        cNormY = dot/192*normalYScaled/32;
+                        cNormZ = dot/192*normalZScaled/32;
 
                         _RayDirectionX = (_RayDirectionX-cNormX);
                         _RayDirectionY = (_RayDirectionY-cNormY);
@@ -985,30 +961,12 @@ void SendRay(){
                         break;
                     }
                 }
-                // if(!collided){
-                //     // if(iteration >= 1){
-                //     //     _RayR = (_RayR)/2;
-                //     //     _RayG = (_RayG)/2;
-                //     //     _RayB = (_RayB)/2;
-                //     // }
-                //     // else{
-                //     //     _RayR = 0;
-                //     //     _RayG = 0;
-                //     //     _RayB = 0;
-                //     // }
-                //     iteration = maxBounces;
-                //     lastCollide = 1000;
-                //     z = maxMoveDist;
-                // }
+                if(collided){
+                    z = maxMoveDist;
+                    break;
+                }
+            }
         }
-        // // If this is the final bounce, calculate angle difference between ray and light
-        // if(iteration == maxBounces-1){
-        //     //Sphere light = shapes[6];
-        //     float lightDist = distance(currentLocation, light.position);
-        //     vec3 lightDirectionVec = normalize(currentLocation - light.position);
-        //     float angle = abs(acos(dot(directionVec,lightDirectionVec)/(length(directionVec)*length(lightDirectionVec))));
-        //     newColor *= pow(1.0-angle/6.28, 2.0)*(lightDist/1000.0)*light.brightness;
-        // }
     }
     // No hit, or reached the bounce limit
     //return newColor;
@@ -1016,7 +974,7 @@ void SendRay(){
 }
 
 
-spheres[2] = {x:23, y:54};
+spheres[2] = {x:40, y:60};
 spherePosZ[2] = 20;
 sphereInfos[2] = {color:0b11, radius:20};
 
@@ -1025,7 +983,7 @@ spherePosZ[1] = 10;
 sphereInfos[1] = {color:0b11100000, radius:10};
 
 spheres[0] = {x:33, y:40};
-spherePosZ[0] = 100;
+spherePosZ[0] = 30;
 sphereInfos[0] = {color:0b11100, radius:30};
 
 
@@ -1137,24 +1095,24 @@ bool sphereDir = true;
 // }
 SphereInfo sphereInfo = sphereInfos[2];
 int blueRadius = sphereInfo.radius;
-sphereInfo = sphereInfos[1];
-int redRadius = sphereInfo.radius;
+SphereInfo sphereInfo2 = sphereInfos[1];
+int redRadius = sphereInfo2.radius;
 // int startX = ClampInt((((int)spheres[2]) & 0b11111111) - sphereRadius-4, 0, 107);
 // int endX = ClampInt((((int)spheres[2]) & 0b11111111) + sphereRadius+4, 0, 107);
-int blueVelX = Negative(1);
+int blueVelX = 1;
 int blueVelY = 1;
 int redVelX = Negative(2);
 int redVelY = 2;
 int greenVelZ = 2;
+int spherePosX = 0;
+int spherePosY = 0;
 while (true) {
     // Render the lines only affecting the sphere
-    for(int x = 0; x < 107; x++){
-        for(int y = 0; y < 107; y++){
-            _StartRayPosX = x;
-            _StartRayPosY = y;
+    for(_StartRayPosX = 0; _StartRayPosX < 107; _StartRayPosX++){
+        for(_StartRayPosY = 0; _StartRayPosY < 107; _StartRayPosY++){
             SendRay();
             //SetPixel(x, y, eight_to_fifteen_bit_color(_RayRGB));
-            SetPixel(x, y,_RayRGB);
+            SetPixel(_StartRayPosX, _StartRayPosY,_RayRGB);
         }
         // asm{
         //     VBUF
@@ -1168,34 +1126,54 @@ while (true) {
     // Move spheres
 
     // Blue Sphere
-    int spherePosX = ((int)spheres[2]) & 0b11111111;
-    int spherePosY = (((int)spheres[2]) & 0b1111111100000000) >> 8;
-    if((spherePosY >= 107-blueRadius) || (spherePosY <= blueRadius)){
-        blueVelY = Negative(blueVelY);
+    spherePosX = ((int)spheres[2]) & 0b11111111;
+    spherePosY = (((int)spheres[2]) & 0b1111111100000000) >> 8;
+    if(((spherePosY >= 107-blueRadius) && blueVelY == 1) || ((spherePosY <= blueRadius) && blueVelY != 1)){
+        if(blueVelY == 1){
+            blueVelY = 0;
+        }
+        else {
+            blueVelY = 1;
+        }
     }
-    if((spherePosX >= 107-blueRadius) || (spherePosX <= blueRadius)){
-        blueVelX = Negative(blueVelX);
+    if(((spherePosX >= 107-blueRadius) && blueVelX == 1) || ((spherePosX <= blueRadius) && blueVelX != 1)){
+        if(blueVelX == 1){
+            blueVelX = 0;
+        }
+        else{
+            blueVelX = 1;
+        }
     }
-    spherePosX += blueVelX;
-    spherePosY += blueVelY;
+    if(blueVelX == 1){
+        spherePosX += 1;
+    }
+    else{
+        spherePosX -= 1;
+    }
+    if(blueVelY == 1){
+        spherePosY += 1;
+    }
+    else{
+        spherePosY -= 1;
+    }
     spheres[2] = (spherePosX | (spherePosY<<8));
 
     // Red Sphere
     spherePosX = ((int)spheres[1]) & 0b11111111;
     spherePosY = (((int)spheres[1]) & 0b1111111100000000) >> 8;
-    if((spherePosY >= 107-redRadius) || (spherePosY <= redRadius)){
+    if((spherePosY >= 107-redRadius && redVelY == 2) || (spherePosY <= redRadius && redVelY != 2)){
         redVelY = Negative(redVelY);
     }
-    if((spherePosX >= 107-redRadius) || (spherePosX <= redRadius)){
+    if((spherePosX >= 107-redRadius && redVelX == 2) || (spherePosX <= redRadius && redVelX != 2)){
         redVelX = Negative(redVelX);
     }
-    spherePosX += redVelX;
-    spherePosY += redVelY;
+    spherePosX = (spherePosX + redVelX) & 0b11111111;
+    spherePosY = (spherePosY + redVelY) & 0b11111111;
     spheres[1] = (spherePosX | (spherePosY<<8));
 
     // Green Sphere
     int spherePositionZ = ((int)spherePosZ[0]) & 0b11111111;
-    if((spherePositionZ >= 150) || (spherePositionZ <= 30)){
+    if((spherePositionZ >= 150 && greenVelZ == 2) || (spherePositionZ <= 30 && greenVelZ != 2)){
         greenVelZ = Negative(greenVelZ);
     }
     spherePositionZ += greenVelZ;
@@ -1537,7 +1515,7 @@ int NOT(int x){
 
 // Convert integer to it's negative value in twos complement
 int Negative(int x){
-    return (~x) + 1
+    return ((~x) + 1);
 }
 
 inline int XOR(int a, int b){

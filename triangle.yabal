@@ -13,6 +13,9 @@ const var pointsZ = create_pointer(12000, 1)
 const var RpointsX = create_pointer<signedint_t>(14000, 1)
 const var RpointsY = create_pointer<signedint_t>(15000, 1)
 const var RpointsZ = create_pointer<signedint_t>(16000, 1)
+const var facesX = create_pointer(17000, 1);
+const var facesY = create_pointer(18000, 1);
+const var facesZ = create_pointer(19000, 1);
 
 const var expansionPorts = create_pointer(53500, 1)
 
@@ -309,7 +312,7 @@ void DrawWireCircle(int xCenter, int yCenter, int radius, int color){
 //    return ((A >= sum-100)&&(A <= sum+100))
 // }
 
-var lfsr = 0b1011101011101000;
+var lfsr = 0b1011101011101001;
 int lfsr()
 {
     var bit = 0
@@ -540,32 +543,77 @@ void RotatePoint3D(int index, int xRotate, int yRotate, int zRotate){
 
 
 int counter = 0;
+int numberOfPoints = 0;
+int numberOfFaces = 0;
 
-    
+import "./testmodel.obj.yabal";
 
-// Front of cube
-pointsXY[0] = {x : 27, y : 27};
-pointsZ[0] = 27;
-pointsXY[1] = {x : 81, y : 27};
-pointsZ[1] = 27;
-pointsXY[2] = {x : 81, y : 81};
-pointsZ[2] = 27;
-pointsXY[3] = {x : 27, y : 81};
-pointsZ[3] = 27;
-// Back of cube
-pointsXY[4] = {x : 27, y : 27};
-pointsZ[4] = 81;
-pointsXY[5] = {x : 81, y : 27};
-pointsZ[5] = 81;
-pointsXY[6] = {x : 81, y : 81};
-pointsZ[6] = 81;
-pointsXY[7] = {x : 27, y : 81};
-pointsZ[7] = 81;
-    
+// // Front of cube
+// pointsXY[0] = {x : 27, y : 27};
+// pointsZ[0] = 27;
+// pointsXY[1] = {x : 81, y : 27};
+// pointsZ[1] = 27;
+// pointsXY[2] = {x : 81, y : 81};
+// pointsZ[2] = 27;
+// pointsXY[3] = {x : 27, y : 81};
+// pointsZ[3] = 27;
+// // Back of cube
+// pointsXY[4] = {x : 27, y : 27};
+// pointsZ[4] = 81;
+// pointsXY[5] = {x : 81, y : 27};
+// pointsZ[5] = 81;
+// pointsXY[6] = {x : 81, y : 81};
+// pointsZ[6] = 81;
+// pointsXY[7] = {x : 27, y : 81};
+// pointsZ[7] = 81;
+
+
+// facesX[0] = 0;
+// facesY[0] = 1;
+// facesZ[0] = 2;
+// facesX[1] = 0;
+// facesY[1] = 2;
+// facesZ[1] = 3;
+// facesX[2] = 3;
+// facesY[2] = 4;
+// facesZ[2] = 5;
+// facesX[3] = 4;
+// facesY[3] = 5;
+// facesZ[3] = 6;
+// facesX[4] = 4;
+// facesY[4] = 6;
+// facesZ[4] = 7;
+// facesX[5] = 1;
+// facesY[5] = 5;
+// facesZ[5] = 6;
+// facesX[7] = 1;
+// facesY[7] = 6;
+// facesZ[7] = 2;
+// facesX[8] = 4;
+// facesY[8] = 0;
+// facesZ[8] = 3;
+// facesX[9] = 4;
+// facesY[9] = 3;
+// facesZ[9] = 7;
+// facesX[10] = 4;
+// facesY[10] = 5;
+// facesZ[10] = 1;
+// facesX[11] = 4;
+// facesY[11] = 1;
+// facesZ[11] = 0;
+// facesX[12] = 3;
+// facesY[12] = 2;
+// facesZ[12] = 6;
+// facesX[13] = 3;
+// facesY[13] = 6;
+// facesZ[13] = 7;
 
 int rotationX = 0;
 int rotationY = 0;
 int rotationZ = 0;
+
+// int numberOfPoints = 8;
+// int numberOfFaces = 14;
 while (true) {
     // counter += 1;
     // if(counter >= 360)
@@ -577,14 +625,14 @@ while (true) {
     if(leftMousePressed){
         int mouseXPos = (mouseVal >> 7) & 0b1111111;  // Shift X coord value from the left side to the right and get it by itself
         int mouseYPos = mouseVal & 0b1111111;  // Get y coord by itself
-        rotationY = mouseXPos*3;
-        rotationX = mouseYPos*3;
+        rotationY = mouseXPos*4;
+        rotationX = mouseYPos*4;
     }
     
     // ~PC 7000
 
     // iterate all points, and rotate them.
-    for(int i = 0; i < 8; i++){
+    for(int i = 0; i < numberOfPoints; i++){
         RotatePoint3D(i, rotationX, rotationY, 0)
         RpointsX[i] = _RotatedX;
         RpointsY[i] = _RotatedY;
@@ -596,86 +644,22 @@ while (true) {
 
     const int lineColor = 0b11111111111111111;
 
-    // Front
-    int rPoi1x = ((RpointsX[0] - focalOffset) * 54 / RpointsZ[0]) + focalOffset
-    int rPoi1y = ((RpointsY[0] - focalOffset) * 54 / RpointsZ[0]) + focalOffset
-    int rPoi2x = ((RpointsX[1] - focalOffset) * 54 / RpointsZ[1]) + focalOffset
-    int rPoi2y = ((RpointsY[1] - focalOffset) * 54 / RpointsZ[1]) + focalOffset
-    int rPoi3x = ((RpointsX[2] - focalOffset) * 54 / RpointsZ[2]) + focalOffset
-    int rPoi3y = ((RpointsY[2] - focalOffset) * 54 / RpointsZ[2]) + focalOffset
-    int rPoi4x = ((RpointsX[3] - focalOffset) * 54 / RpointsZ[3]) + focalOffset
-    int rPoi4y = ((RpointsY[3] - focalOffset) * 54 / RpointsZ[3]) + focalOffset
-    DrawWireTriangle(rPoi1x, rPoi1y, rPoi2x, rPoi2y, rPoi3x, rPoi3y, lineColor);
-    DrawWireTriangle(rPoi1x, rPoi1y, rPoi3x, rPoi3y, rPoi4x, rPoi4y, lineColor);
-    DrawFilledCircle(rPoi1x, rPoi1y, 2, 0b000000000011111)
-    DrawFilledCircle(rPoi2x, rPoi2y, 2, 0b111110000000000)
-    DrawFilledCircle(rPoi3x, rPoi3y, 2, 0b111111111100000)
-    DrawFilledCircle(rPoi4x, rPoi4y, 2, 0b000001111100000)
-
-    // Back
-    rPoi1x = ((RpointsX[4] - focalOffset) * 54 / RpointsZ[4]) + focalOffset
-    rPoi1y = ((RpointsY[4] - focalOffset) * 54 / RpointsZ[4]) + focalOffset
-    rPoi2x = ((RpointsX[5] - focalOffset) * 54 / RpointsZ[5]) + focalOffset
-    rPoi2y = ((RpointsY[5] - focalOffset) * 54 / RpointsZ[5]) + focalOffset
-    rPoi3x = ((RpointsX[6] - focalOffset) * 54 / RpointsZ[6]) + focalOffset
-    rPoi3y = ((RpointsY[6] - focalOffset) * 54 / RpointsZ[6]) + focalOffset
-    rPoi4x = ((RpointsX[7] - focalOffset) * 54 / RpointsZ[7]) + focalOffset
-    rPoi4y = ((RpointsY[7] - focalOffset) * 54 / RpointsZ[7]) + focalOffset
-    DrawWireTriangle(rPoi1x, rPoi1y, rPoi2x, rPoi2y, rPoi3x, rPoi3y, lineColor);
-    DrawWireTriangle(rPoi1x, rPoi1y, rPoi3x, rPoi3y, rPoi4x, rPoi4y, lineColor);
-    DrawFilledCircle(rPoi1x, rPoi1y, 2, 0b000000000011111)
-    DrawFilledCircle(rPoi2x, rPoi2y, 2, 0b111110000000000)
-    DrawFilledCircle(rPoi3x, rPoi3y, 2, 0b111111111100000)
-    DrawFilledCircle(rPoi4x, rPoi4y, 2, 0b000001111100000)
-
-    // Right
-    rPoi1x = ((RpointsX[1] - focalOffset) * 54 / RpointsZ[1]) + focalOffset
-    rPoi1y = ((RpointsY[1] - focalOffset) * 54 / RpointsZ[1]) + focalOffset
-    rPoi2x = ((RpointsX[5] - focalOffset) * 54 / RpointsZ[5]) + focalOffset
-    rPoi2y = ((RpointsY[5] - focalOffset) * 54 / RpointsZ[5]) + focalOffset
-    rPoi3x = ((RpointsX[6] - focalOffset) * 54 / RpointsZ[6]) + focalOffset
-    rPoi3y = ((RpointsY[6] - focalOffset) * 54 / RpointsZ[6]) + focalOffset
-    rPoi4x = ((RpointsX[2] - focalOffset) * 54 / RpointsZ[2]) + focalOffset
-    rPoi4y = ((RpointsY[2] - focalOffset) * 54 / RpointsZ[2]) + focalOffset
-    DrawWireTriangle(rPoi1x, rPoi1y, rPoi2x, rPoi2y, rPoi3x, rPoi3y, lineColor);
-    DrawWireTriangle(rPoi1x, rPoi1y, rPoi3x, rPoi3y, rPoi4x, rPoi4y, lineColor);
-
-    // Left
-    rPoi1x = ((RpointsX[4] - focalOffset) * 54 / RpointsZ[4]) + focalOffset
-    rPoi1y = ((RpointsY[4] - focalOffset) * 54 / RpointsZ[4]) + focalOffset
-    rPoi2x = ((RpointsX[0] - focalOffset) * 54 / RpointsZ[0]) + focalOffset
-    rPoi2y = ((RpointsY[0] - focalOffset) * 54 / RpointsZ[0]) + focalOffset
-    rPoi3x = ((RpointsX[3] - focalOffset) * 54 / RpointsZ[3]) + focalOffset
-    rPoi3y = ((RpointsY[3] - focalOffset) * 54 / RpointsZ[3]) + focalOffset
-    rPoi4x = ((RpointsX[7] - focalOffset) * 54 / RpointsZ[7]) + focalOffset
-    rPoi4y = ((RpointsY[7] - focalOffset) * 54 / RpointsZ[7]) + focalOffset
-    DrawWireTriangle(rPoi1x, rPoi1y, rPoi2x, rPoi2y, rPoi3x, rPoi3y, lineColor);
-    DrawWireTriangle(rPoi1x, rPoi1y, rPoi3x, rPoi3y, rPoi4x, rPoi4y, lineColor);
-
-    // Top
-    rPoi1x = ((RpointsX[4] - focalOffset) * 54 / RpointsZ[4]) + focalOffset
-    rPoi1y = ((RpointsY[4] - focalOffset) * 54 / RpointsZ[4]) + focalOffset
-    rPoi2x = ((RpointsX[5] - focalOffset) * 54 / RpointsZ[5]) + focalOffset
-    rPoi2y = ((RpointsY[5] - focalOffset) * 54 / RpointsZ[5]) + focalOffset
-    rPoi3x = ((RpointsX[1] - focalOffset) * 54 / RpointsZ[1]) + focalOffset
-    rPoi3y = ((RpointsY[1] - focalOffset) * 54 / RpointsZ[1]) + focalOffset
-    rPoi4x = ((RpointsX[0] - focalOffset) * 54 / RpointsZ[0]) + focalOffset
-    rPoi4y = ((RpointsY[0] - focalOffset) * 54 / RpointsZ[0]) + focalOffset
-    DrawWireTriangle(rPoi1x, rPoi1y, rPoi2x, rPoi2y, rPoi3x, rPoi3y, lineColor);
-    DrawWireTriangle(rPoi1x, rPoi1y, rPoi3x, rPoi3y, rPoi4x, rPoi4y, lineColor);
-
-    // Bottom
-    rPoi1x = ((RpointsX[3] - focalOffset) * 54 / RpointsZ[3]) + focalOffset
-    rPoi1y = ((RpointsY[3] - focalOffset) * 54 / RpointsZ[3]) + focalOffset
-    rPoi2x = ((RpointsX[2] - focalOffset) * 54 / RpointsZ[2]) + focalOffset
-    rPoi2y = ((RpointsY[2] - focalOffset) * 54 / RpointsZ[2]) + focalOffset
-    rPoi3x = ((RpointsX[6] - focalOffset) * 54 / RpointsZ[6]) + focalOffset
-    rPoi3y = ((RpointsY[6] - focalOffset) * 54 / RpointsZ[6]) + focalOffset
-    rPoi4x = ((RpointsX[7] - focalOffset) * 54 / RpointsZ[7]) + focalOffset
-    rPoi4y = ((RpointsY[7] - focalOffset) * 54 / RpointsZ[7]) + focalOffset
-    DrawWireTriangle(rPoi1x, rPoi1y, rPoi2x, rPoi2y, rPoi3x, rPoi3y, lineColor);
-    DrawWireTriangle(rPoi1x, rPoi1y, rPoi3x, rPoi3y, rPoi4x, rPoi4y, lineColor);
-
+    for(int i = 0; i < numberOfFaces; i++){
+        int fX = facesX[i];
+        int fY = facesY[i];
+        int fZ = facesZ[i];
+        int rPoi1x = ((RpointsX[fX] - focalOffset) * 54 / RpointsZ[fX]) + focalOffset;
+        int rPoi1y = ((RpointsY[fX] - focalOffset) * 54 / RpointsZ[fX]) + focalOffset;
+        int rPoi2x = ((RpointsX[fY] - focalOffset) * 54 / RpointsZ[fY]) + focalOffset;
+        int rPoi2y = ((RpointsY[fY] - focalOffset) * 54 / RpointsZ[fY]) + focalOffset;
+        int rPoi3x = ((RpointsX[fZ] - focalOffset) * 54 / RpointsZ[fZ]) + focalOffset;
+        int rPoi3y = ((RpointsY[fZ] - focalOffset) * 54 / RpointsZ[fZ]) + focalOffset;
+        DrawWireTriangle(rPoi1x, rPoi1y, rPoi2x, rPoi2y, rPoi3x, rPoi3y, lineColor);
+        // DrawFilledCircle(rPoi1x, rPoi1y, 1, 0b000000000011111);
+        // DrawFilledCircle(rPoi2x, rPoi2y, 1, 0b111110000000000);
+        // DrawFilledCircle(rPoi3x, rPoi3y, 1, 0b000001111100000);
+    }
+    
     // DrawWireTriangle(v0x, v0y, v2x, v2y, v3x, v3y, color);
 
     // // iterate rotated points, and draw their triangles
@@ -742,8 +726,9 @@ while (true) {
     // //int color = 23422;
     // DrawWireTriangle(v0x, v0y, v1x, v1y, v2x, v2y, color)
     // DrawWireTriangle(v0x, v0y, v2x, v2y, v3x, v3y, color)
-    for(int x = 0; x < (108*108); x++)
+    for(int x = 0; x < (108*108); x++){
         screen[x] = 0;
+    }
 }
 
 // struct MouseInput {
