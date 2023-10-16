@@ -18,6 +18,8 @@ for line in file:
     parts = line.strip().split(' ')
 
     if parts[0] == 'v':
+        if parts[1] == "nan":
+            continue;
         x = float(parts[1])
         y = float(parts[2])
         z = float(parts[3])
@@ -42,9 +44,11 @@ for line in file2:
     parts = line.strip().split(' ')
 
     if parts[0] == 'v':
-        x = int(rescale(float(parts[1]), vMin, vMax, 20, 93))
-        y = int(rescale(float(parts[2]), vMin, vMax, 20, 93))
-        z = int(rescale(float(parts[3]), vMin, vMax, 20, 93))
+        if parts[1] == "nan":
+            continue;
+        x = int(rescale(float(parts[1]), vMin, vMax, 0, 108))
+        y = int(rescale(float(parts[2]), vMin, vMax, 0, 108))
+        z = int(rescale(float(parts[3]), vMin, vMax, 0, 108))
 
         print("v " + str(x) + " " + str(y) + " " + str(z))
         fwr.write("v " + str(x) + " " + str(y) + " " + str(z) + "\n")
