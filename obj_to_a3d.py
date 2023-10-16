@@ -45,7 +45,8 @@ for line in file2:
 
     if parts[0] == 'v':
         if parts[1] == "nan":
-            continue;
+            v += 1
+            continue
         x = int(rescale(float(parts[1]), vMin, vMax, 0, 108))
         y = int(rescale(float(parts[2]), vMin, vMax, 0, 108))
         z = int(rescale(float(parts[3]), vMin, vMax, 0, 108))
