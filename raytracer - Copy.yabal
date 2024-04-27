@@ -1,0 +1,2562 @@
+
+// import 'float.yabal'
+
+const var floats = create_pointer<float16_t>(0x0, 1);
+const var signedInts = create_pointer<signedint_t>(0x1111, 1);
+
+const var screen = create_pointer(53870, 1)
+// var cordicAngles = create_pointer(10000, 1)
+const var sinTable = create_pointer(10000, 1)
+const var pointsXY = create_pointer<Point>(11000, 1)
+const var pointsZ = create_pointer(12000, 1)
+// const var RpointsXY = create_pointer<Point>(13000, 1)
+const var RpointsX = create_pointer<signedint_t>(14000, 1)
+const var RpointsY = create_pointer<signedint_t>(15000, 1)
+const var RpointsZ = create_pointer<signedint_t>(16000, 1)
+
+const var spheres = create_pointer<SpherePos>(17000, 1)
+const var spherePosZ = create_pointer<int>(17050, 1)
+const var sphereInfos = create_pointer<SphereInfo>(17100, 1)
+
+const var expansionPorts = create_pointer(53500, 1)
+
+const var chars = create_pointer(53546, 1)
+
+int offset = 0
+
+var textColor = 0;
+var highlightColor = 0;
+var highlightOppositeColor = 0b1111111111111111;
+
+//const float16_t FLOAT_ZERO = { sign : 0, exponent : 0, fraction : 0 };
+const float16_t ONE = { sign : 0, exponent : 0b01111, fraction : 0 };
+const float16_t EPSILON = { sign : 0, exponent : 0b101, fraction : 0b11000 };
+//const float16_t PI = { sign : 0, exponent : 0b10000, fraction : 0b1001001000 };
+//const float16_t HALFPI = 0x3E48
+//const float16_t PISQ = 0x48EE
+//const float16_t HALF = 0x3800
+
+// https://gist.github.com/nowke/965fed0d5191bf373f1262be584207bb
+void draw_line(int x1, int y1, int x2, int y2, int color) {
+
+	signedint_t dx = {s:0, val:0};
+	signedint_t dy = {s:0, val:0};
+	signedint_t e = {s:0, val:0};
+
+	signedint_t incx = {s:0, val:1};
+	signedint_t incy = {s:0, val:1};
+	signedint_t inc1 = {s:0, val:0};
+	signedint_t inc2 = {s:0, val:0};
+
+	signedint_t x = {s:0, val:x1};
+	signedint_t y = {s:0, val:y1};
+    
+	dx = SubTosignedint_t(x2,x1);
+	dy = SubTosignedint_t(y2,y1);
+
+	dx.s = 0;
+	dy.s = 0;
+
+    // ~PC 800
+
+	// dx.s = 0
+	// dy.s = 0
+
+	if (x2 < x1)
+		incx.s = 1
+
+	if (y2 < y1)
+		incy.s = 1
+
+	if (dx > dy) {
+		e = (dy - dx) * 2;
+		inc1 = (dy - dx) * 2;
+		inc2 = dy * 2;
+
+		const int maxval = dx.val;
+		for (int i = 0; i < maxval; i++) {
+			if ((e.s == 0) && (e.val >= 0)) { // if  e >= 0
+				y = y + incy;
+				e = e + inc1;
+			}
+			else{
+				e = e + inc2;
+			}
+			x = x + incx;
+            if(x.val>=107||y.val>107) // Don't draw pixels out of range
+                continue;
+			SetPixel(x, y, color)
+		}
+
+	} else {
+		e = (dx * 2) - dy;
+		inc1 = (dx - dy) * 2;
+		inc2 = dx * 2;
+
+		const int maxval = dy.val;
+		for (int i = 0; i < maxval; i++) {
+			if ((e.s == 0) && (e.val >= 0)) { // if  e >= 0
+				x = x + incx;
+				e = e + inc1;
+			}
+			else{
+				e = e + inc2;
+			}
+			y = y + incy;
+			int xval = x.val;
+			int yval = y.val;
+            if(xval>=107||yval>107) // Don't draw pixels out of range
+                continue;
+			SetPixel(xval, yval, color)
+		}
+	}
+}
+
+void DrawWireTriangle(int x0, int y0,int x1, int y1,int x2, int y2, int color){
+	draw_line(x0, y0, x1, y1, color)
+	draw_line(x1, y1, x2, y2, color)
+	draw_line(x0, y0, x2, y2, color)
+}
+
+void DrawWireQuad(int x0, int y0,int x1, int y1,int x2, int y2,int x3, int y3, int color){
+	draw_line(x0, y0, x1, y1, color)
+	draw_line(x1, y1, x2, y2, color)
+	draw_line(x2, y2, x3, y3, color)
+	draw_line(x3, y3, x0, y0, color)
+}
+
+// // Not good method, change in future
+// void DrawFilledTriangle(int x0, int y0,int x1, int y1,int x2, int y2, int color){
+//     DrawWireTriangle(x0, y0, x1, y1, x2, y2, ~color)
+//     // Get center of triangle
+//     int centroidX = (x0+x1+x2)/3
+//     int centroidY = (y0+y1+y2)/3
+//     // Draw center pixel
+//     SetPixel(centroidX, centroidY, color)
+//     SetPixel((centroidX+x0)/2, (centroidY+y0)/2, color)
+//     SetPixel((centroidX+x1)/2, (centroidY+y1)/2, color)
+//     SetPixel((centroidX+x2)/2, (centroidY+y2)/2, color)
+//     // SetPixel(centroidX, centroidY, color)
+
+//     int found = 11
+//     while(found > 10){
+//         found = 0
+//         for(var y=1; y<107; y++){
+//             for(var x=1; x<107; x++){
+//                 if(GetPixel(x, y) == color){ // If current center pixel is the draw color, check neighbors
+//                     if(GetPixel(x-1, y) != ~color && GetPixel(x-1, y) != color){
+//                         SetPixel(x-1, y, color)
+//                         found += 1
+//                     }
+//                     if(GetPixel(x, y-1) != ~color && GetPixel(x, y-1) != color){
+//                         SetPixel(x, y-1, color)
+//                         found += 1
+//                     }
+//                     if(GetPixel(x+1, y) != ~color && GetPixel(x+1, y) != color){
+//                         SetPixel(x+1, y, color)
+//                         found += 1
+//                     }
+//                     if(GetPixel(x, y+1) != ~color && GetPixel(x, y+1) != color){
+//                         SetPixel(x, y+1, color)
+//                         found += 1
+//                     }
+//                 }
+//             }
+//         }
+//         for(var y=106; y>0; y--){
+//             for(var x=106; x>0; x--){
+//                 if(GetPixel(x, y) == color){ // If current center pixel is the draw color, check neighbors
+//                     if(GetPixel(x-1, y) != ~color && GetPixel(x-1, y) != color){
+//                         SetPixel(x-1, y, color)
+//                         found += 1
+//                     }
+//                     if(GetPixel(x, y-1) != ~color && GetPixel(x, y-1) != color){
+//                         SetPixel(x, y-1, color)
+//                         found += 1
+//                     }
+//                     if(GetPixel(x+1, y) != ~color && GetPixel(x+1, y) != color){
+//                         SetPixel(x+1, y, color)
+//                         found += 1
+//                     }
+//                     if(GetPixel(x, y+1) != ~color && GetPixel(x, y+1) != color){
+//                         SetPixel(x, y+1, color)
+//                         found += 1
+//                     }
+//                 }
+//             }
+//         }
+//     }
+// }
+
+void DrawFilledCircle(int xCenter, int yCenter, int radius, int color){
+	const int radiusSquared = radius*radius;
+	const int radiusSquaredPlusRadius = radiusSquared + radius;
+
+    const signedint_t xOrig = NegativeSigned(radius);
+    signedint_t x = xOrig;
+    signedint_t y = NegativeSigned(radius);
+
+    int rad1 = radius+1;
+    int newX = 0;
+    int newY = 0;
+
+    while(y.s == 1 || y.val < rad1){
+        while(x.s == 1 || x.val < rad1){
+            newX = xCenter + SignedToTwosComp(x);
+            newY = yCenter + SignedToTwosComp(y);
+
+            // Make sure pixel is inside screen, otherwise don't render it.
+            if(newX >= 107 || newY >= 107){
+                x = x + 1;
+                continue;
+            }
+
+            if((x * x) + (y * y) <= radiusSquaredPlusRadius){ // Calculate distance between point and center of circle. If lessthan or equal to radius, color pixel.
+                SetPixel(newX, newY, color);
+            }
+
+            x = x + 1;
+        }
+        x = xOrig;
+        y = y + 1;
+    }
+
+}
+
+void DrawWireCircle(int xCenter, int yCenter, int radius, int color){
+	int radiusSquared = radius*radius
+
+    signedint_t xOrig = NegativeSigned(radius)
+    signedint_t x = xOrig
+    signedint_t y = xOrig
+
+    var rad1 = radius+1
+    var newX = 0
+    var newY = 0
+
+    while(y.s == 1 || y.val< rad1){
+        while(x.s == 1 || x.val< rad1){
+            newX = xCenter+SignedToTwosComp(x)
+            newY = yCenter+SignedToTwosComp(y)
+            // Make sure pixel is inside screen, otherwise don't render it.
+            if(newX>=107||newY>=107){
+                x = Addsignedint_ts(x, 1)
+                continue
+            }
+
+            signedint_t tot = Addsignedint_ts(x.val*x.val,y.val*y.val)
+            if((tot.val >= radiusSquared-radius) && (tot.val <= radiusSquared+radius)){ // Calculate distance between point and center of circle. If lessthan or equal to radius, color pixel.
+                SetPixel(newX, newY, color)
+            }
+
+            // write('x')
+            x = Addsignedint_ts(x, 1)
+        }
+        x = xOrig
+        y = Addsignedint_ts(y, 1)
+    }
+
+
+}
+
+
+var lfsr = 0b1011101011101000;
+int lfsr()
+{
+    var bit = 0
+
+	bit = ((lfsr >> 1) ^ (lfsr >> 2) ^ (lfsr >> 3) ^ (lfsr >> 7)) & 1
+	lfsr = (lfsr >> 1) | (bit << 15)
+
+    return bit;
+}
+int rand(int bits)
+{
+    // var start_state = 0b1100101011011100
+    var out = 0
+	int count = 0
+    // var period = 0
+
+    while(count < bits)
+    {
+		out = out << 1
+		out = out | lfsr()
+		count += 1
+    }
+
+    return out;
+}
+
+// Init sine table
+sinTable[0] = 0;
+sinTable[1] = 2;
+sinTable[2] = 4;
+sinTable[3] = 6;
+sinTable[4] = 8;
+sinTable[5] = 11;
+sinTable[6] = 13;
+sinTable[7] = 15;
+sinTable[8] = 17;
+sinTable[9] = 20;
+sinTable[10] = 22;
+sinTable[11] = 24;
+sinTable[12] = 26;
+sinTable[13] = 28;
+sinTable[14] = 30;
+sinTable[15] = 33;
+sinTable[16] = 35;
+sinTable[17] = 37;
+sinTable[18] = 39;
+sinTable[19] = 41;
+sinTable[20] = 43;
+sinTable[21] = 45;
+sinTable[22] = 47;
+sinTable[23] = 50;
+sinTable[24] = 52;
+sinTable[25] = 54;
+sinTable[26] = 56;
+sinTable[27] = 58;
+sinTable[28] = 60;
+sinTable[29] = 62;
+sinTable[30] = 63;
+sinTable[31] = 65;
+sinTable[32] = 67;
+sinTable[33] = 69;
+sinTable[34] = 71;
+sinTable[35] = 73;
+sinTable[36] = 75;
+sinTable[37] = 77;
+sinTable[38] = 78;
+sinTable[39] = 80;
+sinTable[40] = 82;
+sinTable[41] = 83;
+sinTable[42] = 85;
+sinTable[43] = 87;
+sinTable[44] = 88;
+sinTable[45] = 90;
+sinTable[46] = 92;
+sinTable[47] = 93;
+sinTable[48] = 95;
+sinTable[49] = 96;
+sinTable[50] = 98;
+sinTable[51] = 99;
+sinTable[52] = 100;
+sinTable[53] = 102;
+sinTable[54] = 103;
+sinTable[55] = 104;
+sinTable[56] = 106;
+sinTable[57] = 107;
+sinTable[58] = 108;
+sinTable[59] = 109;
+sinTable[60] = 110;
+sinTable[61] = 111;
+sinTable[62] = 113;
+sinTable[63] = 114;
+sinTable[64] = 115;
+sinTable[65] = 116;
+sinTable[66] = 116;
+sinTable[67] = 117;
+sinTable[68] = 118;
+sinTable[69] = 119;
+sinTable[70] = 120;
+sinTable[71] = 121;
+sinTable[72] = 121;
+sinTable[73] = 122;
+sinTable[74] = 123;
+sinTable[75] = 123;
+sinTable[76] = 124;
+sinTable[77] = 124;
+sinTable[78] = 125;
+sinTable[79] = 125;
+sinTable[80] = 126;
+sinTable[81] = 126;
+sinTable[82] = 126;
+sinTable[83] = 127;
+sinTable[84] = 127;
+sinTable[85] = 127;
+sinTable[86] = 127;
+sinTable[87] = 127;
+sinTable[88] = 127;
+sinTable[89] = 127;
+
+
+// ~PC 1880
+signedint_t sin(int x){
+    x+=360;
+
+    int loopTimes = 0;
+    while(x>179){
+        x -= 180
+
+        loopTimes += 1;
+    }
+
+    if(x > 89){
+        x = 90 - (x-89);
+    }
+
+    int outSinVal = sinTable[x];
+    signedint_t outVal = {s:0, val:outSinVal}
+
+    if(loopTimes % 2 == 0){ // should be negative
+        outVal.s = 1;
+        return outVal;
+    }
+    // else, positive
+    return outVal;
+}
+
+signedint_t cos(int x){
+    return sin(x-90);
+}
+
+int _RotatedX = 1;
+int _RotatedY = 1;
+int _RotatedZ = 1;
+signedint_t rotationXOffset = {s:0, val:54};
+signedint_t rotationYOffset = {s:0, val:54};
+void RotatePoint(int index, int degrees){
+    Point value = pointsXY[index];
+
+    signedint_t inX = value.x;
+    signedint_t inY = value.y;
+
+    // Calculate sine and cosine of the angle using integer math
+    int angle = degrees;
+    signedint_t sinVal = sin(angle);
+    signedint_t cosVal = cos(angle);
+
+    // Translate point to the origin
+    // signedint_t offset = {s:0, val:54};
+    signedint_t translatedX = inX - rotationXOffset;
+    signedint_t translatedY = inY - rotationYOffset;
+
+    // Perform rotation using integer math
+    signedint_t rotatedX = (translatedX * cosVal - translatedY * sinVal)/128;
+    signedint_t rotatedY = (translatedX * sinVal + translatedY * cosVal)/128;
+
+    // Translate point back to its original position
+    _RotatedX = rotatedX+rotationXOffset;
+    _RotatedY = rotatedY+rotationYOffset;
+}
+
+// ~PC 2010
+void RotateCoords(int x, int y, int degrees){
+    signedint_t inX = x;
+    signedint_t inY = y;
+
+    // Calculate sine and cosine of the angle using integer math
+    int angle = degrees;
+    signedint_t sinVal = sin(angle);
+    signedint_t cosVal = cos(angle);
+
+    // Translate point to the origin
+    // signedint_t offset = {s:0, val:54};
+    signedint_t translatedX = inX - rotationXOffset;
+    signedint_t translatedY = inY - rotationYOffset;
+
+    // Perform rotation using integer math
+    signedint_t rotatedX = (translatedX * cosVal - translatedY * sinVal)/128;
+    signedint_t rotatedY = (translatedX * sinVal + translatedY * cosVal)/128;
+
+    // Translate point back to its original position
+    _RotatedX = rotatedX+rotationXOffset;
+    _RotatedY = rotatedY+rotationYOffset;
+}
+
+// ~PC 2370
+void RotatePoint3D(int index, int xRotate, int yRotate, int zRotate){
+    Point xy = pointsXY[index];
+    int zz = pointsZ[index];
+
+    signedint_t inX = xy.x;
+    signedint_t inY = xy.y;
+    signedint_t inZ = zz;
+
+    RotateCoords(inX, inY, zRotate);       // Rotate 2D around Z axis (front on)
+    int rX = _RotatedX&0b111111111111111
+    int rY = _RotatedY&0b111111111111111
+    RotateCoords(rX, inZ, yRotate); // Rotate 2D around Y axis (top down)
+    rX = _RotatedX&0b111111111111111
+    int rZ = _RotatedY&0b111111111111111
+    RotateCoords(rZ, rY, xRotate);       // Rotate 2D around X axis (from right)
+    rY = _RotatedY&0b111111111111111
+    rZ = _RotatedX&0b111111111111111
+
+    _RotatedX = rX;
+    _RotatedY = rY;
+    _RotatedZ = rZ;
+}
+
+int distance(signedint_t x1, signedint_t y1, signedint_t z1, signedint_t x2, signedint_t y2, signedint_t z2){
+    int d = sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2) + pow(z2 - z1, 2));
+    return d;
+}
+int magnitude(signedint_t x1, signedint_t y1, signedint_t z1){
+    int d = sqrt(pow(x1, 2) + pow(y1, 2) + pow(z1, 2));
+    return d;
+}
+// float16_t fmagnitude(float16_t x1, float16_t y1, float16_t z1){
+//     float16_t d = sqrt(FloatToInt(powf(x1, 2) + powf(y1, 2) + powf(z1, 2)));
+//     return d;
+// }
+
+/*
+// Ray tracer code to go off of:
+vec3 SendRay(vec3 startLocation, vec3 directionVec){
+    vec3 currentLocation = startLocation;
+    vec3 newColor = vec3(0, 0, 0);
+    for(int iteration = 0; iteration < maxBounces; iteration++){ // Bounce multiple times
+        for(int z = 0; z < maxMoveDist; z++){ // Move 20 units in directionVec
+            currentLocation += directionVec;
+            // Check if ray is under plane, if so draw floor
+            if(currentLocation.y<=0.0){
+                vec3 normal = normalize(vec3(0, 1, 0));
+                vec3 newDir = normalize(reflect(directionVec, normal));
+                // Change newDir by random amount, equal to the inverse of reflectivity
+                newDir.x *= 1.0+0.2*(rand(currentLocation+newDir*float(iFrame))-0.5);
+                newDir.y *= 1.0+0.2*(rand(currentLocation+newDir*float(iFrame))-0.5);
+                newDir.z *= 1.0+0.2*(rand(currentLocation+newDir*float(iFrame))-0.5);
+                newDir = normalize(newDir);
+                // Add a little bit of color based off hit and current iteration
+                if((int(currentLocation.z)/50) % 2 == 0 && (int(currentLocation.x)/50) % 2 != 0)
+                    newColor += (pow(2.0, 0.01*float(-z)))*(1.0-float(iteration)/float(maxBounces))*(1.0-float(z)/float(maxMoveDist));
+                else if((int(currentLocation.z)/50) % 2 == 0 || (int(currentLocation.x)/50) % 2 != 0)
+                    newColor += vec3(0., 0., 1.)*(1.0-float(iteration)/float(maxBounces))*(1.0-float(z)/float(maxMoveDist));
+                else
+                    newColor += (pow(2.0, 0.01*float(-z)))*(1.0-float(iteration)/float(maxBounces))*(1.0-float(z)/float(maxMoveDist));
+
+                newColor = normalize(newColor);
+                // Bounce and compute next ray
+                z = maxMoveDist;
+                directionVec = newDir;
+                break;
+            }
+            // Check if ray is behind camera, if so draw void
+            else if(currentLocation.z<=-100.0){
+                vec3 normal = normalize(vec3(0, 0, 1));
+                newColor /= 2.0;
+                // Bounce and compute next ray
+                z = maxMoveDist;
+                break;
+            }
+            else
+                for(int sh = 0; sh <7; sh++){
+                    Sphere shape = shapes[sh];
+                    float dist = distance(currentLocation, shape.position);
+                    float lightDist = distance(currentLocation, light.position);
+                    if(dist < shape.radius){
+                        vec3 normal = normalize((currentLocation - shape.position)/shape.radius);
+                        vec3 newDir = normalize(reflect(directionVec, normal));
+                        // Change newDir by random amount, equal to the inverse of reflectivity
+                        newDir.x += (1.0-shape.reflectiveness)*((rand((currentLocation.x+newDir.x+iTime)*uv.xy)-0.5));
+                        newDir.y += (1.0-shape.reflectiveness)*((rand((currentLocation.y+newDir.y+iTime)*uv.xy)-0.5));
+                        newDir.z += (1.0-shape.reflectiveness)*((rand((currentLocation.z+newDir.z+iTime)*uv.xy)-0.5));
+                        // Add a little bit of color based off hit and current iteration
+                        newColor += shape.color*(1.0-float(iteration)/float(maxBounces))*(1.0-float(z)/float(maxMoveDist));
+                        newColor = normalize(newColor);
+                        // Bounce and compute next ray
+                        z = maxMoveDist;
+                        directionVec = newDir;
+                        break;
+                    }
+                }
+        }
+        // If this is the final bounce, calculate angle difference between ray and light
+        if(iteration == maxBounces-1){
+            //Sphere light = shapes[6];
+            float lightDist = distance(currentLocation, light.position);
+            vec3 lightDirectionVec = normalize(currentLocation - light.position);
+            float angle = abs(acos(dot(directionVec,lightDirectionVec)/(length(directionVec)*length(lightDirectionVec))));
+            newColor *= pow(1.0-angle/6.28, 2.0)*(lightDist/1000.0)*light.brightness;
+        }
+    }
+    // No hit, or reached the bounce limit
+    return newColor;
+}
+*/
+
+signedint_t _StartRayPosX;
+signedint_t _StartRayPosY;
+signedint_t _StartRayPosZ;
+signedint_t _RayDirectionX;
+signedint_t _RayDirectionY;
+signedint_t _RayDirectionZ = 1;
+signedint_t _RayPosX;
+signedint_t _RayPosY;
+signedint_t _RayPosZ;
+signedint_t _RayPosXScaled;
+signedint_t _RayPosYScaled;
+signedint_t _RayPosZScaled;
+signedint_t dot;
+signedint_t cNormX;
+signedint_t cNormY;
+signedint_t cNormZ;
+int _RayRGB;
+
+int maxBounces = 2;
+int maxMoveDist = 216;
+
+float16_t scaler2 = IntToFloat(31);
+float16_t scaler3 = IntToFloat(3);
+void SendRay(){
+    _RayPosX = _StartRayPosX*128;
+    _RayPosY = _StartRayPosY*128;
+    _RayPosZ = 128;
+    _RayPosXScaled = _RayPosX/128;
+    _RayPosYScaled = _RayPosY/128;
+    _RayPosZScaled = _RayPosZ/128;
+    _RayDirectionX = (_StartRayPosX-54)/4*2;
+    _RayDirectionY = (_StartRayPosY-54)/4*2;
+    // _RayDirectionY = SubTosignedint_t(0, 1);
+    _RayDirectionZ = 31*2;
+    _RayRGB = 0;
+    int _RayR = 0;
+    int _RayG = 0;
+    int _RayB = 0;
+    int lightDirX = {s:1, val:0b000000000100000}; // -32
+    int lightDirY = {s:1, val:0b000000000100000}; // -32
+    int lightDirZ = 32;
+    int lastCollide = 1000;
+    int albedo = 1;
+    for(int iteration = 0; iteration < maxBounces; iteration++){ // Bounce multiple times
+        // _RayR = 0;
+        // _RayG = 0;
+        // _RayB = 0;
+        //lastCollide = 1000;
+        for(int z = 0; z < maxMoveDist; z++){ // Move `maxMoveDist` units in directionVec
+            //currentLocation += directionVec;
+            _RayPosX = _RayPosX + _RayDirectionX;
+            _RayPosY = _RayPosY + _RayDirectionY;
+            _RayPosZ = _RayPosZ + _RayDirectionZ;
+            _RayPosXScaled = _RayPosX/128;
+            _RayPosYScaled = _RayPosY/128;
+            _RayPosZScaled = _RayPosZ/128;
+            bool collided = false;
+
+            // if(albedo == 999){
+            //     albedo = 2;
+            // }
+            // else{
+            //     albedo = 1;
+            // }
+
+            // If ray is off left of screen
+            if(_RayPosXScaled <= 0){
+                int col = get_color(200, 0, 200);
+                if(iteration == 0){
+                    _RayR = (((col >> 10) & 0b11111));
+                    _RayG = (((col >> 5) & 0b11111));
+                    _RayB = ((col & 0b11111));
+                }
+                else{
+                    _RayR = (_RayR*3/4/albedo + (((col >> 10) & 0b11111))/4*albedo);
+                    _RayG = (_RayG*3/4/albedo + (((col >> 5) & 0b11111))/4*albedo);
+                    _RayB = (_RayB*3/4/albedo + ((col & 0b11111))/4*albedo);
+                }
+                albedo = 1;
+                collided = true;
+                z = maxMoveDist;
+                _RayDirectionX = 0-_RayDirectionX;
+                break;
+            }
+            // If ray is off right of screen
+            else if(_RayPosXScaled >= 107){
+                int col = get_color(0, 200, 200);
+                if(iteration == 0){
+                    _RayR = (((col >> 10) & 0b11111));
+                    _RayG = (((col >> 5) & 0b11111));
+                    _RayB = ((col & 0b11111));
+                }
+                else{
+                    _RayR = (_RayR*3/4/albedo + (((col >> 10) & 0b11111))/4*albedo);
+                    _RayG = (_RayG*3/4/albedo + (((col >> 5) & 0b11111))/4*albedo);
+                    _RayB = (_RayB*3/4/albedo + ((col & 0b11111))/4*albedo);
+                }
+                albedo = 1;
+                collided = true;
+                z = maxMoveDist;
+                _RayDirectionX = 0-_RayDirectionX;
+                break;
+            }
+
+            // Behind camera
+            else if(_RayPosZScaled <= 0){
+                int col = get_color(0, 0, 0);
+                if(iteration == 0){
+                    _RayR = (((col >> 10) & 0b11111));
+                    _RayG = (((col >> 5) & 0b11111));
+                    _RayB = ((col & 0b11111));
+                }
+                else{
+                    _RayR = (_RayR*2/4/albedo + (((col >> 10) & 0b11111))/2*albedo);
+                    _RayG = (_RayG*2/4/albedo + (((col >> 5) & 0b11111))/2*albedo);
+                    _RayB = (_RayB*2/4/albedo + ((col & 0b11111))/2*albedo);
+                }
+                collided = true;
+                albedo = 1;
+                z = maxMoveDist;
+                iteration = maxBounces;
+                break;
+            }
+
+            // Floor
+            else if(_RayPosYScaled >= 107){
+                int col = 0;
+                _RayDirectionY = 0-_RayDirectionY;
+
+                if(((_RayPosZScaled/16 % 2) == 0) && ((_RayPosXScaled/16 % 2) != 0)){
+                    col = get_color(255, 255, 255);
+                }
+                else if(((_RayPosZScaled/16 % 2) == 0) || ((_RayPosXScaled/16 % 2) != 0)){
+                    col = get_color(0, 50, 170);
+                }
+                else{
+                    col = get_color(255, 255, 255);
+                }
+
+                if(iteration == 0){
+                    _RayR = (((col >> 10) & 0b11111));
+                    _RayG = (((col >> 5) & 0b11111));
+                    _RayB = ((col & 0b11111));
+                }
+                else{
+                    _RayR = (_RayR*3/4/albedo + (((col >> 10) & 0b11111))/4*albedo);
+                    _RayG = (_RayG*3/4/albedo + (((col >> 5) & 0b11111))/4*albedo);
+                    _RayB = (_RayB*3/4/albedo + ((col & 0b11111))/4*albedo);
+                }
+                albedo = 1;
+                iteration = maxBounces;
+                collided = true;
+                z = maxMoveDist;
+                break;
+            }
+
+            // End of range
+            else if(((int)_RayPosZScaled) >= 120){
+                int col = get_color(0, 0, 0);
+                if(iteration == 0){
+                    _RayR = (((col >> 10) & 0b11111));
+                    _RayG = (((col >> 5) & 0b11111));
+                    _RayB = ((col & 0b11111));
+                }
+                else{
+                    _RayR = (_RayR*3/4/albedo + (((col >> 10) & 0b11111))/4*albedo);
+                    _RayG = (_RayG*3/4/albedo + (((col >> 5) & 0b11111))/4*albedo);
+                    _RayB = (_RayB*3/4/albedo + ((col & 0b11111))/4*albedo);
+                }
+                albedo = 1;
+                collided = true;
+                z = maxMoveDist;
+                _RayDirectionZ = 0-_RayDirectionZ;
+                break;
+            }
+
+            // Spheres
+            else{
+                for(int sh = 0; sh <3; sh++){
+                    signedint_t spherePosX = ((int)spheres[sh]) & 0b11111111;
+                    signedint_t spherePosY = (((int)spheres[sh]) & 0b1111111100000000) >> 8;
+                    signedint_t spherePosZ = spherePosZ[sh];
+                    SphereInfo sphereInfo = sphereInfos[sh];
+                    int dist = distance(_RayPosXScaled, _RayPosYScaled, _RayPosZScaled, spherePosX, spherePosY, spherePosZ);
+                    // //float lightDist = distance(currentLocation, light.position);
+                    int sphereRadius = sphereInfo.radius;
+                    if(dist < sphereRadius && sh != lastCollide){
+                        collided = true;
+                        lastCollide = sh;
+                        //float16_t scaler = { sign : 0, exponent : 0b00111, fraction : 0b0 };
+                        float16_t normalX = IntToFloat((_RayPosXScaled - spherePosX)*128) / IntToFloat(sphereRadius);
+                        float16_t normalY = IntToFloat((_RayPosYScaled - spherePosY)*128) / IntToFloat(sphereRadius);
+                        float16_t normalZ = IntToFloat((_RayPosZScaled - spherePosZ)*128) / IntToFloat(sphereRadius);
+                        //scaler = { sign : 0, exponent : 0b10011, fraction : 0b1111000000 };
+                        signedint_t normalXScaled = FloatToInt(normalX);
+                        signedint_t normalYScaled = FloatToInt(normalY);
+                        signedint_t normalZScaled = FloatToInt(normalZ);
+
+                        // normalX = normalX/scaler3;
+                        // normalY = normalY/scaler3;
+                        // normalZ = normalZ/scaler3;
+                        // signedint_t normalXScaled = 0;
+                        // signedint_t normalYScaled = 0;
+                        // signedint_t normalZScaled = 0;
+                        // if(_RayPosXScaled != spherePosX)
+                        //     normalXScaled = FloatToInt(normalX*scaler);
+                        // if(_RayPosYScaled != spherePosY)
+                        //     normalYScaled = FloatToInt(normalY*scaler);
+                        // if(_RayPosZScaled != spherePosZ)
+                        //     normalZScaled = FloatToInt(normalZ*scaler);
+                        // int normalXScaledInt = normalXScaled&0b111111111111111;
+                        // int normalYScaledInt = normalYScaled&0b111111111111111;
+                        // int normalZScaledInt = normalZScaled&0b111111111111111;
+
+                        // _RayDirectionX = (normalXScaled/64);
+                        // _RayDirectionY = (normalYScaled/64);
+                        // _RayDirectionZ = (normalZScaled/64);
+                        // _RayPosX = _RayPosX + _RayDirectionX;
+                        // _RayPosY = _RayPosY + _RayDirectionY;
+                        // _RayPosZ = _RayPosZ + _RayDirectionZ;
+                        
+                        
+
+                        // Reflection using dot product
+
+                        //float16_t magnitude = IntToFloat(magnitude(normalXScaled, normalYScaled, normalZScaled))/scaler2;
+
+                        // normalX = normalX / (magnitude);
+                        // normalY = normalY / (magnitude);
+                        // normalZ = normalZ / (magnitude);
+
+                        // num between -32 and 32
+                        dot = ((_RayDirectionX * normalXScaled) + (_RayDirectionY * normalYScaled) + (_RayDirectionZ * normalZScaled));
+
+                        cNormX = dot/192*normalXScaled/32;
+                        cNormY = dot/192*normalYScaled/32;
+                        cNormZ = dot/192*normalZScaled/32;
+
+                        _RayDirectionX = (_RayDirectionX-cNormX);
+                        _RayDirectionY = (_RayDirectionY-cNormY);
+                        _RayDirectionZ = (_RayDirectionZ-cNormZ);
+                        // int RayDirectionXScaled = _RayDirectionX * 255;
+                        // int RayDirectionYScaled = _RayDirectionY * 255;
+                        // int RayDirectionZScaled = _RayDirectionZ * 255;
+                        
+
+                        // offset = 0;
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // offset = 0;
+                        // set_text_color(255, 0, 0);
+                        // write_signed_int(normalXScaled);
+                        // write(' ');
+                        // set_text_color(0, 255, 0);
+                        // write_signed_int(normalYScaled);
+                        // write(' ');
+                        // set_text_color(0, 0, 255);
+                        // write_signed_int(normalZScaled);
+
+                        // int magnitudei = magnitude(RayDirectionXScaled, RayDirectionYScaled, RayDirectionZScaled);
+
+
+                        // _RayDirectionX = FloatToInt(IntToFloat(_RayDirectionX) / (IntToFloat(magnitudei) / IntToFloat(510)+EPSILON));
+                        // _RayDirectionY = FloatToInt(IntToFloat(_RayDirectionY) / (IntToFloat(magnitudei) / IntToFloat(510)+EPSILON));
+                        // _RayDirectionZ = FloatToInt(IntToFloat(_RayDirectionZ) / (IntToFloat(magnitudei) / IntToFloat(510)+EPSILON));
+
+                        int col = eight_to_fifteen_bit_color(sphereInfo.color);
+                        // if(iteration == 0){
+                        //     _RayR = (_RayR + ((col >> 10) & 0b11111)*((((normalZScaledInt)/2)&0b11111)+3)/32);
+                        //     _RayG = (_RayG + ((col >> 5) & 0b11111)*((((normalZScaledInt)/2)&0b11111)+3)/32);
+                        //     _RayB = (_RayB + (col & 0b11111)*((((normalZScaledInt)/2)&0b11111)+3)/32);
+                        // }
+                        // else{
+                        //     _RayR = (_RayR + ((col >> 10) & 0b11111)*((((normalZScaledInt)/2)&0b11111)+3)/32)/2;
+                        //     _RayG = (_RayG + ((col >> 5) & 0b11111)*((((normalZScaledInt)/2)&0b11111)+3)/32)/2;
+                        //     _RayB = (_RayB + (col & 0b11111)*((((normalZScaledInt)/2)&0b11111)+3)/32)/2;
+                        // }
+                        int brightness = distance(normalXScaled/4, normalYScaled/4, normalZScaled/4, lightDirX, lightDirY, lightDirZ)/3;
+                        brightness = ClampInt(brightness, 0, 31);
+                        //brightness = 31;
+                        // offset = 0;
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // offset = 0;
+                        // write_signed_int(brightness);
+                        // if(iteration > 0){
+                        if(iteration == 0){
+                            _RayR = (((col >> 10) & 0b11111)*brightness/31);
+                            _RayG = (((col >> 5) & 0b11111)*brightness/31);
+                            _RayB = ((col & 0b11111)*brightness/31);
+                            albedo = 1;
+                        }
+                        else{
+                            _RayR = (_RayR*3/4/albedo + (((col >> 10) & 0b11111))*brightness/31/4*albedo);
+                            _RayG = (_RayG*3/4/albedo + (((col >> 5) & 0b11111))*brightness/31/4*albedo);
+                            _RayB = (_RayB*3/4/albedo + ((col & 0b11111))*brightness/31/4*albedo);
+                            
+                            albedo = 1;
+                            // _RayR = (_RayR + ((col >> 10) & 0b11111));
+                            // _RayG = (_RayG + ((col >> 5) & 0b11111));
+                            // _RayB = (_RayB + (col & 0b11111));
+                        }
+                        // }
+                        //int col = (((((normalYScaled+xyOffsetter)&0b111111111111111)/4)&0b11111)<<5);
+                        
+
+                        // signedint_t xyOffsetter = 64;
+                        // // int col = (((((normalXScaled/3+xyOffsetter)&0b111111111111111)/4)&0b11111)<<10)|(((((normalYScaled/3+xyOffsetter)&0b111111111111111)/4)&0b11111)<<5)|((((normalZScaled/3&0b111111111111111)/2)&0b11111));
+                        // int col = (((((normalXScaled/4+xyOffsetter)&0b111111111111111)/4)&0b11111)<<10)|(((((normalYScaled/4+xyOffsetter)&0b111111111111111)/4)&0b11111)<<5)|((((normalZScaled/4&0b111111111111111)/2)&0b11111));
+                        
+                        // _RayR = (((col >> 10) & 0b11111));
+                        // _RayG = (((col >> 5) & 0b11111));
+                        // _RayB = ((col & 0b11111));
+
+
+                            // offset = 0;
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // offset = 0;
+                        // write_signed_int(normalXScaled);
+                        // newline();
+                        // newline();
+                        // newline();
+                        // newline();
+                        // newline();
+                        // newline();
+                        // newline();
+                        // newline();
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // write(' ');
+                        // offset -= 15;
+                        // write_signed_int(_RayPosXScaled - spherePosX);
+                        // write(' ');
+                        // write_signed_int(sphereRadius);
+                        // write(' ');
+                        // write_signed_int(FloatToInt(IntToFloat((_RayPosXScaled - spherePosX)) / IntToFloat(sphereRadius) * scaler));
+                        //signedint_t col = sphereInfo.color;
+
+                        // if(shadow < IntToFloat(1)){
+                        //     col = 0b00100101;
+                        // }
+                        
+                        //_RayRGB = _RayRGB + col;
+                        //_RayRGB = col;
+
+                        // _RayRGB = sphereInfo.color / (z / 8);
+                        z = maxMoveDist;
+                        sh=4;
+                        //z = 0;
+                        break;
+                    }
+                }
+                if(collided){
+                    z = maxMoveDist;
+                    break;
+                }
+            }
+        }
+    }
+    // No hit, or reached the bounce limit
+    //return newColor;
+    _RayRGB = ((_RayR&0b11111) << 10)|((_RayG&0b11111) << 5)|((_RayB&0b11111));
+}
+
+
+spheres[2] = {x:40, y:60};
+spherePosZ[2] = 20;
+sphereInfos[2] = {color:0b11, radius:20};
+
+spheres[1] = {x:70, y:70};
+spherePosZ[1] = 10;
+sphereInfos[1] = {color:0b11100000, radius:10};
+
+spheres[0] = {x:33, y:40};
+spherePosZ[0] = 30;
+sphereInfos[0] = {color:0b11100, radius:30};
+
+
+int counter = 0;
+
+// set_text_color(255, 255, 0);
+// ChangeHighlightColor(0, 0, 125);
+// write('r');
+// write('e');
+// write('n');
+// write('d');
+// write('e');
+// write('r');
+// write('i');
+// write('n');
+// write('g');
+// for(int i = 0; i < (18*18-9); i++){
+//     write(' ');
+// }
+// offset = 0;
+// newline();
+// float16_t scaler = { sign : 0, exponent : 0b10011, fraction : 0b1111000000 };
+// float16_t TWO = IntToFloat(2);
+// newline();
+
+// write_signed_int(FloatToInt(TWO / scaler));
+// if(FloatToInt(TWO / scaler) == 0){
+//     set_text_color(0, 255, 0);
+// }
+// else{
+//     set_text_color(255, 0, 0);
+// }
+// write(' ');
+// write(' ');
+// write('0');
+// newline();
+
+// set_text_color(255, 255, 0);
+// write_signed_int(FloatToInt(scaler / TWO));
+// if(FloatToInt(scaler / TWO) == 15){
+//     set_text_color(0, 255, 0);
+// }
+// else{
+//     set_text_color(255, 0, 0);
+// }
+// write(' ');
+// write('1');
+// write('5');
+// newline();
+
+// set_text_color(255, 255, 0);
+// write_signed_int(FloatToInt(scaler));
+// if(FloatToInt(scaler) == 31){
+//     set_text_color(0, 255, 0);
+// }
+// else{
+//     set_text_color(255, 0, 0);
+// }
+// write(' ');
+// write('3');
+// write('1');
+// newline();
+
+// set_text_color(255, 255, 0);
+// write_signed_int(FloatToInt(scaler / ONE));
+// if(FloatToInt(scaler / ONE) == scaler){
+//     set_text_color(0, 255, 0);
+// }
+// else{
+//     set_text_color(255, 0, 0);
+// }
+// write(' ');
+// write('3');
+// write('1');
+// newline();
+
+// set_text_color(255, 255, 0);
+// write_signed_int(FloatToInt(ONE / scaler * scaler));
+// if(FloatToInt(ONE / scaler * scaler) == 1){
+//     set_text_color(0, 255, 0);
+// }
+// else{
+//     set_text_color(255, 0, 0);
+// }
+// write(' ');
+// write(' ');
+// write('1');
+
+
+// set_text_color(255, 255, 0);
+
+// asm{
+//     VBUF
+// };
+
+bool sphereDir = true;
+// // Initial render
+// for(int x = 0; x < 108; x++){
+//     for(int y = 0; y < 108; y++){
+//         _StartRayPosX = x;
+//         _StartRayPosY = y;
+//         SendRay();
+//         //SetPixel(x, y, eight_to_fifteen_bit_color(_RayRGB));
+//         SetPixel(x, y,_RayRGB);
+//     }
+//     asm{
+//         VBUF
+//     };
+// }
+SphereInfo sphereInfo = sphereInfos[2];
+int blueRadius = sphereInfo.radius;
+SphereInfo sphereInfo2 = sphereInfos[1];
+int redRadius = sphereInfo2.radius;
+// int startX = ClampInt((((int)spheres[2]) & 0b11111111) - sphereRadius-4, 0, 107);
+// int endX = ClampInt((((int)spheres[2]) & 0b11111111) + sphereRadius+4, 0, 107);
+int blueVelX = 1;
+int blueVelY = 1;
+int redVelX = Negative(2);
+int redVelY = 2;
+int greenVelZ = 2;
+int spherePosX = 0;
+int spherePosY = 0;
+while (true) {
+    // Render the lines only affecting the sphere
+    for(_StartRayPosX = 0; _StartRayPosX < 107; _StartRayPosX++){
+        for(_StartRayPosY = 0; _StartRayPosY < 107; _StartRayPosY++){
+            SendRay();
+            //SetPixel(x, y, eight_to_fifteen_bit_color(_RayRGB));
+            SetPixel(_StartRayPosX, _StartRayPosY,_RayRGB);
+        }
+        asm{
+            VBUF
+        };
+    }
+    asm{
+        VBUF
+    };
+
+
+    // Move spheres
+
+    // Blue Sphere
+    spherePosX = ((int)spheres[2]) & 0b11111111;
+    spherePosY = (((int)spheres[2]) & 0b1111111100000000) >> 8;
+    if(((spherePosY >= 107-blueRadius) && blueVelY == 1) || ((spherePosY <= blueRadius) && blueVelY != 1)){
+        if(blueVelY == 1){
+            blueVelY = 0;
+        }
+        else {
+            blueVelY = 1;
+        }
+    }
+    if(((spherePosX >= 107-blueRadius) && blueVelX == 1) || ((spherePosX <= blueRadius) && blueVelX != 1)){
+        if(blueVelX == 1){
+            blueVelX = 0;
+        }
+        else{
+            blueVelX = 1;
+        }
+    }
+    if(blueVelX == 1){
+        spherePosX += 1;
+    }
+    else{
+        spherePosX -= 1;
+    }
+    if(blueVelY == 1){
+        spherePosY += 1;
+    }
+    else{
+        spherePosY -= 1;
+    }
+    spheres[2] = (spherePosX | (spherePosY<<8));
+
+    // Red Sphere
+    spherePosX = ((int)spheres[1]) & 0b11111111;
+    spherePosY = (((int)spheres[1]) & 0b1111111100000000) >> 8;
+    if((spherePosY >= 107-redRadius && redVelY == 2) || (spherePosY <= redRadius && redVelY != 2)){
+        redVelY = Negative(redVelY);
+    }
+    if((spherePosX >= 107-redRadius && redVelX == 2) || (spherePosX <= redRadius && redVelX != 2)){
+        redVelX = Negative(redVelX);
+    }
+    spherePosX = (spherePosX + redVelX) & 0b11111111;
+    spherePosY = (spherePosY + redVelY) & 0b11111111;
+    spheres[1] = (spherePosX | (spherePosY<<8));
+
+    // Green Sphere
+    int spherePositionZ = ((int)spherePosZ[0]) & 0b11111111;
+    if((spherePositionZ >= 150 && greenVelZ == 2) || (spherePositionZ <= 30 && greenVelZ != 2)){
+        greenVelZ = Negative(greenVelZ);
+    }
+    spherePositionZ += greenVelZ;
+    spherePosZ[0] = spherePositionZ;
+
+    // lfsr();
+    // _StartRayPosX = rand(15)%107;
+    // _StartRayPosY = rand(15)%107;
+    // SendRay();
+    // // SetPixel(_StartRayPosX, _StartRayPosY, eight_to_fifteen_bit_color(_RayRGB));
+    // SetPixel(_StartRayPosX, _StartRayPosY, _RayRGB);
+    // asm{
+    //     VBUF
+    // };
+
+    
+    // for(int x = 0; x < (108*108); x++)
+    //     screen[x] = 0;
+}
+
+// struct MouseInput {
+//     int y : 7;
+//     int x : 7;
+//     int left : 1;
+//     int right : 1;
+// };
+
+// var chars = create_pointer(53546, 1)
+// var offset = 0
+
+// void write(int c) {
+//     chars[offset] = c
+//     offset++
+// }
+
+// void write_int(int value) {
+//     var reverser = create_pointer(65530, 0)
+//     var i = 0
+//     for (var i = 0; i < 5; i++){
+//         reverser[i] = 0
+//     }
+//     while (value > 0) {
+//         var char = (value % 10) switch {
+//             1 => '1',
+//             2 => '2',
+//             3 => '3',
+//             4 => '4',
+//             5 => '5',
+//             6 => '6',
+//             7 => '7',
+//             8 => '8',
+//             9 => '9',
+//             _ => '0'
+//         }
+
+//         reverser[i] = char
+//         value = value / 10
+//         i += 1
+//     }
+//     for (var i = 0; i < 5; i++){
+//         write(reverser[4-i])
+//     }
+// }
+
+// write_int(area(3, 100, 54, 5, 100, 100))
+
+// DrawLine(IntToFloat(10), IntToFloat(20), IntToFloat(60), IntToFloat(100), get_color(255, 255, 255))
+
+// for (var x = 0; x < 108; x++) {
+//     for (var y = 0; y < 108; y++) {
+//         var r = rand(5)
+//         SetPixel(x, y, (r<<5)|(r<<10)|r)
+//         // // Delay
+//         // for (var l = 0; l < 90 * 1; l++){
+//         //     for (var o = 0; o < 1; o++){
+//         //         // Do nothing  _(¦3」∠)_
+//         //     }
+//         // }
+//     }
+// }
+
+// newline()
+// signedint_t a = {s:0, val:70};
+// signedint_t b = {s:1, val:10};
+// var outint = Addsignedint_ts(a, b)
+// write_signed_int(a)
+// write('+')
+// write_signed_int(b)
+// write('=')
+// write_signed_int(outint)
+
+
+while (true){
+
+}
+
+
+
+//////////////////////////////////////////
+//  This is all float and writing code: //
+//////////////////////////////////////////
+
+
+// var floats = create_pointer<float16_t>(0x0, 1);
+// var signedInts = create_pointer<signedint_t>(0x1111, 1);
+// var screen = create_pointer(53871, 1)
+// var charMem = create_pointer(53546, 1)
+
+
+
+inline int get_color(int r, int g, int b) {
+    return (r / 8 << 10) + (g / 8 << 5) + (b / 8);
+}
+
+inline int get_text_color(int r, int g, int b) {
+    return (r / 36 << 5) + (g / 36 << 2) + (b / 85);
+}
+
+inline int eight_to_fifteen_bit_color(int eightbitcolor) {
+    int r = (eightbitcolor & 0b11100000) >> 5;
+    int g = (eightbitcolor & 0b11100) >> 2;
+    int b = (eightbitcolor & 0b11);
+    return (r * 36 / 8 << 10) + (g * 36 / 8 << 5) + (b * 85 / 8);
+}
+
+void set_text_color(int r, int g, int b) {
+    textColor = (r / 36 << 5) + (g / 36 << 2) + (b / 85);
+}
+
+int ClampInt(int x, int min, int max){
+    if(x<min)
+        return min
+    else if(x>max)
+        return max
+
+    return x
+}
+
+// Function for drawing a single pixel to the screen safely, if you don't know if the x,y values are out of bounds
+void SetPixelSAFE(int x, int y, int color){
+    var screenOffset = (ClampInt(y, 0, 107) * 108) + ClampInt(x, 0, 107)
+    screen[screenOffset] = color
+}
+
+// Function for drawing a single pixel to the screen
+// ~PC 2555
+void SetPixel(int x, int y, int color){
+    var screenOffset = (y * 108) + x
+    screen[screenOffset] = color
+}
+
+// Function for getting a single pixel color from video memory
+int GetPixel(int x, int y){
+    var screenOffset = (ClampInt(y, 0, 107) * 108) + ClampInt(x, 0, 107)
+    return screen[screenOffset]
+}
+
+void ChangeHighlightColor(int r, int g, int b){
+    highlightColor = get_color(r, g, b)
+    highlightOppositeColor = get_color(256-r, 256-g, 256-b)
+}
+
+void write(int c) {
+    chars[offset] = c | (textColor << 8)
+
+    // Draw highlight behind character
+    var pixOffsetY = (offset/18)*6
+    var pixOffsetX = ((offset*6)%108)
+    for (var x = 0; x < 6; x++) {
+        for (var y = 0; y < 6; y++) {
+            var pixel = highlightColor
+            SetPixel(pixOffsetX+x, pixOffsetY+y, pixel)
+        }
+    }
+
+    // Increment location offset by 1
+    offset++
+}
+
+// Get the absolute value of a float value
+float16_t fabs(float16_t f){
+    float16_t outFloat = {sign:0, exponent:0, fraction:0};
+    outFloat.exponent = f.exponent
+    outFloat.fraction = f.fraction
+    return outFloat
+}
+
+signedint_t IntTosignedint_t(int x){
+    signedint_t o = {s:0, val:x};
+    return o
+}
+
+int SignedToTwosComp(signedint_t x){
+    int out = x.val;
+    if(x.s){
+        out = Negative(out);
+    }
+    return out;
+}
+
+// void writeStr(int s) {
+//     var size = sizeof(s)
+//     for (var i = 0; i < size; i++) {
+//         write(s[i])
+//     }
+// }
+
+void newline(){
+    offset = offset / 18 * 18 + 18;
+}
+
+void write_int(int value) {
+    var reverser = create_pointer(65530, 0);
+    var i = 0;
+    for (var o = 0; o < 5; o++){
+        reverser[o] = 0;
+    }
+    while (value > 0) {
+        var ch = (value % 10) switch {
+            1 => '1',
+            2 => '2',
+            3 => '3',
+            4 => '4',
+            5 => '5',
+            6 => '6',
+            7 => '7',
+            8 => '8',
+            9 => '9',
+            _ => '0'
+        }
+
+        reverser[i] = ch;
+        value = value / 10;
+        i += 1;
+    }
+    bool atFirst = false;
+    for (var o = 0; o < 5; o++){
+        // If the first non-zero number has finally been found, start writing number
+        if(reverser[4-o] != 0)
+            atFirst = true
+        // Otherwise it is just a trailing zero, so skip
+        else if(atFirst==false)
+            continue;
+        write(reverser[4-o]);
+    }
+}
+
+void write_binary(int value) {
+    var reverser = create_pointer(65519, 0);
+    var i = 0;
+    for (var i = 0; i < 16; i++){
+        reverser[i] = 0;
+    }
+    while (value > 0) {
+        var ch = (value & 1) switch {
+            1 => '1',
+            _ => '0'
+        }
+
+        reverser[15-i] = ch
+        value = value >> 1
+        i += 1
+    }
+    for (var i = 0; i < 16; i++){
+        write(reverser[i])
+    }
+}
+
+void write_float(float16_t f) {
+    write('e')
+    write(':')
+    var exp = f.exponent
+    write_binary(f.exponent)
+    write('f')
+    write(':')
+    var frac = f.fraction
+    write_binary(f.fraction)
+}
+
+void write_signed_int(signedint_t i) {
+    if(i.s) // If negative, print `-`
+        write('-')
+    int v = i.val
+    write_int(v)
+}
+
+int TruncateTrailingZeros(int x){
+    var o = x
+    for (var i = 0; i < 16; i++){
+        // If the last digit is 1, then stop shifting
+        if((o & 1) == 1)
+            break
+        // Otherwise shift again
+        o = o >> 1
+    }
+    return o
+}
+
+
+// Returns true if values a and b are within +-range of eachother
+bool WithinRange(signedint_t aI, signedint_t bI, int range){
+    var a = aI.val
+    var b = bI.val
+    if(a > b){
+        if((a-b)<=range){
+            // write_int(a-b)
+            return true
+        }
+        else{
+            return false
+        }
+    }
+    else if(a < b){
+        if((b-a)<=range){
+            // write_int(b-a)
+            return true
+        }
+        else{
+            return false
+        }
+    }
+    return true
+}
+
+int Delta(int a, int b){
+    if(a > b)
+        return a - b
+    else if(a < b)
+        return b - a
+
+    return 0
+}
+
+// Temporary bitwise not ~ operator function, sinZe currently that operator
+// is broken and only returns 0 unless used like this:
+int NOT(int x){
+    return ~x&0b1111111111111111
+}
+
+// Convert integer to it's negative value in twos complement
+int Negative(int x){
+    return ((~x) + 1);
+}
+
+inline int XOR(int a, int b){
+    return (a|b)&(NOT(a&b))
+}
+
+
+int get_shift_amnt(int man, int exp){
+    return 10-exp
+}
+
+// Kindof inefficient square root method
+int sqrt(int x){
+	int counter=1
+	int sqroot=1
+	while(sqroot <= x)
+	{
+		counter += 1
+		sqroot = counter*counter
+	}
+	return counter - 1
+}
+// // Kindof inefficient square root method
+// float16_t sqrtf(float16_t x){
+// 	float16_t counter= ONE;
+// 	float16_t sqroot = ONE;
+// 	while(sqroot <= x)
+// 	{
+// 		counter += ONE;
+// 		sqroot = counter*counter;
+// 	}
+// 	return counter - ONE;
+// }
+
+// Returns the integer base raised to the power integer exponent
+signedint_t pow(signedint_t base, signedint_t exponent){
+    signedint_t calculated = base;
+    int finalSign = 0;
+    if(base.s){
+        if((exponent.val%2)!=0){ // If not even
+            finalSign = 1;
+        }
+    }
+    // If the exponent is negative, we divide each time instead of multiply
+    if(exponent.s == 1){
+        for (var i = 1; i < exponent.val; i++){
+            calculated = calculated / base;
+        }
+    }
+    // Otherwise it is normal multiplication exponent
+    else {
+        for (var i = 1; i < exponent.val; i++){
+            calculated = calculated * base;
+        }
+    }
+    return {val:calculated.val, s:finalSign};
+}
+
+// // Returns the float base raised to the power integer exponent
+// float16_t powf(float16_t base, signedint_t exponent){
+//     float16_t calculated = base;
+//     int finalSign = 0;
+//     if(base.sign)
+//     {
+//         finalSign = !(exponent.val%2==0)
+//     }
+//     // If the exponent is negative, we divide each time instead of multiply
+//     if(((int)exponent) >= 32768){
+//         for (var i = 1; i < exponent.val; i++){
+//             calculated = calculated / base
+//         }
+//     }
+//     // Otherwise it is normal multiplication exponent
+//     else {
+//         for (var i = 1; i < exponent.val; i++){
+//             calculated = calculated * base;
+//         }
+//     }
+//     return calculated|(finalSign)
+// }
+
+// Adjust a float so that the 11th bit in the mantissa is 1, the whole number
+float16_t normalizeFloat(int fraction, int exponent){
+    var frac = fraction
+    var exp = exponent
+    // If the 11th digit is already the whole number 1
+    if((frac & 0b1111100000000000) == 0 && (frac & 0b10000000000) == 0b10000000000){
+        exp += 1
+    }
+    else{
+        // If leftmost digit is further than mantissa max of 10, then shift right
+        for (var j = 0; j < 10; j++){
+            // If the left has no 1s, then stop shifting
+            if((frac & 0b1111100000000000) == 0)
+                break
+            // Otherwise shift again
+            frac = frac >> 1
+            exp += 1
+        }
+        // Shift left until 11th digit is 1
+        for (var i = 0; i < 12; i++){
+            // If the left digit is 1, then stop shifting
+            if((frac & 0b10000000000) == 0b10000000000)
+                break
+            // Otherwise shift again
+            frac = frac << 1
+            exp -= 1
+        }
+    }
+    frac = frac&0b1111111111
+    float16_t outFloat = { sign : 0, exponent : exp, fraction : frac };
+    return outFloat
+}
+
+int deNormalizeFraction(int f, int exp){
+    bool sn = ((10-exp)>60000);
+    int vl = (10-exp);
+    // signedint_t powNum = { s : 0, val : 0 };
+    if (sn)
+    {
+        vl = 0b1111111111111111-(10-exp);
+        // powNum.s = 1
+    }
+    // powNum.val = vl
+
+
+    // return (f * pow(2, powNum))
+    // If exponent is negative
+    if(sn == 1)
+    {
+        return f<<vl;
+    }
+    // Otherwise shift normal way
+    else
+    {
+        return f>>vl;
+    }
+}
+
+// ~PC 3300
+signedint_t Addsignedint_ts(signedint_t a, signedint_t b){
+    signedint_t outInt = {s: 0, val:0};
+
+    // If the signs are the same, just add and return that same sign
+    if(a.s == b.s){
+        // outInt.s = a.s
+        // outInt.val = (a.val+b.val)
+        outInt = {s:a, val:(a.val+b.val)};
+    }
+    // Else if the signs are different and a is negative while b is positive, subtract a from b (b-a)
+    else if(a.s == 1){
+        // If the value of A is bigger than the value of B, then that means subtracting will make B negative
+        if(a.val > b.val){
+            outInt = {s:1, val:(a.val - b.val)};
+        }
+        else{
+            outInt.val = b.val-a.val;
+        }
+    }
+    // Else if the signs are different and b is negative while a is positive, subtract b from a (a-b)
+    else if(b.s == 1){
+        // If the value of B is bigger than the value of A, then that means subtracting will make A negative
+        if(b.val > a.val){
+            outInt = {s:1, val:(b.val - a.val)};
+        }
+        else{
+            outInt.val = a.val-b.val
+        }
+    }
+
+    return outInt;
+}
+
+// ~PC 3500
+signedint_t Subsignedint_ts(signedint_t a, signedint_t b){
+    // Invert b's sign bit
+    b.s = b.s^1;
+    return Addsignedint_ts(a, b);
+}
+
+signedint_t Multsignedint_ts(signedint_t a, signedint_t b){
+    // Determine final sign, if they are different it is 1, if they are both 0 it is 0, and if they are both 1 it is also 0
+    return {val:(a.val * b.val), s:(a.s != b.s)};
+}
+
+// Subtract two ints, and return a signed int to allow for negative numbers
+signedint_t SubTosignedint_t(int a, int b){
+    // Convert each to a signed int
+    signedint_t aInt = {s:0, val:a};
+    signedint_t bInt = {s:1, val:b}; // Invert b's sign
+
+    return aInt + bInt;
+}
+
+signedint_t Signed(int a){
+    return {val:a, s: 0};
+}
+
+signedint_t NegativeSigned(int a){
+    return {val:a, s: 1};
+}
+
+signedint_t NegativeSigned(signedint_t a){
+    return {val:a.val, s: ~(a.s)};
+}
+
+// Return the integer rounded approximation of a float
+int FloatToUnsignedInt(float16_t fl){
+    int tmpF = fl.fraction + 0b10000000000;
+
+    int tmpE = fl.exponent - 15;
+
+    int ouval = deNormalizeFraction(tmpF, tmpE); // Int version
+
+    return ouval;
+}
+
+// Return the signed integer rounded approximation of a float
+signedint_t FloatToInt(float16_t fl){
+    int flExponent = fl.exponent;
+    int flFraction = fl.fraction;
+
+    if((flExponent == flFraction) && (flExponent == 0)){
+        return 0;
+    }
+
+    int tmpF = flFraction + 0b10000000000;
+    // tmpF = TruncateTrailingZeros(tmpF)
+
+    int tmpE = flExponent - 15;
+
+    int si = fl.sign;
+
+    // int out = tmpF >> get_shift_amnt(tmpF, tmpE)
+
+    int ouval = deNormalizeFraction(tmpF, tmpE); // Int version
+
+    signedint_t out = { s:si, val:ouval }; // Add correct sign
+
+    return out;
+}
+
+bool Comparesignedint_ts(signedint_t a, signedint_t b, int comp){
+    int compresult = 0 // This stores the result of the comparison, 0 is for equal, 1 is if a > b, and 2 is if a < b
+
+    // If a is negative and b is not it is only less than
+    if(a.s > b.s){
+        compresult = 2
+    }
+    // If b is negative and a is not it is only greater than
+    else if(a.s < b.s){
+        compresult = 1
+    }
+    // If the signs are both negative, check each absolute value
+    //   (since we are negative, a greater magnitude means a lower number)
+    else if(a.s == 1){
+        // If the values are the same
+        if(a.val == b.val){
+            compresult = 0;
+        }
+        // If a is greater than b
+        else if(a.val > b.val){
+            compresult = 2;
+        }
+        // If b is greater than a
+        else if(a.val < b.val){
+            compresult = 1;
+        }
+    }
+    // If the signs are both positive, check each absolute value
+    else if(a.s == 0){
+        // If the values are the same
+        if(a.val == b.val){
+            compresult = 0;
+        }
+        // If a is greater than b
+        else if(a.val > b.val){
+            compresult = 1;
+        }
+        // If b is greater than a
+        else if(a.val < b.val){
+            compresult = 2;
+        }
+    }
+
+
+    // Now that the actual comparision is done, return a true or false based upon what we are looking for in `comp`
+    if(comp == '='){ // Equal
+        if(compresult == 0)
+            return true
+    }
+    else if(comp == '>'){ // Greater
+        if(compresult == 1)
+            return true
+    }
+    else if(comp == '<'){ // Less
+        if(compresult == 2)
+            return true
+    }
+
+    return false;
+}
+
+bool CompareFloats(float16_t a, float16_t b, int comp){
+    int compresult = 0 // This stores the result of the comparison, 0 is for equal, 1 is if a > b, and 2 is if a < b
+
+    // If a is negative and b is not it is only less than
+    if(a.sign > b.sign){
+        compresult = 2
+    }
+    // If b is negative and a is not it is only greater than
+    else if(a.sign < b.sign){
+        compresult = 1
+    }
+    // If the signs are both negative, check each absolute value
+    //   (sinZe we are negative, a greater magnitude means a lower number)
+    else if(a.sign == 1){
+        // If the exponents are the same, compare mantisssas
+        if(a.exponent == b.exponent){
+            // If they are the same, then these values are equal
+            if(a.fraction == b.fraction){
+                compresult = 0
+            }
+            // Else if a mantissa is greater than b
+            else if(a.fraction > b.fraction){
+                compresult = 2 // A greater mantissa means a lower negative number
+            }
+            // Else if b mantissa is greater than a
+            else if(b.fraction > a.fraction){
+                compresult = 1
+            }
+        }
+        // If a is greater than b
+        else if(a.exponent > b.exponent){
+            compresult = 2
+        }
+        // If b is greater than a
+        else if(a.exponent < b.exponent){
+            compresult = 1
+        }
+    }
+    // If the signs are both positive, check each absolute value
+    else if(a.sign == 0){
+        // If the exponents are the same, compare mantisssas
+        if(a.exponent == b.exponent){
+            // If they are the same, then these values are equal
+            if(a.fraction == b.fraction){
+                compresult = 0
+            }
+            // Else if a mantissa is greater than b
+            else if(a.fraction > b.fraction){
+                compresult = 1
+            }
+            // Else if b mantissa is greater than a
+            else if(b.fraction > a.fraction){
+                compresult = 2
+            }
+        }
+        // If a is greater than b
+        else if(a.exponent > b.exponent){
+            compresult = 1
+        }
+        // If b is greater than a
+        else if(a.exponent < b.exponent){
+            compresult = 2
+        }
+    }
+
+
+    // Now that the actual comparision is done, return a true or false based upon what we are looking for in `comp`
+    if(comp == '='){ // Equal
+        if(compresult == 0)
+            return true
+    }
+    else if(comp == '>'){ // Greater
+        if(compresult == 1)
+            return true
+    }
+    else if(comp == '<'){ // Less
+        if(compresult == 2)
+            return true
+    }
+
+    return false
+}
+
+// Return the integer rounded approximation of a float
+float16_t IntToFloat(signedint_t x)
+{
+    if(x.val == 0)
+    {
+        return { sign : 0, exponent : 0, fraction : 0 };
+    }
+
+    // Find the exponent, by shifting left until the largest digit is reached
+    int count = 1;
+    int tmp = x.val;
+    int mask = 1;
+    for (int i = 0; i < 16; i++){
+        // If the first digit is 1, then stop shifting because we have the count
+        if((tmp & 0b1000000000000000) == 0b1000000000000000)
+            break;
+        // Otherwise shift again
+        tmp = tmp << 1;
+        count += 1;
+    }
+    // Get exponent from count, then add offset of 15 for float format
+    int exp = (15-count)+15;
+
+    int mant = x.val;
+    // If the mantissa is >= 10 bits long already, only use first 10
+    if(mant > 0b11111111111){
+        mant = mant >> ((16-count)-11);
+    }
+    else if(mant < 0b10000000000){
+        mant = mant << (11-(16-count));
+    }
+
+    float16_t outFloat = normalizeFloat(mant, exp);
+    outFloat.sign = x.s;
+
+    return outFloat;
+}
+
+float16_t AddFloats(float16_t floatA, float16_t floatB){
+    float16_t outFloat = { sign : 0, exponent : 0, fraction : 0 };
+    // If the exponents are different, then we need to make the float with the smaller exponent the same as the larger one
+    if(floatA.exponent > floatB.exponent){
+        var tmpMB = ((floatB.fraction+0b10000000000)>>(floatA.exponent-floatB.exponent))
+        var tmpMA = floatA.fraction+0b10000000000
+
+        bool finalSign = false
+        if(floatB.sign == true){
+            tmpMB = Negative(tmpMB)
+            // Determine the final sign, it is 1 if B is > A
+            if(floatB.exponent > floatA.exponent)
+                finalSign = true
+            // If they have the same exponent, check mantissas as well
+            else if((floatB.exponent == floatA.exponent) && (floatB.fraction > floatA.fraction))
+                finalSign = true
+        }
+        if(floatA.sign == true){
+            tmpMA = Negative(tmpMA)
+            // Determine the final sign, it is 1 if A is > B
+            if(floatA.exponent > floatB.exponent)
+                finalSign = true
+            // If they have the same exponent, check mantissas as well
+            else if((floatA.exponent == floatB.exponent) && (floatA.fraction > floatB.fraction))
+                finalSign = true
+        }
+
+        int tmpM = tmpMA+tmpMB
+        int exp = floatA.exponent
+        outFloat = { sign : finalSign, exponent : exp, fraction : tmpM };
+        if ((tmpM & 0b10000000000) != 0b10000000000) // If the 11th bit is 0, then normalize
+            outFloat = normalizeFloat(tmpM, exp)
+    }
+    // 150+500
+    else if(floatA.exponent < floatB.exponent){
+        int tmpMB = floatB.fraction+0b10000000000
+        int tmpMA = ((floatA.fraction+0b10000000000)>>(floatB.exponent-floatA.exponent))
+
+        bool finalSign = false
+        if(floatB.sign == true){
+            tmpMB = Negative(tmpMB)
+            // Determine the final sign, it is 1 if B is > A
+            if(floatB.exponent > floatA.exponent)
+                finalSign = true
+            // If they have the same exponent, check mantissas as well
+            else if((floatB.exponent == floatA.exponent) && (floatB.fraction > floatA.fraction))
+                finalSign = true
+        }
+        if(floatA.sign == true){
+            tmpMA = Negative(tmpMA)
+            // Determine the final sign, it is 1 if A is > B
+            if(floatA.exponent > floatB.exponent)
+                finalSign = true
+            // If they have the same exponent, check mantissas as well
+            else if((floatA.exponent == floatB.exponent) && (floatA.fraction > floatB.fraction))
+                finalSign = true
+        }
+
+        int tmpM = tmpMA+tmpMB
+
+        int exp = floatB.exponent
+        outFloat = { sign : finalSign, exponent : exp, fraction : tmpM };
+        if ((tmpM & 0b10000000000) != 0b10000000000) // If the 11th bit is 0, then normalize
+            outFloat = normalizeFloat(tmpM, floatB.exponent)
+    }
+    // Else the exponents are the same, so no need to change them
+    else {
+        int tmpMB = (floatB.fraction+0b10000000000)>>1
+        int tmpMA = (floatA.fraction+0b10000000000)>>1
+
+        bool finalSign = false
+        if(floatB.sign == true){
+            tmpMB = Negative(tmpMB)
+            // Determine the final sign, it is 1 if B is > A
+            if(floatB.exponent > floatA.exponent)
+                finalSign = true
+            // If they have the same exponent, check mantissas as well
+            else if((floatB.exponent == floatA.exponent) && (floatB.fraction > floatA.fraction))
+                finalSign = true
+        }
+        if(floatA.sign == true){
+            tmpMA = Negative(tmpMA)
+            // Determine the final sign, it is 1 if A is > B
+            if(floatA.exponent > floatB.exponent)
+                finalSign = true
+            // If they have the same exponent, check mantissas as well
+            else if((floatA.exponent == floatB.exponent) && (floatA.fraction > floatB.fraction))
+                finalSign = true
+        }
+
+        int tmpM = tmpMA+tmpMB
+
+        int exp = floatB.exponent+1
+        outFloat = { sign : finalSign, exponent : exp, fraction : tmpM };
+        if ((tmpM & 0b10000000000) != 0b10000000000) // If the 11th bit is 0, then normalize
+            outFloat = normalizeFloat(tmpM, floatB.exponent)
+    }
+
+    return outFloat
+}
+
+float16_t SubFloats(float16_t floatA, float16_t floatB){
+    float16_t fb = floatB
+    fb.sign = !fb.sign
+    return AddFloats(floatA, fb)
+}
+
+
+float16_t MultFloats(float16_t floatA, float16_t floatB){
+    int aFrac = floatA.fraction;
+    int bFrac = floatB.fraction;
+    int aExpo = floatA.exponent;
+    int bExpo = floatB.exponent;
+
+    // If one of these is 0, the outpout value is 0
+    if(((aFrac == aExpo) && (aExpo == 0)) || ((bFrac == bExpo) && (bExpo == 0))){
+        return 0;
+    }
+
+    int tmpMA = aFrac+0b10000000000;
+    int tmpMB = bFrac+0b10000000000;
+
+    int snA = floatA.sign;
+    int snB = floatB.sign;
+
+
+    // Determine final sign, if they are different it is 1, if they are both 0 it is 0, and if they are both 1 it is also 0
+    int finalSign = (snA ^ snB) & 1;
+
+    // Get the lowest bit that is 1 in either A or B
+    int count = 0; // count is for the lowest index there is a 1
+    for (int i = 0; i < 10; i++){
+        // If the lowest bit in A or B is 1, stop the loop
+        if(((tmpMA & 1) == 1) || ((tmpMB & 1) == 1))
+        {
+            break;
+        }
+        else
+        {
+            // Shift right
+            tmpMA = tmpMA >> 1;
+            tmpMB = tmpMB >> 1;
+            count += 1;
+        }
+    }
+
+    int tmpM = tmpMA*tmpMB;
+    int exp = aExpo+bExpo-15+count-4;
+
+    float16_t outFloat = { sign : finalSign, exponent : exp, fraction : tmpM };
+    if ((tmpM & 0b10000000000) != 0b10000000000) // If the 11th bit is 0, then normalize
+    {
+        outFloat = normalizeFloat(tmpM, exp)
+        outFloat.sign = finalSign;
+    }
+
+    return outFloat;
+}
+
+// Credit to njuffa (https://cs.stackexchange.com/users/51535/njuffa),
+// 'Simple algorithm for IEEE-754 division on 8-bit CPU?'',
+// URL (version: 2019-02-28): https://cs.stackexchange.com/q/104961
+float16_t DivFloats (float16_t a, float16_t b)
+{
+    int r = 0;
+    int x = 0;
+    int y = 0;
+    int sign = 0;
+
+    //int i = 0;
+    int odd = 0;
+    int rnd = 0;
+    bool sticky = 0;
+
+    float16_t outVal = {sign:0, exponent:0, fraction:0};
+    int outExpo = 0;
+    int outFrac = 0;
+    int outSign = 0;
+
+    /* extract biased exponents and sign bits */
+    int expo_x = a.exponent+15;
+    int expo_y = b.exponent+15;
+    int sign_x = a.sign;
+    int sign_y = b.sign;
+    int frac_x = a.fraction;
+    int frac_y = b.fraction;
+
+    outSign = ((sign_x) ^ (sign_y)) & 1;
+    //outExpo = (expo_x + Negative(expo_y)+15)&0b11111;
+
+    if(FloatToInt(a) == 0){
+        outVal = {sign:0, exponent:0, fraction:0};
+        return outVal;
+    }
+    if(FloatToInt(a) == FloatToInt(b)){
+        outVal = ONE;
+        return outVal;
+    }
+
+    for (int jj = 1; jj < 2; jj++)
+    {
+        if (((expo_x >= 1) && (expo_x <= 0b11110) && (expo_y >= 1) && (expo_y <= 0b11110)) || (jj==1))
+        { // fast path */
+    // divide:
+            // expo_x += 15;
+            // expo_y += 15;
+            // add significand leading 1 int */
+            x = frac_x | 0b10000000000;
+            y = frac_y | 0b10000000000;
+            if (x< y)
+            {
+                x = x << 1;
+                expo_x -= 1;
+            }
+            // while ((y&0b1000000000) < (x&0b1000000000))
+            // {
+            //     y = y << 1;
+            //     expo_y -= 1;
+            // }
+            // x = x >> 1;
+            // expo_x += 1;
+            // compute exponent of result */
+            outExpo = (expo_x + Negative(expo_y))&0b11111;
+            // // dividend may not be smaller than divisor: normalize */
+            // outVal = normalizeFloat(x, outExpo);
+            // x = outVal.fraction;
+
+            // generate quotient one bit at at time */
+            // if (y == x)
+            // {
+            //     r = 0b10000000000;
+            // }
+            // else
+            // {
+                //r=x/y;
+                r = 0;
+                for (int ii = 0; ii < 11; ii++)
+                {
+                    r = (r << 1);
+                    //x = x & (0b11111111111 >> ii);
+                    if (x >= y)
+                    {
+                        // if(x-y <= x)
+                        // {
+                            x -= y;
+                            r = r | 1;
+                    // outExpo -= 1;
+                        // }
+                        // if (x >y)
+                        // {
+                        // }
+                    }
+                    y = (y >> 1);
+                    // else
+                    // {
+                    //     x = x << 1;
+                    // }
+                    // if(x >= 0b11111111111)
+                    //     break;
+                }
+            // }
+            // outFrac = r&0b1111111111;
+            while(outFrac > 0b11111111111){
+                outFrac = outFrac >> 1;
+                outExpo += 1;
+            }
+
+            // int remainder = 0;
+            // int t = 0;
+            // int num_bits = 0;
+            // int q = 0;
+            // int bit = 0;
+            // int d = 0;
+
+            // outFrac = 0;
+            // num_bits = 11;
+
+            // if (y > x)
+            // {
+            //     remainder = x;
+            // }
+            // else if (y == x)
+            // {
+            //     outFrac = 1;
+            // }
+            // else
+            // {
+            //     while (remainder < y) {
+            //         bit = (x & 0b10000000000) >> (10);
+            //         remainder = (remainder << 1) | bit;
+            //         d = x;
+            //         x = x << 1;
+            //         num_bits -= 1;
+            //     }
+
+            //     x = d;
+            //     remainder = remainder >> 1;
+            //     num_bits += 1;
+
+            //     for (int ii = 0; ii < num_bits; ii++) {
+            //         bit = (x & 0b10000000000) >> (10);
+            //         remainder = (remainder << 1) | bit;
+            //         t = remainder - y;
+            //         q = !((t & 0b10000000000) >> (10));
+            //         x = x << 1;
+            //         outFrac = (outFrac << 1) | q;
+            //         if (q)
+            //         {
+            //             remainder = t;
+            //         }
+            //     }
+            // }
+
+
+  
+
+            // outVal = normalizeFloat(r- 0b10000000000, outExpo);
+            // outFrac = outVal.fraction;
+            // outExpo = outVal.exponent;
+
+            // OR remainder bits into sticky bit */
+            // sticky = (x != 0);
+            // if ((outExpo >= 1) && (outExpo <= 0b11110))
+            // { // normal, may overflow to infinity*/
+            //     // extract round and lsb bits */
+            //     rnd = (r & 1);
+            //     odd = ((r & 2) != 0);
+            //     // remove round bit from quotient and round to-nearest-even */
+            //     r = (r >> 1) + (rnd & (sticky | odd));
+            //     // set significand */
+            //     outFrac = r - 0b10000000000;
+            // } 
+            // else if (outExpo > 0b11110)
+            // { // overflow: infinity
+            //     r = 0;
+            // }
+            // else
+            // { // underflow: result is zero, subnormal, or smallest normal */
+            //     int shift = (1 - outExpo);
+            //     // clamp shift count */
+            //     if (shift > 12)
+            //     {
+            //         shift = 12;
+            //     }
+            //     // OR shifted-off bits of significand into sticky bit */
+            //     sticky = sticky | ((r & NOT(0b1111111111111111 << shift)) != 0);
+            //     // denormalize significand */
+            //     r = r >> shift;
+            //     // extract round and lsb bits */
+            //     rnd = (r & 1);
+            //     odd = ((r & 2) != 0);
+            //     // remove round bit from quotient and round to-nearest-even */
+            //     // r = (r >> 1) + (rnd & (sticky | odd));
+            //     outFrac = (r >> 1) + (rnd & (sticky | odd));
+            // }
+            // // combine sign bit with combo of exponent and significand */
+            // r = r | sign;
+            //outSign = sign;
+            outSign = outSign&1;
+            outExpo = (outExpo-15)&0b11111;
+            outFrac = outFrac&0b1111111111;
+            outVal = {sign:outSign, exponent:outExpo, fraction:outFrac};
+            return outVal;
+        }
+        else
+        { // slow path */
+            // // take absolute value of arguments */
+            // x = a & NOT(SIGN_MASK);
+            // y = b & NOT(SIGN_MASK);
+            // if dividend is a NaN, convert that NaN into a QNaN and return it */
+            if ((expo_x == 0b11111) && (frac_x > 0))
+            {
+                outSign = sign_x;
+                outFrac = frac_x | 0b1000000000;
+                outExpo = expo_x;
+                outVal = {sign:outSign, exponent:outExpo, fraction:outFrac};
+                return outVal;
+            }
+            // if divisor is a NaN, convert that NaN into a QNaN and return it */
+            if ((expo_y == 0b11111) &&(frac_y > 0))
+            {
+                outSign = sign_y;
+                outFrac = frac_y | 0b1000000000;
+                outExpo = expo_y;
+                outVal = {sign:outSign, exponent:outExpo, fraction:outFrac};
+                return outVal;
+            }
+            // dividend and divisor are both zero or infinity: invalid operation */
+            if (((expo_x == 0 && frac_x == 0) && (expo_y == 0 && frac_y == 0)) || ((expo_x == 0b11111) && (expo_y == 0b11111)))
+            {
+                outSign = 1;
+                outFrac = 0b1000000000;
+                outExpo = 0b11111;
+                outVal = {sign:outSign, exponent:outExpo, fraction:outFrac};
+                return outVal;
+            }
+            // 0/y or x/INF -> 0 */
+            if ((expo_x == 0 && frac_x == 0) || (expo_y == 0b11111))
+            {
+                outVal = {sign:0, exponent:0, fraction:0};
+                return outVal;
+            }
+            // x/0 or INF/y -> INF */
+            if ((expo_y == 0 && frac_y == 0) || (expo_x == 0b11111))
+            {
+                outSign = sign;
+                outFrac = 0;
+                outExpo = 0b11111;
+                outVal = {sign:outSign, exponent:outExpo, fraction:outFrac};
+                return outVal;
+            }
+            // if dividend is a subnormal, normalize it */
+            if (expo_x == 0)
+            {
+                expo_x += 1;
+                for (var afs = 0; afs < 16; afs++)
+                {
+                    if((frac_x & 0b10000000000)!=0)
+                    {
+                        break;
+                    }
+                    frac_x = frac_x << 1;
+                    expo_x -= 1;
+                }
+            }
+            // if divisor is a subnormal, normalize it */
+            if (expo_y == 0)
+            {
+                expo_y += 1;
+                for (var bs = 0; bs < 16; bs++)
+                {
+                    if((frac_y & 0b10000000000)!=0)
+                    {
+                        break;
+                    }
+                    frac_y = frac_y << 1;
+                    expo_y -= 1;
+                }
+            }
+            // now that dividend and divisor are normalized, do the division */
+            // goto divide
+        }
+    }
+    
+    outVal = {sign:outSign, exponent:outExpo, fraction:outFrac};
+    return outVal;
+}
+
+
+struct float16_t {
+    int sign : 1
+    int exponent : 5
+    int fraction : 10
+}
+
+struct signedint_t {
+    int val : 15
+    int s : 1
+}
+
+struct Point {
+    int x : 8
+    int y : 8
+}
+
+struct SpherePos {
+    int x : 8
+    int y : 8
+}
+
+struct SphereInfo {
+    int color : 8
+    int radius : 8
+}
+
+signedint_t operator &(signedint_t a, signedint_t b) {
+    return { val: a.val & b.val, s: (a.s & b.s) }
+}
+
+signedint_t operator &(signedint_t a, int b) {
+    return { val: a.val & b, s: (a.s & (b>>15)) }
+}
+
+bool operator >(signedint_t a, int b) {
+    return a.val > b && a.s == 0;
+}
+
+bool operator >(signedint_t a, signedint_t b) {
+    return Comparesignedint_ts(a, b, '>')
+}
+
+signedint_t operator /(signedint_t a, int b) {
+    return { val: a.val / b, s: a.s }
+}
+
+signedint_t operator /(signedint_t a, signedint_t b) {
+    return { val: a.val / b.val, s: a.s ^ b.s }
+}
+
+signedint_t operator *(signedint_t a, signedint_t b) {
+    return { val: a.val * b.val, s: a.s ^ b.s }
+}
+
+signedint_t operator *(signedint_t a, int b) {
+    return { val: a.val * b, s: a.s }
+}
+
+signedint_t operator %(signedint_t a, int b) {
+    return { val: a.val % b, s: 0 }
+}
+
+bool operator ==(signedint_t a, int b) {
+    if(a.val == b){
+        return true;
+    }
+    return false;
+}
+
+bool operator !=(signedint_t a, int b) {
+    if(a.val != b){
+        return true;
+    }
+    return false;
+}
+
+signedint_t operator +(signedint_t a, signedint_t b) {
+    return Addsignedint_ts(a, b)
+}
+
+signedint_t operator +(signedint_t a, int b) {
+    return Addsignedint_ts(a, b)
+}
+
+signedint_t operator +(int a, signedint_t b) {
+    return Addsignedint_ts(a, b)
+}
+
+int operator <<(signedint_t a, int b) {
+    return a.val<<b;
+}
+
+signedint_t operator -(signedint_t a, signedint_t b) {
+    return Subsignedint_ts(a, b)
+}
+
+signedint_t operator -(signedint_t a, int b) {
+    return Subsignedint_ts(a, b)
+}
+
+signedint_t operator -(int a, signedint_t b) {
+    return Subsignedint_ts(a, b)
+}
+
+signedint_t operator |(signedint_t a, int b) {
+    return { val: a.val | b, s: (a.s | (b>>15)) }
+}
+
+signedint_t operator |(int b, signedint_t a) {
+    return { val: a.val | b, s: (a.s | (b>>15)) }
+}
+
+bool operator <(signedint_t b, int a) {
+    return Comparesignedint_ts(b, a, '<');
+}
+
+
+float16_t operator +(float16_t a, float16_t b) {
+    return AddFloats(a, b);
+}
+
+float16_t operator -(float16_t a, float16_t b) {
+    return SubFloats(a, b);
+}
+
+float16_t operator *(float16_t a, float16_t b) {
+    return MultFloats(a, b);
+}
+
+float16_t operator /(float16_t a, float16_t b) {
+    return DivFloats(a, b);
+}
+
+bool operator >(float16_t a, float16_t b) {
+    return CompareFloats(a, b, '>');
+}
+
+bool operator <(float16_t a, float16_t b) {
+    return CompareFloats(a, b, '<');
+}
+
+bool operator ==(float16_t a, float16_t b) {
+    return CompareFloats(a, b, '=');
+}
+
+Point operator |(Point a, int b) {
+    return { x: a.x | b, y: (a.y<<8) | b }
+}
+
+Point operator &(Point a, int b) {
+    return { x: a.x & b, y: (a.y<<8) & b }
+}
+
+Point operator >>(Point a, int b) {
+    return ((a.y<<8)|a.x)>>b
+}
+
+Point operator /(Point a, int b) {
+    return { x: a.x / b, y: a.y / b }
+}
+
+Point operator *(Point a, int b) {
+    return { x: a.x * b, y: a.y * b }
+}
+
+Point operator +(Point a, int b) {
+    return { x: a.x + b, y: a.y + b }
+}

@@ -1,0 +1,250 @@
+import "./inspect.yabal"
+
+var screen = create_pointer(53870, 1);
+var width = 108;
+var height = 108;
+
+const var grid = create_pointer<Cell>(10420,1);
+var grid_tex_size = 6;
+var grid_width = width / grid_tex_size;
+var grid_height = height / grid_tex_size;
+
+inline int get_color(int r, int g, int b) => (r / 8 << 10) + (g / 8 << 5) + (b / 8)
+
+const var red = get_color(255, 0, 0);
+const var white = get_color(255, 255, 255);
+
+void render() {
+    for (int gy = 0; gy < grid_height; gy++) {
+        for (int gx = 0; gx < grid_width; gx++) {
+            var offset = gy * grid_width + gx;
+            Cell cell = grid[offset];
+            int type = cell.type;
+            var col = get_color(type*100, 0, 0);
+            var x = gx * grid_tex_size;
+            var y = gy * grid_tex_size;
+            
+            for (int sy = y; sy < y + grid_tex_size; sy++) {
+                for (int sx = x; sx < x + grid_tex_size; sx++) {
+                    var offset2 = sy * width + sx;
+                    screen[offset2] = col;
+                }
+            }
+        }
+    }
+}
+
+void clear() {
+    for (int i = 0; i < width*height; i++) {
+        screen[i] = 0;
+    }
+}
+
+inline Vec2 to_vector(int rot) => rot switch {
+    0 => { x: 1,   y: 0   },
+    1 => { x: 0,   y: 255 },
+    2 => { x: 255, y: 0   },
+    3 => { x: 0,   y: 1   },
+    _ => { x: 0,   y: 0   }
+}
+
+inline bool is_trash(Cell cell) => cell.type switch {
+    8 => true,
+    9 => true,
+    _ => false
+}
+
+inline bool can_move(Cell cell, int rot) => cell.type switch {
+    1 => false,
+    7 => cell.rot % 2 == rot % 2,
+    _ => true
+}
+
+void push(int x, int y, int rot, int force, Cell pushing, bool setupdated) {
+    var tx = x;
+    var ty = y;
+    var orig_rot = rot;
+
+
+    // Check if the cell can be pushed.
+    while (true) {
+        if (tx >= grid_width || ty >= grid_height) { return; }
+
+        var off = ty * grid_width + tx;
+        Cell cell = grid[off];
+        if (cell.type != 0) {
+            if (cell.type == 2) {
+                if (cell.rot == rot) {
+                    force += 1;
+                } else if (cell.rot == ((rot + 2) & 3)) {
+                    force -= 1;
+                }
+            }
+
+            if (is_trash(cell)) { break; }
+
+            if (can_move(cell, rot) == false) { return; }
+
+            var vec = to_vector(rot);
+
+            if (vec.x == 255) {
+                tx -= 1;
+            } else {
+                tx += vec.x;
+            }
+
+            if (vec.y == 255) {
+                ty -= 1;
+            } else {
+                ty += vec.y;
+            }
+
+        } else { break; }
+
+        if (force == 0) { return; }
+        if (tx == x && ty == y && rot == orig_rot) { break; }
+    }
+
+    // Push the cell and all following.
+    // Works like this:
+    //  >=#   replacement cell is air
+    //  ^
+    // replace cell with air and store the old cell in the replacement cell
+    // then go forward one cell
+    //   =#   replacement cell is mover
+    //   ^
+    // repeat ^
+    //   >#   replacement cell is slide
+    //   >=   replacement cell is push
+    //   >=#
+    // we moved forward one cell!
+
+    rot = orig_rot;
+    Cell next_cell = pushing;
+
+    while (true) {
+        if (next_cell.type != 0) {
+            // Update mover cell `.updated`.
+            if (next_cell.type == 2 && next_cell.rot == rot && setupdated) {
+                next_cell.updated = true;
+            }
+        }
+
+        int off = y * grid_width + x;
+        Cell cell = grid[off];
+
+        if (cell.type != 0) {
+            // When trash then break.
+            if (cell.type == 9) {
+                // Cell is deleted and enemy destroyed.
+                grid[off] = 0;
+                break;
+            } 
+            else if (is_trash(cell)) {
+                // Cell is trashed.
+                break;
+            }
+        }
+
+        // Push cell and store current one in next push replacement.
+        grid[off] = next_cell;
+
+        Cell c = grid[off];
+        inspect(c.type);
+        inspect(next_cell.type);
+        inspect(69);
+
+        next_cell = cell;
+        if (tx == x && ty == y) { break; }
+
+        Vec2 vec = to_vector(rot);
+
+        if (vec.x == 255) {
+            x -= 1;
+        } else {
+            x += vec.x;
+        }
+
+        if (vec.y == 255) {
+            y -= 1;
+        } else {
+            y += vec.y;
+        }
+    }
+}
+
+const Cell emptycell = { type: 0, rot: 0, updated: 0 };
+
+void do_movers() {
+    for (int r = 0; r < 4; r++) {
+		if (r == 0 || r == 3) {
+            for (int y = grid_height; y > 0; y--) {
+				for (int x = grid_width; x > 0; x--) {
+                    var off = (y-1) * grid_width + (x-1);
+					Cell cell = grid[off];
+					if (cell.type == 2 && cell.rot == r && !cell.updated) {
+						cell.updated = true;
+                        push(x - 1, y - 1, r, 0, emptycell, true);
+					}
+				}
+			}
+		} else {
+			for (int y = 0; y < grid_height; y++) {
+				for (int x = 0; x < grid_width; x++) {
+                    var off = y * grid_width + x;
+					Cell cell = grid[off];
+					if (cell.type == 2 && cell.rot == r && !cell.updated) {
+						cell.updated = true;
+                        //push(int x, int y, int rot, int force, Cell pushing, bool setupdated)
+                        push(x, y, r, 0, emptycell, true);
+					}
+				}
+			}
+		}
+	}
+}
+
+// RIGHT 0
+// DOWN 1
+// LEFT 2
+// UP 3
+
+// EMPTY 0
+// WALL 1
+// MOVER 2
+// GENERATOR 3
+// ROTATOR_CW 4
+// ROTATOR_CCW 5
+// PUSH 6
+// SLIDE 7
+// TRASH 8
+// ENEMY 9
+
+bool init = false;
+
+while (true) {
+    if (init == false) {
+        Cell temp = { type: 2, rot: 0 }
+        grid[0] = temp;
+        init = true;
+    }
+    do_movers();
+    render();
+	asm { VBUF }
+    for (int i = 0; i < 300; i++) {
+        for (int i2 = 0; i2 < 65535; i2++) {
+            
+        }
+    }
+}
+
+struct Vec2 {
+    int x: 8;
+    int y: 8;
+}
+
+struct Cell {
+    bool updated;
+    int type : 5;
+    int rot : 2;
+}

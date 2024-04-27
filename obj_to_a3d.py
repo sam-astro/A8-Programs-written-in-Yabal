@@ -40,6 +40,7 @@ v = 0
 f = 0
 fwr = open(sys.argv[1] + ".a3d", "w")
 ybl = open(sys.argv[1] + ".yabal", "w")
+scaler = 1.0
 for line in file2:
     parts = line.strip().split(' ')
 

@@ -51,8 +51,11 @@ void draw_line(int x1, int y1, int x2, int y2, int color) {
 	signedint_t x = {s:0, val:x1};
 	signedint_t y = {s:0, val:y1};
     
-	dx = SubTosignedint_t(x2,x1) & 32767
-	dy = SubTosignedint_t(y2,y1) & 32767
+	dx = SubTosignedint_t(x2,x1);
+	dy = SubTosignedint_t(y2,y1);
+
+	dx.s = 0;
+	dy.s = 0;
 
     // ~PC 800
 
@@ -70,9 +73,9 @@ void draw_line(int x1, int y1, int x2, int y2, int color) {
 		inc1 = (dy - dx) * 2;
 		inc2 = dy * 2;
 
-		const int maxval = ((int)dx) & 32767
+		const int maxval = dx.val;
 		for (int i = 0; i < maxval; i++) {
-			if (((int)e) < 32768 || ((((int)e) >= 32768) && (e.val == 0))) { // if  e >= 0
+			if ((e.s == 0) && (e.val >= 0)) { // if  e >= 0
 				y = y + incy;
 				e = e + inc1;
 			}
@@ -81,8 +84,8 @@ void draw_line(int x1, int y1, int x2, int y2, int color) {
 			}
 			x = x + incx;
             if(x.val>=107||y.val>107) // Don't draw pixels out of range
-                continue
-			SetPixel(x, y, color)
+                continue;
+			SetPixel(x.val, y.val, color)
 		}
 
 	} else {
@@ -90,9 +93,9 @@ void draw_line(int x1, int y1, int x2, int y2, int color) {
 		inc1 = (dx - dy) * 2;
 		inc2 = dx * 2;
 
-		const int maxval = ((int)dy) & 32767
+		const int maxval = dy.val;
 		for (int i = 0; i < maxval; i++) {
-			if (((int)e) < 32768 || ((((int)e) >= 32768) && (e.val == 0))) { // if  e >= 0
+			if ((e.s == 0) && (e.val >= 0)) { // if  e >= 0
 				x = x + incx;
 				e = e + inc1;
 			}
@@ -100,8 +103,8 @@ void draw_line(int x1, int y1, int x2, int y2, int color) {
 				e = e + inc2;
 			}
 			y = y + incy;
-			int xval = ((int)x) & 32767
-			int yval = ((int)y) & 32767
+			int xval = x.val;
+			int yval = y.val;
             if(xval>=107||yval>107) // Don't draw pixels out of range
                 continue;
 			SetPixel(xval, yval, color)
@@ -197,8 +200,8 @@ void DrawFilledCircle(int xCenter, int yCenter, int radius, int color){
     int newX = 0;
     int newY = 0;
 
-    while(((int)y) >= 32768 || y.val < rad1){
-        while(((int)x) >= 32768 || x.val < rad1){
+    while(y.s == 1 || y.val < rad1){
+        while(x.s == 1 || x.val < rad1){
             newX = xCenter + SignedToTwosComp(x);
             newY = yCenter + SignedToTwosComp(y);
 
@@ -231,26 +234,26 @@ void DrawWireCircle(int xCenter, int yCenter, int radius, int color){
     var newX = 0
     var newY = 0
 
-    while(((int)y) >= 32768 || y.val< rad1){
-        while(((int)x) >= 32768 || x.val< rad1){
+    while(y.s == 1 || y.val< rad1){
+        while(x.s == 1 || x.val< rad1){
             newX = xCenter+SignedToTwosComp(x)
             newY = yCenter+SignedToTwosComp(y)
             // Make sure pixel is inside screen, otherwise don't render it.
             if(newX>=107||newY>=107){
-                x = Addsignedint_ts(x, 1)
+                x = x + 1
                 continue
             }
 
-            signedint_t tot = Addsignedint_ts(x.val*x.val,y.val*y.val)
+            signedint_t tot = x.val*x.val + y.val*y.val;
             if((tot.val >= radiusSquared-radius) && (tot.val <= radiusSquared+radius)){ // Calculate distance between point and center of circle. If lessthan or equal to radius, color pixel.
-                SetPixel(newX, newY, color)
+                SetPixel(newX, newY, color);
             }
 
             // write('x')
-            x = Addsignedint_ts(x, 1)
+            x = x + 1;
         }
         x = xOrig
-        y = Addsignedint_ts(y, 1)
+        y = y + 1
     }
 
 
@@ -393,18 +396,18 @@ signedint_t sin(int x){
     }
 
     int outSinVal = sinTable[x];
-    signedint_t outVal = {s:0, val:(sinTable[x])}
+    signedint_t outVal = {s:0, val:outSinVal}
 
     if(loopTimes % 2 == 0){ // should be negative
-        outVal.s = 1
-        return outVal
+        outVal.s = 1;
+        return outVal;
     }
     // else, positive
-    return outVal
+    return outVal;
 }
 
 signedint_t cos(int x){
-    return sin(x-90)
+    return sin(x-90);
 }
 
 int _RotatedX = 1;
@@ -413,13 +416,13 @@ int _RotatedZ = 1;
 signedint_t rotationXOffset = {s:0, val:54};
 signedint_t rotationYOffset = {s:0, val:54};
 void RotatePoint(int index, int degrees){
-    Point value = pointsXY[index]
+    Point value = pointsXY[index];
 
-    signedint_t inX = value.x
-    signedint_t inY = value.y
+    signedint_t inX = value.x;
+    signedint_t inY = value.y;
 
     // Calculate sine and cosine of the angle using integer math
-    int angle = degrees
+    int angle = degrees;
     signedint_t sinVal = sin(angle);
     signedint_t cosVal = cos(angle);
 
@@ -439,11 +442,11 @@ void RotatePoint(int index, int degrees){
 
 // ~PC 2010
 void RotateCoords(int x, int y, int degrees){
-    signedint_t inX = x
-    signedint_t inY = y
+    signedint_t inX = {s:0, val:x};
+    signedint_t inY = {s:0, val:y};
 
     // Calculate sine and cosine of the angle using integer math
-    int angle = degrees
+    int angle = degrees;
     signedint_t sinVal = sin(angle);
     signedint_t cosVal = cos(angle);
 
@@ -463,12 +466,12 @@ void RotateCoords(int x, int y, int degrees){
 
 // ~PC 2370
 void RotatePoint3D(int index, int xRotate, int yRotate, int zRotate){
-    Point xy = pointsXY[index]
-    int zz = pointsZ[index]
+    Point xy = pointsXY[index];
+    int zz = pointsZ[index];
 
-    signedint_t inX = xy.x
-    signedint_t inY = xy.y
-    signedint_t inZ = zz
+    signedint_t inX = {s:0, val:xy.x};
+    signedint_t inY = {s:0, val:xy.y};
+    signedint_t inZ = {s:0, val:zz};
 
     RotateCoords(inX, inY, zRotate);       // Rotate 2D around Z axis (front on)
     int rX = _RotatedX&0b111111111111111
@@ -611,9 +614,9 @@ void SendRay(){
     int _RayR = 0;
     int _RayG = 0;
     int _RayB = 0;
-    int lightDirX = 0b1000000000100000; // -32
-    int lightDirY = 0b1000000000100000; // -32
-    int lightDirZ = 32;
+    signedint_t lightDirX = NegativeSigned(32); // -32
+    signedint_t lightDirY = NegativeSigned(32); // -32
+    signedint_t lightDirZ = 32;
     int lastCollide = 1000;
     int albedo = 1;
     for(int iteration = 0; iteration < maxBounces; iteration++){ // Bounce multiple times
@@ -1114,9 +1117,9 @@ while (true) {
             //SetPixel(x, y, eight_to_fifteen_bit_color(_RayRGB));
             SetPixel(_StartRayPosX, _StartRayPosY,_RayRGB);
         }
-        // asm{
-        //     VBUF
-        // };
+        asm{
+            VBUF
+        };
     }
     asm{
         VBUF
@@ -1367,11 +1370,11 @@ signedint_t IntTosignedint_t(int x){
 }
 
 int SignedToTwosComp(signedint_t x){
-    int out = x.val
+    int out = x.val;
     if(x.s){
-        out = Negative(out)
+        out = Negative(out);
     }
-    return out
+    return out;
 }
 
 // void writeStr(int s) {
@@ -1382,17 +1385,17 @@ int SignedToTwosComp(signedint_t x){
 // }
 
 void newline(){
-    offset = offset / 18 * 18 + 18
+    offset = offset / 18 * 18 + 18;
 }
 
 void write_int(int value) {
-    var reverser = create_pointer(65530, 0)
-    var i = 0
+    var reverser = create_pointer(65530, 0);
+    var i = 0;
     for (var o = 0; o < 5; o++){
-        reverser[o] = 0
+        reverser[o] = 0;
     }
     while (value > 0) {
-        var char = (value % 10) switch {
+        var ch = (value % 10) switch {
             1 => '1',
             2 => '2',
             3 => '3',
@@ -1405,35 +1408,35 @@ void write_int(int value) {
             _ => '0'
         }
 
-        reverser[i] = char
-        value = value / 10
-        i += 1
+        reverser[i] = ch;
+        value = value / 10;
+        i += 1;
     }
-    bool atFirst = false
+    bool atFirst = false;
     for (var o = 0; o < 5; o++){
         // If the first non-zero number has finally been found, start writing number
         if(reverser[4-o] != 0)
             atFirst = true
         // Otherwise it is just a trailing zero, so skip
         else if(atFirst==false)
-            continue
-        write(reverser[4-o])
+            continue;
+        write(reverser[4-o]);
     }
 }
 
 void write_binary(int value) {
-    var reverser = create_pointer(65519, 0)
-    var i = 0
+    var reverser = create_pointer(65519, 0);
+    var i = 0;
     for (var i = 0; i < 16; i++){
-        reverser[i] = 0
+        reverser[i] = 0;
     }
     while (value > 0) {
-        var char = (value & 1) switch {
+        var ch = (value & 1) switch {
             1 => '1',
             _ => '0'
         }
 
-        reverser[15-i] = char
+        reverser[15-i] = ch
         value = value >> 1
         i += 1
     }
@@ -1454,7 +1457,7 @@ void write_float(float16_t f) {
 }
 
 void write_signed_int(signedint_t i) {
-    if(((int)i) >= 32768) // If negative, print `-`
+    if(i.s) // If negative, print `-`
         write('-')
     int v = i.val
     write_int(v)
@@ -1560,7 +1563,7 @@ signedint_t pow(signedint_t base, signedint_t exponent){
         }
     }
     // If the exponent is negative, we divide each time instead of multiply
-    if(((int)exponent) >= 32768){
+    if(exponent.s == 1){
         for (var i = 1; i < exponent.val; i++){
             calculated = calculated / base;
         }
@@ -1571,7 +1574,7 @@ signedint_t pow(signedint_t base, signedint_t exponent){
             calculated = calculated * base;
         }
     }
-    return calculated|(finalSign<<15);
+    return {val:calculated.val, s:finalSign};
 }
 
 // // Returns the float base raised to the power integer exponent
@@ -1663,41 +1666,42 @@ signedint_t Addsignedint_ts(signedint_t a, signedint_t b){
     if(a.s == b.s){
         // outInt.s = a.s
         // outInt.val = (a.val+b.val)
-        outInt = (((int)a)&32768) | ((((int)a)+((int)b)) & 32767);
+        outInt = {s:a, val:(a.val+b.val)};
     }
     // Else if the signs are different and a is negative while b is positive, subtract a from b (b-a)
-    else if(((int)a) >= 32768){
+    else if(a.s == 1){
         // If the value of A is bigger than the value of B, then that means subtracting will make B negative
-        if((((int)a)&32767) > (((int)b)&32767)){
-            outInt = 32768 | ((((int)a)-((int)b)) & 32767);
+        if(a.val > b.val){
+            outInt = {s:1, val:(a.val - b.val)};
         }
         else{
-            outInt.val = b.val-a.val
+            outInt.val = b.val-a.val;
         }
     }
     // Else if the signs are different and b is negative while a is positive, subtract b from a (a-b)
-    else if(((int)b) >= 32768){
+    else if(b.s == 1){
         // If the value of B is bigger than the value of A, then that means subtracting will make A negative
-        if((((int)b)&32767) > (((int)a)&32767)){
-            outInt = 32768 | ((((int)b)-((int)a)) & 32767);
+        if(b.val > a.val){
+            outInt = {s:1, val:(b.val - a.val)};
         }
         else{
             outInt.val = a.val-b.val
         }
     }
 
-    return outInt
+    return outInt;
 }
 
 // ~PC 3500
 signedint_t Subsignedint_ts(signedint_t a, signedint_t b){
     // Invert b's sign bit
-    return Addsignedint_ts(a, (((int)(b)) ^ 0b1000000000000000));
+    b.s = b.s^1;
+    return Addsignedint_ts(a, b);
 }
 
 signedint_t Multsignedint_ts(signedint_t a, signedint_t b){
     // Determine final sign, if they are different it is 1, if they are both 0 it is 0, and if they are both 1 it is also 0
-    return {s:(a.s != b.s), val:((int)(a * b)) & 32767};
+    return {val:(a.val * b.val), s:(a.s != b.s)};
 }
 
 // Subtract two ints, and return a signed int to allow for negative numbers
@@ -1710,15 +1714,15 @@ signedint_t SubTosignedint_t(int a, int b){
 }
 
 signedint_t Signed(int a){
-    return {s: 0, val:a};
+    return {val:a, s: 0};
 }
 
 signedint_t NegativeSigned(int a){
-    return {s: 1, val:(a & 32767)}
+    return {val:a, s: 1};
 }
 
 signedint_t NegativeSigned(signedint_t a){
-    return {s: ~(a.s), val:a};
+    return {val:a.val, s: ~(a.s)};
 }
 
 // Return the integer rounded approximation of a float
@@ -1769,34 +1773,34 @@ bool Comparesignedint_ts(signedint_t a, signedint_t b, int comp){
         compresult = 1
     }
     // If the signs are both negative, check each absolute value
-    //   (sinZe we are negative, a greater magnitude means a lower number)
-    else if(((int)a) >= 32768){
+    //   (since we are negative, a greater magnitude means a lower number)
+    else if(a.s == 1){
         // If the values are the same
         if(a.val == b.val){
-            compresult = 0
+            compresult = 0;
         }
         // If a is greater than b
         else if(a.val > b.val){
-            compresult = 2
+            compresult = 2;
         }
         // If b is greater than a
         else if(a.val < b.val){
-            compresult = 1
+            compresult = 1;
         }
     }
     // If the signs are both positive, check each absolute value
-    else if(((int)a) < 32768){
+    else if(a.s == 0){
         // If the values are the same
         if(a.val == b.val){
-            compresult = 0
+            compresult = 0;
         }
         // If a is greater than b
         else if(a.val > b.val){
-            compresult = 1
+            compresult = 1;
         }
         // If b is greater than a
         else if(a.val < b.val){
-            compresult = 2
+            compresult = 2;
         }
     }
 
@@ -1815,7 +1819,7 @@ bool Comparesignedint_ts(signedint_t a, signedint_t b, int comp){
             return true
     }
 
-    return false
+    return false;
 }
 
 bool CompareFloats(float16_t a, float16_t b, int comp){
@@ -1904,7 +1908,7 @@ bool CompareFloats(float16_t a, float16_t b, int comp){
 // Return the integer rounded approximation of a float
 float16_t IntToFloat(signedint_t x)
 {
-    if((x&0b111111111111111) == 0)
+    if(x.val == 0)
     {
         return { sign : 0, exponent : 0, fraction : 0 };
     }
@@ -2395,8 +2399,8 @@ struct float16_t {
 }
 
 struct signedint_t {
-    int val : 15
-    int s : 1
+    int val
+    int s
 }
 
 struct Point {
@@ -2415,15 +2419,15 @@ struct SphereInfo {
 }
 
 signedint_t operator &(signedint_t a, signedint_t b) {
-    return { val: a.val & b.val, s: a.s & b.s }
+    return { val: a.val & b.val, s: (a.s & b.s) }
 }
 
 signedint_t operator &(signedint_t a, int b) {
-    return { val: a.val & b, s: a.s & (b>>15) }
+    return { val: a.val & b, s: (a.s & (b>>15)) }
 }
 
 bool operator >(signedint_t a, int b) {
-    return ((int)a) >= 32768 || a.val > b;
+    return a.val > b && a.s == 0;
 }
 
 bool operator >(signedint_t a, signedint_t b) {
@@ -2493,15 +2497,15 @@ signedint_t operator -(int a, signedint_t b) {
 }
 
 signedint_t operator |(signedint_t a, int b) {
-    return { val: a.val | b, s: a.s | (b>>15) }
+    return { val: a.val | b, s: (a.s | (b>>15)) }
 }
 
-signedint_t operator |(int b, signedint_t a) {
-    return { val: a.val | b, s: a.s | (b>>15) }
+signedint_t operator |(int a, signedint_t b) {
+    return { val: b.val | a, s: (b.s | (a>>15)) }
 }
 
-bool operator <(signedint_t b, int a) {
-    return Comparesignedint_ts(b, a, '<');
+bool operator <(signedint_t a, signedint_t b) {
+    return Comparesignedint_ts(a, b, '<');
 }
 
 
@@ -2556,3 +2560,6 @@ Point operator *(Point a, int b) {
 Point operator +(Point a, int b) {
     return { x: a.x + b, y: a.y + b }
 }
+
+inline operator int (signedint_t value) => value.val
+inline operator signedint_t (int value) => {s:0, val:value}

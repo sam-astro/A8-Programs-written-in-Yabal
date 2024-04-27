@@ -1,0 +1,4 @@
+inline void inspect(int _) {_+0;asm{BNK 5
+BNK 0};}
+inline void inspect(bool _) {_+0;asm{BNK 5
+BNK 0};}

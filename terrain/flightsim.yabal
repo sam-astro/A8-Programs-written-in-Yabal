@@ -1,0 +1,1184 @@
+
+// import "float.yabal"
+
+const var signedInts = create_pointer<signedint_t>(0x1111, 1);
+const var screen = create_pointer(53870, 1);
+const var expansionPorts = create_pointer(53500, 1);
+const var chars = create_pointer(53546, 1);
+const var userBuffer = create_pointer(15000, 0);
+const var commandHistoryBuffer = create_pointer(20000, 0);
+const var BANK_0 = create_pointer(0, 0);
+const var heightmapBuffer = create_pointer(21000, 0);
+const var colormapBuffer = create_pointer(32664, 0);
+
+var prefix = "HELLO";
+
+int charBufferOffset = 0;
+int userBufferOffset = 0;
+int userBufferLength = 0;
+
+var highlightColor = 0b1000000000000000;
+var highlightOppositeColor = 0b1111111111111111;
+
+const int TRANSPARENT = 0b1000000000000000;
+
+int lastKey = 168;
+int nextArg = 0;
+int curChar = 0;
+
+bool DEBUG_MODE = false;
+bool CURSOR_MODE = false;
+
+// Colors
+int backgroundColor; // 7380
+backgroundColor = 0; // 7380
+int outputTextColor = 0b01100111;
+int inputTextColor = 0;
+int errorTextColor = 0b11100001;
+int foregroundColor;
+foregroundColor = outputTextColor; // 111 111 11
+
+
+
+
+
+// Clear screen to background color
+for(int x = 0; x < (108*108); x++){
+    screen[x] = backgroundColor;
+}
+
+newline();
+write(' ');
+foregroundColor = get_text_color(255, 0, 0);
+write('a');
+foregroundColor = get_text_color(0, 255, 0);
+write('s');
+foregroundColor = get_text_color(0, 0, 255);
+write('t');
+foregroundColor = get_text_color(255, 255, 0);
+write('r');
+foregroundColor = get_text_color(255, 0, 255);
+write('o');
+foregroundColor = get_text_color(0, 255, 255);
+write('s');
+foregroundColor = outputTextColor;
+writestring(" v1.0 2023", 10);
+newline();
+writestring(" basic onecommand", 17);
+
+newline();
+promptUserInput();
+
+int timeCount = 0;
+
+userBuffer[0] = 85;
+int lastMouseCursorChar = 0;
+int lastMousePos = 0;
+
+import "./color.yabal";
+//import "./height.yabal";
+
+while (true) {
+
+    // for(int i = 0; i < 108*108; i++){
+    //     screen[i] = heightmapBuffer[i];
+    // }
+    // asm{
+    //     VBUF
+    // };
+    
+    for(int i = 0; i < 108*108; i++){
+        screen[i] = colormapBuffer[i];
+        if(i % 108 == 0){
+            asm{
+                VBUF
+            };
+        }
+    }
+    continue;
+
+    // Get key press:
+    int keyPress = expansionPorts[0];
+    int pressed = keyPress & 32768;
+    keyPress = keyPress & 32767;
+
+    if(CURSOR_MODE){
+        // Get mouse position:
+        int mouseVal = expansionPorts[1];
+        int mouseXPos = (mouseVal >> 7) & 0b1111111;  // Shift X coord value from the left side to the right and get it by itself
+        int mouseYPos = mouseVal & 0b1111111;  // Get y coord by itself
+        int mousePos = (mouseXPos/6)+(mouseYPos/6*18);
+        if(lastMousePos != mousePos){
+            chars[lastMousePos] = lastMouseCursorChar;
+            lastMouseCursorChar = chars[mousePos+1];
+            chars[mousePos] = 84;
+            lastMousePos = mousePos;
+            asm{
+                VBUF
+            };
+        }
+    }
+
+    // If key command is being sent
+    if(keyPress != 168 && keyPress != lastKey){
+        // If the command is a press and not a release
+        if(pressed == 32768){
+            // If backspace key, delete last character
+            if(keyPress == 70){
+                if(userBufferOffset > 0)
+                    delete();
+            }
+            // If enter key, process command
+            else if(keyPress == 85){
+                // Append newline character so it knows where the command ends
+                userBuffer[userBufferLength] = 85;
+                processCommand();
+            }
+            // If up key, use last command
+            else if(keyPress == 71){
+                charBufferOffset -= userBufferOffset;
+                userBufferLength = 0;
+                userBufferOffset = 0;
+                for (var x = 0; x < 18*18; x++){
+                    if(commandHistoryBuffer[x] == 85) // If command end, break
+                        break;
+                    userWrite(commandHistoryBuffer[x]);
+                    // userBufferOffset++;
+                    userBufferLength++;
+                }
+            }
+            // If left key, move left
+            else if(keyPress == 9){
+                if(userBufferOffset > 0){
+                    chars[charBufferOffset] = curChar;
+                    userBufferOffset--;
+                    charBufferOffset--;
+                    curChar = userBuffer[userBufferOffset];
+                }
+            }
+            // If right key, move right
+            else if(keyPress == 10){
+                if(userBufferOffset < userBufferLength){
+                    chars[charBufferOffset] = curChar;
+                    userBufferOffset++;
+                    charBufferOffset++;
+                    curChar = userBuffer[userBufferOffset];
+                }
+            }
+            else if(keyPress >= 87){
+                
+            }
+            // Else, type character
+            else{
+                userWrite(keyPress);
+                userBufferLength++;
+            }
+            lastKey = keyPress;
+        }
+    }
+    else if(keyPress == 168)
+        lastKey = 168;
+
+    timeCount++;
+
+    if(timeCount >= 60000){
+        animateCursor();
+        timeCount = 0;
+    }
+}
+
+
+
+while (true){
+
+}
+
+
+
+inline int get_color(int r, int g, int b) {
+    return (r / 8 << 10) + (g / 8 << 5) + (b / 8);
+}
+inline int get_text_color(int r, int g, int b) {
+    return ((r-3) / 36 << 5) + ((g-3) / 36 << 2) + (b / 85);
+}
+
+int ClampInt(int x, int min, int max){
+    if(x<min)
+        return min
+    else if(x>max)
+        return max
+
+    return x
+}
+
+// Function for drawing a single pixel to the screen safely, if you don't know if the x,y values are out of bounds
+void SetPixelSAFE(int x, int y, int color){
+    var screenOffset = (ClampInt(y, 0, 107) * 108) + ClampInt(x, 0, 107)
+    screen[screenOffset] = color
+}
+
+// Function for drawing a single pixel to the screen
+// ~PC 2555
+void SetPixel(int x, int y, int color){
+    var screenOffset = (y * 108) + x
+    screen[screenOffset] = color
+}
+
+// Function for getting a single pixel color from video memory
+int GetPixel(int x, int y){
+    var screenOffset = (ClampInt(y, 0, 107) * 108) + ClampInt(x, 0, 107)
+    return screen[screenOffset]
+}
+
+int cursorChar;
+int lastCursorPos;
+const int CURSOR_0 = 86;
+void animateCursor(){
+    if(cursorChar == CURSOR_0){
+        cursorChar = curChar;
+    }
+    else {
+        cursorChar = CURSOR_0;
+    }
+    chars[charBufferOffset] = cursorChar | (inputTextColor<<8);
+    lastCursorPos = charBufferOffset;
+    
+    asm{
+        VBUF
+    };
+}
+
+void promptUserInput(){
+    newline();
+    // ChangeHighlightColor(123, 114, 214);
+    foregroundColor = 0b00010101;
+    writestring("a8$", 3);
+    highlightColor = TRANSPARENT;
+    write(':');
+    foregroundColor = inputTextColor;
+    userBufferOffset = 0;
+    curChar = 0;
+    for(int i = 0; i < 18*18; i++)
+        userBuffer[i] = 0;
+    userBuffer[0] = 85;
+}
+
+void ChangeHighlightColor(int r, int g, int b){
+    highlightColor = get_color(r, g, b)
+    highlightOppositeColor = get_color(256-r, 256-g, 256-b)
+}
+
+void delete(){
+    
+    // Shift all characters to the left by 1, if in middle of buffer
+    if(userBufferOffset < userBufferLength){
+        for (int x = userBufferOffset-1; x <= userBufferLength+15; x++){
+            userBuffer[x] = userBuffer[x+1];
+        }
+        for (int x = 0; x < userBufferLength+15; x++){
+            chars[charBufferOffset-userBufferOffset+x+1] = userBuffer[x+1];
+        }
+    }
+    else{
+        userBuffer[userBufferOffset-1] = 0;
+        chars[charBufferOffset-1] = 0;
+        chars[lastCursorPos] = chars[charBufferOffset];
+    }
+
+    userBufferLength--;
+    charBufferOffset -= 1;
+    userBufferOffset -= 1;
+    lastCursorPos -= 1;
+
+    asm{
+        VBUF
+    };
+}
+
+void write(int c) {
+    chars[charBufferOffset] = (foregroundColor<<8) | c;
+
+    if(((highlightColor >> 15)&1) != 1)
+    {
+        // Draw highlight behind character
+        var pixOffsetY = (charBufferOffset/18)*6
+        var pixOffsetX = ((charBufferOffset*6)%108)
+        for (var x = 0; x < 6; x++) {
+            for (var y = 0; y < 6; y++) {
+                SetPixel(pixOffsetX+x, pixOffsetY+y, highlightColor)
+            }
+        }
+    }
+
+    // Increment location charBufferOffset by 1
+    charBufferOffset++;
+
+    if(charBufferOffset >= 18*18){
+        ScrollCharacterBuffer();
+        charBufferOffset -= 18;
+    }
+
+    asm{
+        VBUF
+    };
+}
+
+void writestring(int[] s, int size) {
+    
+    // write_int((int)s);
+    for(var i = 0; i < size; i++){
+        chars[charBufferOffset] = (foregroundColor<<8) | s[i];
+
+        if(((highlightColor >> 15)&1) != 1)
+        {
+            // Draw highlight behind character
+            var pixOffsetY = (charBufferOffset/18)*6
+            var pixOffsetX = ((charBufferOffset*6)%108)
+            for (var x = 0; x < 6; x++) {
+                for (var y = 0; y < 6; y++) {
+                    SetPixel(pixOffsetX+x, pixOffsetY+y, highlightColor)
+                }
+            }
+        }
+
+        // Increment location charBufferOffset by 1
+        charBufferOffset++;
+
+        if(charBufferOffset >= 18*18){
+            ScrollCharacterBuffer();
+            charBufferOffset -= 18;
+        }
+    }
+
+    asm{
+        VBUF
+    };
+}
+
+void userWrite(int c){
+
+    // Shift all characters to the right by 1, if in middle of buffer
+    if(userBufferOffset < userBufferLength){
+        for (int x = userBufferLength+15; x > userBufferOffset; x--){
+            userBuffer[x] = userBuffer[x-1];
+        }
+        for (int x = 0; x < userBufferLength+15; x++){
+            if(userBuffer[x] == 85){
+                break;
+            }
+            chars[charBufferOffset-userBufferOffset+x] = userBuffer[x];
+        }
+    }
+
+    userBuffer[userBufferOffset] = c;
+    userBufferOffset++;
+    foregroundColor = inputTextColor;
+    write(c);
+    foregroundColor = outputTextColor;
+}
+
+void userColorWrite(int c){
+    foregroundColor = inputTextColor;
+    write(c);
+    foregroundColor = outputTextColor;
+}
+
+int Hex2Dec(int c){
+    if(c >= 39){
+        return (c - 39);
+    }
+    else{
+        return (c - 3);
+    }
+}
+
+inline int eight_to_fifteen_bit_color(int eightbitcolor) {
+    int r = (eightbitcolor & 0b11100000) >> 5;
+    int g = (eightbitcolor & 0b11100) >> 2;
+    int b = (eightbitcolor & 0b11);
+    return (r * 36 / 8 << 10) + (g * 36 / 8 << 5) + (b * 85 / 8);
+}
+
+void ScrollCharacterBuffer(){
+    for(int x = 0; x < (18*17); x++) // Copy characters upwards
+        chars[x] = chars[x + 19];
+    for(int x = 0; x < (108*102); x++) // Copy background upwards
+        screen[x] = screen[x+108*6+1];
+    for(int x = (18*17); x < (18*18); x++) // Clear last line of characters
+        chars[x] = 0;
+    for(int x = (108*102); x < (108*108); x++) // Clear last line of background
+        screen[x] = backgroundColor;
+}
+
+void ScrollCharacterBufferOpposite(){
+    for(int x = 0; x < (18*17); x++)
+        chars[x] = chars[x + 19];
+    for(int x = (18*17); x < (18*18); x++) // Clear last line
+        chars[x] = 0;
+}
+
+signedint_t IntTosignedint_t(int x){
+    signedint_t o = {s:0, val:x};
+    return o
+}
+
+int SignedToTwosComp(signedint_t x){
+    int out = x.val
+    if(x.s){
+        out = Negative(out)
+    }
+    return out
+}
+
+void processCommand(){
+    chars[charBufferOffset] = curChar;
+    charBufferOffset = lastCursorPos + (userBufferLength-userBufferOffset);
+    lastCursorPos = charBufferOffset;
+
+    // Get hash of first word
+    int firstWord = 0
+    for(int x = 0; x < (18*18); x++){
+        if((userBuffer[x] == 0) || (userBuffer[x] == 85)){ // If space or command end, break
+            break;
+        }
+        firstWord += ((userBuffer[x]) * (x + 1));
+    }
+
+    // Find what command the first word is:
+    if(firstWord == 156){ // Clear screen, CLS
+        for(int x = 0; x < (108*108); x++){
+            screen[x] = backgroundColor;
+        }
+        for(int x = 0; x < (18*18); x++){
+            chars[x] = 0;
+        }
+        charBufferOffset = 0;
+    }
+    else if(firstWord == 219) // POKE command
+    {
+        const int addr = ParseNumber(5);
+        const int val = ParseNumber(nextArg);
+        BANK_0[addr] = val;
+    }
+    else if(firstWord == 205){ // PEEK command
+        const int addr = ParseNumber(5);
+        newline();
+        write_int(BANK_0[addr]);
+    }
+    else if(firstWord == 301){ // COPY command A -> B
+        int copyVal = 0;
+        const int addrA = ParseNumber(5);
+        const int addrB = ParseNumber(nextArg);
+
+        BANK_0[addrB] = BANK_0[addrA];
+    }
+    else if(firstWord == 1016){ // COPYRANGE command  COPYRANGE fromStart fromEnd newpos
+        const int fromStart = ParseNumber(10);
+        const int fromEnd = ParseNumber(nextArg); // exclusive
+        const int newpos = ParseNumber(nextArg);
+
+        int offs = newpos-fromStart;
+        for(int x = fromStart; x < fromEnd; x++){
+            BANK_0[x+offs] = BANK_0[x];
+            if(x%10 == 0){
+                int keyPress = expansionPorts[0];
+                keyPress = keyPress & 32767;
+                if(keyPress == 'c')
+                    break;
+            }
+        }
+    }
+    else if(firstWord == 920){ // PEEKRANGE command  PEEKRANGE start end
+        const int startAddr = ParseNumber(10);
+        const int endAddr = ParseNumber(nextArg); // exclusive
+
+        newline();
+        for(int x = startAddr; x < endAddr; x++){
+            int v = BANK_0[x];
+            write_int(v);
+            if(x != (endAddr-1)){
+                write(',');
+            }
+            if(x%10 == 0){
+                int keyPress = expansionPorts[0];
+                keyPress = keyPress & 32767;
+                if(keyPress == 'c')
+                    break;
+            }
+        }
+    }
+    else if(firstWord == 1070){ // PEEKRANGEC command  PEEKRANGEC start end
+        const int startAddr = ParseNumber(11);
+        const int endAddr = ParseNumber(nextArg); // exclusive
+
+        newline();
+        for(int x = startAddr; x < endAddr; x++){
+            int v = BANK_0[x];
+            write(v);
+            if(x%10 == 0){
+                int keyPress = expansionPorts[0];
+                keyPress = keyPress & 32767;
+                if(keyPress == 'c')
+                    break;
+            }
+        }
+    }
+    else if(firstWord == 319){ // DEBUG command
+        DEBUG_MODE = !DEBUG_MODE;
+    }
+    else if(firstWord == 1198){ // TESTWRITE command
+        newline();
+        if((userBuffer[10] == 0) || (userBuffer[10] == 85)){ // If there are no arguments, test all characters
+            for(int x = 0; x < 100; x++)
+                write(x);
+        }
+        else{ // If there is an argument, write only that character
+            const int ch = ParseNumber(10);
+            write(ch);
+        }
+    }
+    else if(firstWord == 240){ // EDIT command
+        // newline();
+        // if((userBuffer[10] == 0) || (userBuffer[10] == 85)){ // If there are no arguments, test all characters
+        //     for(int x = 0; x < 100; x++)
+        //         write(x);
+        // }
+        // else{ // If there is an argument, write only that character
+        //     const int ch = ParseNumber(10);
+        //     write(ch);
+        // }
+    }
+    else if(firstWord == 227){ // SAVE command
+        newline();
+        if((userBuffer[5] == 0) || (userBuffer[5] == 85)){ // If there are no arguments, test all characters
+            foregroundColor = errorTextColor;
+            write(50);
+            writestring("no args", 7);
+            write(50);
+            foregroundColor = outputTextColor;
+        }
+        else{ // If there is an argument, send characters one by one
+            int i = 5;
+            // Send path to file
+            while(userBuffer[i] != 0){
+                write(userBuffer[i]);
+                expansionPorts[5] = (0b1111000000000000 | userBuffer[i]);
+                i++;
+                while(expansionPorts[5] != 0)
+                {
+                }
+            }
+            expansionPorts[5] = (0b1111000000000000 | 85);
+            while(expansionPorts[5] != 0)
+            {
+            }
+            i++;
+            // Send data for file
+            while(userBuffer[i] != 85){
+                write(userBuffer[i]);
+                expansionPorts[5] = (0b1111000000000000 | userBuffer[i]);
+                i++;
+                while(expansionPorts[5] != 0)
+                {
+                }
+            }
+            expansionPorts[5] = (0b1111000000000000 | 78);
+            while(expansionPorts[5] != 0)
+            {
+            }
+            // // Get file data
+            // while(expansionPorts[5] != 65535){
+            //     if(expansionPorts[5] != 0){
+            //         write(expansionPorts[5]);
+            //         expansionPorts[5] = 0;
+            //     }
+            // }
+        }
+    }
+    else if(firstWord == 414){ // START command
+        newline();
+        if((userBuffer[6] == 0) || (userBuffer[6] == 85)){ // If there are no arguments, test all characters
+            foregroundColor = errorTextColor;
+            write(50);
+            writestring("no args", 7);
+            write(50);
+            foregroundColor = outputTextColor;
+        }
+        else{ // If there is an argument, send characters one by one
+            int i = 6;
+            while(userBuffer[i] != 0){
+                write(userBuffer[i]);
+                expansionPorts[5] = (0b1000000000000000 | userBuffer[i]);
+                i++;
+                while(expansionPorts[5] != 0)
+                {
+                }
+            }
+        }
+    }
+    else if(firstWord == 181){ // LOAD command (args: LOAD <H/C> <PATH>)
+        newline();
+        if((userBuffer[5] == 0) || (userBuffer[5] == 85) || (userBuffer[7] == 0) || (userBuffer[7] == 85)){
+            foregroundColor = errorTextColor;
+            write(50);
+            writestring("no args", 7);
+            write(50);
+            foregroundColor = outputTextColor;
+        }
+        else{ // If there is an argument, send characters one by one
+
+            // Clear screen
+            for(int x = 0; x < (108*108); x++){
+                screen[x] = backgroundColor;
+            }
+            for(int x = 0; x < (18*18); x++){
+                chars[x] = 0;
+            }
+            charBufferOffset = 0;
+
+            int i = 7;
+            // Request file data
+            while(userBuffer[i] != 0){
+                //write(userBuffer[i]);
+                expansionPorts[5] = (0b1101000000000000 | userBuffer[i]);
+                i++;
+                while(expansionPorts[5] != 0)
+                {
+                }
+            }
+            newline();
+            // Get file data
+            int charPart = 0;
+            int charLeft = 0;
+            int pixelCount = 0;
+            while(expansionPorts[5] != 4095){
+                if(expansionPorts[5] != 0){
+                    if((expansionPorts[5] & 255) == 85){
+                        newline();
+                    }
+                    else if((expansionPorts[5] & 255) <= 86 && (expansionPorts[5] & 255) >= 0){
+                        int curVal = Hex2Dec((expansionPorts[5]&255))&0b1111;
+                        if(charPart == 0){
+                            charLeft = curVal<<4;
+                            charPart = 1;
+                        }
+                        else{
+                            int eightBitVal = (charLeft | curVal)&0b11111111;
+                            if(userBuffer[5] == 'H'){
+                                screen[pixelCount] = ((eightBitVal<<10)|(eightBitVal<<5)|eightBitVal);
+                            }
+                            else{
+                                screen[pixelCount] = eight_to_fifteen_bit_color(eightBitVal);
+                            }
+                            pixelCount += 1;
+                            if(pixelCount%54 == 0){
+                                asm{
+                                    VBUF
+                                };
+                            }
+                            charPart = 0;
+                            curVal = 0;
+                        }
+                        //write(expansionPorts[5]&255);
+                    }
+                    // write(',');
+                    if(expansionPorts[5] != 4095)
+                        expansionPorts[5] = 0;
+                }
+            }
+        }
+    }
+    else if(firstWord == 1246){ // COLORTEST command
+
+        int secondWord = 0;
+        if(userBuffer[10] != 0)
+        {
+            // Get hash of second word
+            for(int x = 10; x < (18*18); x++){
+                if((userBuffer[x] == 0) || (userBuffer[x] == 85)){ // If space or command end, break
+                    break;
+                }
+                secondWord += ((userBuffer[x]) * (x + 1 - 10));
+            }
+        }
+
+        if(secondWord == 366){
+            newline();
+            var pixOffsetY = (charBufferOffset/18)*6;
+            var pixOffsetX = ((charBufferOffset*6)%108);
+            int initialOffset = pixOffsetX+(pixOffsetY*108);
+            int x;
+            int location = initialOffset;
+            for(x = 0; x <= 0b111111111111111; x++){
+                int pos = x;
+
+                if(x%(108*6) == 0){
+                    for(int ii = 0; ii < 18; ii++){
+                        write(0);
+                    }
+                    if(charBufferOffset>=(18*16)+1)
+                        location -= (108*6);
+                }
+                screen[location] = x;
+
+
+                if(x%10 == 0){
+                    int keyPress = expansionPorts[0];
+                    keyPress = keyPress & 32767;
+                    if(keyPress == 'c')
+                        break;
+                }
+                location++;
+            }
+            foregroundColor = outputTextColor;
+            write(' ');
+            write_int(x);
+            writestring(" colors", 7);
+        }
+        else{
+            newline();
+            highlightColor = 0b000110001100011;
+            for(int x = 0; x <= 0b11111111; x++){
+                foregroundColor = x;
+
+                write(69);
+
+                if(x%10 == 0){
+                    int keyPress = expansionPorts[0];
+                    keyPress = keyPress & 32767;
+                    if(keyPress == 'c')
+                        break;
+                }
+            }
+            highlightColor = 0b1000000000000000;
+            foregroundColor = outputTextColor;
+            write(' ');
+            write_int(0b11111111);
+            writestring(" colors", 7);
+        }
+    }
+    else{
+        // If command is not blank, write not found error
+        if(firstWord != 0){
+            newline();
+            foregroundColor = errorTextColor;
+            writestring("invalid cmd", 11);
+            foregroundColor = outputTextColor;
+        } 
+    }
+
+    // Add command to history buffer
+    for(int c = 0; c < userBufferLength; c++){
+        commandHistoryBuffer[c] = userBuffer[c];
+    }
+    commandHistoryBuffer[userBufferLength] = 85;
+
+    userBufferLength = 0;
+    
+    if(DEBUG_MODE){
+        write(' ');
+        write_int(firstWord);
+    }
+
+    
+    promptUserInput();
+}
+
+void newline(){
+    
+    //chars[lastCursorPos] = 0;
+    charBufferOffset = charBufferOffset / 18 * 18 + 18
+    
+    if(charBufferOffset >= 18*18){
+        ScrollCharacterBuffer();
+        charBufferOffset -= 18;
+    }
+
+    asm{
+        VBUF
+    };
+}
+
+int ParseNumber(int index){
+    int digits = 0;
+    int outValue = 0;
+
+    // Count the number of digits in the number
+    for(int x = index; x < (18*18); x++){
+         // If space or command end or comma, break
+        if((userBuffer[x] == 0) || (userBuffer[x] == 85) || (userBuffer[x] == 55))
+            break;
+        digits++;
+    }
+    nextArg = index + digits + 1;
+
+    int currentDigit = 0;
+    for(int x = index; x < (18*18); x++){
+         // If space or command end or comma, break
+        if((userBuffer[x] == 0) || (userBuffer[x] == 85) || (userBuffer[x] == 55)) 
+            break;
+        const int shifted = (userBuffer[x] - 39);
+        const int digitFromRight = (digits-currentDigit);
+        outValue += (shifted * pow(10, digitFromRight-1));
+        currentDigit++;
+    }
+
+    return outValue;
+}
+
+void write_int(int value) {
+    int startVal = value;
+    var reverser = create_pointer(65530, 0);
+    var i = 0;
+    for (var o = 0; o < 5; o++){
+        reverser[o] = 0;
+    }
+    while (value > 0) {
+        var char = (value % 10) switch {
+            1 => '1',
+            2 => '2',
+            3 => '3',
+            4 => '4',
+            5 => '5',
+            6 => '6',
+            7 => '7',
+            8 => '8',
+            9 => '9',
+            _ => '0'
+        }
+
+        reverser[i] = char
+        value = value / 10
+        i += 1
+    }
+    bool atFirst = false;
+    for (var o = 0; o < 5; o++){
+        // If the first non-zero number has finally been found, start writing number
+        if(reverser[4-o] != 0){
+            atFirst = true;
+        }
+        // Otherwise it is just a trailing zero, so skip
+        else if(atFirst==false)
+            continue;
+        write(reverser[4-o]);
+    }
+
+    if(startVal == 0){
+        write('0');
+    }
+}
+
+void write_binary(int value) {
+    var reverser = create_pointer(65519, 0)
+    var i = 0
+    for (var i = 0; i < 16; i++){
+        reverser[i] = 0
+    }
+    while (value > 0) {
+        var char = (value & 1) switch {
+            1 => '1',
+            _ => '0'
+        }
+
+        reverser[15-i] = char
+        value = value >> 1
+        i += 1
+    }
+    for (var i = 0; i < 16; i++){
+        write(reverser[i])
+    }
+}
+
+void write_signed_int(signedint_t i) {
+    if(((int)i) >= 32768) // If negative, print `-`
+        write('-')
+    int v = i.val
+    write_int(v)
+}
+
+int TruncateTrailingZeros(int x){
+    var o = x
+    for (var i = 0; i < 16; i++){
+        // If the last digit is 1, then stop shifting
+        if((o & 1) == 1)
+            break
+        // Otherwise shift again
+        o = o >> 1
+    }
+    return o
+}
+
+
+// Returns true if values a and b are within +-range of eachother
+bool WithinRange(signedint_t aI, signedint_t bI, int range){
+    var a = aI.val
+    var b = bI.val
+    if(a > b){
+        if((a-b)<=range){
+            // write_int(a-b)
+            return true
+        }
+        else{
+            return false
+        }
+    }
+    else if(a < b){
+        if((b-a)<=range){
+            // write_int(b-a)
+            return true
+        }
+        else{
+            return false
+        }
+    }
+    return true
+}
+
+int Delta(int a, int b){
+    if(a > b)
+        return a - b
+    else if(a < b)
+        return b - a
+
+    return 0
+}
+
+// Temporary bitwise not ~ operator function, sinZe currently that operator
+// is broken and only returns 0 unless used like this:
+int NOT(int x){
+    return ~x&0b1111111111111111
+}
+
+// Convert integer to it's negative value in twos complement
+int Negative(int x){
+    return (~x) + 1
+}
+
+inline int XOR(int a, int b){
+    return (a|b)&(NOT(a&b))
+}
+
+
+// Kindof inefficient square root method
+int sqrt(int x){
+	int counter=1
+	int sqroot=1
+	while(sqroot <= x)
+	{
+		counter += 1
+		sqroot = counter*counter
+	}
+	return counter - 1
+}
+
+// Returns the integer base raised to the power integer exponent
+int pow(signedint_t base, signedint_t exponent){
+    var calculated = base
+    var finalSign = 0
+
+    if(exponent == 0)
+        return 1;
+
+    if(base.s)
+        finalSign = !(exponent.val%2==0)
+    // If the exponent is negative, we divide each time instead of multiply
+    if(((int)exponent) >= 32768){
+        for (var i = 1; i < exponent.val; i++){
+            calculated = calculated / base
+        }
+    }
+    // Otherwise it is normal multiplication exponent
+    else {
+        for (var i = 1; i < exponent.val; i++){
+            calculated = calculated * base
+        }
+    }
+    return calculated|(finalSign<<15)
+}
+
+// ~PC 3300
+signedint_t Addsignedint_ts(signedint_t a, signedint_t b){
+    signedint_t outInt = {s: 0, val:0};
+
+    // If the signs are the same, just add and return that same sign
+    if(a.s == b.s){
+        // outInt.s = a.s
+        // outInt.val = (a.val+b.val)
+        outInt = (((int)a)&32768) | ((((int)a)+((int)b)) & 32767);
+    }
+    // Else if the signs are different and a is negative while b is positive, subtract a from b (b-a)
+    else if(((int)a) >= 32768){
+        // If the value of A is bigger than the value of B, then that means subtracting will make B negative
+        if((((int)a)&32767) > (((int)b)&32767)){
+            outInt = 32768 | ((((int)a)-((int)b)) & 32767);
+        }
+        else{
+            outInt.val = b.val-a.val
+        }
+    }
+    // Else if the signs are different and b is negative while a is positive, subtract b from a (a-b)
+    else if(((int)b) >= 32768){
+        // If the value of B is bigger than the value of A, then that means subtracting will make A negative
+        if((((int)b)&32767) > (((int)a)&32767)){
+            outInt = 32768 | ((((int)b)-((int)a)) & 32767);
+        }
+        else{
+            outInt.val = a.val-b.val
+        }
+    }
+
+    return outInt
+}
+
+// ~PC 3500
+signedint_t Subsignedint_ts(signedint_t a, signedint_t b){
+    // Invert b's sign bit
+    return Addsignedint_ts(a, (((int)(b)) ^ 0b1000000000000000));
+}
+
+signedint_t Multsignedint_ts(signedint_t a, signedint_t b){
+    // Determine final sign, if they are different it is 1, if they are both 0 it is 0, and if they are both 1 it is also 0
+    return {s:(a.s != b.s), val:((int)(a * b)) & 32767};
+}
+
+// Subtract two ints, and return a signed int to allow for negative numbers
+signedint_t SubTosignedint_t(int a, int b){
+    // Convert each to a signed int
+    signedint_t aInt = {s:0, val:a};
+    signedint_t bInt = {s:1, val:b}; // Invert b's sign
+
+    return aInt + bInt;
+}
+
+signedint_t Signed(int a){
+    return {s: 0, val:a};
+}
+
+signedint_t NegativeSigned(int a){
+    return {s: 1, val:(a & 32767)}
+}
+
+signedint_t NegativeSigned(signedint_t a){
+    return {s: ~(a.s), val:a};
+}
+
+bool Comparesignedint_ts(signedint_t a, signedint_t b, int comp){
+    int compresult = 0 // This stores the result of the comparison, 0 is for equal, 1 is if a > b, and 2 is if a < b
+
+    // If a is negative and b is not it is only less than
+    if(a.s > b.s){
+        compresult = 2
+    }
+    // If b is negative and a is not it is only greater than
+    else if(a.s < b.s){
+        compresult = 1
+    }
+    // If the signs are both negative, check each absolute value
+    //   (sinZe we are negative, a greater magnitude means a lower number)
+    else if(((int)a) >= 32768){
+        // If the values are the same
+        if(a.val == b.val){
+            compresult = 0
+        }
+        // If a is greater than b
+        else if(a.val > b.val){
+            compresult = 2
+        }
+        // If b is greater than a
+        else if(a.val < b.val){
+            compresult = 1
+        }
+    }
+    // If the signs are both positive, check each absolute value
+    else if(((int)a) < 32768){
+        // If the values are the same
+        if(a.val == b.val){
+            compresult = 0
+        }
+        // If a is greater than b
+        else if(a.val > b.val){
+            compresult = 1
+        }
+        // If b is greater than a
+        else if(a.val < b.val){
+            compresult = 2
+        }
+    }
+
+
+    // Now that the actual comparision is done, return a true or false based upon what we are looking for in `comp`
+    if(comp == '='){ // Equal
+        if(compresult == 0)
+            return true
+    }
+    else if(comp == '>'){ // Greater
+        if(compresult == 1)
+            return true
+    }
+    else if(comp == '<'){ // Less
+        if(compresult == 2)
+            return true
+    }
+
+    return false
+}
+
+
+
+
+struct signedint_t {
+    int val : 15
+    int s : 1
+}
+
+signedint_t operator &(signedint_t a, signedint_t b) {
+    return { val: a.val & b.val, s: a.s & b.s }
+}
+
+signedint_t operator &(signedint_t a, int b) {
+    return { val: a.val & b, s: a.s & (b>>15) }
+}
+
+bool operator >(signedint_t a, int b) {
+    return ((int)a) >= 32768 || a.val > b;
+}
+
+bool operator >(signedint_t a, signedint_t b) {
+    return Comparesignedint_ts(a, b, '>')
+}
+
+signedint_t operator /(signedint_t a, int b) {
+    return { val: a.val / b, s: a.s }
+}
+
+signedint_t operator /(signedint_t a, signedint_t b) {
+    return { val: a.val / b.val, s: a.s ^ b.s }
+}
+
+signedint_t operator *(signedint_t a, signedint_t b) {
+    return { val: a.val * b.val, s: a.s ^ b.s }
+}
+
+signedint_t operator *(signedint_t a, int b) {
+    return { val: a.val * b, s: a.s }
+}
+
+signedint_t operator +(signedint_t a, signedint_t b) {
+    return Addsignedint_ts(a, b)
+}
+
+signedint_t operator +(signedint_t a, int b) {
+    return Addsignedint_ts(a, b)
+}
+
+signedint_t operator +(int a, signedint_t b) {
+    return Addsignedint_ts(a, b)
+}
+
+signedint_t operator -(signedint_t a, signedint_t b) {
+    return Subsignedint_ts(a, b)
+}
+
+signedint_t operator |(signedint_t a, int b) {
+    return { val: a.val | b, s: a.s | (b>>15) }
+}
