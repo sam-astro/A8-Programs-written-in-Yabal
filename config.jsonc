@@ -16,21 +16,23 @@
 
   "Screen": {
     // Note: changing the resolution will also resize the memory allocation of the screen and character device.
-    "Width": 64,
-    "Height": 64,
-
+    "Width": 108,
+    "Height": 108,
     "Scale": 9
   },
 
   "Memory": {
     // Max amount of memory in bytes.
     "Size": "0xFFFF",
+    "Banks": 10,
 
     // Mapping of device in memory.
     "Devices": {
-        "Program": "0x0000",
-        "Character": "0xD12A",
-        "Screen": "0xD26F"
+        "Program": [0, "0x0000"],
+        "Character": [1, "0xD12A"],
+        "Keyboard": [1, "0xD0FC"],
+        "Mouse": [1, "0xD0FD"],
+        "Screen": [1, "0xD26E"],
     }
   }
 }

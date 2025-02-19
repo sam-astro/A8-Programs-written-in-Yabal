@@ -1,0 +1,263 @@
+import "./math.yabal"
+
+const var signedInts = create_pointer<signedint_t>(0x1111, 1);
+
+
+struct signedint_t {
+    int val : 15
+    int s : 1
+}
+
+signedint_t IntTosignedint_t(int x){
+    signedint_t o = {s:0, val:x};
+    return o
+}
+
+int SignedToTwosComp(signedint_t x){
+    int out = x.val;
+    if(x.s){
+        out = negativeTwosCompliment(out);
+    }
+    return out;
+}
+
+// Returns true if values a and b are within +-range of eachother
+bool WithinRange(signedint_t aI, signedint_t bI, int range){
+    var a = aI.val
+    var b = bI.val
+    if(a > b){
+        if((a-b)<=range){
+            // write_int(a-b)
+            return true
+        }
+        else{
+            return false
+        }
+    }
+    else if(a < b){
+        if((b-a)<=range){
+            // write_int(b-a)
+            return true
+        }
+        else{
+            return false
+        }
+    }
+    return true
+}
+
+// Returns the integer base raised to the power integer exponent
+signedint_t pow(signedint_t base, signedint_t exponent){
+    signedint_t calculated = base;
+    int finalSign = 0;
+    if(base.s){
+        if((exponent.val%2)!=0){ // If not even
+            finalSign = 1;
+        }
+    }
+    // If the exponent is negative, we divide each time instead of multiply
+    if(((int)exponent) >= 32768){
+        for (var i = 1; i < exponent.val; i++){
+            calculated = calculated / base;
+        }
+    }
+    // Otherwise it is normal multiplication exponent
+    else {
+        for (var i = 1; i < exponent.val; i++){
+            calculated = calculated * base;
+        }
+    }
+    return calculated|(finalSign<<15);
+}
+
+
+
+
+signedint_t Addsignedint_ts(signedint_t a, signedint_t b){
+    signedint_t outInt = {s: 0, val:0};
+
+    // If the signs are the same, just add and return that same sign
+    if(a.s == b.s){
+        // outInt.s = a.s
+        // outInt.val = (a.val+b.val)
+        outInt = (((int)a)&32768) | ((((int)a)+((int)b)) & 32767);
+    }
+    // Else if the signs are different and a is negative while b is positive, subtract a from b (b-a)
+    else if(a.s){
+        // If the value of A is bigger than the value of B, then that means subtracting will make B negative
+        if(a.val > b.val){
+            outInt = 32768 | ((((int)a)-((int)b)) & 32767);
+        }
+        else{
+            outInt.val = b.val-a.val;
+        }
+    }
+    // Else if the signs are different and b is negative while a is positive, subtract b from a (a-b)
+    else if(b.s){
+        // If the value of B is bigger than the value of A, then that means subtracting will make A negative
+        if((((int)b)&32767) > (((int)a)&32767)){
+            outInt = 32768 | ((((int)b)-((int)a)) & 32767);
+        }
+        else{
+            outInt.val = a.val-b.val;
+        }
+    }
+
+    return outInt;
+}
+
+inline signedint_t Subsignedint_ts(signedint_t a, signedint_t b){
+    // Invert b's sign bit
+    return Addsignedint_ts(a, (((int)(b)) ^ 0b1000000000000000));
+}
+
+inline signedint_t Multsignedint_ts(signedint_t a, signedint_t b){
+    // Determine final sign, if they are different it is 1, if they are both 0 it is 0, and if they are both 1 it is also 0
+    return {s:(a.s != b.s), val:((int)(a * b)) & 32767};
+}
+
+// Subtract two ints, and return a signed int to allow for negative numbers
+inline signedint_t SubTosignedint_t(int a, int b){
+    // Convert each to a signed int
+    signedint_t aInt = {s:0, val:a};
+    signedint_t bInt = {s:1, val:b}; // Invert b's sign
+
+    return aInt + bInt;
+}
+
+inline signedint_t Signed(int a){
+    return {s: 0, val:a};
+}
+
+inline signedint_t NegativeSigned(int a){
+    return {s: 1, val:(a & 32767)}
+}
+
+inline signedint_t NegativeSigned(signedint_t a){
+    return {s: ~(a.s), val:a};
+}
+
+bool Comparesignedint_ts(signedint_t a, signedint_t b, int comp){
+    // Now that the actual comparision is done, return a true or false based upon what we are looking for in `comp`
+    if(comp == '='){ // Equal
+        if(a.val == b.val)
+            return true
+    }
+    else if(comp == '>'){ // Greater
+        if(a.s < b.s || (((int)a) >= 32768 && a.val < b.val) || (((int)a) < 32768 && a.val > b.val))
+            return true
+    }
+    else if(comp == '<'){ // Less
+        if(a.s > b.s || (((int)a) >= 32768 && a.val > b.val) || (((int)a) < 32768 && a.val < b.val))
+            return true
+    }
+
+    return false
+}
+
+
+inline signedint_t operator &(signedint_t a, signedint_t b) {
+    return { val: a.val & b.val, s: a.s & b.s }
+}
+
+inline signedint_t operator &(signedint_t a, int b) {
+    return { val: a.val & b, s: a.s & (b>>15) }
+}
+
+inline bool operator >(signedint_t a, int b) {
+    return ((int)a) >= 32768 || a.val > b;
+}
+
+inline bool operator >(signedint_t a, signedint_t b) {
+    return Comparesignedint_ts(a, b, '>')
+}
+
+inline signedint_t operator /(signedint_t a, int b) {
+    return { val: a.val / b, s: a.s }
+}
+
+inline signedint_t operator /(signedint_t a, signedint_t b) {
+    return { val: a.val / b.val, s: a.s ^ b.s }
+}
+
+inline signedint_t operator *(signedint_t a, signedint_t b) {
+    return { val: a.val * b.val, s: a.s ^ b.s }
+}
+
+inline signedint_t operator *(signedint_t a, int b) {
+    return { val: a.val * b, s: a.s }
+}
+
+inline signedint_t operator %(signedint_t a, int b) {
+    return { val: a.val % b, s: 0 }
+}
+
+inline bool operator ==(signedint_t a, int b) {
+    if(a.val == b){
+        return true;
+    }
+    return false;
+}
+
+inline bool operator !=(signedint_t a, int b) {
+    if(a.val != b){
+        return true;
+    }
+    return false;
+}
+
+inline signedint_t operator +(signedint_t a, signedint_t b) {
+    return Addsignedint_ts(a, b)
+}
+
+inline signedint_t operator +(signedint_t a, int b) {
+    return Addsignedint_ts(a, b)
+}
+
+inline signedint_t operator +(int a, signedint_t b) {
+    return Addsignedint_ts(a, b)
+}
+
+inline int operator <<(signedint_t a, int b) {
+    return a.val<<b;
+}
+
+inline signedint_t operator -(signedint_t a, signedint_t b) {
+    return Subsignedint_ts(a, b)
+}
+
+inline signedint_t operator -(signedint_t a, int b) {
+    return Subsignedint_ts(a, b)
+}
+
+inline signedint_t operator -(int a, signedint_t b) {
+    return Subsignedint_ts(a, b)
+}
+
+inline signedint_t operator |(signedint_t a, int b) {
+    return { val: a.val | b, s: a.s | (b>>15) }
+}
+
+inline signedint_t operator |(int b, signedint_t a) {
+    return { val: a.val | b, s: a.s | (b>>15) }
+}
+
+inline bool operator <(signedint_t b, int a) {
+    return Comparesignedint_ts(b, a, '<');
+}
+
+
+
+
+inline int sqr(signedint_t x){
+    return x.val * x.val;
+}
+inline int distance(signedint_t x1, signedint_t y1, signedint_t z1, signedint_t x2, signedint_t y2, signedint_t z2){
+    return sqrt(sqr(x2 - x1) + sqr(y2 - y1) + sqr(z2 - z1));
+}
+inline int sqrDistance(signedint_t x1, signedint_t y1, signedint_t z1, signedint_t x2, signedint_t y2, signedint_t z2){
+    return sqr(x2 - x1) + sqr(y2 - y1) + sqr(z2 - z1);
+}
+inline int magnitude(signedint_t x1, signedint_t y1, signedint_t z1){
+    return sqrt(pow(x1, 2) + pow(y1, 2) + pow(z1, 2));
+}

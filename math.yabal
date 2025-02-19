@@ -1,0 +1,42 @@
+
+
+inline int delta(int a, int b){
+    if(a > b)
+        return a - b
+    else if(a < b)
+        return b - a
+
+    return 0
+}
+
+// Kindof inefficient square root method
+int sqrt(int x){
+	int counter=1;
+	int sqroot=1;
+	while(sqroot <= x)
+	{
+		counter += 1;
+		sqroot = counter*counter;
+	}
+	return counter - 1;
+}
+
+inline int xor(int a, int b){
+    return (a|b)&(~(a&b))
+}
+
+// Convert integer to it's negative value in twos complement
+inline int negativeTwosCompliment(int x){
+    return ((~x) + 1);
+}
+
+inline int ClampInt(int x, int min, int max){
+    if(x<min){
+        return min;
+    }
+    else if(x>max){
+        return max;
+    }
+
+    return x;
+}
